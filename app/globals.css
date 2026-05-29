@@ -550,5 +550,11 @@ h1, h2 {
   .promo-strip { font-size: .65rem; letter-spacing: .01em; }
 }
 
+/* CONTACT FLOW */
+@media (max-width: 600px) {
+  .contact-intent-grid { grid-template-columns: 1fr !important; }
+  .zambasulta-grid     { grid-template-columns: 1fr !important; }
+}
+
 /* Prevent horizontal scroll sitewide */
 html, body { overflow-x: hidden; max-width: 100%; }
