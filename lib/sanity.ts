@@ -28,6 +28,8 @@ export const TOUR_QUERY = `*[_type == "tour" && slug.current == $slug][0] {
   price, priceNote, duration, destination,
   inclusions, exclusions, itinerary,
   dayItinerary[] { _key, dayLabel, title, description, highlights, photo },
+  pricingTiers[] { label, minPax, maxPax, pricePerPerson },
+  availabilityNote,
   mapQuery, faq
 }`
 

@@ -58,6 +58,35 @@ export default defineType({
     }),
     defineField({ name: 'destination', title: 'Destination Tag', type: 'string' }),
     defineField({
+      name: 'pricingTiers',
+      title: 'Pricing Tiers (by group size)',
+      description: 'Set different prices per person based on group size. Leave empty to use the base Price field for all group sizes.',
+      type: 'array',
+      of: [{
+        type: 'object',
+        name: 'pricingTier',
+        fields: [
+          { name: 'label', title: 'Label', type: 'string', description: 'e.g. "Solo", "Couple", "Group of 3–5"' },
+          { name: 'minPax', title: 'Min Pax', type: 'number' },
+          { name: 'maxPax', title: 'Max Pax (0 = no limit)', type: 'number' },
+          { name: 'pricePerPerson', title: 'Price Per Person (₱)', type: 'number' },
+        ],
+        preview: {
+          select: { title: 'label', subtitle: 'pricePerPerson' },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          prepare(val: Record<string, any>) {
+            return { title: val.title, subtitle: val.subtitle ? `₱${Number(val.subtitle).toLocaleString()}/person` : 'Contact for rate' }
+          },
+        },
+      }],
+    }),
+    defineField({
+      name: 'availabilityNote',
+      title: 'Availability Note',
+      type: 'string',
+      description: 'e.g. "Available daily, weather permitting" or "Best from December to May"',
+    }),
+    defineField({
       name: 'mapQuery',
       title: 'Map Location (Google Maps search)',
       type: 'string',
