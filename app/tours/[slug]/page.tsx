@@ -62,7 +62,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
             position: 'absolute', inset: 0,
             background: 'linear-gradient(to top, rgba(0,25,45,.95) 0%, rgba(0,25,45,.35) 55%, transparent 100%)',
           }} />
-          <div className="container" style={{
+          <div className="container hero-content-overlay" style={{
             position: 'absolute', bottom: '44px',
             left: '50%', transform: 'translateX(-50%)', width: '100%',
           }}>
@@ -157,7 +157,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                   <p style={{ fontSize: '.82rem', color: 'var(--text-muted)', marginBottom: '24px' }}>
                     What you&rsquo;ll see and do on this tour
                   </p>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 24px' }}>
+                  <div className="tour-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 24px' }}>
                     {tour.itinerary.map((item: { time: string; activity: string }, i: number) => (
                       <div key={i} style={{
                         display: 'flex', gap: '12px', alignItems: 'flex-start',
@@ -194,7 +194,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                   <p style={{ fontSize: '.82rem', color: 'var(--text-muted)', marginBottom: '20px' }}>
                     Everything covered in your tour price
                   </p>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 16px' }}>
+                  <div className="tour-2col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 16px' }}>
                     {tour.inclusions.map((item: string) => (
                       <div key={item} style={{
                         display: 'flex', gap: '10px', alignItems: 'flex-start',
@@ -278,7 +278,8 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 </p>
 
                 {tour.pricingTiers?.length > 0 ? (
-                  <div style={{ border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
+                  <div className="pricing-tiers" style={{ border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
+                    <div className="pricing-tiers-grid">
                     {/* Table header */}
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: '0', background: 'var(--bg-2)', padding: '12px 20px', borderBottom: '1px solid var(--border)' }}>
                       {['Group Size', 'Per Person', 'Est. Total', ''].map(h => (
@@ -311,6 +312,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                         )}
                       </div>
                     ))}
+                    </div>
                   </div>
                 ) : (
                   <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '12px', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
@@ -454,7 +456,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
               <h2 className="section__title" style={{ marginBottom: '40px' }}>
                 What&rsquo;s included
               </h2>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }}>
+              <div className="inclusions-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }}>
                 {tour.inclusions?.length > 0 && (
                   <div>
                     <h3 style={{
@@ -510,7 +512,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
               Real reviews, real travelers
             </h2>
             {testimonials.length > 0 ? (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+              <div className="reviews-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
                 {testimonials.slice(0, 3).map((t: {
                   _id: string; name: string; tour: string; review: string; rating: number
                 }) => (

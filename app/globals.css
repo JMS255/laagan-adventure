@@ -424,4 +424,27 @@ h1, h2 {
   .nav__book-btn { display: none; }
   .nav__toggle { display: flex; }
   .tour-types-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Nav logo — prevent text overflow on small screens */
+  .nav__logo { min-width: 0; overflow: hidden; }
+  .nav__logo-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* Tour detail — collapse inline 2-col grids */
+  .tour-2col { grid-template-columns: 1fr !important; }
+
+  /* Pricing tiers table — scroll horizontally rather than overflow */
+  .pricing-tiers { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .pricing-tiers-grid { min-width: 480px; }
+
+  /* Reviews — single column */
+  .reviews-grid { grid-template-columns: 1fr !important; }
+
+  /* What's included — single column */
+  .inclusions-grid { grid-template-columns: 1fr !important; }
+
+  /* Hero content overlay — prevent horizontal bleed */
+  .hero-content-overlay { left: 0 !important; transform: none !important; width: 100% !important; }
 }
+
+/* Prevent horizontal scroll sitewide */
+html, body { overflow-x: hidden; max-width: 100%; }
