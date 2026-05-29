@@ -68,13 +68,22 @@ export default function BookingWidget() {
 
   return (
     <>
-      {/* Tour dropdown — portal so it escapes overflow:hidden */}
+      {/* Portals — rendered outside the form so React event bubbling can't close them */}
       {tourOpen && tourRect && typeof document !== 'undefined' && createPortal(
         <TourDropdown
           value={tour}
           rect={tourRect}
           onSelect={t => { setTour(t); setTourOpen(false) }}
           onClose={() => setTourOpen(false)}
+        />,
+        document.body
+      )}
+      {dateOpen && dateRect && typeof document !== 'undefined' && createPortal(
+        <DatePicker
+          value={date}
+          onChange={v => { setDate(v); setDateOpen(false) }}
+          onClose={() => setDateOpen(false)}
+          anchorRect={dateRect}
         />,
         document.body
       )}
@@ -100,14 +109,6 @@ export default function BookingWidget() {
           <span className="bw__value" style={{ opacity: date ? 1 : 0.45 }}>
             {formatDate(date) ?? 'Select a date'}
           </span>
-          {dateOpen && (
-            <DatePicker
-              value={date}
-              onChange={v => { setDate(v); setDateOpen(false) }}
-              onClose={() => setDateOpen(false)}
-              anchorRect={dateRect}
-            />
-          )}
         </div>
 
         <div className="bw__sep" />
