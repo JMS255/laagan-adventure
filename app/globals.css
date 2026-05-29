@@ -10,22 +10,23 @@
 }
 
 :root {
-  --navy:      #1e1e0f;
-  --navy-2:    #131308;
-  --gold:      #d9f22a;
-  --gold-hov:  #c8e020;
-  --bg:        #ffffff;
-  --bg-2:      #f6f6ee;
-  --bg-card:   #ffffff;
-  --text:      #1e1e0f;
-  --text-muted:#5a5a3a;
-  --border:    #dcdccc;
-  --max-w:     1100px;
-  --strip-h:   42px;
-  --nav-bar-h: 68px;
-  --nav-h:     calc(var(--strip-h) + var(--nav-bar-h));
-  --r:         12px;
-  --rl:        18px;
+  /* Laagan Adventure — Tropical Ocean palette */
+  --navy:       #004e64;   /* deep tropical ocean */
+  --navy-2:     #003347;
+  --gold:       #f07030;   /* warm coral-orange — tropical, inviting */
+  --gold-hov:   #d96328;
+  --bg:         #ffffff;
+  --bg-2:       #f5f9fc;   /* lightest ocean tint */
+  --bg-card:    #ffffff;
+  --text:       #0d2637;   /* deep ocean text */
+  --text-muted: #4e6e80;
+  --border:     #cde0eb;
+  --max-w:      1100px;
+  --strip-h:    42px;
+  --nav-bar-h:  68px;
+  --nav-h:      calc(var(--strip-h) + var(--nav-bar-h));
+  --r:          12px;
+  --rl:         18px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }

@@ -149,9 +149,11 @@ function TourDropdown({
     return () => document.removeEventListener('mousedown', handler)
   }, [onClose])
 
-  const w    = Math.max(rect.width + 40, 270)
-  const left = Math.max(12, Math.min(rect.left, window.innerWidth - w - 12))
-  const top  = rect.bottom + 6
+  const w        = Math.max(rect.width + 40, 270)
+  const left     = Math.max(12, Math.min(rect.left, window.innerWidth - w - 12))
+  const dropH    = TOURS.length * 50 + 8
+  const spaceBelow = window.innerHeight - rect.bottom
+  const top      = spaceBelow < dropH + 12 ? rect.top - dropH - 6 : rect.bottom + 6
 
   return (
     <div
