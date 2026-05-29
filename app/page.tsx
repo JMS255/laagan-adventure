@@ -32,12 +32,7 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Promo strip */}
-      <div className="promo-strip">
-        🌊 <strong>June only:</strong> Book online and get <strong>₱500 off</strong> any package — message us on Messenger to claim
-      </div>
-
-      <Nav transparent />
+      <Nav />
 
       <main>
 

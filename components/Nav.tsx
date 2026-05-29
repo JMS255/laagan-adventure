@@ -14,54 +14,64 @@ const links = [
 ]
 
 export default function Nav({ transparent = false }: { transparent?: boolean }) {
-  const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const { openDrawer } = useBooking()
 
+  // Close mobile menu on resize
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', fn)
-    return () => window.removeEventListener('scroll', fn)
+    const fn = () => { if (window.innerWidth > 768) setOpen(false) }
+    window.addEventListener('resize', fn)
+    return () => window.removeEventListener('resize', fn)
   }, [])
 
-  const isLight = transparent && !scrolled
-
   return (
-    <header className={`nav${scrolled ? ' nav--scrolled' : ''}`}>
-      <Link href="/" className="nav__logo">
-        <Image src="/logo.jpg" alt="Laagan Adventure" width={36} height={36} style={{ borderRadius: '50%' }} />
-        <span className={`nav__logo-text${isLight ? ' nav__logo-text--light' : ''}`}>
-          Laagan Adventure
-        </span>
-      </Link>
+    <div className="site-header">
 
-      <nav className={`nav__links${isLight ? ' nav__links--light' : ''}`}>
-        {links.map(l => <Link key={l.href} href={l.href}>{l.label}</Link>)}
-      </nav>
+      {/* Promo strip */}
+      <div className="promo-strip">
+        🌊 <strong>June only:</strong> Book online and get <strong>₱500 off</strong> any package — message us on Messenger to claim
+      </div>
 
-      <button
-        onClick={() => openDrawer()}
-        className="btn btn--primary"
-        style={{ fontSize: '.78rem', padding: '10px 22px' }}
-      >
-        Book Now
-      </button>
+      {/* Main nav */}
+      <header className="nav">
+        <Link href="/" className="nav__logo">
+          <Image src="/logo.jpg" alt="Laagan Adventure" width={32} height={32} style={{ borderRadius: '50%' }} />
+          <span className="nav__logo-text">Laagan Adventure</span>
+        </Link>
 
-      <button className="nav__toggle" onClick={() => setOpen(v => !v)} aria-label="Menu">
-        <span /><span /><span />
-      </button>
+        <nav className="nav__links">
+          {links.map(l => <Link key={l.href} href={l.href}>{l.label}</Link>)}
+        </nav>
 
+        <button
+          onClick={() => openDrawer()}
+          className="nav__book-btn"
+        >
+          Book Now
+        </button>
+
+        <button className="nav__toggle" onClick={() => setOpen(v => !v)} aria-label="Menu">
+          <span /><span /><span />
+        </button>
+      </header>
+
+      {/* Mobile menu */}
       {open && (
-        <div style={{ position: 'fixed', inset: 0, top: 'var(--nav-h)', background: '#fff', zIndex: 99, padding: '32px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div className="nav__mobile-menu">
           {links.map(l => (
-            <Link key={l.href} href={l.href} onClick={() => setOpen(false)}
-              style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--navy)', textDecoration: 'none' }}>
+            <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="nav__mobile-link">
               {l.label}
             </Link>
           ))}
-          <button className="btn btn--primary" onClick={() => { setOpen(false); openDrawer() }}>Book Now</button>
+          <button
+            className="nav__book-btn"
+            style={{ width: '100%', justifyContent: 'center' }}
+            onClick={() => { setOpen(false); openDrawer() }}
+          >
+            Book Now
+          </button>
         </div>
       )}
-    </header>
+    </div>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useBooking } from '@/lib/booking-context'
 import DatePicker from './DatePicker'
 
@@ -23,21 +23,19 @@ export default function BookingWidget() {
   const { state, setTour, setDate, setGuests, openDrawer } = useBooking()
   const { tour, date, guests } = state
 
-  const adults = guests
   const [dateOpen, setDateOpen] = useState(false)
-  const guestsRef    = useRef<HTMLDivElement>(null)
-  const dateRef      = useRef<HTMLDivElement>(null)
-  const tourSelectRef = useRef<HTMLSelectElement>(null)
+  const [dateRect, setDateRect] = useState<{ top: number; left: number; width: number } | null>(null)
 
-  useEffect(() => {
-    function handler(e: MouseEvent) {
-      if (dateRef.current && !dateRef.current.contains(e.target as Node)) {
-        setDateOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
-  }, [])
+  const tourSelectRef = useRef<HTMLSelectElement>(null)
+  const dateFieldRef  = useRef<HTMLDivElement>(null)
+
+  function openDatePicker() {
+    const el = dateFieldRef.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    setDateRect({ top: r.bottom, left: r.left, width: r.width })
+    setDateOpen(v => !v)
+  }
 
   function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -56,10 +54,7 @@ export default function BookingWidget() {
             ref={tourSelectRef}
             value={tour}
             onChange={e => setTour(e.target.value)}
-            style={{
-              position: 'absolute', inset: 0,
-              opacity: 0, width: '100%', cursor: 'pointer', fontSize: '1rem',
-            }}
+            style={{ position: 'absolute', inset: 0, opacity: 0, width: '100%', cursor: 'pointer', fontSize: '1rem' }}
           >
             {TOURS.map(t => <option key={t} value={t}>{t}</option>)}
           </select>
@@ -69,12 +64,7 @@ export default function BookingWidget() {
       <div className="bw__sep" />
 
       {/* Date */}
-      <div
-        ref={dateRef}
-        className="bw__field"
-        onClick={() => setDateOpen(v => !v)}
-        style={{ cursor: 'pointer', position: 'relative' }}
-      >
+      <div ref={dateFieldRef} className="bw__field" onClick={openDatePicker} style={{ cursor: 'pointer' }}>
         <span className="bw__label">On</span>
         <span className="bw__value" style={{ opacity: date ? 1 : 0.45 }}>
           {formatDate(date) ?? 'Select a date'}
@@ -84,6 +74,7 @@ export default function BookingWidget() {
             value={date}
             onChange={v => { setDate(v); setDateOpen(false) }}
             onClose={() => setDateOpen(false)}
+            anchorRect={dateRect}
           />
         )}
       </div>
@@ -91,20 +82,22 @@ export default function BookingWidget() {
       <div className="bw__sep" />
 
       {/* Guests */}
-      <div className="bw__field" ref={guestsRef} style={{ cursor: 'pointer', position: 'relative' }}>
+      <div className="bw__field" style={{ cursor: 'default' }}>
         <span className="bw__label">With</span>
-        <div style={{ borderBottom: '1.5px solid rgba(255,255,255,.3)', paddingBottom: '3px' }}>
-          <div style={{ display: 'flex', gap: '16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <button type="button" onClick={() => setGuests(Math.max(1, adults - 1))}
-                style={{ width: 22, height: 22, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,.4)', background: 'none', color: '#fff', cursor: 'pointer', fontSize: '.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
-              <span style={{ fontSize: '.95rem', fontWeight: 600, color: '#fff', minWidth: '60px' }}>
-                {adults} Guest{adults !== 1 ? 's' : ''}
-              </span>
-              <button type="button" onClick={() => setGuests(adults + 1)}
-                style={{ width: 22, height: 22, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,.4)', background: 'none', color: '#fff', cursor: 'pointer', fontSize: '.9rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
-            </div>
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1.5px solid rgba(255,255,255,.3)', paddingBottom: 3 }}>
+          <button
+            type="button"
+            onClick={() => setGuests(Math.max(1, guests - 1))}
+            style={{ width: 24, height: 24, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,.4)', background: 'none', color: '#fff', cursor: 'pointer', fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
+          >−</button>
+          <span style={{ fontSize: '.95rem', fontWeight: 600, color: '#fff', minWidth: 64 }}>
+            {guests} Guest{guests !== 1 ? 's' : ''}
+          </span>
+          <button
+            type="button"
+            onClick={() => setGuests(guests + 1)}
+            style={{ width: 24, height: 24, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,.4)', background: 'none', color: '#fff', cursor: 'pointer', fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
+          >+</button>
         </div>
       </div>
 

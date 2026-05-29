@@ -1,27 +1,38 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 
 interface Props {
   value: string
   onChange: (val: string) => void
   onClose: () => void
+  anchorRect: { top: number; left: number; width: number } | null
 }
 
 const DAYS   = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 const MONTHS = ['January','February','March','April','May','June',
                 'July','August','September','October','November','December']
 
-export default function DatePicker({ value, onChange, onClose }: Props) {
-  const today    = new Date()
-  const todayY   = today.getFullYear()
-  const todayM   = today.getMonth()
-  const todayD   = today.getDate()
+export default function DatePicker({ value, onChange, onClose, anchorRect }: Props) {
+  const today  = new Date()
+  const todayY = today.getFullYear()
+  const todayM = today.getMonth()
+  const todayD = today.getDate()
 
   const selected = value ? new Date(value + 'T12:00:00') : null
 
   const [viewY, setViewY] = useState(selected?.getFullYear() ?? todayY)
   const [viewM, setViewM] = useState(selected?.getMonth()    ?? todayM)
+
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      const target = e.target as Element
+      if (!target.closest('[data-datepicker]')) onClose()
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [onClose])
 
   function prevMonth() {
     if (viewM === 0) { setViewM(11); setViewY(y => y - 1) }
@@ -36,10 +47,8 @@ export default function DatePicker({ value, onChange, onClose }: Props) {
     const m = String(viewM + 1).padStart(2, '0')
     const d = String(day).padStart(2, '0')
     onChange(`${viewY}-${m}-${d}`)
-    onClose()
   }
 
-  // Build calendar cells
   const daysInMonth = new Date(viewY, viewM + 1, 0).getDate()
   const firstDay    = new Date(viewY, viewM, 1).getDay()
   const prevTotal   = new Date(viewY, viewM, 0).getDate()
@@ -52,23 +61,30 @@ export default function DatePicker({ value, onChange, onClose }: Props) {
   for (let i = 1; cells.length < 42; i++)
     cells.push({ day: i, type: 'next' })
 
-  return (
+  if (!anchorRect) return null
+
+  const calWidth = 308
+  const left = Math.min(
+    anchorRect.left + anchorRect.width / 2 - calWidth / 2,
+    window.innerWidth - calWidth - 16
+  )
+
+  const content = (
     <div
-      onClick={e => e.stopPropagation()}
+      data-datepicker
       style={{
-        position: 'absolute',
-        top: 'calc(100% + 12px)',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: 308,
+        position: 'fixed',
+        top: anchorRect.top + 12,
+        left: Math.max(16, left),
+        width: calWidth,
         background: 'rgba(16,16,8,.97)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
         border: '1px solid rgba(255,255,255,.1)',
         borderRadius: 16,
         padding: '18px 16px 16px',
-        zIndex: 400,
-        boxShadow: '0 24px 64px rgba(0,0,0,.55)',
+        zIndex: 9999,
+        boxShadow: '0 24px 64px rgba(0,0,0,.6)',
         animation: 'fadeIn .15s ease',
       }}
     >
@@ -94,9 +110,8 @@ export default function DatePicker({ value, onChange, onClose }: Props) {
             ))}
           </select>
         </div>
-
         <div style={{ display: 'flex', gap: 6 }}>
-          {[{ label: '‹', fn: prevMonth }, { label: '›', fn: nextMonth }].map(btn => (
+          {([{ label: '‹', fn: prevMonth }, { label: '›', fn: nextMonth }] as const).map(btn => (
             <button
               key={btn.label}
               type="button"
@@ -112,7 +127,7 @@ export default function DatePicker({ value, onChange, onClose }: Props) {
         </div>
       </div>
 
-      {/* Day-of-week headers */}
+      {/* Day headers */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', marginBottom: 6 }}>
         {DAYS.map(d => (
           <div key={d} style={{ textAlign: 'center', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.08em', color: 'rgba(255,255,255,.3)', padding: '3px 0' }}>
@@ -124,10 +139,10 @@ export default function DatePicker({ value, onChange, onClose }: Props) {
       {/* Date grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 2 }}>
         {cells.map((cell, i) => {
-          const isCurr     = cell.type === 'curr'
-          const isPast     = isCurr && new Date(viewY, viewM, cell.day) < new Date(todayY, todayM, todayD)
-          const isToday    = isCurr && cell.day === todayD && viewM === todayM && viewY === todayY
-          const isSelected = isCurr && selected &&
+          const isCurr  = cell.type === 'curr'
+          const isPast  = isCurr && new Date(viewY, viewM, cell.day) < new Date(todayY, todayM, todayD)
+          const isToday = isCurr && cell.day === todayD && viewM === todayM && viewY === todayY
+          const isSel   = isCurr && selected &&
             cell.day === selected.getDate() && viewM === selected.getMonth() && viewY === selected.getFullYear()
 
           return (
@@ -138,15 +153,10 @@ export default function DatePicker({ value, onChange, onClose }: Props) {
               onClick={() => isCurr && !isPast && pick(cell.day)}
               style={{
                 aspectRatio: '1', width: '100%', borderRadius: '50%',
-                border: isToday && !isSelected ? '1.5px solid rgba(255,255,255,.35)' : 'none',
-                background: isSelected ? '#d9f22a' : 'transparent',
-                color: isSelected
-                  ? '#1e1e0f'
-                  : !isCurr || isPast
-                    ? 'rgba(255,255,255,.2)'
-                    : '#fff',
-                fontSize: '.82rem',
-                fontWeight: isSelected ? 800 : 400,
+                border: isToday && !isSel ? '1.5px solid rgba(255,255,255,.35)' : 'none',
+                background: isSel ? '#d9f22a' : 'transparent',
+                color: isSel ? '#1e1e0f' : (!isCurr || isPast) ? 'rgba(255,255,255,.2)' : '#fff',
+                fontSize: '.82rem', fontWeight: isSel ? 800 : 400,
                 cursor: isCurr && !isPast ? 'pointer' : 'default',
                 transition: 'background .12s',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -159,4 +169,7 @@ export default function DatePicker({ value, onChange, onClose }: Props) {
       </div>
     </div>
   )
+
+  if (typeof document === 'undefined') return null
+  return createPortal(content, document.body)
 }
