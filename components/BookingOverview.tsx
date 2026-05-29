@@ -75,7 +75,7 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
         <span style={{ color: 'var(--navy)', fontWeight: 600 }}>Book</span>
       </nav>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '48px', alignItems: 'start' }}>
+      <div className="booking-grid">
 
         {/* ── LEFT ── */}
         <div>

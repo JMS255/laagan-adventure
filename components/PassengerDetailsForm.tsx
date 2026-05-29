@@ -112,7 +112,7 @@ export default function PassengerDetailsForm({
             Scan the QR code or send to our number. Include your booking reference in the payment note so we can match your payment.
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: '24px', alignItems: 'center' }}>
+          <div className="gcash-grid">
             {/* QR Code */}
             <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid var(--border)', padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1' }}>
               {/* Replace /gcash-qr.png with your actual GCash QR code */}
@@ -191,7 +191,7 @@ export default function PassengerDetailsForm({
         <span style={{ color: 'var(--navy)', fontWeight: 600 }}>Passenger Details</span>
       </nav>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '48px', alignItems: 'start' }}>
+      <div className="booking-grid">
 
         {/* ── LEFT: Form ── */}
         <div>

@@ -45,7 +45,7 @@ export default function AboutPage() {
         {/* Story */}
         <section className="section">
           <div className="container" style={{ maxWidth: '820px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'center' }}>
+            <div className="story-grid">
               <div>
                 <p className="section__label">Our Story</p>
                 <h2 className="section__title">Started from a love for this city.</h2>
@@ -79,7 +79,7 @@ export default function AboutPage() {
           <div className="container" style={{ maxWidth: '820px' }}>
             <p className="section__label">The Team</p>
             <h2 className="section__title">The people behind every tour.</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', marginTop: '40px' }}>
+            <div className="founders-grid" style={{ marginTop: '40px' }}>
               {founders.map(f => (
                 <div key={f.name} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--rl)', overflow: 'hidden' }}>
                   {/* Photo */}
@@ -109,7 +109,7 @@ export default function AboutPage() {
           <div className="container" style={{ maxWidth: '820px' }}>
             <p className="section__label">Why Trust Us</p>
             <h2 className="section__title">Legitimate. Professional. Local.</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginTop: '40px' }}>
+            <div className="trust-grid" style={{ marginTop: '40px' }}>
               {[
                 { icon: '📋', title: 'DTI Registered',           desc: 'Officially registered under the Department of Trade and Industry. You&rsquo;re booking with a legitimate, accountable business.' },
                 { icon: '🧾', title: 'BIR Receipts Available',   desc: 'Official receipts available for all transactions — whether for personal records or corporate reimbursement.' },

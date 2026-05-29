@@ -36,20 +36,10 @@ export default function ContactPage({
       <Nav />
       <main style={{ paddingTop: 'var(--nav-h)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
-        <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1.1fr' }}>
+        <div className="contact-split" style={{ flex: 1 }}>
 
           {/* ── LEFT PANEL — dark, sticky ── */}
-          <div style={{
-            background: 'var(--navy)',
-            padding: '64px 56px',
-            position: 'sticky',
-            top: 'var(--nav-h)',
-            height: 'calc(100vh - var(--nav-h))',
-            overflowY: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-          }}>
+          <div className="contact-panel-left">
             <div>
               <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '20px' }}>
                 Laagan Adventure · Zamboanga City
@@ -108,7 +98,7 @@ export default function ContactPage({
           </div>
 
           {/* ── RIGHT PANEL — form ── */}
-          <div style={{ padding: '64px 56px', background: '#fff' }}>
+          <div className="contact-panel-right">
             <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>
               Inquiry form
             </p>
