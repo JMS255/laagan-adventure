@@ -34,6 +34,26 @@ export default defineType({
       }],
     }),
     defineField({ name: 'destination', title: 'Destination Tag', type: 'string' }),
+    defineField({
+      name: 'mapQuery',
+      title: 'Map Location (Google Maps search)',
+      type: 'string',
+      description: 'e.g. "Santa Cruz Island, Zamboanga City, Philippines" — used to embed the map on the tour page',
+    }),
+    defineField({
+      name: 'faq',
+      title: 'Frequently Asked Questions',
+      type: 'array',
+      of: [{
+        type: 'object',
+        name: 'faqItem',
+        fields: [
+          { name: 'question', title: 'Question', type: 'string' },
+          { name: 'answer', title: 'Answer', type: 'text', rows: 3 },
+        ],
+        preview: { select: { title: 'question' } },
+      }],
+    }),
   ],
   preview: {
     select: { title: 'title', subtitle: 'destination', media: 'mainImage' },

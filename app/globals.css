@@ -364,6 +364,22 @@ h1, h2 {
 .tours-scroll { display: flex; gap: 20px; width: max-content; }
 .tours-scroll .tour-card { width: 320px; flex-shrink: 0; }
 
+/* TOUR DETAIL */
+.tour-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 56px;
+  align-items: start;
+  padding: 56px 0;
+}
+@media (max-width: 900px) {
+  .tour-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 40px 0 0;
+  }
+}
+
 /* CONTACT SPLIT */
 .contact-split { display: grid; grid-template-columns: 1fr 1.1fr; }
 @media (max-width: 900px) {
