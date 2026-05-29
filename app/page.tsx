@@ -43,10 +43,16 @@ export default async function HomePage() {
 
         {/* ── HERO ── */}
         <section className="hero" style={{ minHeight: '100svh' }}>
+          {/* Video background — drop hero-video.mp4 into /public to activate */}
+          <video className="hero__video" autoPlay muted loop playsInline poster="/hero-bg.png">
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
           <div className="hero__bg" />
-          <div className="hero__inner container" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 'calc(100svh - var(--nav-h))' }}>
-            {/* Top content */}
-            <div style={{ paddingTop: '40px' }}>
+          <div className="hero__overlay" />
+
+          <div className="hero__inner">
+            {/* Text content */}
+            <div className="hero__content">
               <p className="hero__eyebrow">📍 Zamboanga City, Philippines</p>
               <h1 className="hero__title" style={{ maxWidth: '640px' }}>
                 Where local knowledge<br />meets <span>island adventure</span>
@@ -56,8 +62,8 @@ export default async function HomePage() {
               </p>
             </div>
 
-            {/* Booking widget pinned to bottom of hero */}
-            <div style={{ paddingBottom: '48px' }}>
+            {/* Booking widget — pinned to bottom */}
+            <div className="hero__widget-wrap" style={{ paddingBottom: '40px' }}>
               <BookingWidget />
             </div>
           </div>
