@@ -24,7 +24,7 @@ export default function BookingWidget() {
   const { tour, date, guests } = state
 
   const [dateOpen, setDateOpen] = useState(false)
-  const [dateRect, setDateRect] = useState<{ top: number; left: number; width: number } | null>(null)
+  const [dateRect, setDateRect] = useState<{ top: number; fieldTop: number; left: number; width: number } | null>(null)
 
   const tourSelectRef = useRef<HTMLSelectElement>(null)
   const dateFieldRef  = useRef<HTMLDivElement>(null)
@@ -33,7 +33,7 @@ export default function BookingWidget() {
     const el = dateFieldRef.current
     if (!el) return
     const r = el.getBoundingClientRect()
-    setDateRect({ top: r.bottom, left: r.left, width: r.width })
+    setDateRect({ top: r.bottom, fieldTop: r.top, left: r.left, width: r.width })
     setDateOpen(v => !v)
   }
 
@@ -64,7 +64,7 @@ export default function BookingWidget() {
       <div className="bw__sep" />
 
       {/* Date */}
-      <div ref={dateFieldRef} className="bw__field" onClick={openDatePicker} style={{ cursor: 'pointer' }}>
+      <div ref={dateFieldRef} data-datefield className="bw__field" onClick={openDatePicker} style={{ cursor: 'pointer' }}>
         <span className="bw__label">On</span>
         <span className="bw__value" style={{ opacity: date ? 1 : 0.45 }}>
           {formatDate(date) ?? 'Select a date'}

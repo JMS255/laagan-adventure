@@ -3,16 +3,24 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
+interface AnchorRect {
+  top: number    // bottom edge of the field (viewport-relative)
+  fieldTop: number  // top edge of the field
+  left: number
+  width: number
+}
+
 interface Props {
   value: string
   onChange: (val: string) => void
   onClose: () => void
-  anchorRect: { top: number; left: number; width: number } | null
+  anchorRect: AnchorRect | null
 }
 
 const DAYS   = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 const MONTHS = ['January','February','March','April','May','June',
                 'July','August','September','October','November','December']
+const CAL_H  = 340
 
 export default function DatePicker({ value, onChange, onClose, anchorRect }: Props) {
   const today  = new Date()
@@ -27,8 +35,8 @@ export default function DatePicker({ value, onChange, onClose, anchorRect }: Pro
 
   useEffect(() => {
     function handler(e: MouseEvent) {
-      const target = e.target as Element
-      if (!target.closest('[data-datepicker]')) onClose()
+      const t = e.target as Element
+      if (!t.closest('[data-datepicker]') && !t.closest('[data-datefield]')) onClose()
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
@@ -49,6 +57,7 @@ export default function DatePicker({ value, onChange, onClose, anchorRect }: Pro
     onChange(`${viewY}-${m}-${d}`)
   }
 
+  // Build grid
   const daysInMonth = new Date(viewY, viewM + 1, 0).getDate()
   const firstDay    = new Date(viewY, viewM, 1).getDay()
   const prevTotal   = new Date(viewY, viewM, 0).getDate()
@@ -61,105 +70,97 @@ export default function DatePicker({ value, onChange, onClose, anchorRect }: Pro
   for (let i = 1; cells.length < 42; i++)
     cells.push({ day: i, type: 'next' })
 
-  if (!anchorRect) return null
+  if (!anchorRect || typeof window === 'undefined') return null
 
-  const calWidth = 308
-  const left = Math.min(
+  // Smart positioning: show above the field if not enough room below
+  const spaceBelow  = window.innerHeight - anchorRect.top
+  const showAbove   = spaceBelow < CAL_H + 20
+  const topPos      = showAbove ? anchorRect.fieldTop - CAL_H - 8 : anchorRect.top + 8
+
+  const calWidth = 310
+  const leftPos  = Math.max(12, Math.min(
     anchorRect.left + anchorRect.width / 2 - calWidth / 2,
-    window.innerWidth - calWidth - 16
-  )
+    window.innerWidth - calWidth - 12
+  ))
 
   const content = (
     <div
       data-datepicker
       style={{
         position: 'fixed',
-        top: anchorRect.top + 12,
-        left: Math.max(16, left),
+        top: topPos,
+        left: leftPos,
         width: calWidth,
-        background: 'rgba(16,16,8,.97)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        border: '1px solid rgba(255,255,255,.1)',
-        borderRadius: 16,
-        padding: '18px 16px 16px',
+        background: '#18180c',
+        border: '1px solid rgba(255,255,255,.12)',
+        borderRadius: 14,
+        padding: '16px 14px 14px',
         zIndex: 9999,
-        boxShadow: '0 24px 64px rgba(0,0,0,.6)',
-        animation: 'fadeIn .15s ease',
+        boxShadow: '0 20px 60px rgba(0,0,0,.7)',
       }}
     >
-      {/* Month / year header */}
+      {/* Header: ‹  Month Year  › */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <select
-            value={viewM}
-            onChange={e => setViewM(Number(e.target.value))}
-            style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '.92rem', fontWeight: 700, cursor: 'pointer', outline: 'none' }}
-          >
-            {MONTHS.map((m, i) => (
-              <option key={m} value={i} style={{ background: '#1a1a0a', color: '#fff' }}>{m}</option>
-            ))}
-          </select>
-          <select
-            value={viewY}
-            onChange={e => setViewY(Number(e.target.value))}
-            style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '.92rem', fontWeight: 700, cursor: 'pointer', outline: 'none' }}
-          >
-            {[todayY, todayY + 1, todayY + 2].map(y => (
-              <option key={y} value={y} style={{ background: '#1a1a0a', color: '#fff' }}>{y}</option>
-            ))}
-          </select>
-        </div>
-        <div style={{ display: 'flex', gap: 6 }}>
-          {([{ label: '‹', fn: prevMonth }, { label: '›', fn: nextMonth }] as const).map(btn => (
-            <button
-              key={btn.label}
-              type="button"
-              onClick={btn.fn}
-              style={{
-                width: 30, height: 30, borderRadius: '50%',
-                border: '1.5px solid rgba(255,255,255,.18)',
-                background: 'none', color: '#fff', cursor: 'pointer',
-                fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}
-            >{btn.label}</button>
-          ))}
-        </div>
+        <button type="button" onClick={prevMonth} style={navBtnStyle}>‹</button>
+
+        <span style={{ fontSize: '.9rem', fontWeight: 700, color: '#fff', letterSpacing: '.02em' }}>
+          {MONTHS[viewM]} {viewY}
+        </span>
+
+        <button type="button" onClick={nextMonth} style={navBtnStyle}>›</button>
       </div>
 
-      {/* Day headers */}
+      {/* Day-of-week row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', marginBottom: 6 }}>
         {DAYS.map(d => (
-          <div key={d} style={{ textAlign: 'center', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.08em', color: 'rgba(255,255,255,.3)', padding: '3px 0' }}>
+          <div key={d} style={{ textAlign: 'center', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.08em', color: 'rgba(255,255,255,.28)', padding: '2px 0' }}>
             {d}
           </div>
         ))}
       </div>
 
-      {/* Date grid */}
+      {/* Date cells */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 2 }}>
         {cells.map((cell, i) => {
           const isCurr  = cell.type === 'curr'
           const isPast  = isCurr && new Date(viewY, viewM, cell.day) < new Date(todayY, todayM, todayD)
           const isToday = isCurr && cell.day === todayD && viewM === todayM && viewY === todayY
-          const isSel   = isCurr && selected &&
-            cell.day === selected.getDate() && viewM === selected.getMonth() && viewY === selected.getFullYear()
+          const isSel   = isCurr && !!selected &&
+            cell.day === selected.getDate() &&
+            viewM === selected.getMonth() &&
+            viewY === selected.getFullYear()
+
+          const canClick = isCurr && !isPast
 
           return (
             <button
               key={i}
               type="button"
-              disabled={!isCurr || isPast}
-              onClick={() => isCurr && !isPast && pick(cell.day)}
+              disabled={!canClick}
+              onClick={() => canClick && pick(cell.day)}
               style={{
                 aspectRatio: '1', width: '100%', borderRadius: '50%',
-                border: isToday && !isSel ? '1.5px solid rgba(255,255,255,.35)' : 'none',
+                border: isToday && !isSel ? '1.5px solid rgba(255,255,255,.4)' : 'none',
                 background: isSel ? '#d9f22a' : 'transparent',
-                color: isSel ? '#1e1e0f' : (!isCurr || isPast) ? 'rgba(255,255,255,.2)' : '#fff',
-                fontSize: '.82rem', fontWeight: isSel ? 800 : 400,
-                cursor: isCurr && !isPast ? 'pointer' : 'default',
-                transition: 'background .12s',
+                color: isSel
+                  ? '#18180c'
+                  : !isCurr || isPast
+                    ? 'rgba(255,255,255,.18)'
+                    : '#fff',
+                fontSize: '.8rem',
+                fontWeight: isSel ? 800 : 400,
+                cursor: canClick ? 'pointer' : 'default',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: 'inherit',
+                transition: 'background .1s',
+              }}
+              onMouseEnter={e => {
+                if (canClick && !isSel)
+                  (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,.1)'
+              }}
+              onMouseLeave={e => {
+                if (!isSel)
+                  (e.currentTarget as HTMLButtonElement).style.background = 'transparent'
               }}
             >
               {cell.day}
@@ -172,4 +173,12 @@ export default function DatePicker({ value, onChange, onClose, anchorRect }: Pro
 
   if (typeof document === 'undefined') return null
   return createPortal(content, document.body)
+}
+
+const navBtnStyle: React.CSSProperties = {
+  width: 32, height: 32, borderRadius: '50%',
+  border: '1.5px solid rgba(255,255,255,.15)',
+  background: 'none', color: '#fff', cursor: 'pointer',
+  fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
+  fontFamily: 'inherit', transition: 'border-color .15s',
 }
