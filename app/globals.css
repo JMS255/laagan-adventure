@@ -1,16 +1,25 @@
 @import "tailwindcss";
 
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 :root {
-  --navy:      #1a2744;
-  --navy-2:    #0f1a32;
-  --gold:      #f5a623;
-  --gold-hov:  #e09515;
+  --navy:      #1e1e0f;
+  --navy-2:    #131308;
+  --gold:      #d9f22a;
+  --gold-hov:  #c8e020;
   --bg:        #ffffff;
-  --bg-2:      #f7f8fc;
+  --bg-2:      #f6f6ee;
   --bg-card:   #ffffff;
-  --text:      #1a2744;
-  --text-muted:#5a6a85;
-  --border:    #e2e8f0;
+  --text:      #1e1e0f;
+  --text-muted:#5a5a3a;
+  --border:    #dcdccc;
   --max-w:     1100px;
   --nav-h:     72px;
   --r:         12px;
@@ -198,6 +207,7 @@ body {
   padding-bottom: 3px;
   user-select: none;
 }
+.bw__field--tour { flex: 1.6; }
 .bw__sep { width: 1px; background: rgba(255,255,255,.12); flex-shrink: 0; margin: 16px 0; }
 .bw__btn {
   background: #d9f22a; color: #0e0e08;

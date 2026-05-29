@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useBooking } from '@/lib/booking-context'
 
 const links = [
   { href: '/tours',   label: 'Tours' },
@@ -15,6 +16,7 @@ const links = [
 export default function Nav({ transparent = false }: { transparent?: boolean }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const { openDrawer } = useBooking()
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40)
@@ -37,9 +39,13 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
         {links.map(l => <Link key={l.href} href={l.href}>{l.label}</Link>)}
       </nav>
 
-      <Link href="/contact" className="btn btn--primary" style={{ fontSize: '.78rem', padding: '10px 22px' }}>
+      <button
+        onClick={() => openDrawer()}
+        className="btn btn--primary"
+        style={{ fontSize: '.78rem', padding: '10px 22px' }}
+      >
         Book Now
-      </Link>
+      </button>
 
       <button className="nav__toggle" onClick={() => setOpen(v => !v)} aria-label="Menu">
         <span /><span /><span />
@@ -53,7 +59,7 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
               {l.label}
             </Link>
           ))}
-          <Link href="/contact" className="btn btn--primary" onClick={() => setOpen(false)}>Book Now</Link>
+          <button className="btn btn--primary" onClick={() => { setOpen(false); openDrawer() }}>Book Now</button>
         </div>
       )}
     </header>

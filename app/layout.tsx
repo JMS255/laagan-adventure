@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import MessengerFloat from '@/components/MessengerFloat'
+import { BookingProvider } from '@/lib/booking-context'
+import BookingDrawer from '@/components/BookingDrawer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,8 +26,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={inter.className}>
       <body>
-        {children}
-        <MessengerFloat />
+        <BookingProvider>
+          {children}
+          <BookingDrawer />
+          <MessengerFloat />
+        </BookingProvider>
       </body>
     </html>
   )
