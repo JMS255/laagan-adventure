@@ -272,8 +272,10 @@
     <a href="#components">Components</a>
 
     <div class="sidebar__section">Features</div>
-    <a href="#booking">Booking System</a>
-    <a href="#tours">Tour Detail Page <span class="sidebar__badge badge--new">New</span></a>
+    <a href="#booking">Booking Widget & Drawer</a>
+    <a href="#booking-flow">Booking Flow <span class="sidebar__badge badge--new">New</span></a>
+    <a href="#promo-codes">Promo Codes <span class="sidebar__badge badge--new">New</span></a>
+    <a href="#tours">Tour Detail Page</a>
     <a href="#sanity">Sanity CMS</a>
     <a href="#contact">Contact Page</a>
 
@@ -283,8 +285,8 @@
     <div class="sidebar__section">Roadmap</div>
     <a href="#roadmap">Sprint Overview</a>
     <a href="#sprint1">Sprint 1 — Done ✅</a>
-    <a href="#sprint2">Sprint 2 — Next</a>
-    <a href="#sprint3">Sprint 3</a>
+    <a href="#sprint2">Sprint 2 — Done ✅</a>
+    <a href="#sprint3">Sprint 3 — Next</a>
     <a href="#sprint4">Sprint 4</a>
     <a href="#sprint5">Sprint 5</a>
 
@@ -668,7 +670,10 @@ const playfair = Playfair_Display({
           <tr><td><strong>destination</strong></td><td>string</td><td>—</td><td>Badge label e.g. "Zamboanga City"</td></tr>
           <tr><td><strong>mapQuery</strong></td><td>string</td><td>—</td><td>Google Maps search query for embed</td></tr>
           <tr><td><strong>faq</strong></td><td>array of {question, answer}</td><td>—</td><td>Overrides default FAQs if filled</td></tr>
-          <tr><td><strong>photos</strong></td><td>array of images</td><td>—</td><td>Gallery section on detail page</td></tr>
+          <tr><td><strong>photos</strong></td><td>array of images</td><td>—</td><td>UGC photo wall (#LaaganaAdventure) on detail page</td></tr>
+          <tr><td><strong>dayItinerary</strong></td><td>array of {dayLabel, title, description, photo, highlights[]}</td><td>—</td><td>Day-by-day expandable accordion for multi-day tours</td></tr>
+          <tr><td><strong>pricingTiers</strong></td><td>array of {label, minPax, maxPax, pricePerPerson}</td><td>—</td><td>Per-group-size pricing table on Dates & Prices tab</td></tr>
+          <tr><td><strong>availabilityNote</strong></td><td>string</td><td>—</td><td>Shown on Dates & Prices tab e.g. "Available daily"</td></tr>
         </tbody>
       </table>
 
@@ -703,6 +708,54 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
       <h2>Changelog</h2>
 
       <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Full booking flow — Trip Overview + Passenger Details</div>
+            <div class="desc">/book/[slug] (date, guests, promo code, live price) + /book/[slug]/details (passenger form, Formspree, confirmation). All "Book This Tour" buttons now go here instead of /contact.</div>
+          </div>
+          <div class="commit">46fe1d5</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Promo code engine (lib/promoCodes.ts)</div>
+            <div class="desc">Fixed + percent discounts. 4 default codes: LAAGAN500, SUMMER10, GROUP20, WELCOME200. Add new codes by editing one file.</div>
+          </div>
+          <div class="commit">46fe1d5</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Dates & Prices tab on tour detail page</div>
+            <div class="desc">Pricing tier table (per group size, managed in Sanity) or base price fallback. Availability note. Each tier has a "Book →" link pre-filling guest count.</div>
+          </div>
+          <div class="commit">46fe1d5</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Day-by-day itinerary accordion (DayItinerary.tsx)</div>
+            <div class="desc">Expandable rows per day. First day open by default. Expand/Collapse all toggle. Photo + description + activity highlights when open. Sanity field: dayItinerary[].</div>
+          </div>
+          <div class="commit">628f8d1</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">UGC photo wall on tour pages (#LaaganaAdventure)</div>
+            <div class="desc">Upgraded tour.photos section to masonry grid with hashtag heading. Wide photos span 2 columns. Uses .social-photo CSS class for hover effect.</div>
+          </div>
+          <div class="commit">628f8d1</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Sprint 2 — tour carousel, social proof, gallery fix, Easy Quote modal</div>
+            <div class="desc">Homepage now Sanity-powered tour grid. Social proof photo wall from gallery. Gallery swipe bug fixed (useState → useRef). EasyQuoteModal 4-field popup on tour pages.</div>
+          </div>
+          <div class="commit">f45982e</div>
+        </div>
         <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
@@ -813,14 +866,14 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
           </tr>
           <tr>
             <td><strong>Sprint 2</strong></td>
-            <td>Homepage tour discovery, social proof, Easy Quote modal, gallery improvements</td>
-            <td><span style="color:var(--pink);font-weight:700">🔄 In Progress</span></td>
-            <td>~4 sessions</td>
+            <td>Homepage tour discovery, social proof, gallery lightbox, Easy Quote modal, day itinerary, booking flow, promo codes, Dates & Prices</td>
+            <td><span style="color:var(--green);font-weight:700">✅ Complete</span></td>
+            <td>~6 sessions</td>
           </tr>
           <tr>
             <td><strong>Sprint 3</strong></td>
-            <td>Content & SEO — About page, first blog post, sitemap, OG images</td>
-            <td><span style="color:var(--muted);font-weight:700">⏳ Planned</span></td>
+            <td>Content & SEO — About page, first blog post, sitemap, OG images, Google Analytics</td>
+            <td><span style="color:var(--pink);font-weight:700">🔄 Next</span></td>
             <td>~3 sessions</td>
           </tr>
           <tr>
@@ -908,41 +961,73 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
     <!-- SPRINT 2 -->
     <section class="doc-section" id="sprint2">
       <p class="eyebrow">Roadmap</p>
-      <h2>Sprint 2 — Discovery & Social Proof <span style="font-size:.8rem;font-weight:500;color:var(--pink)">🔄 In Progress</span></h2>
-      <p>Make the homepage work harder. Visitors should be able to discover tours, see real people who've been on them, and inquire without friction.</p>
+      <h2>Sprint 2 — Discovery, Booking & Social Proof <span style="font-size:.8rem;font-weight:500;color:var(--green)">✅ Complete</span></h2>
+      <p>Made the homepage Sanity-powered, built the full booking flow, added promo codes, day-by-day itinerary, and improved the gallery.</p>
 
       <div class="changelog">
         <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
-            <div class="title">Homepage tour discovery carousel</div>
-            <div class="desc">Replace the static gradient tour type grid with a Sanity-powered featured tours strip. Real photos, ratings, "View Tour" buttons. Horizontal scroll on mobile.</div>
+            <div class="title">Homepage tour discovery</div>
+            <div class="desc">Replaced static gradient tour type grid with a Sanity-powered 3-column tour grid. Falls back to static if Sanity is empty.</div>
           </div>
-          <div class="commit" style="background:rgba(217,107,138,.1);color:var(--pink);border-color:rgba(217,107,138,.2)">Pending</div>
+          <div class="commit">f45982e</div>
         </div>
         <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
             <div class="title">Social proof photo wall</div>
-            <div class="desc">UGC-style traveler photo grid on the homepage. Real faces from real tours. Grid layout with hover effects. Photos managed via Sanity gallery.</div>
+            <div class="desc">First 6 gallery photos from Sanity shown in a masonry grid on the homepage with #LaaganaAdventure heading.</div>
           </div>
-          <div class="commit" style="background:rgba(217,107,138,.1);color:var(--pink);border-color:rgba(217,107,138,.2)">Pending</div>
+          <div class="commit">f45982e</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Gallery lightbox bug fix + polish</div>
+            <div class="desc">Fixed swipe detection (useState → useRef). Improved UI: frosted glass buttons, caption display, gradient bottom bar, photo counter.</div>
+          </div>
+          <div class="commit">f45982e</div>
         </div>
         <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
-            <div class="title">Easy Quote modal</div>
-            <div class="desc">Quick 4-field inquiry popup (name, phone, tour, date) triggered from any "Book Now" button. Submits to Formspree. Less friction than the full /contact page.</div>
+            <div class="title">Easy Quote modal (⚡ Quick Inquiry)</div>
+            <div class="desc">4-field popup on every tour detail page. Name, phone, date, group size. Submits to Formspree. Success state — no page redirect.</div>
           </div>
-          <div class="commit" style="background:rgba(217,107,138,.1);color:var(--pink);border-color:rgba(217,107,138,.2)">Pending</div>
+          <div class="commit">f45982e</div>
         </div>
         <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
-            <div class="title">Gallery lightbox + swipe</div>
-            <div class="desc">Click any gallery photo to open fullscreen. Left/right arrows and swipe gesture to browse. Keyboard navigation (← → Escape).</div>
+            <div class="title">Day-by-day itinerary accordion</div>
+            <div class="desc">DayItinerary.tsx client component. Expandable rows with photo + description + highlights. Expand all/collapse all. Sanity field: dayItinerary[].</div>
           </div>
-          <div class="commit" style="background:rgba(217,107,138,.1);color:var(--pink);border-color:rgba(217,107,138,.2)">Pending</div>
+          <div class="commit">628f8d1</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Full booking flow (/book/[slug])</div>
+            <div class="desc">Trip Overview (date, guests, promo code, live price) → Passenger Details (name, phone, special requests) → Formspree → Confirmation. Replaces contact form redirect.</div>
+          </div>
+          <div class="commit">46fe1d5</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Promo code engine</div>
+            <div class="desc">lib/promoCodes.ts — fixed + percent discounts. 4 default codes. Add new codes by editing one line in the file.</div>
+          </div>
+          <div class="commit">46fe1d5</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Dates & Prices tab</div>
+            <div class="desc">New tab on tour detail pages. Shows pricing tier table by group size (Sanity-managed) or base price fallback. Each tier has a direct Book link.</div>
+          </div>
+          <div class="commit">46fe1d5</div>
         </div>
       </div>
     </section>
@@ -950,7 +1035,7 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
     <!-- SPRINT 3 -->
     <section class="doc-section" id="sprint3">
       <p class="eyebrow">Roadmap</p>
-      <h2>Sprint 3 — Content & SEO <span style="font-size:.8rem;font-weight:500;color:var(--muted)">⏳ Planned</span></h2>
+      <h2>Sprint 3 — Content & SEO <span style="font-size:.8rem;font-weight:500;color:var(--pink)">🔄 Next</span></h2>
       <p>Fill in the content gaps and make sure Google can find and properly rank the site.</p>
 
       <div class="changelog">
@@ -1082,6 +1167,82 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
 
       <div class="callout">
         <strong>Note:</strong> Sprint 5 features require more infrastructure investment. Prioritize Sprints 2–4 first to build a solid user base, then revisit these when booking volume justifies the complexity.
+      </div>
+    </section>
+
+    <!-- BOOKING FLOW -->
+    <section class="doc-section" id="booking-flow">
+      <p class="eyebrow">Feature</p>
+      <h2>Booking Flow <span style="font-size:.75rem;font-weight:500;background:rgba(217,107,138,.1);color:var(--pink);padding:3px 10px;border-radius:999px;margin-left:8px">New</span></h2>
+      <p>A proper multi-step booking experience replacing the old contact form redirect. No payment processing yet — the flow captures full booking details and sends them to Formspree.</p>
+
+      <h3>Flow</h3>
+      <pre>Tour Detail Page  →  /book/[slug]  →  /book/[slug]/details  →  Confirmation
+   "Book This Tour"     Trip Overview      Passenger Details       Formspree email
+                        + Promo Code                               + Messenger CTA</pre>
+
+      <h3>Step 1 — Trip Overview (<code>/book/[slug]</code>)</h3>
+      <table>
+        <thead><tr><th>Element</th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Tour card</strong></td><td>Photo, name, destination, duration pulled from Sanity</td></tr>
+          <tr><td><strong>Date picker</strong></td><td>HTML date input, min = today</td></tr>
+          <tr><td><strong>Guest counter</strong></td><td>+ / − buttons, min 1</td></tr>
+          <tr><td><strong>Promo code</strong></td><td>Enter code, click Apply or press Enter. Shows green badge if valid, error if not.</td></tr>
+          <tr><td><strong>Price breakdown</strong></td><td>Price/person × guests, promo discount, total — all reactive</td></tr>
+          <tr><td><strong>Continue button</strong></td><td>Disabled until date is selected. Passes date/guests/price/promo as URL params.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Step 2 — Passenger Details (<code>/book/[slug]/details</code>)</h3>
+      <table>
+        <thead><tr><th>Field</th><th>Required?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Full Name</strong></td><td>✅ Yes</td></tr>
+          <tr><td><strong>Phone / Viber</strong></td><td>✅ Yes</td></tr>
+          <tr><td><strong>Email</strong></td><td>Optional</td></tr>
+          <tr><td><strong>Special Requirements</strong></td><td>Optional</td></tr>
+        </tbody>
+      </table>
+      <p>On submit, the following are automatically included in the Formspree email: tour name, date, guests, price per person, promo discount, total price.</p>
+
+      <h3>Confirmation</h3>
+      <p>On successful Formspree submission, the form is replaced with a success screen — no page redirect needed. Shows a Messenger CTA and "Browse More Tours" link.</p>
+
+      <div class="callout green">
+        <strong>Future upgrade path:</strong> When ready for online payment, the details page is already structured for it — add a GCash/Maya/card payment section above the submit button and swap Formspree for an actual payment API call.
+      </div>
+    </section>
+
+    <!-- PROMO CODES -->
+    <section class="doc-section" id="promo-codes">
+      <p class="eyebrow">Feature</p>
+      <h2>Promo Codes <span style="font-size:.75rem;font-weight:500;background:rgba(217,107,138,.1);color:var(--pink);padding:3px 10px;border-radius:999px;margin-left:8px">New</span></h2>
+      <p>A simple client-side promo code engine. Codes live in <code>lib/promoCodes.ts</code> — no database or backend required. Supports both fixed (₱ off) and percent (% off) discounts.</p>
+
+      <h3>Current active codes</h3>
+      <table>
+        <thead><tr><th>Code</th><th>Discount</th><th>Type</th></tr></thead>
+        <tbody>
+          <tr><td><code>LAAGAN500</code></td><td>₱500 off</td><td>Fixed</td></tr>
+          <tr><td><code>SUMMER10</code></td><td>10% off</td><td>Percent</td></tr>
+          <tr><td><code>GROUP20</code></td><td>20% off</td><td>Percent</td></tr>
+          <tr><td><code>WELCOME200</code></td><td>₱200 off</td><td>Fixed — first-time visitor</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Adding a new code</h3>
+      <p>Open <code>lib/promoCodes.ts</code> and add a line to the <code>CODES</code> object:</p>
+      <pre>// lib/promoCodes.ts
+const CODES = {
+  'LAAGAN500':  { discount: 500, type: 'fixed',   label: '₱500 off your booking' },
+  'SUMMER10':   { discount: 10,  type: 'percent',  label: '10% summer discount' },
+  'MYCODE':     { discount: 300, type: 'fixed',   label: '₱300 off — new code' },  // ← add here
+}</pre>
+      <p>Commit and push. The new code is live instantly — no Sanity update needed.</p>
+
+      <div class="callout">
+        <strong>Marketing uses:</strong> Post <code>LAAGAN500</code> on Facebook during slow seasons. Give travel influencers a unique code to track referrals. Partner with hotels (e.g. <code>GRANDASTORIA</code> for guests at the Grand Astoria hotel).
       </div>
     </section>
 
