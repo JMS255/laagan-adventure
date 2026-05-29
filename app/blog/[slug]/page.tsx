@@ -47,7 +47,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             {post.tags?.length > 0 && (
               <div style={{ display: 'flex', gap: '6px', marginBottom: '16px' }}>
                 {post.tags.map((tag: string) => (
-                  <span key={tag} style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--gold)', background: 'rgba(245,166,35,.1)', padding: '4px 12px', borderRadius: '999px' }}>{tag}</span>
+                  <span key={tag} style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--pink)', background: 'rgba(217,107,138,.1)', padding: '4px 12px', borderRadius: '999px' }}>{tag}</span>
                 ))}
               </div>
             )}

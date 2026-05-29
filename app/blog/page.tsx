@@ -49,7 +49,7 @@ export default async function BlogPage() {
                       {post.tags?.length > 0 && (
                         <div style={{ display: 'flex', gap: '6px', marginBottom: '12px', flexWrap: 'wrap' }}>
                           {post.tags.map((tag: string) => (
-                            <span key={tag} style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--gold)', background: 'rgba(245,166,35,.1)', padding: '3px 10px', borderRadius: '999px' }}>{tag}</span>
+                            <span key={tag} style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--pink)', background: 'rgba(217,107,138,.1)', padding: '3px 10px', borderRadius: '999px' }}>{tag}</span>
                           ))}
                         </div>
                       )}
@@ -65,7 +65,7 @@ export default async function BlogPage() {
                             {new Date(post.publishedAt).toLocaleDateString('en-PH', { year: 'numeric', month: 'long', day: 'numeric' })}
                           </span>
                         )}
-                        <Link href={`/blog/${post.slug.current}`} style={{ fontSize: '.8rem', fontWeight: 700, color: 'var(--gold)', textDecoration: 'none' }}>Read more →</Link>
+                        <Link href={`/blog/${post.slug.current}`} style={{ fontSize: '.8rem', fontWeight: 700, color: 'var(--pink)', textDecoration: 'none' }}>Read more →</Link>
                       </div>
                     </div>
                   </article>

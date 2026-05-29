@@ -38,7 +38,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
           )}
           <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,39,68,.85) 0%, transparent 60%)' }} />
           <div className="container" style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', width: '100%' }}>
-            <p style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '8px' }}>
+            <p style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--pink)', marginBottom: '8px' }}>
               {tour.destination || 'Zamboanga City'}
             </p>
             <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', lineHeight: 1.15 }}>
@@ -75,7 +75,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {tour.itinerary.map((item: { time: string; activity: string }, i: number) => (
                       <div key={i} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start', padding: '14px 16px', background: 'var(--bg-2)', borderRadius: 'var(--r)', border: '1px solid var(--border)' }}>
-                        <span style={{ fontSize: '.75rem', fontWeight: 700, color: 'var(--gold)', background: 'rgba(245,166,35,.1)', padding: '4px 10px', borderRadius: '999px', whiteSpace: 'nowrap', flexShrink: 0 }}>{item.time}</span>
+                        <span style={{ fontSize: '.75rem', fontWeight: 700, color: 'var(--pink)', background: 'rgba(217,107,138,.1)', padding: '4px 10px', borderRadius: '999px', whiteSpace: 'nowrap', flexShrink: 0 }}>{item.time}</span>
                         <span style={{ fontSize: '.88rem', color: 'var(--text)', lineHeight: 1.5 }}>{item.activity}</span>
                       </div>
                     ))}
@@ -130,7 +130,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
 
             {/* Booking Card */}
             <div style={{ position: 'sticky', top: 'calc(var(--nav-h) + 24px)', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--rl)', padding: '28px', boxShadow: '0 8px 32px rgba(26,39,68,.08)' }}>
-              <p style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '8px' }}>
+              <p style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--pink)', marginBottom: '8px' }}>
                 {tour.duration || 'Full Day Tour'}
               </p>
               <p style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.03em', marginBottom: '4px' }}>
