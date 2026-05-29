@@ -27,7 +27,7 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
   return (
     <header className={`nav${scrolled ? ' nav--scrolled' : ''}`}>
       <Link href="/" className="nav__logo">
-        <Image src="/logo.png" alt="Laagan Adventure" width={36} height={36} style={{ borderRadius: '50%' }} />
+        <Image src="/logo.jpg" alt="Laagan Adventure" width={36} height={36} style={{ borderRadius: '50%' }} />
         <span className={`nav__logo-text${isLight ? ' nav__logo-text--light' : ''}`}>
           Laagan Adventure
         </span>

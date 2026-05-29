@@ -58,7 +58,7 @@ body {
 
 /* HERO */
 .hero { position: relative; min-height: 100svh; display: flex; align-items: center; overflow: hidden; }
-.hero__bg { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(26,39,68,.88) 0%, rgba(26,39,68,.55) 100%), url('/images/hero-bg.jpg') center center / cover no-repeat; }
+.hero__bg { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(26,39,68,.88) 0%, rgba(26,39,68,.55) 100%), url('/hero-bg.png') center center / cover no-repeat; }
 .hero__inner { position: relative; z-index: 1; padding: calc(var(--nav-h) + 56px) 0 80px; }
 .hero__eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
 .hero__title { font-size: clamp(2.4rem, 6vw, 4.5rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; color: #fff; margin-bottom: 20px; }
