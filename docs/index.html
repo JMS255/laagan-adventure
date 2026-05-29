@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laagan Adventure — Dev Documentation</title>
+  <style>
+    :root {
+      --navy:   #004e64;
+      --navy-2: #003347;
+      --pink:   #d96b8a;
+      --bg:     #ffffff;
+      --bg-2:   #fdf5f7;
+      --text:   #0d2637;
+      --muted:  #4e6e80;
+      --border: #e8d5da;
+      --green:  #16a34a;
+      --sidebar-w: 260px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: var(--navy-2);
+      overflow-y: auto;
+      padding: 28px 0;
+      z-index: 100;
+    }
+    .sidebar__logo {
+      padding: 0 24px 24px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      margin-bottom: 20px;
+    }
+    .sidebar__logo h1 {
+      font-size: .88rem; font-weight: 800; color: #fff;
+      letter-spacing: .05em; text-transform: uppercase;
+    }
+    .sidebar__logo p {
+      font-size: .7rem; color: rgba(255,255,255,.45); margin-top: 4px;
+    }
+    .sidebar__section {
+      padding: 8px 24px 4px;
+      font-size: .6rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: rgba(255,255,255,.3);
+      margin-top: 12px;
+    }
+    .sidebar a {
+      display: block; padding: 8px 24px;
+      font-size: .82rem; color: rgba(255,255,255,.6);
+      text-decoration: none; transition: all .15s;
+      border-left: 2px solid transparent;
+    }
+    .sidebar a:hover { color: #fff; background: rgba(255,255,255,.06); }
+    .sidebar a.active {
+      color: var(--pink); border-left-color: var(--pink);
+      background: rgba(217,107,138,.08);
+    }
+    .sidebar__badge {
+      display: inline-block; font-size: .6rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 999px; margin-left: 6px;
+      vertical-align: middle;
+    }
+    .badge--new { background: rgba(217,107,138,.2); color: var(--pink); }
+    .badge--fix { background: rgba(22,163,74,.15); color: var(--green); }
+
+    /* ── MAIN ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      padding: 56px 64px;
+      max-width: 900px;
+    }
+
+    /* ── SECTIONS ── */
+    .doc-section {
+      margin-bottom: 72px;
+      scroll-margin-top: 32px;
+    }
+    .doc-section h2 {
+      font-size: 1.6rem; font-weight: 800; color: var(--navy);
+      letter-spacing: -.02em; margin-bottom: 8px;
+      padding-bottom: 14px; border-bottom: 2px solid var(--border);
+    }
+    .doc-section h3 {
+      font-size: 1rem; font-weight: 700; color: var(--navy);
+      margin: 28px 0 10px;
+    }
+    .doc-section p {
+      font-size: .9rem; color: var(--muted); line-height: 1.75;
+      margin-bottom: 12px;
+    }
+    .eyebrow {
+      font-size: .65rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--pink); margin-bottom: 8px;
+    }
+
+    /* ── HERO HEADER ── */
+    .doc-hero {
+      background: var(--navy-2);
+      padding: 56px 64px;
+      margin-left: var(--sidebar-w);
+      margin-bottom: 0;
+    }
+    .doc-hero p.eyebrow { color: var(--pink); }
+    .doc-hero h1 {
+      font-size: 2.4rem; font-weight: 800; color: #fff;
+      letter-spacing: -.03em; line-height: 1.1; margin-bottom: 12px;
+    }
+    .doc-hero p.sub {
+      font-size: .95rem; color: rgba(255,255,255,.6); line-height: 1.7;
+      max-width: 560px;
+    }
+    .doc-hero .meta {
+      display: flex; gap: 24px; margin-top: 24px; flex-wrap: wrap;
+    }
+    .doc-hero .meta span {
+      font-size: .78rem; color: rgba(255,255,255,.5);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .doc-hero .meta strong { color: rgba(255,255,255,.85); }
+
+    /* ── CARDS ── */
+    .card-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 16px; margin-top: 16px;
+    }
+    .card {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px;
+    }
+    .card h4 {
+      font-size: .88rem; font-weight: 700; color: var(--navy); margin-bottom: 6px;
+    }
+    .card p { font-size: .8rem; color: var(--muted); line-height: 1.6; margin: 0; }
+    .card .tag {
+      font-size: .6rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--pink); margin-bottom: 8px;
+      display: block;
+    }
+
+    /* ── CODE BLOCKS ── */
+    pre {
+      background: #0d2637; color: #e2f0f8;
+      border-radius: 10px; padding: 20px 24px;
+      font-size: .82rem; line-height: 1.7;
+      overflow-x: auto; margin: 12px 0 20px;
+      font-family: 'Consolas', 'Monaco', monospace;
+    }
+    code {
+      background: rgba(217,107,138,.12); color: var(--pink);
+      padding: 2px 7px; border-radius: 5px;
+      font-size: .82rem; font-family: 'Consolas', 'Monaco', monospace;
+    }
+    pre code { background: none; color: inherit; padding: 0; }
+
+    /* ── COLOR SWATCHES ── */
+    .swatches { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0; }
+    .swatch {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .swatch__dot {
+      width: 48px; height: 48px; border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .swatch__label { font-size: .7rem; font-weight: 600; color: var(--muted); }
+    .swatch__hex { font-size: .65rem; color: var(--muted); opacity: .7; }
+
+    /* ── FILE TREE ── */
+    .file-tree {
+      background: var(--bg-2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 20px 24px; margin: 12px 0;
+      font-size: .82rem; font-family: 'Consolas', 'Monaco', monospace;
+      line-height: 1.9;
+    }
+    .file-tree .dir { color: var(--navy); font-weight: 700; }
+    .file-tree .file { color: var(--muted); }
+    .file-tree .new { color: var(--green); }
+    .file-tree .modified { color: var(--pink); }
+
+    /* ── CHANGELOG ── */
+    .changelog { display: flex; flex-direction: column; gap: 0; margin-top: 16px; }
+    .changelog-item {
+      display: flex; gap: 20px; padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+    .changelog-item:last-child { border-bottom: none; }
+    .changelog-item .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 5px;
+    }
+    .dot--feature { background: var(--pink); }
+    .dot--fix     { background: var(--green); }
+    .dot--design  { background: var(--navy); }
+    .changelog-item .info { flex: 1; }
+    .changelog-item .title {
+      font-size: .88rem; font-weight: 700; color: var(--navy); margin-bottom: 4px;
+    }
+    .changelog-item .desc {
+      font-size: .8rem; color: var(--muted); line-height: 1.6; margin: 0;
+    }
+    .changelog-item .commit {
+      font-size: .7rem; color: var(--muted); font-family: monospace;
+      background: var(--bg-2); padding: 2px 8px; border-radius: 5px;
+      border: 1px solid var(--border); white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* ── TABLE ── */
+    table {
+      width: 100%; border-collapse: collapse; margin: 12px 0 20px;
+      font-size: .85rem;
+    }
+    th {
+      text-align: left; padding: 10px 14px;
+      background: var(--bg-2); color: var(--navy);
+      font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; border-bottom: 2px solid var(--border);
+    }
+    td {
+      padding: 12px 14px; border-bottom: 1px solid var(--border);
+      color: var(--muted); vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    td strong { color: var(--navy); }
+
+    /* ── CALLOUT ── */
+    .callout {
+      border-left: 3px solid var(--pink);
+      background: var(--bg-2); border-radius: 0 10px 10px 0;
+      padding: 14px 18px; margin: 16px 0;
+      font-size: .85rem; color: var(--muted); line-height: 1.65;
+    }
+    .callout strong { color: var(--navy); }
+    .callout.green { border-left-color: var(--green); }
+    .callout.navy  { border-left-color: var(--navy); }
+
+    /* ── SCROLLSPY ── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main, .doc-hero { margin-left: 0; padding: 32px 20px; }
+      .card-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar__logo">
+      <h1>Laagan Adventure</h1>
+      <p>Developer Documentation</p>
+    </div>
+
+    <div class="sidebar__section">Overview</div>
+    <a href="#overview">Project Overview</a>
+    <a href="#stack">Tech Stack</a>
+    <a href="#structure">File Structure</a>
+
+    <div class="sidebar__section">Design System</div>
+    <a href="#colors">Color Palette</a>
+    <a href="#typography">Typography</a>
+    <a href="#components">Components</a>
+
+    <div class="sidebar__section">Features</div>
+    <a href="#booking">Booking System</a>
+    <a href="#tours">Tour Detail Page <span class="sidebar__badge badge--new">New</span></a>
+    <a href="#sanity">Sanity CMS</a>
+    <a href="#contact">Contact Page</a>
+
+    <div class="sidebar__section">Changelog</div>
+    <a href="#changelog">All Changes</a>
+
+    <div class="sidebar__section">Guides</div>
+    <a href="#adding-tours">Adding a Tour</a>
+    <a href="#deployment">Deployment</a>
+  </nav>
+
+  <!-- HERO HEADER -->
+  <div class="doc-hero">
+    <p class="eyebrow">Developer Documentation</p>
+    <h1>Laagan Adventure</h1>
+    <p class="sub">Tour guide & travel company website for Zamboanga City, Philippines. Built on Next.js 15 + Sanity CMS.</p>
+    <div class="meta">
+      <span>🔗 <strong>Live:</strong> laagan-adventure.vercel.app</span>
+      <span>📦 <strong>Repo:</strong> JMS255/laagan-adventure</span>
+      <span>🛠 <strong>Framework:</strong> Next.js 15 App Router</span>
+      <span>📅 <strong>Last updated:</strong> May 2026</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- OVERVIEW -->
+    <section class="doc-section" id="overview">
+      <p class="eyebrow">Introduction</p>
+      <h2>Project Overview</h2>
+      <p>Laagan Adventure is a local tour operator website for Zamboanga City, Philippines. It lets travelers browse tour packages, view detailed itineraries, and inquire/book tours via a form or Messenger.</p>
+      <p>The site was designed to feel like a premium travel brand — think AutoCamp meets Trafalgar, adapted for a small local Filipino tour business. No online payment processing; booking is confirmed via Messenger.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <span class="tag">Business</span>
+          <h4>What it does</h4>
+          <p>Showcases 5 tour packages, accepts booking inquiries, and drives users to Messenger for confirmation.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Audience</span>
+          <h4>Who it's for</h4>
+          <p>Local and visiting travelers in Zamboanga City looking to book guided tours to Santa Cruz Island and other destinations.</p>
+        </div>
+        <div class="card">
+          <span class="tag">CMS</span>
+          <h4>Content management</h4>
+          <p>All tours, testimonials, gallery photos, and blog posts are managed through Sanity Studio at <code>/studio</code>.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Forms</span>
+          <h4>Inquiry system</h4>
+          <p>Contact form submits to Formspree. No backend required. Booking is confirmed via Messenger after inquiry.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="doc-section" id="stack">
+      <p class="eyebrow">Architecture</p>
+      <h2>Tech Stack</h2>
+
+      <table>
+        <thead>
+          <tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Framework</strong></td><td>Next.js 15 (App Router)</td><td>Pages, routing, server-side data fetching</td></tr>
+          <tr><td><strong>Language</strong></td><td>TypeScript</td><td>Type safety throughout</td></tr>
+          <tr><td><strong>CMS</strong></td><td>Sanity.io</td><td>Tours, testimonials, gallery, blog posts</td></tr>
+          <tr><td><strong>Styling</strong></td><td>CSS custom properties + inline styles</td><td>Design tokens, component styles</td></tr>
+          <tr><td><strong>Fonts</strong></td><td>Inter + Playfair Display (next/font)</td><td>Body + display/serif headlines</td></tr>
+          <tr><td><strong>Forms</strong></td><td>Formspree</td><td>Contact form submissions</td></tr>
+          <tr><td><strong>Hosting</strong></td><td>Vercel</td><td>Auto-deploy on push to master</td></tr>
+          <tr><td><strong>Repo</strong></td><td>GitHub (JMS255/laagan-adventure)</td><td>Version control</td></tr>
+          <tr><td><strong>Maps</strong></td><td>Google Maps iframe embed</td><td>Tour location maps (no API key needed)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FILE STRUCTURE -->
+    <section class="doc-section" id="structure">
+      <p class="eyebrow">Codebase</p>
+      <h2>File Structure</h2>
+
+      <div class="file-tree">
+        <span class="dir">laagan-adventure/</span><br>
+        &nbsp;&nbsp;<span class="dir">app/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="modified">globals.css</span> &nbsp;← design tokens, all shared styles<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="modified">layout.tsx</span> &nbsp;← root layout, font loading, BookingProvider<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="modified">page.tsx</span> &nbsp;← homepage<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="dir">tours/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">page.tsx</span> &nbsp;← tour listing grid<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="dir">[slug]/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="modified">page.tsx</span> &nbsp;← tour detail page (full overhaul)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="dir">contact/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="modified">page.tsx</span> &nbsp;← split-screen inquiry form<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">gallery/page.tsx</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">blog/page.tsx</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">about/page.tsx</span><br>
+        <br>
+        &nbsp;&nbsp;<span class="dir">components/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="modified">Nav.tsx</span> &nbsp;← promo strip + white nav + Book Now<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="modified">BookingWidget.tsx</span> &nbsp;← white card widget (tour/date/guests)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="modified">DatePicker.tsx</span> &nbsp;← custom light-theme calendar<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="new">BookingDrawer.tsx</span> &nbsp;← slide-in tour selector panel<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="new">TourTabs.tsx</span> &nbsp;← sticky tabs with scrollspy<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="new">FAQAccordion.tsx</span> &nbsp;← expandable FAQ with defaults<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">Footer.tsx</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">MessengerFloat.tsx</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">TestimonialCarousel.tsx</span><br>
+        <br>
+        &nbsp;&nbsp;<span class="dir">lib/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="modified">sanity.ts</span> &nbsp;← client, urlFor, all GROQ queries<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="new">booking-context.tsx</span> &nbsp;← shared booking state (React Context)<br>
+        <br>
+        &nbsp;&nbsp;<span class="dir">sanity/schemas/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="modified">tour.ts</span> &nbsp;← tour schema (added mapQuery + faq)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">testimonial.ts</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">gallery.ts</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">blogPost.ts</span><br>
+        <br>
+        &nbsp;&nbsp;<span class="dir">public/</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">hero-video.mp4</span> &nbsp;← hero background video<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">hero-bg.png</span> &nbsp;← fallback poster<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">logo.jpg</span>
+      </div>
+
+      <p style="margin-top:8px">
+        <span style="color:var(--modified);font-family:monospace">pink</span> = modified &nbsp;
+        <span style="color:var(--green);font-family:monospace">green</span> = new file
+      </p>
+    </section>
+
+    <!-- COLORS -->
+    <section class="doc-section" id="colors">
+      <p class="eyebrow">Design System</p>
+      <h2>Color Palette</h2>
+      <p>Inspired by Santa Cruz Island's pink sand beach and the deep ocean waters of Zamboanga. All colors are CSS custom properties defined in <code>app/globals.css</code>.</p>
+
+      <div class="swatches">
+        <div class="swatch">
+          <div class="swatch__dot" style="background:#004e64"></div>
+          <div class="swatch__label">Navy</div>
+          <div class="swatch__hex">--navy</div>
+          <div class="swatch__hex">#004e64</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__dot" style="background:#003347"></div>
+          <div class="swatch__label">Navy Dark</div>
+          <div class="swatch__hex">--navy-2</div>
+          <div class="swatch__hex">#003347</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__dot" style="background:#d96b8a"></div>
+          <div class="swatch__label">Pink Sand</div>
+          <div class="swatch__hex">--pink</div>
+          <div class="swatch__hex">#d96b8a</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__dot" style="background:#bf5070"></div>
+          <div class="swatch__label">Pink Dark</div>
+          <div class="swatch__hex">--pink-dark</div>
+          <div class="swatch__hex">#bf5070</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__dot" style="background:#fdf5f7"></div>
+          <div class="swatch__label">BG Tint</div>
+          <div class="swatch__hex">--bg-2</div>
+          <div class="swatch__hex">#fdf5f7</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__dot" style="background:#0d2637"></div>
+          <div class="swatch__label">Text</div>
+          <div class="swatch__hex">--text</div>
+          <div class="swatch__hex">#0d2637</div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__dot" style="background:#e8d5da"></div>
+          <div class="swatch__label">Border</div>
+          <div class="swatch__hex">--border</div>
+          <div class="swatch__hex">#e8d5da</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Design rationale:</strong> Pink (#d96b8a) is pulled from Santa Cruz Island's famous pink sand beach — it's the only accent color used, making it unique to Laagan's brand. Navy is the ocean. Together they tell the visual story of the destination.
+      </div>
+    </section>
+
+    <!-- TYPOGRAPHY -->
+    <section class="doc-section" id="typography">
+      <p class="eyebrow">Design System</p>
+      <h2>Typography</h2>
+
+      <table>
+        <thead>
+          <tr><th>Role</th><th>Font</th><th>Variable</th><th>Used on</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Display / Headlines</strong></td><td>Playfair Display</td><td><code>--font-display</code></td><td>All h1, h2 elements</td></tr>
+          <tr><td><strong>Body / UI</strong></td><td>Inter</td><td><code>--font-sans</code></td><td>Everything else</td></tr>
+        </tbody>
+      </table>
+
+      <p>Both fonts are loaded via <code>next/font/google</code> in <code>app/layout.tsx</code> with zero layout shift. Playfair Display is loaded with both <code>normal</code> and <code>italic</code> styles — hero headlines use italic for an editorial feel.</p>
+
+      <pre>// app/layout.tsx
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-display',
+  style: ['normal', 'italic'],
+})</pre>
+    </section>
+
+    <!-- COMPONENTS -->
+    <section class="doc-section" id="components">
+      <p class="eyebrow">Design System</p>
+      <h2>Shared Components</h2>
+
+      <h3>Button classes</h3>
+      <table>
+        <thead><tr><th>Class</th><th>Appearance</th><th>Use case</th></tr></thead>
+        <tbody>
+          <tr><td><code>.btn.btn--primary</code></td><td>Pink fill, white text</td><td>Main CTA — "Book This Tour"</td></tr>
+          <tr><td><code>.btn.btn--outline</code></td><td>Navy border, navy text</td><td>Secondary action on light bg</td></tr>
+          <tr><td><code>.btn.btn--outline-light</code></td><td>White border, white text</td><td>Actions on dark/navy backgrounds</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Section labels</h3>
+      <p>Pink uppercase eyebrow text above section titles: <code>&lt;p class="section__label"&gt;What we offer&lt;/p&gt;</code></p>
+
+      <h3>Tour cards</h3>
+      <p>Used in tour listing and "Similar Tours" sections. Class: <code>.tour-card</code>. Contains image, tag, title, tagline, price, and CTA link.</p>
+    </section>
+
+    <!-- BOOKING SYSTEM -->
+    <section class="doc-section" id="booking">
+      <p class="eyebrow">Feature</p>
+      <h2>Booking System</h2>
+
+      <p>The booking system has three parts that share state via React Context (<code>lib/booking-context.tsx</code>):</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <span class="tag">Widget</span>
+          <h4>BookingWidget.tsx</h4>
+          <p>White card floating at the bottom of the hero. Fields: tour selector, date picker, guest counter. "Check Availability" opens the drawer.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Drawer</span>
+          <h4>BookingDrawer.tsx</h4>
+          <p>Slide-in panel from the right. Shows all 5 tour cards. Clicking a tour takes user to the contact page with pre-filled params.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Dropdown</span>
+          <h4>TourDropdown (in Widget)</h4>
+          <p>Custom-styled dropdown using <code>createPortal</code> to escape overflow:hidden on the hero section. Light theme, pink selection.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Calendar</span>
+          <h4>DatePicker.tsx</h4>
+          <p>Custom calendar component. No native browser UI. Smart above/below positioning. Pink selected date. Also uses createPortal.</p>
+        </div>
+      </div>
+
+      <div class="callout navy">
+        <strong>Why createPortal?</strong> The hero section has <code>overflow: hidden</code>. Without portals, the dropdown and calendar get clipped. Both are rendered at <code>document.body</code> level with <code>position: fixed</code> coordinates from <code>getBoundingClientRect()</code>.
+      </div>
+
+      <h3>Shared state flow</h3>
+      <pre>BookingProvider (app/layout.tsx)
+  ├── Nav → "Book Now" button → openDrawer()
+  ├── BookingWidget → sets tour/date/guests → openDrawer()
+  └── BookingDrawer → reads state → links to /contact?tour=...&date=...&guests=...</pre>
+    </section>
+
+    <!-- TOUR DETAIL PAGE -->
+    <section class="doc-section" id="tours">
+      <p class="eyebrow">Feature</p>
+      <h2>Tour Detail Page</h2>
+      <p>Inspired by Trafalgar's tour pages. Located at <code>/tours/[slug]</code>. Fully server-rendered with client islands for interactive parts.</p>
+
+      <h3>Page sections (top to bottom)</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Hero</div>
+            <div class="desc">Full-width 480px image with dark overlay. Shows destination badge, tour title, duration, price.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Sticky Tabs (TourTabs.tsx)</div>
+            <div class="desc">Sticks below the nav. "Your Tour" / "What's Included" / "Reviews". Active tab updates as you scroll via IntersectionObserver scrollspy.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Itinerary (2-column grid)</div>
+            <div class="desc">Pink location pin icons + time badge + activity text. Matches Trafalgar's sightseeing highlights layout.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Travel Highlights checklist</div>
+            <div class="desc">2-column grid of inclusions with green ✓ checkmarks. Pulls from Sanity inclusions field.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Google Maps embed</div>
+            <div class="desc">Renders if <code>mapQuery</code> is filled in Sanity. Uses Google Maps iframe (no API key needed). Shows the tour area.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">FAQ Accordion (FAQAccordion.tsx)</div>
+            <div class="desc">6 default Zamboanga-specific FAQs built in. Override per tour by filling the faq field in Sanity.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Sticky Booking Card (sidebar)</div>
+            <div class="desc">Price, duration, "Book This Tour" → /contact, "Ask a Question" → Messenger. Trust badges. Sticks as you scroll.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">What's Included section</div>
+            <div class="desc">Full-width pink-tinted section. 2 columns: inclusions (green ✓) and exclusions (red ✕).</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Reviews</div>
+            <div class="desc">Up to 3 testimonials from Sanity. Shows empty state if none exist yet.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Similar Tours</div>
+            <div class="desc">3 other tour cards auto-pulled from Sanity, excluding the current tour. Uses SIMILAR_TOURS_QUERY.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SANITY -->
+    <section class="doc-section" id="sanity">
+      <p class="eyebrow">Content</p>
+      <h2>Sanity CMS</h2>
+      <p>Access the studio at <code>/studio</code> on any environment. Project ID: <code>o5mustem</code>, dataset: <code>production</code>.</p>
+
+      <h3>Tour schema fields</h3>
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Required?</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>title</strong></td><td>string</td><td>✅ Yes</td><td>Shows in hero, card, page title</td></tr>
+          <tr><td><strong>slug</strong></td><td>slug</td><td>✅ Yes</td><td>Auto-generate from title</td></tr>
+          <tr><td><strong>featured</strong></td><td>boolean</td><td>—</td><td>Shows in homepage featured carousel</td></tr>
+          <tr><td><strong>mainImage</strong></td><td>image</td><td>—</td><td>Hero image on detail page + card thumbnail</td></tr>
+          <tr><td><strong>tagline</strong></td><td>string</td><td>—</td><td>Short italic description on detail page</td></tr>
+          <tr><td><strong>description</strong></td><td>text</td><td>—</td><td>Full paragraph on detail page</td></tr>
+          <tr><td><strong>duration</strong></td><td>string</td><td>—</td><td>e.g. "Full Day Tour", "3 Days 2 Nights"</td></tr>
+          <tr><td><strong>price</strong></td><td>number</td><td>—</td><td>In Philippine Peso (₱)</td></tr>
+          <tr><td><strong>priceNote</strong></td><td>string</td><td>—</td><td>e.g. "per person, minimum 2 pax"</td></tr>
+          <tr><td><strong>inclusions</strong></td><td>array of strings</td><td>—</td><td>Shows in highlights + what's included</td></tr>
+          <tr><td><strong>exclusions</strong></td><td>array of strings</td><td>—</td><td>Shows in what's included section</td></tr>
+          <tr><td><strong>itinerary</strong></td><td>array of {time, activity}</td><td>—</td><td>2-column grid with location pins</td></tr>
+          <tr><td><strong>destination</strong></td><td>string</td><td>—</td><td>Badge label e.g. "Zamboanga City"</td></tr>
+          <tr><td><strong>mapQuery</strong></td><td>string</td><td>—</td><td>Google Maps search query for embed</td></tr>
+          <tr><td><strong>faq</strong></td><td>array of {question, answer}</td><td>—</td><td>Overrides default FAQs if filled</td></tr>
+          <tr><td><strong>photos</strong></td><td>array of images</td><td>—</td><td>Gallery section on detail page</td></tr>
+        </tbody>
+      </table>
+
+      <h3>GROQ Queries</h3>
+      <pre>// lib/sanity.ts
+
+TOURS_QUERY          — all tours (listing page)
+FEATURED_TOURS_QUERY — featured == true (homepage carousel)
+TOUR_QUERY           — single tour by slug (detail page)
+SIMILAR_TOURS_QUERY  — 3 tours excluding current slug
+TESTIMONIALS_QUERY   — all testimonials
+GALLERY_QUERY        — all gallery photos
+BLOG_QUERY           — all blog posts
+BLOG_POST_QUERY      — single blog post by slug</pre>
+    </section>
+
+    <!-- CONTACT PAGE -->
+    <section class="doc-section" id="contact">
+      <p class="eyebrow">Feature</p>
+      <h2>Contact Page</h2>
+      <p>Split-screen layout at <code>/contact</code>. Left panel: dark navy with tour highlights and contact info. Right panel: white inquiry form.</p>
+      <p>The form submits to <strong>Formspree</strong> (<code>https://formspree.io/f/xpwzgwnn</code>). Fields auto-populate from URL params: <code>?tour=...&date=...&guests=...</code> — set when coming from the booking widget or drawer.</p>
+
+      <div class="callout green">
+        <strong>Booking flow:</strong> Widget → "Check Availability" → Drawer → "Book this tour" → Contact page with pre-filled tour/date/guests → Formspree submission → Owner replies via Messenger.
+      </div>
+    </section>
+
+    <!-- CHANGELOG -->
+    <section class="doc-section" id="changelog">
+      <p class="eyebrow">History</p>
+      <h2>Changelog</h2>
+
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Tour detail page overhaul (Trafalgar-style)</div>
+            <div class="desc">Sticky tabs, itinerary 2-col, travel highlights, map embed, FAQ accordion, sticky booking card, what's included, reviews, similar tours, bottom CTA.</div>
+          </div>
+          <div class="commit">93d1849</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Fix remaining --gold references in blog + tour pages</div>
+            <div class="desc">blog/page.tsx, blog/[slug]/page.tsx, tours/[slug]/page.tsx — all inline color references updated to var(--pink).</div>
+          </div>
+          <div class="commit">a843811</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Full visual redesign — Pink Sand & Ocean palette</div>
+            <div class="desc">Replaced orange/lime with pink sand (#d96b8a). Added Playfair Display for h1/h2. Booking widget changed to white card with drop shadow. DatePicker and TourDropdown updated to light theme.</div>
+          </div>
+          <div class="commit">b84139a</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Booking drawer (slide-in panel)</div>
+            <div class="desc">AutoCamp-style slide-in from the right. Shows all 5 tour cards with gradients, descriptions, prices. Triggered by both Nav "Book Now" and widget "Check Availability".</div>
+          </div>
+          <div class="commit">ba5b4f0</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Fix: calendar arrow clicks closing the calendar</div>
+            <div class="desc">React portal bubbling issue. Fixed by moving DatePicker portal outside the form element entirely.</div>
+          </div>
+          <div class="commit">—</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Fix: dropdowns scrolling with page</div>
+            <div class="desc">Added window scroll listener to close both dropdowns on any scroll event.</div>
+          </div>
+          <div class="commit">—</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Custom DatePicker + TourDropdown</div>
+            <div class="desc">Replaced native browser inputs with fully custom components. Both use createPortal + getBoundingClientRect for smart positioning that escapes overflow:hidden.</div>
+          </div>
+          <div class="commit">—</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Booking Context (React Context API)</div>
+            <div class="desc">Shared state across Nav + BookingWidget + BookingDrawer. openDrawer(), closeDrawer(), setTour(), setDate(), setGuests().</div>
+          </div>
+          <div class="commit">—</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Homepage redesign — AutoCamp-inspired</div>
+            <div class="desc">Video hero with booking widget pinned to bottom. Stats bar, tour type grid, spotlight sections, testimonial carousel, group tours, final CTA.</div>
+          </div>
+          <div class="commit">c951477</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">All pages scaffolded</div>
+            <div class="desc">Tours, Gallery, About, Contact, Blog, Tour Detail — all pages with Sanity data fetching.</div>
+          </div>
+          <div class="commit">80e5b9f</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Project initialized</div>
+            <div class="desc">Next.js 15 + Sanity CMS foundation. All schemas defined: tour, testimonial, gallery, blogPost.</div>
+          </div>
+          <div class="commit">7d5c7f6</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADDING A TOUR -->
+    <section class="doc-section" id="adding-tours">
+      <p class="eyebrow">Guide</p>
+      <h2>Adding a Tour in Sanity</h2>
+
+      <p>1. Go to <code>yoursite.com/studio</code> and click <strong>Tour Package</strong> in the sidebar.</p>
+      <p>2. Click the <strong>+</strong> button to create a new document.</p>
+      <p>3. Fill in these fields at minimum:</p>
+
+      <table>
+        <thead><tr><th>Field</th><th>Example value</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Tour Name</strong></td><td>Santa Cruz Island Tour</td></tr>
+          <tr><td><strong>Slug</strong></td><td>Click "Generate" — auto-fills</td></tr>
+          <tr><td><strong>Tagline</strong></td><td>Pink sand. Crystal water.</td></tr>
+          <tr><td><strong>Price</strong></td><td>1500</td></tr>
+          <tr><td><strong>Price Note</strong></td><td>per person, minimum 2 pax</td></tr>
+          <tr><td><strong>Duration</strong></td><td>Full Day Tour</td></tr>
+          <tr><td><strong>Destination Tag</strong></td><td>Zamboanga City</td></tr>
+          <tr><td><strong>Map Location</strong></td><td>Santa Cruz Island, Zamboanga City, Philippines</td></tr>
+        </tbody>
+      </table>
+
+      <p>4. Add inclusions (one per row): <code>Boat transfer</code>, <code>Tour guide</code>, <code>Life vest</code>...</p>
+      <p>5. Add itinerary rows: <code>Time: 7:00 AM</code> / <code>Activity: Meet at Recodo Wharf</code></p>
+      <p>6. Hit <strong>Publish</strong>. The tour is now live at <code>/tours/santa-cruz-island-tour</code>.</p>
+
+      <div class="callout">
+        <strong>Tip:</strong> The FAQ field is optional. Leave it empty and 6 default FAQs show automatically. Only fill it if this tour has specific questions that don't apply to other tours.
+      </div>
+    </section>
+
+    <!-- DEPLOYMENT -->
+    <section class="doc-section" id="deployment">
+      <p class="eyebrow">Guide</p>
+      <h2>Deployment</h2>
+
+      <p>The site auto-deploys to Vercel whenever you push to the <code>master</code> branch on GitHub.</p>
+
+      <pre># Make changes locally
+git add .
+git commit -m "your message"
+git push origin master
+# Vercel picks it up automatically — takes 2-5 minutes</pre>
+
+      <h3>Environment</h3>
+      <p>No environment variables required for the main site. Sanity uses public read access (CDN). Formspree endpoint is hardcoded in the contact page.</p>
+
+      <h3>URLs</h3>
+      <table>
+        <thead><tr><th>Environment</th><th>URL</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Live site</strong></td><td>laagan-adventure.vercel.app</td></tr>
+          <tr><td><strong>Sanity Studio (live)</strong></td><td>laagan-adventure.vercel.app/studio</td></tr>
+          <tr><td><strong>Local dev</strong></td><td>localhost:3000</td></tr>
+          <tr><td><strong>GitHub repo</strong></td><td>github.com/JMS255/laagan-adventure</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <!-- SCROLLSPY -->
+  <script>
+    const links = document.querySelectorAll('.sidebar a[href^="#"]')
+    const sections = []
+
+    links.forEach(link => {
+      const id = link.getAttribute('href').slice(1)
+      const el = document.getElementById(id)
+      if (el) sections.push({ id, el, link })
+    })
+
+    function updateActive() {
+      let current = sections[0]?.id
+      sections.forEach(({ id, el }) => {
+        if (el.getBoundingClientRect().top <= 80) current = id
+      })
+      links.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current)
+      })
+    }
+
+    window.addEventListener('scroll', updateActive, { passive: true })
+    updateActive()
+  </script>
+
+</body>
+</html>
