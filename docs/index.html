@@ -288,7 +288,8 @@
     <a href="#sprint2">Sprint 2 — Done ✅</a>
     <a href="#sprint3">Sprint 3 — Done ✅</a>
     <a href="#sprint4">Sprint 4 — Done ✅</a>
-    <a href="#sprint5">Sprint 5</a>
+    <a href="#sprint5">Sprint 5 — Next 🔄</a>
+    <a href="#sprint6">Sprint 6</a>
 
     <div class="sidebar__section">Guides</div>
     <a href="#adding-tours">Adding a Tour</a>
@@ -940,7 +941,13 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
           </tr>
           <tr>
             <td><strong>Sprint 5</strong></td>
-            <td>Booking calendar, GCash inquiry flow, analytics</td>
+            <td>Emotional UX — identity filter, "How It Works", hero rewrite, trust block, social proof upgrade, urgency badges, story block, nav copy, emoji reduction</td>
+            <td><span style="color:var(--pink);font-weight:700">🔄 Next</span></td>
+            <td>~4 sessions</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 6</strong></td>
+            <td>Booking infrastructure — dates calendar, dynamic search filter, GCash deposit, Image optimization, booking dashboard</td>
             <td><span style="color:var(--muted);font-weight:700">💡 Future</span></td>
             <td>~5 sessions</td>
           </tr>
@@ -1207,23 +1214,195 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
     <!-- SPRINT 5 -->
     <section class="doc-section" id="sprint5">
       <p class="eyebrow">Roadmap</p>
-      <h2>Sprint 5 — Booking & Analytics <span style="font-size:.8rem;font-weight:500;color:var(--muted)">💡 Future</span></h2>
-      <p>More advanced features for when the business is generating consistent bookings and needs more automation.</p>
+      <h2>Sprint 5 — Emotional UX &amp; Conversion <span style="font-size:.8rem;font-weight:500;color:var(--pink)">🔄 Next</span></h2>
+      <p>Based on a deep live analysis of Trafalgar.com vs laagan-adventure.vercel.app, this sprint closes the emotional engagement gap. The goal: visitors should feel <em>curious, excited, and safe</em> within 10 seconds of landing. Right now we nail "safe" but miss "curious" and "excited." Every item below is targeted at that specific gap.</p>
+
+      <div class="callout">
+        <strong>The core insight:</strong> Trafalgar triggers 5 psychological states — aspiration, social validation, trust, discovery, and FOMO. Laagan Adventure currently triggers 2 (trust, discovery). Sprint 5 adds the missing 3.
+      </div>
+
+      <!-- P1 -->
+      <h3>Priority 1 — "How Are You Traveling?" Identity Section</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Traveler identity filter — 4 cards above the tour grid</div>
+            <div class="desc">4 large touch-friendly cards: Solo Traveler, Couple Getaway, Barkada/Group, Family &amp; Kids. Tapping a card filters the tour grid to relevant packages. Directly copied from Trafalgar's "Ways to Go" section — the highest-leverage UX change on the homepage. Implementation: client component with useState filter + tours tagged by audience in Sanity.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+
+      <!-- P2 -->
+      <h3>Priority 2 — "How It Works" 3-Step Strip</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Zero-friction booking explainer strip</div>
+            <div class="desc">A horizontal 3-step section answering the #1 objection before it's asked: Step 1 → Choose your tour (2 mins). Step 2 → We confirm via Messenger (within 24hrs). Step 3 → Pay on the day (cash or GCash). Icon-led, clean, placed between the tour grid and the spotlight sections. Trafalgar equivalent: their "Flexible booking" trust block.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+
+      <!-- P3 -->
+      <h3>Priority 3 — Hero Rewrite + Real Video</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Hero copy rewrite — destination-first, emotion-first</div>
+            <div class="desc">Replace generic "Where local knowledge meets island adventure" with a specific, sensory headline about Santa Cruz Island. Target: "There's a beach in Zamboanga where the sand is pink. We'll take you there." Single CTA only (the booking widget). Remove competing Book Now button from hero viewport. Tested Trafalgar pattern: one action in the hero = higher conversion.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Real hero video — Santa Cruz Island footage</div>
+            <div class="desc">Replace the placeholder gradient with an actual 10–15 second muted video loop of the pink sand beach or the lagoon. Even phone footage, stabilized and color-graded, transforms emotional impact. Compress to WebM + MP4 fallback. Host on Vercel or Cloudinary. The /public/hero-video.mp4 slot already exists in the code — just needs real content.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+
+      <!-- P4 -->
+      <h3>Priority 4 — Social Proof Upgrade</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Verified review badges + reviewer photos</div>
+            <div class="desc">Add reviewer avatar photos (or initial circles with tour-color backgrounds) to testimonial cards. Add "Verified booking" badge below names. Link to Facebook page reviews or embed Google rating widget. Trafalgar uses Feefo — we use Facebook/Google which are free and equally trusted by Filipino travelers. Even a screenshot-style embed works.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Instagram live feed embed</div>
+            <div class="desc">Embed the last 6–9 Instagram posts from @laagan.adventure (or equivalent) on the homepage. This is Trafalgar's most powerful trust signal — live social proof that real people are doing these tours RIGHT NOW. Use a free Instagram embed widget (Elfsight free tier or Curator.io). Replaces or extends the static #LaaganaAdventure gallery section.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+
+      <!-- P5 -->
+      <h3>Priority 5 — Tour Card Urgency Signals</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Sanity field: availability badge + urgency label on tour cards</div>
+            <div class="desc">Add two optional Sanity fields to the tour schema: badgeLabel (string, e.g. "🔥 Most Popular", "Limited Slots") and urgencyNote (string, e.g. "Only 4 spots left this weekend"). Render as overlay badges on tour cards in the grid. Managed manually by James/Ivy — no real-time inventory needed. Creates FOMO without technical complexity. Trafalgar equivalent: "Guaranteed Departure" and "Selling Fast" badges.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+
+      <!-- P6 -->
+      <h3>Priority 6 — "Travel with Confidence" Trust Block</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Dedicated trust/risk-reversal section on homepage</div>
+            <div class="desc">A full-width section (light bg) with 4–5 icon-led trust points: Free cancellation 24hrs before · No upfront payment · Weather rescheduling included · DTI Registered [number] · BIR Official Receipts. Addresses every objection a first-time visitor has before they ask. Trafalgar's equivalent section is one of their highest-converting homepage elements. Implementation: static component, no Sanity needed.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+
+      <!-- P7 -->
+      <h3>Priority 7 — Emotional Story Block</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">One real guest story — full-width narrative section</div>
+            <div class="desc">A dark full-width section with a single first-person story from a real guest. Not a bullet-point testimonial — a 3-sentence narrative paragraph with their name and photo. Target emotion: warmth + aspiration. Trafalgar equivalent: their "Be My Guest" and "Stays with Stories" sections. Even one genuine story outperforms 10 generic star ratings on emotional engagement.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+
+      <!-- P8 -->
+      <h3>Priority 8 — Navigation + Copy Upgrades</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Nav rename: "Contact" → "Plan My Trip" + phone number in nav</div>
+            <div class="desc">"Contact" is the weakest CTA word in the nav. "Plan My Trip" signals intent and excitement. Also add the phone number (0905-243-5196) to the desktop nav right side — Trafalgar shows their phone number in the nav. Signals that real humans answer. Both are copy-only changes, no new components.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Reduce emoji usage sitewide — 70% reduction</div>
+            <div class="desc">Emojis in section headings and trust cards make the site feel casual/local rather than aspirational. Keep emojis in: CTAs, contact info, Messenger buttons, promo strip. Remove from: section h2 headings, trust card titles, tour page section headers. This alone shifts the perceived quality tier significantly.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+
+      <!-- P9 -->
+      <h3>Priority 9 — Tour Description Copy Rewrite</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Sensory, emotion-first copy for all tour descriptions in Sanity</div>
+            <div class="desc">Current descriptions are informational ("visit the pink sand beach"). Trafalgar uses sensory language that makes you feel the destination before you go. Target rewrite style: "Step onto sand that turns pink from millions of tiny coral shells — one of only a handful of places on Earth where this exists. The lagoon behind the island stays perfectly still even when the open sea is rough." Update in Sanity Studio — no code changes required.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Implementation order:</strong> P1 (identity filter) → P2 (how it works) → P6 (trust block) → P8 (nav + emoji) → P3 (hero) → P4 (social proof) → P5 (urgency badges) → P7 (story block) → P9 (copy). Start with the no-code/low-code wins first.
+      </div>
+    </section>
+
+    <!-- SPRINT 6 -->
+    <section class="doc-section" id="sprint6">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Sprint 6 — Booking Infrastructure <span style="font-size:.8rem;font-weight:500;color:var(--muted)">💡 Future</span></h2>
+      <p>Advanced features for when booking volume is consistent and the business needs automation. These require more infrastructure investment — prioritize Sprints 1–5 first.</p>
 
       <div class="changelog">
         <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
-            <div class="title">Available dates calendar</div>
-            <div class="desc">Show which dates each tour is available. Managed in Sanity. Users can click a specific date to pre-fill the booking form. Similar to Trafalgar's "Dates & Prices" tab.</div>
+            <div class="title">Available dates calendar on tour pages</div>
+            <div class="desc">Managed in Sanity. Show confirmed departure dates. Users click a date to pre-fill the booking form. Trafalgar equivalent: "Dates & Prices" horizontal grid rows with "Guaranteed Departure" status badges.</div>
           </div>
           <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Future</div>
         </div>
         <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
-            <div class="title">GCash / payment inquiry flow</div>
-            <div class="desc">Allow customers to send a deposit via GCash as part of the booking confirmation. Not full payment processing — just a guided flow that reduces no-shows.</div>
+            <div class="title">Dynamic tour search + filter (/tours?destination=&amp;month=)</div>
+            <div class="desc">Hero widget search actually filters tour results via URL params. GROQ query on the server filters by destination tag and/or month. Adds a "X tours found" result count. Trafalgar's primary conversion mechanic.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Future</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">GCash deposit flow</div>
+            <div class="desc">Guided deposit flow to reduce no-shows. Not full payment processing — just a clear "send ₱500 deposit via GCash" step in the booking confirmation with the QR code and booking reference. Already partially built (GCash QR on confirmation screen).</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Future</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Next.js &lt;Image /&gt; rollout + loading skeletons</div>
+            <div class="desc">Replace all remaining &lt;img&gt; tags with Next.js &lt;Image /&gt; for WebP/AVIF optimization and CLS prevention. Add pulse skeleton loaders (animate-pulse bg-gray-100) matching card dimensions for Sanity data fetch states. cdn.sanity.io already added to next.config remotePatterns.</div>
           </div>
           <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Future</div>
         </div>
@@ -1231,22 +1410,10 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
           <div class="dot dot--feature"></div>
           <div class="info">
             <div class="title">Booking dashboard (owner view)</div>
-            <div class="desc">A simple internal page showing all inquiries, dates, and guest counts. Built on top of Sanity or a simple Google Sheet integration.</div>
+            <div class="desc">Simple internal page showing all Formspree inquiries with dates, tour names, group sizes. Built on Sanity or Google Sheets integration. Ivy and James can confirm/manage bookings without checking email.</div>
           </div>
           <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Future</div>
         </div>
-        <div class="changelog-item">
-          <div class="dot dot--design"></div>
-          <div class="info">
-            <div class="title">Downloadable PDF itinerary</div>
-            <div class="desc">Each tour page gets a "Download Itinerary" button that generates a branded PDF. Can be implemented by uploading a PDF to Sanity or generating one on-the-fly.</div>
-          </div>
-          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Future</div>
-        </div>
-      </div>
-
-      <div class="callout">
-        <strong>Note:</strong> Sprint 5 features require more infrastructure investment. Prioritize Sprints 2–4 first to build a solid user base, then revisit these when booking volume justifies the complexity.
       </div>
     </section>
 
