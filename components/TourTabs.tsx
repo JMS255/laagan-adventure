@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-interface Tab { id: string; label: string }
+import type { NavTab } from '@/lib/types'
 
 interface Props {
-  tabs: Tab[]
+  tabs: NavTab[]
   tourPrice?: number
   tourSlug?: string
 }

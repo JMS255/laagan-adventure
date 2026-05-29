@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-type Testimonial = { _id: string; name: string; tour: string; review: string; rating: number }
+import type { Testimonial } from '@/lib/types'
 
 const FALLBACK: Testimonial[] = [
   { _id: '1', name: 'Maria Santos', tour: 'Santa Cruz Island Tour', review: 'Sobrang ganda! Best tour experience namin sa Zamboanga. Very accommodating and professional ang guide namin. Babalik kami next year!', rating: 5 },

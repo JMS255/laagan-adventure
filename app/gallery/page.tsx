@@ -4,8 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { client, urlFor, GALLERY_QUERY } from '@/lib/sanity'
-
-type Photo = { _id: string; image: object; caption: string; destination: string }
+import type { GalleryPhoto as Photo } from '@/lib/types'
 
 export default function GalleryPage() {
   const [photos, setPhotos] = useState<Photo[]>([])

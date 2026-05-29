@@ -3,14 +3,7 @@
 import { useState } from 'react'
 import { urlFor } from '@/lib/sanity'
 
-interface DayItem {
-  _key?: string
-  dayLabel?: string
-  title: string
-  description?: string
-  photo?: object
-  highlights?: string[]
-}
+import type { DayItem } from '@/lib/types'
 
 export default function DayItinerary({ days }: { days: DayItem[] }) {
   const [openDays, setOpenDays] = useState<Set<number>>(new Set([0]))

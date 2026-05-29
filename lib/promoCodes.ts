@@ -1,16 +1,5 @@
-export interface PricingTier {
-  label: string
-  minPax: number
-  maxPax: number
-  pricePerPerson: number
-}
-
-export interface PromoResult {
-  valid: boolean
-  label: string
-  discount: number
-  finalTotal: number
-}
+import type { PricingTier, PromoResult } from '@/lib/types'
+export type { PricingTier, PromoResult } from '@/lib/types'
 
 // Add / remove promo codes here
 const CODES: Record<string, { discount: number; type: 'fixed' | 'percent'; label: string }> = {

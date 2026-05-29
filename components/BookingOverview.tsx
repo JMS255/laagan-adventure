@@ -3,20 +3,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { urlFor } from '@/lib/sanity'
-import { getPricePerPerson, applyPromo, type PricingTier } from '@/lib/promoCodes'
-
-interface Tour {
-  title: string
-  slug: { current: string }
-  mainImage?: object
-  duration?: string
-  destination?: string
-  price?: number
-  pricingTiers?: PricingTier[]
-}
+import { getPricePerPerson, applyPromo } from '@/lib/promoCodes'
+import type { TourCard } from '@/lib/types'
 
 interface Props {
-  tour: Tour
+  tour: TourCard & { pricingTiers?: import('@/lib/types').PricingTier[] }
   initialDate: string
   initialGuests: number
 }

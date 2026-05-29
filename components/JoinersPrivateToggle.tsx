@@ -3,12 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-interface PricingTier {
-  label: string
-  minPax: number
-  maxPax: number
-  pricePerPerson: number
-}
+import type { PricingTier } from '@/lib/types'
 
 interface Props {
   tourSlug: string

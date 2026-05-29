@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-interface FAQ { question: string; answer: string }
+import type { FAQItem as FAQ } from '@/lib/types'
 
 const DEFAULT_FAQS: FAQ[] = [
   {

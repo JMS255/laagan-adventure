@@ -1,17 +1,6 @@
 import Link from 'next/link'
 import { urlFor } from '@/lib/sanity'
-
-interface Tour {
-  _id: string
-  title: string
-  slug: { current: string }
-  tagline?: string
-  mainImage?: object
-  price?: number
-  priceNote?: string
-  duration?: string
-  destination?: string
-}
+import type { TourCard as Tour } from '@/lib/types'
 
 // Fallback cards when no Sanity tours exist yet
 const FALLBACK = [
