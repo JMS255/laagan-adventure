@@ -10,6 +10,7 @@ export default defineConfig({
   title: 'Laagan Adventure',
   projectId: 'o5mustem',
   dataset: 'production',
+  basePath: '/studio',
   plugins: [structureTool(), visionTool()],
   schema: { types: schemaTypes },
 })
