@@ -280,6 +280,14 @@
     <div class="sidebar__section">Changelog</div>
     <a href="#changelog">All Changes</a>
 
+    <div class="sidebar__section">Roadmap</div>
+    <a href="#roadmap">Sprint Overview</a>
+    <a href="#sprint1">Sprint 1 — Done ✅</a>
+    <a href="#sprint2">Sprint 2 — Next</a>
+    <a href="#sprint3">Sprint 3</a>
+    <a href="#sprint4">Sprint 4</a>
+    <a href="#sprint5">Sprint 5</a>
+
     <div class="sidebar__section">Guides</div>
     <a href="#adding-tours">Adding a Tour</a>
     <a href="#deployment">Deployment</a>
@@ -783,6 +791,297 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
           </div>
           <div class="commit">7d5c7f6</div>
         </div>
+      </div>
+    </section>
+
+    <!-- ROADMAP -->
+    <section class="doc-section" id="roadmap">
+      <p class="eyebrow">Planning</p>
+      <h2>Sprint Roadmap</h2>
+      <p>Development is organized into sprints. Each sprint focuses on a specific area of the product. Sprints have no fixed end date — they finish when the features are done and stable.</p>
+
+      <table>
+        <thead>
+          <tr><th>Sprint</th><th>Focus</th><th>Status</th><th>Est. Sessions</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sprint 1</strong></td>
+            <td>Foundation — all pages, booking system, visual identity, tour detail page</td>
+            <td><span style="color:var(--green);font-weight:700">✅ Complete</span></td>
+            <td>~15 sessions</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 2</strong></td>
+            <td>Homepage tour discovery, social proof, Easy Quote modal, gallery improvements</td>
+            <td><span style="color:var(--pink);font-weight:700">🔄 In Progress</span></td>
+            <td>~4 sessions</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 3</strong></td>
+            <td>Content & SEO — About page, first blog post, sitemap, OG images</td>
+            <td><span style="color:var(--muted);font-weight:700">⏳ Planned</span></td>
+            <td>~3 sessions</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 4</strong></td>
+            <td>UX polish — WhatsApp, testimonial form, mobile audit, animations</td>
+            <td><span style="color:var(--muted);font-weight:700">⏳ Planned</span></td>
+            <td>~3 sessions</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 5</strong></td>
+            <td>Booking calendar, GCash inquiry flow, analytics</td>
+            <td><span style="color:var(--muted);font-weight:700">💡 Future</span></td>
+            <td>~5 sessions</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SPRINT 1 -->
+    <section class="doc-section" id="sprint1">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Sprint 1 — Foundation <span style="font-size:.8rem;font-weight:500;color:var(--green)">✅ Complete</span></h2>
+      <p>Built the entire site from scratch. All pages, the booking system, visual identity, and the Trafalgar-style tour detail page.</p>
+
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Project initialization</div>
+            <div class="desc">Next.js 15 App Router + Sanity CMS. Schemas for tours, testimonials, gallery, blog posts. Vercel + GitHub setup.</div>
+          </div>
+          <div class="commit">7d5c7f6</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">All 7 pages scaffolded</div>
+            <div class="desc">Home, Tours, Gallery, About, Contact, Blog, Tour Detail — all with Sanity data fetching.</div>
+          </div>
+          <div class="commit">80e5b9f</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">AutoCamp-inspired homepage</div>
+            <div class="desc">Video hero, booking widget pinned to bottom, tour type grid, spotlight sections, testimonial carousel, group tours CTA.</div>
+          </div>
+          <div class="commit">c951477</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Full booking system</div>
+            <div class="desc">BookingWidget (white card, custom tour dropdown + date picker), BookingDrawer (slide-in panel), shared React Context state. All dropdowns use createPortal to escape overflow:hidden.</div>
+          </div>
+          <div class="commit">—</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Visual redesign — Pink Sand & Ocean palette</div>
+            <div class="desc">Replaced dark olive/lime with #d96b8a pink (Santa Cruz Island) + #004e64 ocean navy. Playfair Display for all h1/h2. White booking widget with drop shadow.</div>
+          </div>
+          <div class="commit">b84139a</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Trafalgar-style tour detail page</div>
+            <div class="desc">Sticky tabs + scrollspy, itinerary 2-col, travel highlights, Google Maps embed, FAQ accordion (6 default FAQs), sticky booking card, What's Included, Reviews, Similar Tours.</div>
+          </div>
+          <div class="commit">93d1849</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">ISR revalidation on all Sanity pages</div>
+            <div class="desc">Added <code>export const revalidate = 60</code> to homepage, tours, blog. Sanity publishes now appear on live site within 60 seconds.</div>
+          </div>
+          <div class="commit">f409357</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPRINT 2 -->
+    <section class="doc-section" id="sprint2">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Sprint 2 — Discovery & Social Proof <span style="font-size:.8rem;font-weight:500;color:var(--pink)">🔄 In Progress</span></h2>
+      <p>Make the homepage work harder. Visitors should be able to discover tours, see real people who've been on them, and inquire without friction.</p>
+
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Homepage tour discovery carousel</div>
+            <div class="desc">Replace the static gradient tour type grid with a Sanity-powered featured tours strip. Real photos, ratings, "View Tour" buttons. Horizontal scroll on mobile.</div>
+          </div>
+          <div class="commit" style="background:rgba(217,107,138,.1);color:var(--pink);border-color:rgba(217,107,138,.2)">Pending</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Social proof photo wall</div>
+            <div class="desc">UGC-style traveler photo grid on the homepage. Real faces from real tours. Grid layout with hover effects. Photos managed via Sanity gallery.</div>
+          </div>
+          <div class="commit" style="background:rgba(217,107,138,.1);color:var(--pink);border-color:rgba(217,107,138,.2)">Pending</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Easy Quote modal</div>
+            <div class="desc">Quick 4-field inquiry popup (name, phone, tour, date) triggered from any "Book Now" button. Submits to Formspree. Less friction than the full /contact page.</div>
+          </div>
+          <div class="commit" style="background:rgba(217,107,138,.1);color:var(--pink);border-color:rgba(217,107,138,.2)">Pending</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Gallery lightbox + swipe</div>
+            <div class="desc">Click any gallery photo to open fullscreen. Left/right arrows and swipe gesture to browse. Keyboard navigation (← → Escape).</div>
+          </div>
+          <div class="commit" style="background:rgba(217,107,138,.1);color:var(--pink);border-color:rgba(217,107,138,.2)">Pending</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPRINT 3 -->
+    <section class="doc-section" id="sprint3">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Sprint 3 — Content & SEO <span style="font-size:.8rem;font-weight:500;color:var(--muted)">⏳ Planned</span></h2>
+      <p>Fill in the content gaps and make sure Google can find and properly rank the site.</p>
+
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">About page — real content</div>
+            <div class="desc">Replace placeholder text with the real story of Laagan Adventure. Team photo, origin story, DTI registration details, mission statement.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">First blog post</div>
+            <div class="desc">"Complete Guide to Santa Cruz Island" or "Top 5 Things to Do in Zamboanga City". High-value SEO content targeting Zamboanga tourism searches.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">XML Sitemap</div>
+            <div class="desc">Auto-generated sitemap at /sitemap.xml covering all pages and tour slugs. Submitted to Google Search Console.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Open Graph images</div>
+            <div class="desc">Custom OG image for each tour page so links shared on Facebook/Messenger show a preview with the tour photo and name.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Google Search Console + Analytics setup</div>
+            <div class="desc">Verify domain, submit sitemap, set up Google Analytics 4 to track page views, tour clicks, and contact form conversions.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPRINT 4 -->
+    <section class="doc-section" id="sprint4">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Sprint 4 — UX Polish <span style="font-size:.8rem;font-weight:500;color:var(--muted)">⏳ Planned</span></h2>
+      <p>Refine the experience, add missing touchpoints, and make sure everything works perfectly on mobile.</p>
+
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">WhatsApp button</div>
+            <div class="desc">Add WhatsApp as a contact option alongside Messenger. Many Filipino travelers use WhatsApp. Floating button or inline CTAs.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Testimonial submission form</div>
+            <div class="desc">A simple form for past travelers to submit their review. Submissions go to Sanity as drafts, owner approves and publishes.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Full mobile UX audit</div>
+            <div class="desc">Test every page and interaction on real phone screen sizes. Fix any layout issues, tap targets too small, or text too small on mobile.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Scroll animations</div>
+            <div class="desc">Subtle fade-in / slide-up on sections as they enter the viewport. Makes the site feel more premium and polished.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPRINT 5 -->
+    <section class="doc-section" id="sprint5">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Sprint 5 — Booking & Analytics <span style="font-size:.8rem;font-weight:500;color:var(--muted)">💡 Future</span></h2>
+      <p>More advanced features for when the business is generating consistent bookings and needs more automation.</p>
+
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Available dates calendar</div>
+            <div class="desc">Show which dates each tour is available. Managed in Sanity. Users can click a specific date to pre-fill the booking form. Similar to Trafalgar's "Dates & Prices" tab.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Future</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">GCash / payment inquiry flow</div>
+            <div class="desc">Allow customers to send a deposit via GCash as part of the booking confirmation. Not full payment processing — just a guided flow that reduces no-shows.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Future</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Booking dashboard (owner view)</div>
+            <div class="desc">A simple internal page showing all inquiries, dates, and guest counts. Built on top of Sanity or a simple Google Sheet integration.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Future</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Downloadable PDF itinerary</div>
+            <div class="desc">Each tour page gets a "Download Itinerary" button that generates a branded PDF. Can be implemented by uploading a PDF to Sanity or generating one on-the-fly.</div>
+          </div>
+          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Future</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Note:</strong> Sprint 5 features require more infrastructure investment. Prioritize Sprints 2–4 first to build a solid user base, then revisit these when booking volume justifies the complexity.
       </div>
     </section>
 
