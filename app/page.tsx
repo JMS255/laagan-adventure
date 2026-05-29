@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import BookingWidget from '@/components/BookingWidget'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
 import DestinationShowcase from '@/components/DestinationShowcase'
+import ScrollReveal from '@/components/ScrollReveal'
 import { client, urlFor, TOURS_QUERY, TESTIMONIALS_QUERY, GALLERY_QUERY } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
@@ -91,7 +92,7 @@ export default async function HomePage() {
         </div>
 
         {/* ── TOUR DISCOVERY ── */}
-        <DestinationShowcase tours={allTours} />
+        <ScrollReveal><DestinationShowcase tours={allTours} /></ScrollReveal>
 
         {/* ── SPOTLIGHT 1 — Santa Cruz ── */}
         <div className="spotlight">
@@ -143,6 +144,7 @@ export default async function HomePage() {
         </div>
 
         {/* ── TESTIMONIALS ── */}
+        <ScrollReveal>
         <section className="section" style={{ background: '#fff' }}>
           <div className="container">
             <p className="section__label" style={{ textAlign: 'center' }}>What travelers say</p>
@@ -152,6 +154,7 @@ export default async function HomePage() {
             <TestimonialCarousel testimonials={testimonials} />
           </div>
         </section>
+        </ScrollReveal>
 
         {/* ── SOCIAL PROOF PHOTO WALL ── */}
         {galleryPhotos.length > 0 && (
@@ -186,6 +189,7 @@ export default async function HomePage() {
         )}
 
         {/* ── GROUP TOURS ── */}
+        <ScrollReveal>
         <section style={{ background: 'var(--bg-2)', padding: '0' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
             {[
@@ -201,6 +205,7 @@ export default async function HomePage() {
             ))}
           </div>
         </section>
+        </ScrollReveal>
 
         {/* ── FINAL CTA ── */}
         <section style={{ background: 'var(--navy)', padding: '96px 0' }}>
