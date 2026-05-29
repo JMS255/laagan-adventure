@@ -6,6 +6,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import TourTabs from '@/components/TourTabs'
 import FAQAccordion from '@/components/FAQAccordion'
+import QuickInquiryButton from '@/components/QuickInquiryButton'
 import { client, urlFor, TOUR_QUERY, SIMILAR_TOURS_QUERY, TESTIMONIALS_QUERY } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
@@ -300,14 +301,15 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 >
                   Book This Tour →
                 </Link>
+                <QuickInquiryButton tourName={tour.title} />
                 <a
                   href="https://m.me/61562040673545"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn--outline"
-                  style={{ width: '100%', justifyContent: 'center', fontSize: '.82rem', borderRadius: '10px' }}
+                  style={{ width: '100%', justifyContent: 'center', fontSize: '.82rem', borderRadius: '10px', marginTop: '8px' }}
                 >
-                  💬 Ask a Question
+                  💬 Ask on Messenger
                 </a>
 
                 <div style={{

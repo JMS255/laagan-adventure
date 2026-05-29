@@ -364,6 +364,10 @@ h1, h2 {
 .tours-scroll { display: flex; gap: 20px; width: max-content; }
 .tours-scroll .tour-card { width: 320px; flex-shrink: 0; }
 
+/* SOCIAL PROOF PHOTO WALL */
+.social-photo { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s; }
+.social-photo:hover { transform: scale(1.05); }
+
 /* TOUR DETAIL */
 .tour-detail-grid {
   display: grid;

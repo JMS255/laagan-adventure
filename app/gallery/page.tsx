@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { client, urlFor, GALLERY_QUERY } from '@/lib/sanity'
@@ -12,7 +12,7 @@ export default function GalleryPage() {
   const [filter, setFilter] = useState('All')
   const [lbOpen, setLbOpen] = useState(false)
   const [lbIdx, setLbIdx] = useState(0)
-  const touchStartX = useState<number | null>(null)
+  const touchStartX = useRef<number | null>(null)
 
   useEffect(() => {
     client.fetch(GALLERY_QUERY).then(setPhotos).catch(() => setPhotos([]))
@@ -88,23 +88,62 @@ export default function GalleryPage() {
 
       {/* Lightbox */}
       {lbOpen && (
-        <div onClick={() => setLbOpen(false)}
-          onTouchStart={e => { (touchStartX as unknown as { current: number | null }).current = e.touches[0].clientX }}
+        <div
+          onClick={() => setLbOpen(false)}
+          onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
           onTouchEnd={e => {
-            const start = (touchStartX as unknown as { current: number | null }).current
+            const start = touchStartX.current
             if (start === null) return
             const diff = start - e.changedTouches[0].clientX
             if (diff > 50 && lbIdx < photoUrls.length - 1) setLbIdx(i => i + 1)
             if (diff < -50 && lbIdx > 0) setLbIdx(i => i - 1)
+            touchStartX.current = null
           }}
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.96)', zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-          <button onClick={() => setLbOpen(false)} style={{ position: 'absolute', top: 20, right: 20, background: 'rgba(255,255,255,.1)', border: 'none', color: '#fff', width: 40, height: 40, borderRadius: '50%', fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
-          <button onClick={e => { e.stopPropagation(); setLbIdx(i => i - 1) }} disabled={lbIdx === 0}
-            style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,.12)', border: 'none', color: '#fff', width: 44, height: 44, borderRadius: '50%', fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: lbIdx === 0 ? .2 : 1 }}>←</button>
-          <img src={photoUrls[lbIdx]} alt="" onClick={e => e.stopPropagation()} style={{ maxWidth: '92vw', maxHeight: '88vh', objectFit: 'contain', borderRadius: '8px' }} />
-          <button onClick={e => { e.stopPropagation(); setLbIdx(i => i + 1) }} disabled={lbIdx === photoUrls.length - 1}
-            style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,.12)', border: 'none', color: '#fff', width: 44, height: 44, borderRadius: '50%', fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: lbIdx === photoUrls.length - 1 ? .2 : 1 }}>→</button>
-          <span style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', color: 'rgba(255,255,255,.5)', fontSize: '.72rem', fontWeight: 600 }}>{lbIdx + 1} / {photoUrls.length}</span>
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,.95)', zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          {/* Close */}
+          <button
+            onClick={() => setLbOpen(false)}
+            style={{ position: 'absolute', top: 20, right: 20, background: 'rgba(255,255,255,.12)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,.15)', color: '#fff', width: 44, height: 44, borderRadius: '50%', fontSize: '1.2rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1 }}
+          >
+            ×
+          </button>
+
+          {/* Prev */}
+          <button
+            onClick={e => { e.stopPropagation(); setLbIdx(i => i - 1) }}
+            disabled={lbIdx === 0}
+            style={{ position: 'absolute', left: 20, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,.12)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,.15)', color: '#fff', width: 52, height: 52, borderRadius: '50%', fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: lbIdx === 0 ? .25 : 1, transition: 'opacity .2s' }}
+          >
+            ←
+          </button>
+
+          {/* Image */}
+          <img
+            src={photoUrls[lbIdx]}
+            alt={filtered[lbIdx]?.caption || ''}
+            onClick={e => e.stopPropagation()}
+            style={{ maxWidth: '88vw', maxHeight: '85vh', objectFit: 'contain', borderRadius: '8px', boxShadow: '0 32px 80px rgba(0,0,0,.6)' }}
+          />
+
+          {/* Next */}
+          <button
+            onClick={e => { e.stopPropagation(); setLbIdx(i => i + 1) }}
+            disabled={lbIdx === photoUrls.length - 1}
+            style={{ position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,.12)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,.15)', color: '#fff', width: 52, height: 52, borderRadius: '50%', fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: lbIdx === photoUrls.length - 1 ? .25 : 1, transition: 'opacity .2s' }}
+          >
+            →
+          </button>
+
+          {/* Bottom bar: counter + caption */}
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '20px 24px', background: 'linear-gradient(to top, rgba(0,0,0,.7), transparent)', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            {filtered[lbIdx]?.caption ? (
+              <p style={{ color: 'rgba(255,255,255,.85)', fontSize: '.85rem', maxWidth: '60%' }}>{filtered[lbIdx].caption}</p>
+            ) : <span />}
+            <span style={{ color: 'rgba(255,255,255,.45)', fontSize: '.75rem', fontWeight: 600, flexShrink: 0 }}>
+              {lbIdx + 1} / {photoUrls.length}
+            </span>
+          </div>
         </div>
       )}
     </>
