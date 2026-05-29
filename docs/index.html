@@ -287,7 +287,7 @@
     <a href="#sprint1">Sprint 1 — Done ✅</a>
     <a href="#sprint2">Sprint 2 — Done ✅</a>
     <a href="#sprint3">Sprint 3 — Done ✅</a>
-    <a href="#sprint4">Sprint 4 — In Progress 🔄</a>
+    <a href="#sprint4">Sprint 4 — Done ✅</a>
     <a href="#sprint5">Sprint 5</a>
 
     <div class="sidebar__section">Guides</div>
@@ -711,6 +711,38 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
         <div class="changelog-item">
           <div class="dot dot--design"></div>
           <div class="info">
+            <div class="title">Frosted-glass navbar + staggered ScrollReveal on tours page</div>
+            <div class="desc">Nav background changed to rgba(255,255,255,.82) + backdrop-filter:blur(14px) — background content blurs behind it as you scroll. Tour cards on /tours page now cascade in with ScrollReveal (0.08s stagger per card). Inline type replaced with TourCard from lib/types.</div>
+          </div>
+          <div class="commit">a8a5b40</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Global type system — lib/types.ts</div>
+            <div class="desc">Single source of truth for all shared types: Tour, TourCard, PricingTier, DayItem, FAQItem, ItineraryItem, Testimonial, GalleryPhoto, BlogPost, PromoResult, NavTab, SanityImage. 8 components updated to import from lib/types instead of defining inline. lib/promoCodes.ts re-exports from lib/types. When a Sanity field changes, update one file — done.</div>
+          </div>
+          <div class="commit">cfc4eea</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Contact page — intent selector + Messenger deep-link (ContactFlow.tsx)</div>
+            <div class="desc">Complete rewrite. Three intent cards: Shared Joiners, Private Charter, General Question. Shared Joiners: tour/date/guests/name/phone → opens m.me with pre-filled message. Private Charter: ZAMBASULTA destination card builder (Zamboanga/Basilan/Sulu/Tawi-Tawi toggles) → pre-filled Messenger quote. General: FAQ accordion + Messenger CTA. No Formspree dependency.</div>
+          </div>
+          <div class="commit">884471f</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">framer-motion + ScrollReveal.tsx + next.config image domains</div>
+            <div class="desc">framer-motion installed. ScrollReveal component wraps any content for viewport-triggered fade+slide (opacity 0→1, y 28→0, 0.6s, once:true). Applied to homepage: DestinationShowcase, testimonials, group tours. next.config.ts updated with cdn.sanity.io remotePattern for Next.js Image optimization.</div>
+          </div>
+          <div class="commit">61cd5ce</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
             <div class="title">Sprint 4 — Plus Jakarta Sans, asymmetric grid, sticky CTA, Joiners/Private toggle</div>
             <div class="desc">Font upgraded to Plus Jakarta Sans. DestinationShowcase replaces flat grid. TourTabs now shows price + Book CTA. JoinersPrivateToggle replaces Dates & Prices section with two-tab UX matching ZAMBASULTA group travel patterns.</div>
           </div>
@@ -902,8 +934,8 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
           </tr>
           <tr>
             <td><strong>Sprint 4</strong></td>
-            <td>Premium UX — Plus Jakarta Sans font, asymmetric destination grid, sticky tab CTA, Joiners vs Private Charter toggle</td>
-            <td><span style="color:var(--pink);font-weight:700">🔄 In Progress</span></td>
+            <td>Premium UX — font, asymmetric grid, sticky CTA, Joiners/Private toggle, contact intent selector, ScrollReveal, frosted nav, global type system</td>
+            <td><span style="color:var(--green);font-weight:700">✅ Complete</span></td>
             <td>~3 sessions</td>
           </tr>
           <tr>
@@ -1109,8 +1141,8 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
     <!-- SPRINT 4 -->
     <section class="doc-section" id="sprint4">
       <p class="eyebrow">Roadmap</p>
-      <h2>Sprint 4 — Premium UX <span style="font-size:.8rem;font-weight:500;color:var(--pink)">🔄 In Progress</span></h2>
-      <p>Transition from a standard brochure site into a premium, Trafalgar-inspired travel experience. Inspired by the ZAMBASULTA market and how Filipino travelers actually book group tours.</p>
+      <h2>Sprint 4 — Premium UX <span style="font-size:.8rem;font-weight:500;color:var(--green)">✅ Complete</span></h2>
+      <p>Transitioned from a standard brochure site into a premium, Trafalgar-inspired travel experience. Inspired by the ZAMBASULTA market and how Filipino travelers actually book group tours.</p>
 
       <div class="changelog">
         <div class="changelog-item">
@@ -1144,6 +1176,30 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
             <div class="desc">Replaces the flat Dates & Prices section on tour pages. Two tabs: Shared Joiners (1–5 pax) shows existing pricingTiers table or base price; Private Charter (6+ pax) shows estimated group pricing (~12% off for 6–9 pax, ~22% off for 10+) with a custom quote CTA to /contact. Matches how Filipino group travel actually works.</div>
           </div>
           <div class="commit">a5c1a2d</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Contact page — interactive intent selector (ContactFlow.tsx)</div>
+            <div class="desc">Replaced stiff split-panel with a 3-card intent selector: Shared Joiners → pre-fills Messenger with tour details; Private Charter → ZAMBASULTA destination builder + Messenger deep-link; General Inquiry → FAQ accordion. Zero Formspree dependency — all routes to Messenger for instant conversion.</div>
+          </div>
+          <div class="commit">884471f</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">ScrollReveal + framer-motion + frosted navbar</div>
+            <div class="desc">framer-motion installed. ScrollReveal.tsx: reusable viewport-triggered fade+slide. Applied to homepage sections and /tours page (staggered 0.08s per card). Navbar updated to frosted-glass: rgba(255,255,255,.82) + backdrop-filter:blur(14px). cdn.sanity.io added to next.config image remotePatterns.</div>
+          </div>
+          <div class="commit">a8a5b40</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Global type system — lib/types.ts</div>
+            <div class="desc">Centralized all shared TypeScript types. 8 components now import from lib/types instead of defining inline. When a Sanity field changes, update one file. Types: Tour, TourCard, PricingTier, DayItem, FAQItem, Testimonial, GalleryPhoto, BlogPost, PromoResult, NavTab, SanityImage.</div>
+          </div>
+          <div class="commit">cfc4eea</div>
         </div>
       </div>
     </section>
