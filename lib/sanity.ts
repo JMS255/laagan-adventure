@@ -26,7 +26,9 @@ export const FEATURED_TOURS_QUERY = `*[_type == "tour" && featured == true] | or
 export const TOUR_QUERY = `*[_type == "tour" && slug.current == $slug][0] {
   _id, title, slug, tagline, description, mainImage, photos,
   price, priceNote, duration, destination,
-  inclusions, exclusions, itinerary, mapQuery, faq
+  inclusions, exclusions, itinerary,
+  dayItinerary[] { _key, dayLabel, title, description, highlights, photo },
+  mapQuery, faq
 }`
 
 export const SIMILAR_TOURS_QUERY = `*[_type == "tour" && slug.current != $slug] | order(_createdAt asc)[0...3] {

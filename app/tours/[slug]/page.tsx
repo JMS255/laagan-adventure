@@ -7,6 +7,7 @@ import Footer from '@/components/Footer'
 import TourTabs from '@/components/TourTabs'
 import FAQAccordion from '@/components/FAQAccordion'
 import QuickInquiryButton from '@/components/QuickInquiryButton'
+import DayItinerary from '@/components/DayItinerary'
 import { client, urlFor, TOUR_QUERY, SIMILAR_TOURS_QUERY, TESTIMONIALS_QUERY } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
@@ -136,7 +137,14 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 )}
               </section>
 
-              {/* Itinerary */}
+              {/* Day-by-Day Itinerary (multi-day tours) */}
+              {tour.dayItinerary?.length > 0 && (
+                <section style={{ marginBottom: '48px', scrollMarginTop: SCROLL_OFFSET }}>
+                  <DayItinerary days={tour.dayItinerary} />
+                </section>
+              )}
+
+              {/* Simple Itinerary (single-day hourly schedule) */}
               {tour.itinerary?.length > 0 && (
                 <section style={{ marginBottom: '48px', scrollMarginTop: SCROLL_OFFSET }}>
                   <h2 style={{
@@ -225,22 +233,36 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 </section>
               )}
 
-              {/* Photo Gallery */}
+              {/* UGC Photo Wall */}
               {tour.photos?.length > 0 && (
                 <section style={{ marginBottom: '48px' }}>
-                  <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '16px' }}>
-                    More Photos
-                  </h2>
-                  <div className="gallery-grid">
-                    {tour.photos.map((photo: object, i: number) => (
-                      <div key={i} className="gallery-item">
-                        <img
-                          src={urlFor(photo).width(400).height(300).url()}
-                          alt={`${tour.title} photo ${i + 1}`}
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
+                  <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                    <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '4px' }}>
+                      #LaaganaAdventure
+                    </h2>
+                    <p style={{ fontSize: '.8rem', color: 'var(--text-muted)' }}>
+                      Real moments from real travelers on this tour
+                    </p>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                    {tour.photos.map((photo: object, i: number) => {
+                      const isWide = (i === 0 || i === tour.photos.length - 1) && tour.photos.length > 3
+                      return (
+                        <div key={i} style={{
+                          gridColumn: isWide ? 'span 2' : 'span 1',
+                          aspectRatio: isWide ? '16/9' : '1/1',
+                          overflow: 'hidden', borderRadius: '8px',
+                          background: 'var(--bg-2)',
+                        }}>
+                          <img
+                            src={urlFor(photo).width(600).height(600).url()}
+                            alt={`${tour.title} photo ${i + 1}`}
+                            loading="lazy"
+                            className="social-photo"
+                          />
+                        </div>
+                      )
+                    })}
                   </div>
                 </section>
               )}

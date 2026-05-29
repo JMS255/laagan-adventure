@@ -24,13 +24,36 @@ export default defineType({
       of: [{ type: 'string' }],
     }),
     defineField({
-      name: 'itinerary', title: 'Itinerary', type: 'array',
+      name: 'itinerary', title: 'Simple Itinerary (time + activity)', type: 'array',
+      description: 'For single-day tours. Use Day-by-Day below for multi-day tours.',
       of: [{
         type: 'object',
         fields: [
           { name: 'time', title: 'Time', type: 'string' },
           { name: 'activity', title: 'Activity', type: 'string' },
         ],
+      }],
+    }),
+    defineField({
+      name: 'dayItinerary',
+      title: 'Day-by-Day Itinerary (multi-day tours)',
+      description: 'Use this for tours that span multiple days. Each item is one day with an expandable accordion.',
+      type: 'array',
+      of: [{
+        type: 'object',
+        name: 'dayItem',
+        fields: [
+          { name: 'dayLabel', title: 'Day Label', type: 'string', description: 'e.g. "Day 1", "Day 2"' },
+          { name: 'title', title: 'Day Title', type: 'string', description: 'e.g. "Arrive in Zamboanga City"' },
+          { name: 'photo', title: 'Day Photo', type: 'image', options: { hotspot: true } },
+          { name: 'description', title: 'What Happens This Day', type: 'text', rows: 4 },
+          {
+            name: 'highlights', title: 'Activity Highlights', type: 'array',
+            of: [{ type: 'string' }],
+            description: 'Key activities, e.g. "Island hopping to 3 islands", "Fresh seafood lunch at the pier"',
+          },
+        ],
+        preview: { select: { title: 'title', subtitle: 'dayLabel', media: 'photo' } },
       }],
     }),
     defineField({ name: 'destination', title: 'Destination Tag', type: 'string' }),
