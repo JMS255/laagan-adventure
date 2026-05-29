@@ -286,8 +286,8 @@
     <a href="#roadmap">Sprint Overview</a>
     <a href="#sprint1">Sprint 1 — Done ✅</a>
     <a href="#sprint2">Sprint 2 — Done ✅</a>
-    <a href="#sprint3">Sprint 3 — Next</a>
-    <a href="#sprint4">Sprint 4</a>
+    <a href="#sprint3">Sprint 3 — Done ✅</a>
+    <a href="#sprint4">Sprint 4 — In Progress 🔄</a>
     <a href="#sprint5">Sprint 5</a>
 
     <div class="sidebar__section">Guides</div>
@@ -709,6 +709,30 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
 
       <div class="changelog">
         <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Sprint 4 — Plus Jakarta Sans, asymmetric grid, sticky CTA, Joiners/Private toggle</div>
+            <div class="desc">Font upgraded to Plus Jakarta Sans. DestinationShowcase replaces flat grid. TourTabs now shows price + Book CTA. JoinersPrivateToggle replaces Dates & Prices section with two-tab UX matching ZAMBASULTA group travel patterns.</div>
+          </div>
+          <div class="commit">a5c1a2d</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Sprint 3 — Full mobile responsiveness audit</div>
+            <div class="desc">15 mobile issues fixed across 6 files. booking-grid, gcash-grid, contact-panel, founders-grid CSS classes. html/body overflow-x hidden. 860px/600px/480px breakpoints. Nav logo clip fixed.</div>
+          </div>
+          <div class="commit">e10f8a6</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Sprint 3 — Sitemap, robots.txt, OG images, GA4, Formspree fix</div>
+            <div class="desc">Auto-generated sitemap.xml from Sanity. robots.ts. Three OG images (site-wide, per-tour, per-blog) using next/og + local Inter TTF. GA4 via next/script (NEXT_PUBLIC_GA_ID). Formspree ID updated to xqejjkbp.</div>
+          </div>
+          <div class="commit">7a7cd44</div>
+        </div>
+        <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
             <div class="title">Full booking flow — Trip Overview + Passenger Details</div>
@@ -872,14 +896,14 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
           </tr>
           <tr>
             <td><strong>Sprint 3</strong></td>
-            <td>Content & SEO — About page, first blog post, sitemap, OG images, Google Analytics</td>
-            <td><span style="color:var(--pink);font-weight:700">🔄 Next</span></td>
+            <td>Content & SEO — About page real content, blog post seed, sitemap, OG images, Google Analytics, mobile audit</td>
+            <td><span style="color:var(--green);font-weight:700">✅ Complete</span></td>
             <td>~3 sessions</td>
           </tr>
           <tr>
             <td><strong>Sprint 4</strong></td>
-            <td>UX polish — WhatsApp, testimonial form, mobile audit, animations</td>
-            <td><span style="color:var(--muted);font-weight:700">⏳ Planned</span></td>
+            <td>Premium UX — Plus Jakarta Sans font, asymmetric destination grid, sticky tab CTA, Joiners vs Private Charter toggle</td>
+            <td><span style="color:var(--pink);font-weight:700">🔄 In Progress</span></td>
             <td>~3 sessions</td>
           </tr>
           <tr>
@@ -1035,7 +1059,7 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
     <!-- SPRINT 3 -->
     <section class="doc-section" id="sprint3">
       <p class="eyebrow">Roadmap</p>
-      <h2>Sprint 3 — Content & SEO <span style="font-size:.8rem;font-weight:500;color:var(--pink)">🔄 Next</span></h2>
+      <h2>Sprint 3 — Content & SEO <span style="font-size:.8rem;font-weight:500;color:var(--green)">✅ Complete</span></h2>
       <p>Fill in the content gaps and make sure Google can find and properly rank the site.</p>
 
       <div class="changelog">
@@ -1085,41 +1109,41 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
     <!-- SPRINT 4 -->
     <section class="doc-section" id="sprint4">
       <p class="eyebrow">Roadmap</p>
-      <h2>Sprint 4 — UX Polish <span style="font-size:.8rem;font-weight:500;color:var(--muted)">⏳ Planned</span></h2>
-      <p>Refine the experience, add missing touchpoints, and make sure everything works perfectly on mobile.</p>
+      <h2>Sprint 4 — Premium UX <span style="font-size:.8rem;font-weight:500;color:var(--pink)">🔄 In Progress</span></h2>
+      <p>Transition from a standard brochure site into a premium, Trafalgar-inspired travel experience. Inspired by the ZAMBASULTA market and how Filipino travelers actually book group tours.</p>
 
       <div class="changelog">
         <div class="changelog-item">
-          <div class="dot dot--feature"></div>
-          <div class="info">
-            <div class="title">WhatsApp button</div>
-            <div class="desc">Add WhatsApp as a contact option alongside Messenger. Many Filipino travelers use WhatsApp. Floating button or inline CTAs.</div>
-          </div>
-          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
-        </div>
-        <div class="changelog-item">
-          <div class="dot dot--feature"></div>
-          <div class="info">
-            <div class="title">Testimonial submission form</div>
-            <div class="desc">A simple form for past travelers to submit their review. Submissions go to Sanity as drafts, owner approves and publishes.</div>
-          </div>
-          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
-        </div>
-        <div class="changelog-item">
-          <div class="dot dot--fix"></div>
-          <div class="info">
-            <div class="title">Full mobile UX audit</div>
-            <div class="desc">Test every page and interaction on real phone screen sizes. Fix any layout issues, tap targets too small, or text too small on mobile.</div>
-          </div>
-          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
-        </div>
-        <div class="changelog-item">
           <div class="dot dot--design"></div>
           <div class="info">
-            <div class="title">Scroll animations</div>
-            <div class="desc">Subtle fade-in / slide-up on sections as they enter the viewport. Makes the site feel more premium and polished.</div>
+            <div class="title">Font upgrade — Plus Jakarta Sans</div>
+            <div class="desc">Replaced Inter with Plus Jakarta Sans for the sans-serif stack. More geometric, slightly more premium feel. Playfair Display kept for all h1/h2 display headings. Variable: --font-sans.</div>
           </div>
-          <div class="commit" style="background:rgba(78,110,128,.08);color:var(--muted);border-color:var(--border)">Planned</div>
+          <div class="commit">a5c1a2d</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Asymmetric destination showcase (DestinationShowcase.tsx)</div>
+            <div class="desc">Replaced flat 3-column tours-grid with a 7/5 asymmetric layout. Hero tour takes left 58% as a tall card; two secondary tours stack on the right. Uses Sanity photos when available, falls back to gradient cards. Responsive: side-by-side at 860px+, stacked below.</div>
+          </div>
+          <div class="commit">a5c1a2d</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Sticky tab bar with price + Book CTA (TourTabs.tsx)</div>
+            <div class="desc">The sticky tab navigation on tour pages now shows the tour price and a "Book →" button on the right side as users scroll. Hidden on mobile (&lt;600px) via .tour-tabs-cta class to keep tabs uncluttered. Pass tourPrice + tourSlug props to activate.</div>
+          </div>
+          <div class="commit">a5c1a2d</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Joiners vs Private Charter toggle (JoinersPrivateToggle.tsx)</div>
+            <div class="desc">Replaces the flat Dates & Prices section on tour pages. Two tabs: Shared Joiners (1–5 pax) shows existing pricingTiers table or base price; Private Charter (6+ pax) shows estimated group pricing (~12% off for 6–9 pax, ~22% off for 10+) with a custom quote CTA to /contact. Matches how Filipino group travel actually works.</div>
+          </div>
+          <div class="commit">a5c1a2d</div>
         </div>
       </div>
     </section>

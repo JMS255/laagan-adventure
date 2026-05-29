@@ -38,28 +38,30 @@ export default function JoinersPrivateToggle({
 
       {/* Tab toggle */}
       <div style={{
-        display: 'inline-flex', gap: 0,
+        display: 'flex', gap: 0,
         background: 'var(--bg-2)', border: '1px solid var(--border)',
-        borderRadius: '12px', padding: '5px', marginBottom: '24px',
+        borderRadius: '14px', padding: '5px', marginBottom: '24px',
+        maxWidth: '480px',
       }}>
         {([
-          { id: 'joiners', label: '👥 Shared Joiners', sub: '1–5 pax' },
-          { id: 'private', label: '🔑 Private Charter', sub: '6+ pax' },
+          { id: 'joiners', label: '👥 Shared Joiners', sub: '1–5 pax · split cost' },
+          { id: 'private', label: '🔑 Private Charter', sub: '6+ pax · exclusive' },
         ] as const).map(t => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
             style={{
-              padding: '10px 18px', borderRadius: '8px', border: 'none',
-              cursor: 'pointer', fontFamily: 'inherit', transition: 'all .2s',
+              flex: 1, padding: '12px 16px', borderRadius: '10px', border: 'none',
+              cursor: 'pointer', fontFamily: 'inherit', transition: 'all .25s',
               background: tab === t.id ? '#fff' : 'transparent',
-              boxShadow: tab === t.id ? '0 2px 8px rgba(0,0,0,.08)' : 'none',
+              boxShadow: tab === t.id ? '0 2px 12px rgba(0,0,0,.1)' : 'none',
+              textAlign: 'center',
             }}
           >
-            <span style={{ fontSize: '.82rem', fontWeight: 700, color: tab === t.id ? 'var(--navy)' : 'var(--text-muted)', display: 'block' }}>
+            <span style={{ fontSize: '.82rem', fontWeight: 700, color: tab === t.id ? 'var(--navy)' : 'var(--text-muted)', display: 'block', marginBottom: '2px' }}>
               {t.label}
             </span>
-            <span style={{ fontSize: '.65rem', color: 'var(--text-muted)' }}>{t.sub}</span>
+            <span style={{ fontSize: '.65rem', color: tab === t.id ? 'var(--pink)' : 'var(--text-muted)', fontWeight: 600 }}>{t.sub}</span>
           </button>
         ))}
       </div>
@@ -122,44 +124,47 @@ export default function JoinersPrivateToggle({
 
       {/* ── PRIVATE TAB ── */}
       {tab === 'private' && (
-        <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', padding: '28px 32px', textAlign: 'center' }}>
-          <p style={{ fontSize: '2.5rem', marginBottom: '12px' }}>🚐</p>
-          <h3 style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--navy)', marginBottom: '10px', letterSpacing: '-.02em' }}>
+        <div style={{ background: 'var(--navy)', borderRadius: '16px', padding: '40px 32px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+          {/* Subtle pattern overlay */}
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 70% 20%, rgba(217,107,138,.15) 0%, transparent 60%)', pointerEvents: 'none' }} />
+
+          <p style={{ fontSize: '2.8rem', marginBottom: '14px', position: 'relative' }}>🚐</p>
+          <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#fff', marginBottom: '10px', letterSpacing: '-.02em', position: 'relative' }}>
             Exclusive Private Charter
           </h3>
-          <p style={{ fontSize: '.88rem', color: 'var(--text-muted)', lineHeight: 1.75, maxWidth: '440px', margin: '0 auto 24px' }}>
-            Traveling with 6 or more? Get a <strong style={{ color: 'var(--navy)' }}>private vehicle</strong>, <strong style={{ color: 'var(--navy)' }}>flexible dates</strong>, and exclusive access — no other groups, just your party.
+          <p style={{ fontSize: '.88rem', color: 'rgba(255,255,255,.65)', lineHeight: 1.75, maxWidth: '400px', margin: '0 auto 28px', position: 'relative' }}>
+            Traveling with 6 or more? Get a private vehicle, flexible dates, and exclusive access — no strangers, just your group.
           </p>
 
           {/* Group pricing grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', maxWidth: '360px', margin: '0 auto 24px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', maxWidth: '380px', margin: '0 auto 28px', position: 'relative' }}>
             {privateRates.map(r => (
-              <div key={r.label} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px' }}>
-                <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '6px' }}>{r.label}</p>
-                <p style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--navy)', lineHeight: 1 }}>
+              <div key={r.label} style={{ background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.12)', borderRadius: '14px', padding: '18px 16px', backdropFilter: 'blur(8px)' }}>
+                <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--pink)', marginBottom: '8px' }}>{r.label}</p>
+                <p style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff', lineHeight: 1, marginBottom: '4px' }}>
                   {r.price ? `~₱${r.price.toLocaleString()}` : 'Custom'}
                 </p>
-                <p style={{ fontSize: '.7rem', color: 'var(--text-muted)', marginTop: '2px' }}>{r.sub}</p>
+                <p style={{ fontSize: '.7rem', color: 'rgba(255,255,255,.45)' }}>{r.sub}</p>
               </div>
             ))}
           </div>
 
-          <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
             <Link
               href={`/contact?tour=${encodeURIComponent(tourTitle)}`}
               className="btn btn--primary"
-              style={{ fontFamily: 'inherit', borderRadius: '10px' }}
+              style={{ fontFamily: 'inherit', borderRadius: '10px', padding: '14px 28px' }}
             >
               Request Private Quote →
             </Link>
             <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer"
-              className="btn btn--outline" style={{ borderRadius: '10px' }}>
+              className="btn btn--outline-light" style={{ borderRadius: '10px' }}>
               💬 Message Us
             </a>
           </div>
 
-          <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', marginTop: '16px' }}>
-            Prices shown are estimated. We'll send a custom quote within 24 hours.
+          <p style={{ fontSize: '.72rem', color: 'rgba(255,255,255,.35)', marginTop: '18px', position: 'relative' }}>
+            Prices shown are estimates. We'll send a confirmed quote within 24 hours.
           </p>
         </div>
       )}

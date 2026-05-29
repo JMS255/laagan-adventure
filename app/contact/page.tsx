@@ -15,13 +15,6 @@ const TOURS = [
   'Custom / Group Tour',
 ]
 
-const HIGHLIGHTS = [
-  { icon: '🏖️', title: 'Santa Cruz Island', sub: 'Pink sand · Crystal water' },
-  { icon: '🏛️', title: 'City Heritage Tour', sub: 'Forts · Mosques · History' },
-  { icon: '⛵', title: 'Island Hopping', sub: 'Multiple islands · Full day' },
-  { icon: '🗺️', title: 'ZambaSulta + ZamPen', sub: 'Two provinces · One trip' },
-]
-
 export default function ContactPage({
   searchParams,
 }: {
@@ -34,82 +27,34 @@ export default function ContactPage({
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 'var(--nav-h)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <main style={{ paddingTop: 'var(--nav-h)', background: 'var(--bg-2)', minHeight: '100vh' }}>
 
-        <div className="contact-split" style={{ flex: 1 }}>
-
-          {/* ── LEFT PANEL — dark, sticky ── */}
-          <div className="contact-panel-left">
-            <div>
-              <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '20px' }}>
-                Laagan Adventure · Zamboanga City
-              </p>
-              <h1 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', lineHeight: 1.15, marginBottom: '16px' }}>
-                Let&rsquo;s plan your<br />
-                <span style={{ color: 'var(--pink)' }}>Zamboanga adventure.</span>
-              </h1>
-              <p style={{ fontSize: '.9rem', color: 'rgba(255,255,255,.55)', lineHeight: 1.75, marginBottom: '40px', maxWidth: '340px' }}>
-                No upfront payment. No booking fees. Just tell us when you want to go and we&rsquo;ll handle everything.
-              </p>
-
-              {/* Tour highlights */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px' }}>
-                {HIGHLIGHTS.map(h => (
-                  <div key={h.title} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 16px', borderRadius: '10px', background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.08)' }}>
-                    <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{h.icon}</span>
-                    <div>
-                      <p style={{ fontSize: '.88rem', fontWeight: 700, color: '#fff', lineHeight: 1 }}>{h.title}</p>
-                      <p style={{ fontSize: '.72rem', color: 'rgba(255,255,255,.4)', marginTop: '3px' }}>{h.sub}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Contact details */}
-            <div style={{ borderTop: '1px solid rgba(255,255,255,.1)', paddingTop: '28px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
-                {[
-                  { icon: '📞', text: '0905-243-5196 / 0926-904-8927' },
-                  { icon: '📧', text: 'ivyeisma255@gmail.com' },
-                  { icon: '📍', text: 'Baliwasan, Zamboanga City' },
-                ].map(c => (
-                  <div key={c.text} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <span style={{ fontSize: '1rem', flexShrink: 0 }}>{c.icon}</span>
-                    <span style={{ fontSize: '.82rem', color: 'rgba(255,255,255,.55)' }}>{c.text}</span>
-                  </div>
-                ))}
-              </div>
-              <a
-                href="https://m.me/61562040673545"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  background: 'var(--pink)', color: '#fff',
-                  fontWeight: 800, fontSize: '.78rem', letterSpacing: '.04em',
-                  padding: '12px 22px', borderRadius: '8px',
-                  textDecoration: 'none', transition: 'opacity .15s',
-                }}
-              >
-                💬 Message on Messenger
-              </a>
-            </div>
-          </div>
-
-          {/* ── RIGHT PANEL — form ── */}
-          <div className="contact-panel-right">
-            <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>
-              Inquiry form
+        {/* Header */}
+        <div style={{ background: 'var(--navy)', padding: '64px 0 80px' }}>
+          <div className="container" style={{ maxWidth: '720px', textAlign: 'center' }}>
+            <p className="section__label" style={{ color: 'var(--pink)' }}>No upfront payment · Reply within 24 hours</p>
+            <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', lineHeight: 1.15, marginBottom: '14px' }}>
+              Let&rsquo;s plan your Zamboanga adventure.
+            </h1>
+            <p style={{ color: 'rgba(255,255,255,.6)', fontSize: '1rem', lineHeight: 1.7 }}>
+              Tell us what you&rsquo;re looking for. We&rsquo;ll handle everything else.
             </p>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.02em', marginBottom: '32px' }}>
-              Tell us about your trip
-            </h2>
+          </div>
+        </div>
 
-            <form action="https://formspree.io/f/xpwzgwnn" method="POST">
+        {/* Form card */}
+        <div className="container" style={{ maxWidth: '720px', marginTop: '-40px', paddingBottom: '80px' }}>
+          <div style={{
+            background: '#fff',
+            borderRadius: '24px',
+            padding: '48px',
+            boxShadow: '0 8px 48px rgba(0,40,70,.10)',
+            border: '1px solid var(--border)',
+          }}>
+            <form action="https://formspree.io/f/xqejjkbp" method="POST">
               <input type="hidden" name="_subject" value="New Tour Inquiry — Laagan Adventure" />
 
-              <div className="form-row">
+              <div className="form-row" style={{ marginBottom: 0 }}>
                 <div className="form-group">
                   <label>Full Name *</label>
                   <input type="text" name="name" required placeholder="Juan dela Cruz" />
@@ -133,7 +78,7 @@ export default function ContactPage({
                 </select>
               </div>
 
-              <div className="form-row">
+              <div className="form-row" style={{ marginBottom: 0 }}>
                 <div className="form-group">
                   <label>Preferred Date *</label>
                   <input type="date" name="date" required defaultValue={defaultDate} />
@@ -156,25 +101,59 @@ export default function ContactPage({
                   background: 'var(--pink)',
                   color: '#fff',
                   border: 'none',
-                  borderRadius: '10px',
-                  padding: '16px',
+                  borderRadius: '12px',
+                  padding: '18px',
                   fontFamily: 'inherit',
-                  fontSize: '.88rem',
+                  fontSize: '.95rem',
                   fontWeight: 800,
-                  letterSpacing: '.04em',
+                  letterSpacing: '.03em',
                   cursor: 'pointer',
-                  transition: 'opacity .15s, transform .15s',
+                  transition: 'background .2s, transform .2s',
                 }}
               >
                 Send Inquiry →
               </button>
 
-              <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', marginTop: '12px', textAlign: 'center' }}>
+              <p style={{ fontSize: '.75rem', color: 'var(--text-muted)', marginTop: '12px', textAlign: 'center', lineHeight: 1.6 }}>
                 We reply within 24 hours · No payment required to inquire
               </p>
             </form>
           </div>
 
+          {/* Contact details row */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '16px',
+            marginTop: '24px',
+          }}>
+            {[
+              { icon: '📞', label: 'Call or Viber', value: '0905-243-5196', href: 'tel:09052435196' },
+              { icon: '💬', label: 'Facebook Messenger', value: 'Message us', href: 'https://m.me/61562040673545' },
+              { icon: '📍', label: 'Based in', value: 'Baliwasan, Zamboanga City', href: undefined },
+            ].map(c => (
+              <div key={c.label} style={{
+                background: '#fff',
+                border: '1px solid var(--border)',
+                borderRadius: '16px',
+                padding: '20px',
+                textAlign: 'center',
+              }}>
+                <p style={{ fontSize: '1.5rem', marginBottom: '8px' }}>{c.icon}</p>
+                <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '4px' }}>
+                  {c.label}
+                </p>
+                {c.href ? (
+                  <a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
+                    style={{ fontSize: '.85rem', fontWeight: 700, color: 'var(--navy)', textDecoration: 'none' }}>
+                    {c.value}
+                  </a>
+                ) : (
+                  <p style={{ fontSize: '.85rem', fontWeight: 600, color: 'var(--navy)' }}>{c.value}</p>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
       </main>

@@ -369,46 +369,52 @@ h1, h2 {
 .dest-showcase {
   display: grid;
   grid-template-columns: 7fr 5fr;
-  gap: 20px;
+  gap: 16px;
 }
 .dest-stack {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
 }
 .dest-card {
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 24px;
   display: block;
   text-decoration: none;
   cursor: pointer;
-  transition: transform .3s ease, box-shadow .3s ease;
+  transition: transform .4s cubic-bezier(.25,.46,.45,.94), box-shadow .4s ease;
   min-height: 280px;
+  background: var(--navy-2);
 }
-.dest-showcase > .dest-card { min-height: 560px; }
+.dest-showcase > .dest-card { min-height: 580px; }
 .dest-stack .dest-card { flex: 1; min-height: 0; }
-.dest-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,40,70,.18); }
+.dest-card:hover { transform: translateY(-6px); box-shadow: 0 24px 64px rgba(0,40,70,.22); }
 .dest-card__overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,20,40,.88) 0%, rgba(0,20,40,.1) 55%, transparent 100%);
+  background: linear-gradient(to top, rgba(0,15,35,.92) 0%, rgba(0,15,35,.25) 50%, rgba(0,15,35,.05) 100%);
+  transition: opacity .4s ease;
 }
+.dest-card:hover .dest-card__overlay { opacity: .85; }
 .dest-card__body {
   position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 28px;
+  padding: 32px;
 }
-.dest-card img { transition: transform .5s ease; }
-.dest-card:hover img { transform: scale(1.04); }
+.dest-card__body h3 { text-shadow: 0 2px 8px rgba(0,0,0,.4); }
+.dest-card__body p  { text-shadow: 0 1px 4px rgba(0,0,0,.3); }
+.dest-card img { transition: transform .6s cubic-bezier(.25,.46,.45,.94); width: 100%; height: 100%; object-fit: cover; }
+.dest-card:hover img { transform: scale(1.05); }
 
 @media (max-width: 860px) {
   .dest-showcase { grid-template-columns: 1fr; }
-  .dest-showcase > .dest-card { min-height: 400px; }
+  .dest-showcase > .dest-card { min-height: 420px; }
   .dest-stack { flex-direction: row; }
-  .dest-stack .dest-card { min-height: 240px; }
+  .dest-stack .dest-card { min-height: 260px; }
 }
 @media (max-width: 600px) {
   .dest-stack { flex-direction: column; }
-  .dest-stack .dest-card { min-height: 200px; }
+  .dest-stack .dest-card { min-height: 220px; }
+  .dest-card__body { padding: 24px; }
 }
 
 /* TOUR TABS CTA — hide on small phones */
