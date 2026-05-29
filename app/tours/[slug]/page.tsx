@@ -6,6 +6,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import TourTabs from '@/components/TourTabs'
 import FAQAccordion from '@/components/FAQAccordion'
+import JoinersPrivateToggle from '@/components/JoinersPrivateToggle'
 import QuickInquiryButton from '@/components/QuickInquiryButton'
 import DayItinerary from '@/components/DayItinerary'
 import { client, urlFor, TOUR_QUERY, SIMILAR_TOURS_QUERY, TESTIMONIALS_QUERY } from '@/lib/sanity'
@@ -104,7 +105,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
         </div>
 
         {/* ── STICKY TABS ── */}
-        <TourTabs tabs={tabs} />
+        <TourTabs tabs={tabs} tourPrice={tour.price} tourSlug={tour.slug.current} />
 
         {/* ── MAIN CONTENT ── */}
         <div className="container">
@@ -270,68 +271,17 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
 
               {/* Dates & Prices */}
               <section id="pricing" style={{ marginBottom: '56px', scrollMarginTop: SCROLL_OFFSET }}>
-                <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '6px' }}>
+                <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '20px' }}>
                   Dates &amp; Prices
                 </h2>
-                <p style={{ fontSize: '.82rem', color: 'var(--text-muted)', marginBottom: '24px' }}>
-                  {tour.availabilityNote || 'Available daily, subject to weather and minimum group size.'}
-                </p>
-
-                {tour.pricingTiers?.length > 0 ? (
-                  <div className="pricing-tiers" style={{ border: '1px solid var(--border)', borderRadius: '12px', overflow: 'hidden' }}>
-                    <div className="pricing-tiers-grid">
-                    {/* Table header */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: '0', background: 'var(--bg-2)', padding: '12px 20px', borderBottom: '1px solid var(--border)' }}>
-                      {['Group Size', 'Per Person', 'Est. Total', ''].map(h => (
-                        <span key={h} style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>{h}</span>
-                      ))}
-                    </div>
-                    {tour.pricingTiers.map((tier: { label: string; minPax: number; maxPax: number; pricePerPerson: number }, i: number) => (
-                      <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr auto', gap: '0', padding: '16px 20px', borderBottom: i < tour.pricingTiers.length - 1 ? '1px solid var(--border)' : 'none', alignItems: 'center', background: '#fff' }}>
-                        <span style={{ fontSize: '.88rem', fontWeight: 600, color: 'var(--navy)' }}>{tier.label}</span>
-                        <span style={{ fontSize: '.88rem', fontWeight: 700, color: 'var(--navy)' }}>
-                          {tier.pricePerPerson ? `₱${tier.pricePerPerson.toLocaleString()}` : 'Contact us'}
-                        </span>
-                        <span style={{ fontSize: '.82rem', color: 'var(--text-muted)' }}>
-                          {tier.pricePerPerson && tier.minPax
-                            ? `From ₱${(tier.pricePerPerson * tier.minPax).toLocaleString()}`
-                            : '—'}
-                        </span>
-                        {tier.pricePerPerson ? (
-                          <Link
-                            href={`/book/${tour.slug.current}?guests=${tier.minPax || 1}`}
-                            style={{ fontSize: '.75rem', fontWeight: 700, color: 'var(--pink)', textDecoration: 'none', whiteSpace: 'nowrap' }}
-                          >
-                            Book →
-                          </Link>
-                        ) : (
-                          <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer"
-                            style={{ fontSize: '.75rem', fontWeight: 700, color: 'var(--pink)', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                            Inquire →
-                          </a>
-                        )}
-                      </div>
-                    ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '12px', padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-                    <div>
-                      <p style={{ fontSize: '.75rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--pink)', marginBottom: '4px' }}>Starting from</p>
-                      <p style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.02em', lineHeight: 1 }}>
-                        ₱{tour.price?.toLocaleString() ?? '—'}
-                      </p>
-                      <p style={{ fontSize: '.78rem', color: 'var(--text-muted)', marginTop: '4px' }}>{tour.priceNote || 'per person'}</p>
-                    </div>
-                    <Link href={`/book/${tour.slug.current}`} className="btn btn--primary" style={{ borderRadius: '10px', fontFamily: 'inherit' }}>
-                      Book This Tour →
-                    </Link>
-                  </div>
-                )}
-
-                <div style={{ marginTop: '16px', padding: '14px 18px', background: 'rgba(217,107,138,.06)', border: '1px solid rgba(217,107,138,.15)', borderRadius: '10px', fontSize: '.8rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>
-                  💡 <strong style={{ color: 'var(--navy)' }}>No upfront payment.</strong> Book your preferred date and we&rsquo;ll confirm within 24 hours. Payment is collected on the day of the tour.
-                </div>
+                <JoinersPrivateToggle
+                  tourSlug={tour.slug.current}
+                  tourTitle={tour.title}
+                  basePrice={tour.price}
+                  priceNote={tour.priceNote}
+                  pricingTiers={tour.pricingTiers}
+                  availabilityNote={tour.availabilityNote}
+                />
               </section>
 
               {/* FAQ */}

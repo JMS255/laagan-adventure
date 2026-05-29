@@ -5,6 +5,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import BookingWidget from '@/components/BookingWidget'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
+import DestinationShowcase from '@/components/DestinationShowcase'
 import { client, urlFor, TOURS_QUERY, TESTIMONIALS_QUERY, GALLERY_QUERY } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
@@ -90,64 +91,7 @@ export default async function HomePage() {
         </div>
 
         {/* ── TOUR DISCOVERY ── */}
-        <section style={{ padding: '80px 0', background: '#fff' }}>
-          <div className="container">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '24px', marginBottom: '48px' }}>
-              <div>
-                <p className="section__label">What we offer</p>
-                <h2 className="section__title" style={{ marginBottom: 0 }}>Pick your Zamboanga adventure.</h2>
-              </div>
-              <Link href="/tours" className="btn btn--outline" style={{ flexShrink: 0 }}>View All Tours</Link>
-            </div>
-
-            {allTours.length > 0 ? (
-              <div className="tours-grid">
-                {allTours.map((tour: {
-                  _id: string; title: string; slug: { current: string };
-                  tagline: string; mainImage: object; price: number;
-                  priceNote: string; duration: string; destination: string;
-                }) => (
-                  <Link href={`/tours/${tour.slug.current}`} className="tour-card" key={tour._id}>
-                    <div className="tour-card__img">
-                      {tour.mainImage ? (
-                        <img src={urlFor(tour.mainImage).width(600).height(450).url()} alt={tour.title} />
-                      ) : (
-                        <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, var(--navy-2), var(--navy))' }} />
-                      )}
-                    </div>
-                    <div className="tour-card__body">
-                      <p className="tour-card__tag">{tour.destination || 'Zamboanga City'}</p>
-                      <h3 className="tour-card__title">{tour.title}</h3>
-                      <p className="tour-card__desc">{tour.tagline}</p>
-                      <div className="tour-card__footer">
-                        <div>
-                          {tour.price && <p className="tour-card__price">₱{tour.price.toLocaleString()}</p>}
-                          <p className="tour-card__price-note">{tour.priceNote || tour.duration}</p>
-                        </div>
-                        <span className="tour-card__cta">View Tour →</span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="tour-types-grid">
-                {TOUR_TYPES.map(t => (
-                  <Link href="/tours" className="tour-type-card" key={t.name}>
-                    <div className="tour-type-card__bg" style={{ background: t.gradient, position: 'absolute', inset: 0 }} />
-                    <div className="tour-type-card__overlay" />
-                    <div className="tour-type-card__body">
-                      <p className="tour-type-card__tag">{t.tag}</p>
-                      <h3 className="tour-type-card__name">{t.name}</h3>
-                      <p style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.7)', marginBottom: '4px' }}>{t.desc}</p>
-                      <p className="tour-type-card__price">{t.price}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
+        <DestinationShowcase tours={allTours} />
 
         {/* ── SPOTLIGHT 1 — Santa Cruz ── */}
         <div className="spotlight">

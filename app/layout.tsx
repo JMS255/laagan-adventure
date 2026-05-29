@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Playfair_Display } from 'next/font/google'
+import { Plus_Jakarta_Sans, Playfair_Display } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
 import MessengerFloat from '@/components/MessengerFloat'
@@ -8,8 +8,8 @@ import BookingDrawer from '@/components/BookingDrawer'
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-display', style: ['normal', 'italic'] })
+const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-display', style: ['normal', 'italic'], display: 'swap' })
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${jakarta.variable} ${playfair.variable}`}>
       <body>
         <BookingProvider>
           {children}
