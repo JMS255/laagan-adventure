@@ -3,7 +3,9 @@ export const revalidate = 60
 import Link from 'next/link'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import ScrollReveal from '@/components/ScrollReveal'
 import { client, urlFor, TOURS_QUERY } from '@/lib/sanity'
+import type { TourCard } from '@/lib/types'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -37,12 +39,9 @@ export default async function ToursPage() {
           <div className="container">
             {tours.length > 0 ? (
               <div className="tours-grid">
-                {tours.map((tour: {
-                  _id: string; title: string; slug: { current: string };
-                  tagline: string; mainImage: object; price: number;
-                  priceNote: string; duration: string; destination: string;
-                }) => (
-                  <Link href={`/tours/${tour.slug.current}`} className="tour-card" key={tour._id}>
+                {tours.map((tour: TourCard, i: number) => (
+                  <ScrollReveal key={tour._id} delay={i * 0.08}>
+                  <Link href={`/tours/${tour.slug.current}`} className="tour-card" style={{ height: '100%' }}>
                     <div className="tour-card__img">
                       {tour.mainImage && (
                         <img src={urlFor(tour.mainImage).width(600).height(450).url()} alt={tour.title} />
@@ -61,6 +60,7 @@ export default async function ToursPage() {
                       </div>
                     </div>
                   </Link>
+                  </ScrollReveal>
                 ))}
               </div>
             ) : (

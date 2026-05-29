@@ -63,8 +63,10 @@ h1, h2 {
 /* NAV — part of .site-header, NOT fixed itself */
 .nav {
   height: var(--nav-bar-h);
-  background: #fff;
-  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(232,213,218,.55);
   display: flex; align-items: center;
   padding: 0 32px;
   justify-content: space-between;
