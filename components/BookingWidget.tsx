@@ -40,6 +40,13 @@ export default function BookingWidget() {
   const tourFieldRef = useRef<HTMLDivElement>(null)
   const dateFieldRef = useRef<HTMLDivElement>(null)
 
+  // Close everything on scroll so dropdowns don't float detached from widget
+  useEffect(() => {
+    const close = () => { setTourOpen(false); setDateOpen(false) }
+    window.addEventListener('scroll', close, { passive: true })
+    return () => window.removeEventListener('scroll', close)
+  }, [])
+
   function toggleTour() {
     const r = tourFieldRef.current?.getBoundingClientRect()
     if (r) setTourRect(r)
