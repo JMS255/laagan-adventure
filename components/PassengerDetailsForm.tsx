@@ -52,18 +52,22 @@ export default function PassengerDetailsForm({
     data.set('total_price',      `₱${totalPrice.toLocaleString()}`)
 
     try {
-      const res = await fetch('https://formspree.io/f/xpwzgwnn', {
+      const res = await fetch('https://formspree.io/f/xqejjkbp', {
         method: 'POST',
         body: data,
         headers: { Accept: 'application/json' },
       })
+      const json = await res.json().catch(() => ({}))
       if (res.ok) {
         setStatus('sent')
       } else {
-        setSubmitError('Something went wrong. Please try again or message us directly on Messenger.')
+        const msg = json?.errors?.[0]?.message || json?.error || `Error ${res.status}`
+        console.error('Formspree error:', json)
+        setSubmitError(`Submission failed: ${msg}. Please message us on Messenger to book.`)
         setStatus('idle')
       }
-    } catch {
+    } catch (err) {
+      console.error('Fetch error:', err)
       setSubmitError('Network error. Please check your connection and try again.')
       setStatus('idle')
     }

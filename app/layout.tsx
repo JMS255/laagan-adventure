@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import MessengerFloat from '@/components/MessengerFloat'
 import { BookingProvider } from '@/lib/booking-context'
 import BookingDrawer from '@/components/BookingDrawer'
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-display', style: ['normal', 'italic'] })
@@ -32,6 +35,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <BookingDrawer />
           <MessengerFloat />
         </BookingProvider>
+        {GA_ID && (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+            <Script id="ga-init" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: `
+              window.dataLayer=window.dataLayer||[];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js',new Date());
+              gtag('config','${GA_ID}');
+            `}} />
+          </>
+        )}
       </body>
     </html>
   )
