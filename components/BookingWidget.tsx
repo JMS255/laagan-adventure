@@ -1,7 +1,8 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useBooking } from '@/lib/booking-context'
+import DatePicker from './DatePicker'
 
 const TOURS = [
   'Santa Cruz Island Tour',
@@ -23,26 +24,20 @@ export default function BookingWidget() {
   const { tour, date, guests } = state
 
   const adults = guests
-  const guestsRef = useRef<HTMLDivElement>(null)
-  const dateInputRef = useRef<HTMLInputElement>(null)
+  const [dateOpen, setDateOpen] = useState(false)
+  const guestsRef    = useRef<HTMLDivElement>(null)
+  const dateRef      = useRef<HTMLDivElement>(null)
   const tourSelectRef = useRef<HTMLSelectElement>(null)
 
   useEffect(() => {
     function handler(e: MouseEvent) {
-      if (guestsRef.current && !guestsRef.current.contains(e.target as Node)) {
-        // close guests panel — handled by parent div click
+      if (dateRef.current && !dateRef.current.contains(e.target as Node)) {
+        setDateOpen(false)
       }
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [])
-
-  function openDatePicker() {
-    const input = dateInputRef.current
-    if (!input) return
-    if (typeof input.showPicker === 'function') input.showPicker()
-    else input.focus()
-  }
 
   function submit(e: React.FormEvent) {
     e.preventDefault()
@@ -74,19 +69,23 @@ export default function BookingWidget() {
       <div className="bw__sep" />
 
       {/* Date */}
-      <div className="bw__field" onClick={openDatePicker} style={{ cursor: 'pointer' }}>
+      <div
+        ref={dateRef}
+        className="bw__field"
+        onClick={() => setDateOpen(v => !v)}
+        style={{ cursor: 'pointer', position: 'relative' }}
+      >
         <span className="bw__label">On</span>
         <span className="bw__value" style={{ opacity: date ? 1 : 0.45 }}>
           {formatDate(date) ?? 'Select a date'}
         </span>
-        <input
-          ref={dateInputRef}
-          type="date"
-          value={date}
-          onChange={e => setDate(e.target.value)}
-          style={{ position: 'absolute', opacity: 0, width: 0, height: 0, pointerEvents: 'none' }}
-          tabIndex={-1}
-        />
+        {dateOpen && (
+          <DatePicker
+            value={date}
+            onChange={v => { setDate(v); setDateOpen(false) }}
+            onClose={() => setDateOpen(false)}
+          />
+        )}
       </div>
 
       <div className="bw__sep" />

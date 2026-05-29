@@ -15,108 +15,177 @@ const TOURS = [
   'Custom / Group Tour',
 ]
 
-export default function ContactPage() {
+const HIGHLIGHTS = [
+  { icon: '🏖️', title: 'Santa Cruz Island', sub: 'Pink sand · Crystal water' },
+  { icon: '🏛️', title: 'City Heritage Tour', sub: 'Forts · Mosques · History' },
+  { icon: '⛵', title: 'Island Hopping', sub: 'Multiple islands · Full day' },
+  { icon: '🗺️', title: 'ZambaSulta + ZamPen', sub: 'Two provinces · One trip' },
+]
+
+export default function ContactPage({
+  searchParams,
+}: {
+  searchParams: { tour?: string; date?: string; guests?: string }
+}) {
+  const defaultTour   = searchParams.tour   ?? ''
+  const defaultDate   = searchParams.date   ?? ''
+  const defaultGuests = searchParams.guests ?? ''
+
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 'var(--nav-h)' }}>
+      <main style={{ paddingTop: 'var(--nav-h)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
-        {/* Header */}
-        <div style={{ background: 'var(--navy)', padding: '64px 0 56px' }}>
-          <div className="container">
-            <p className="section__label">Book Now</p>
-            <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', marginBottom: '12px' }}>
-              Let&rsquo;s plan your adventure.
-            </h1>
-            <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '1rem', lineHeight: 1.7, maxWidth: '480px' }}>
-              Fill out the form below and we&rsquo;ll get back to you within 24 hours. Or message us directly on Messenger.
-            </p>
-          </div>
-        </div>
+        <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1.1fr' }}>
 
-        <section className="section">
-          <div className="container" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '64px', alignItems: 'start' }}>
-
-            {/* Form */}
+          {/* ── LEFT PANEL — dark, sticky ── */}
+          <div style={{
+            background: 'var(--navy)',
+            padding: '64px 56px',
+            position: 'sticky',
+            top: 'var(--nav-h)',
+            height: 'calc(100vh - var(--nav-h))',
+            overflowY: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}>
             <div>
-              <form action="https://formspree.io/f/xpwzgwnn" method="POST">
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" name="name" required placeholder="Juan dela Cruz" />
-                  </div>
-                  <div className="form-group">
-                    <label>Phone Number *</label>
-                    <input type="tel" name="phone" required placeholder="09XX-XXX-XXXX" />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label>Email Address</label>
-                  <input type="email" name="email" placeholder="your@email.com" />
-                </div>
-                <div className="form-row">
-                  <div className="form-group">
-                    <label>Tour Package *</label>
-                    <select name="tour" required>
-                      <option value="">Select a tour…</option>
-                      {TOURS.map(t => <option key={t} value={t}>{t}</option>)}
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label>Preferred Date *</label>
-                    <input type="date" name="date" required />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label>Group Size *</label>
-                  <input type="number" name="group_size" required min="1" placeholder="e.g. 4" />
-                </div>
-                <div className="form-group">
-                  <label>Message / Special Requests</label>
-                  <textarea name="message" rows={4} placeholder="Any questions, special requests, or details about your group…" />
-                </div>
-                <button type="submit" className="btn btn--primary" style={{ width: '100%', justifyContent: 'center' }}>
-                  Send Inquiry →
-                </button>
-                <p style={{ fontSize: '.75rem', color: 'var(--text-muted)', marginTop: '12px', textAlign: 'center' }}>
-                  We reply within 24 hours · No payment required to inquire
-                </p>
-              </form>
-            </div>
+              <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '20px' }}>
+                Laagan Adventure · Zamboanga City
+              </p>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', lineHeight: 1.15, marginBottom: '16px' }}>
+                Let&rsquo;s plan your<br />
+                <span style={{ color: 'var(--gold)' }}>Zamboanga adventure.</span>
+              </h1>
+              <p style={{ fontSize: '.9rem', color: 'rgba(255,255,255,.55)', lineHeight: 1.75, marginBottom: '40px', maxWidth: '340px' }}>
+                No upfront payment. No booking fees. Just tell us when you want to go and we&rsquo;ll handle everything.
+              </p>
 
-            {/* Contact Info */}
-            <div>
-              <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '24px' }}>Contact Details</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                {[
-                  { icon: '📞', label: 'Phone / Viber', value: '0905-243-5196 / 0926-904-8927' },
-                  { icon: '📧', label: 'Email', value: 'ivyeisma255@gmail.com' },
-                  { icon: '📍', label: 'Location', value: 'Baliwasan, Zamboanga City' },
-                  { icon: '🕐', label: 'Response Time', value: 'Within 24 hours' },
-                ].map(item => (
-                  <div key={item.label} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                    <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{item.icon}</span>
+              {/* Tour highlights */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '40px' }}>
+                {HIGHLIGHTS.map(h => (
+                  <div key={h.title} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 16px', borderRadius: '10px', background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.08)' }}>
+                    <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>{h.icon}</span>
                     <div>
-                      <p style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '3px' }}>{item.label}</p>
-                      <p style={{ fontSize: '.9rem', color: 'var(--navy)', fontWeight: 600 }}>{item.value}</p>
+                      <p style={{ fontSize: '.88rem', fontWeight: 700, color: '#fff', lineHeight: 1 }}>{h.title}</p>
+                      <p style={{ fontSize: '.72rem', color: 'rgba(255,255,255,.4)', marginTop: '3px' }}>{h.sub}</p>
                     </div>
                   </div>
                 ))}
               </div>
-
-              <div style={{ marginTop: '36px', padding: '24px', background: 'rgba(245,166,35,.08)', border: '1px solid rgba(245,166,35,.25)', borderRadius: 'var(--rl)' }}>
-                <p style={{ fontWeight: 700, color: 'var(--navy)', marginBottom: '8px' }}>💬 Prefer to message?</p>
-                <p style={{ fontSize: '.85rem', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: 1.6 }}>
-                  Most of our clients reach us through Facebook Messenger. Click below to chat directly.
-                </p>
-                <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--outline" style={{ fontSize: '.8rem', padding: '10px 20px' }}>
-                  Message on Messenger →
-                </a>
-              </div>
             </div>
 
+            {/* Contact details */}
+            <div style={{ borderTop: '1px solid rgba(255,255,255,.1)', paddingTop: '28px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+                {[
+                  { icon: '📞', text: '0905-243-5196 / 0926-904-8927' },
+                  { icon: '📧', text: 'ivyeisma255@gmail.com' },
+                  { icon: '📍', text: 'Baliwasan, Zamboanga City' },
+                ].map(c => (
+                  <div key={c.text} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <span style={{ fontSize: '1rem', flexShrink: 0 }}>{c.icon}</span>
+                    <span style={{ fontSize: '.82rem', color: 'rgba(255,255,255,.55)' }}>{c.text}</span>
+                  </div>
+                ))}
+              </div>
+              <a
+                href="https://m.me/61562040673545"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                  background: 'var(--gold)', color: 'var(--navy)',
+                  fontWeight: 800, fontSize: '.78rem', letterSpacing: '.04em',
+                  padding: '12px 22px', borderRadius: '8px',
+                  textDecoration: 'none', transition: 'opacity .15s',
+                }}
+              >
+                💬 Message on Messenger
+              </a>
+            </div>
           </div>
-        </section>
+
+          {/* ── RIGHT PANEL — form ── */}
+          <div style={{ padding: '64px 56px', background: '#fff' }}>
+            <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>
+              Inquiry form
+            </p>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.02em', marginBottom: '32px' }}>
+              Tell us about your trip
+            </h2>
+
+            <form action="https://formspree.io/f/xpwzgwnn" method="POST">
+              <input type="hidden" name="_subject" value="New Tour Inquiry — Laagan Adventure" />
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Full Name *</label>
+                  <input type="text" name="name" required placeholder="Juan dela Cruz" />
+                </div>
+                <div className="form-group">
+                  <label>Phone / Viber *</label>
+                  <input type="tel" name="phone" required placeholder="09XX-XXX-XXXX" />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="your@email.com" />
+              </div>
+
+              <div className="form-group">
+                <label>Tour Package *</label>
+                <select name="tour" required defaultValue={defaultTour}>
+                  <option value="" disabled>Select a tour…</option>
+                  {TOURS.map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Preferred Date *</label>
+                  <input type="date" name="date" required defaultValue={defaultDate} />
+                </div>
+                <div className="form-group">
+                  <label>Group Size *</label>
+                  <input type="number" name="group_size" required min="1" placeholder="e.g. 4" defaultValue={defaultGuests} />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Message / Special Requests</label>
+                <textarea name="message" rows={4} placeholder="Any questions, special requests, or details about your group…" />
+              </div>
+
+              <button
+                type="submit"
+                style={{
+                  width: '100%',
+                  background: 'var(--gold)',
+                  color: 'var(--navy)',
+                  border: 'none',
+                  borderRadius: '10px',
+                  padding: '16px',
+                  fontFamily: 'inherit',
+                  fontSize: '.88rem',
+                  fontWeight: 800,
+                  letterSpacing: '.04em',
+                  cursor: 'pointer',
+                  transition: 'opacity .15s, transform .15s',
+                }}
+              >
+                Send Inquiry →
+              </button>
+
+              <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', marginTop: '12px', textAlign: 'center' }}>
+                We reply within 24 hours · No payment required to inquire
+              </p>
+            </form>
+          </div>
+
+        </div>
 
       </main>
       <Footer />
