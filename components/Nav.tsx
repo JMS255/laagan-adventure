@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useBooking } from '@/lib/booking-context'
+import PromoStrip from './PromoStrip'
 
 const links = [
   { href: '/tours',   label: 'Tours' },
@@ -27,10 +28,7 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
   return (
     <div className="site-header">
 
-      {/* Promo strip */}
-      <div className="promo-strip">
-        🌊 <strong>June only:</strong> Book online and get <strong>₱500 off</strong> any package — message us on Messenger to claim
-      </div>
+      <PromoStrip />
 
       {/* Main nav */}
       <header className="nav">

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 
 interface Props {
@@ -21,18 +21,29 @@ function fmt(d: string) {
   })
 }
 
+function genRef() {
+  return Math.random().toString(36).slice(2, 8).toUpperCase()
+}
+
 export default function PassengerDetailsForm({
   tourTitle, tourSlug, date, guests, promo, pricePerPerson, totalPrice, discount,
 }: Props) {
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
+  const [status, setStatus]       = useState<'idle' | 'sending' | 'sent'>('idle')
+  const [submitError, setSubmitError] = useState('')
+  const [bookingRef]              = useState(genRef)
+  const formRef                   = useRef<HTMLFormElement>(null)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setStatus('sending')
-    const data = new FormData(e.currentTarget)
+    setSubmitError('')
 
-    // Append booking summary so owner sees full context in the email
-    data.set('_subject',         `New Booking — ${tourTitle}`)
+    if (!formRef.current) return
+    const data = new FormData(formRef.current)
+
+    // Attach full booking context to the Formspree email
+    data.set('_subject',         `New Booking [${bookingRef}] — ${tourTitle}`)
+    data.set('booking_reference', bookingRef)
     data.set('tour',             tourTitle)
     data.set('tour_date',        fmt(date))
     data.set('guests',           String(guests))
@@ -42,33 +53,122 @@ export default function PassengerDetailsForm({
 
     try {
       const res = await fetch('https://formspree.io/f/xpwzgwnn', {
-        method: 'POST', body: data, headers: { Accept: 'application/json' },
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
       })
-      setStatus(res.ok ? 'sent' : 'idle')
+      if (res.ok) {
+        setStatus('sent')
+      } else {
+        setSubmitError('Something went wrong. Please try again or message us directly on Messenger.')
+        setStatus('idle')
+      }
     } catch {
+      setSubmitError('Network error. Please check your connection and try again.')
       setStatus('idle')
     }
   }
 
   if (status === 'sent') {
     return (
-      <div className="container" style={{ padding: '80px 32px', textAlign: 'center', minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ fontSize: '3.5rem', marginBottom: '16px' }}>🎉</p>
-        <h1 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 800, color: 'var(--navy)', marginBottom: '12px', letterSpacing: '-.02em' }}>
-          Booking Request Sent!
-        </h1>
-        <p style={{ color: 'var(--text-muted)', maxWidth: '500px', lineHeight: 1.8, marginBottom: '12px' }}>
-          We&rsquo;ll contact you within <strong style={{ color: 'var(--navy)' }}>24 hours</strong> via Messenger or phone to confirm your {tourTitle} booking.
-        </p>
-        <p style={{ fontSize: '.85rem', color: 'var(--text-muted)', marginBottom: '36px' }}>
-          No payment is required now — we collect on the day of the tour.
-        </p>
-        <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--primary">
-            Message Us on Messenger
-          </a>
-          <Link href="/tours" className="btn btn--outline">Browse More Tours</Link>
+      <div className="container" style={{ padding: '60px 32px 80px', maxWidth: '680px' }}>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <p style={{ fontSize: '3rem', marginBottom: '12px' }}>🎉</p>
+          <h1 style={{ fontSize: 'clamp(1.6rem, 3vw, 2rem)', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.02em', marginBottom: '10px' }}>
+            Booking Request Received!
+          </h1>
+          <p style={{ color: 'var(--text-muted)', lineHeight: 1.7, maxWidth: '480px', margin: '0 auto' }}>
+            We&rsquo;ll contact you within <strong style={{ color: 'var(--navy)' }}>24 hours</strong> to confirm your booking.
+          </p>
         </div>
+
+        {/* Booking reference */}
+        <div style={{ background: 'var(--navy)', borderRadius: '14px', padding: '20px 24px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+          <div>
+            <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)', marginBottom: '4px' }}>
+              Booking Reference
+            </p>
+            <p style={{ fontSize: '1.6rem', fontWeight: 900, color: '#fff', letterSpacing: '.1em', fontFamily: 'monospace' }}>
+              {bookingRef}
+            </p>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <p style={{ fontSize: '.75rem', color: 'rgba(255,255,255,.5)', marginBottom: '2px' }}>Total Amount</p>
+            <p style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--pink)' }}>₱{totalPrice.toLocaleString()}</p>
+          </div>
+        </div>
+
+        {/* GCash payment section */}
+        <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', padding: '28px', marginBottom: '24px' }}>
+          <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '6px' }}>
+            💸 Secure your slot with GCash
+          </h2>
+          <p style={{ fontSize: '.82rem', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: 1.65 }}>
+            Scan the QR code or send to our number. Include your booking reference in the payment note so we can match your payment.
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: '24px', alignItems: 'center' }}>
+            {/* QR Code */}
+            <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid var(--border)', padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1' }}>
+              {/* Replace /gcash-qr.png with your actual GCash QR code */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/gcash-qr.png" alt="GCash QR Code"
+                style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '6px' }}
+                onError={e => {
+                  const el = e.currentTarget
+                  el.style.display = 'none'
+                  const parent = el.parentElement
+                  if (parent) {
+                    parent.innerHTML = '<div style="text-align:center;color:#aaa;font-size:.75rem;padding:8px">Add your GCash QR<br/>to /public/gcash-qr.png</div>'
+                  }
+                }}
+              />
+            </div>
+
+            {/* Payment details */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {[
+                { label: 'GCash Number',   value: '0905-243-5196' },
+                { label: 'Account Name',   value: 'Laagan Adventure' },
+                { label: 'Amount',         value: `₱${totalPrice.toLocaleString()}` },
+                { label: 'Payment Note',   value: `${bookingRef} – ${tourTitle}` },
+              ].map(({ label, value }) => (
+                <div key={label}>
+                  <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '2px' }}>{label}</p>
+                  <p style={{ fontSize: label === 'Amount' ? '1.1rem' : '.9rem', fontWeight: label === 'Payment Note' || label === 'Amount' ? 700 : 500, color: label === 'Payment Note' ? 'var(--pink)' : 'var(--navy)', fontFamily: label === 'Payment Note' ? 'monospace' : 'inherit' }}>
+                    {value}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ marginTop: '20px', padding: '12px 16px', background: 'rgba(217,107,138,.08)', border: '1px solid rgba(217,107,138,.2)', borderRadius: '8px', fontSize: '.8rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>
+            ⚠️ <strong style={{ color: 'var(--navy)' }}>Important:</strong> After paying, send your GCash receipt/screenshot to our Messenger. Include your reference <strong style={{ color: 'var(--pink)', fontFamily: 'monospace' }}>{bookingRef}</strong> so we can match your payment and confirm your tour.
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <a
+            href="https://m.me/61562040673545"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn--primary"
+            style={{ flex: 1, justifyContent: 'center', minWidth: '180px', fontFamily: 'inherit', borderRadius: '10px' }}
+          >
+            💬 Send Receipt on Messenger
+          </a>
+          <Link href="/tours" className="btn btn--outline"
+            style={{ flex: 1, justifyContent: 'center', minWidth: '140px', borderRadius: '10px' }}>
+            Browse More Tours
+          </Link>
+        </div>
+
+        <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', marginTop: '16px', textAlign: 'center' }}>
+          Your tour is not fully confirmed until we verify your payment. We&rsquo;ll send a confirmation message within 24 hours.
+        </p>
       </div>
     )
   }
@@ -98,12 +198,12 @@ export default function PassengerDetailsForm({
             Passenger Details
           </h1>
 
-          <form onSubmit={handleSubmit}>
+          <form ref={formRef} onSubmit={handleSubmit}>
 
             {/* Lead passenger */}
             <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', padding: '24px', marginBottom: '20px' }}>
               <h2 style={{ fontSize: '.78rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '20px' }}>
-                👤 Lead Passenger (Contact Person)
+                👤 Lead Passenger
               </h2>
               <div className="form-row">
                 <div className="form-group">
@@ -128,7 +228,7 @@ export default function PassengerDetailsForm({
                 <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 'normal', fontSize: '.75rem', color: 'var(--text-muted)', background: 'var(--border)', padding: '2px 8px', borderRadius: '999px' }}>Optional</span>
               </h2>
               <p style={{ fontSize: '.78rem', color: 'var(--text-muted)', marginBottom: '14px' }}>
-                Any dietary needs, accessibility requirements, or things we should know?
+                Dietary needs, accessibility requirements, or anything else we should know?
               </p>
               <div className="form-group" style={{ marginBottom: 0 }}>
                 <textarea name="special_requirements" rows={4}
@@ -145,7 +245,13 @@ export default function PassengerDetailsForm({
               {status === 'sending' ? 'Submitting…' : 'Submit Booking Request →'}
             </button>
 
-            <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '12px', lineHeight: 1.7 }}>
+            {submitError && (
+              <p style={{ fontSize: '.82rem', color: '#dc2626', textAlign: 'center', marginTop: '10px', lineHeight: 1.6 }}>
+                {submitError}
+              </p>
+            )}
+
+            <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '10px', lineHeight: 1.7 }}>
               No payment now. We&rsquo;ll confirm via Messenger or phone within 24 hours.
             </p>
           </form>
@@ -193,7 +299,7 @@ export default function PassengerDetailsForm({
             </div>
 
             <div style={{ background: 'var(--bg-2)', borderRadius: '10px', padding: '14px', fontSize: '.78rem', color: 'var(--text-muted)', lineHeight: 1.7, border: '1px solid var(--border)' }}>
-              💡 Payment is collected on the day of the tour via cash or GCash. We&rsquo;ll send payment details when we confirm your booking.
+              💡 Payment via GCash or cash on the day of the tour. Instructions will appear after you submit.
             </div>
           </div>
         </div>
