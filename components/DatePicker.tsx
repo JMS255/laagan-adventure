@@ -91,19 +91,19 @@ export default function DatePicker({ value, onChange, onClose, anchorRect }: Pro
         top: topPos,
         left: leftPos,
         width: calWidth,
-        background: '#18180c',
-        border: '1px solid rgba(255,255,255,.12)',
-        borderRadius: 14,
+        background: '#ffffff',
+        border: '1px solid var(--border)',
+        borderRadius: 16,
         padding: '16px 14px 14px',
         zIndex: 9999,
-        boxShadow: '0 20px 60px rgba(0,0,0,.7)',
+        boxShadow: '0 12px 40px rgba(0,40,70,.18)',
       }}
     >
       {/* Header: ‹  Month Year  › */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
         <button type="button" onClick={prevMonth} style={navBtnStyle}>‹</button>
 
-        <span style={{ fontSize: '.9rem', fontWeight: 700, color: '#fff', letterSpacing: '.02em' }}>
+        <span style={{ fontSize: '.9rem', fontWeight: 700, color: 'var(--navy)', letterSpacing: '.02em' }}>
           {MONTHS[viewM]} {viewY}
         </span>
 
@@ -113,7 +113,7 @@ export default function DatePicker({ value, onChange, onClose, anchorRect }: Pro
       {/* Day-of-week row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', marginBottom: 6 }}>
         {DAYS.map(d => (
-          <div key={d} style={{ textAlign: 'center', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.08em', color: 'rgba(255,255,255,.28)', padding: '2px 0' }}>
+          <div key={d} style={{ textAlign: 'center', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.08em', color: 'var(--text-muted)', padding: '2px 0' }}>
             {d}
           </div>
         ))}
@@ -140,13 +140,13 @@ export default function DatePicker({ value, onChange, onClose, anchorRect }: Pro
               onClick={() => canClick && pick(cell.day)}
               style={{
                 aspectRatio: '1', width: '100%', borderRadius: '50%',
-                border: isToday && !isSel ? '1.5px solid rgba(255,255,255,.4)' : 'none',
-                background: isSel ? '#d9f22a' : 'transparent',
+                border: isToday && !isSel ? '1.5px solid var(--navy)' : 'none',
+                background: isSel ? 'var(--pink)' : 'transparent',
                 color: isSel
-                  ? '#18180c'
+                  ? '#fff'
                   : !isCurr || isPast
-                    ? 'rgba(255,255,255,.18)'
-                    : '#fff',
+                    ? 'var(--border)'
+                    : 'var(--navy)',
                 fontSize: '.8rem',
                 fontWeight: isSel ? 800 : 400,
                 cursor: canClick ? 'pointer' : 'default',
@@ -156,7 +156,7 @@ export default function DatePicker({ value, onChange, onClose, anchorRect }: Pro
               }}
               onMouseEnter={e => {
                 if (canClick && !isSel)
-                  (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,255,255,.1)'
+                  (e.currentTarget as HTMLButtonElement).style.background = 'rgba(0,78,100,.08)'
               }}
               onMouseLeave={e => {
                 if (!isSel)
@@ -177,8 +177,8 @@ export default function DatePicker({ value, onChange, onClose, anchorRect }: Pro
 
 const navBtnStyle: React.CSSProperties = {
   width: 32, height: 32, borderRadius: '50%',
-  border: '1.5px solid rgba(255,255,255,.15)',
-  background: 'none', color: '#fff', cursor: 'pointer',
+  border: '1.5px solid var(--border)',
+  background: 'none', color: 'var(--navy)', cursor: 'pointer',
   fontSize: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
   fontFamily: 'inherit', transition: 'border-color .15s',
 }

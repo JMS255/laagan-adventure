@@ -56,7 +56,7 @@ export default function ContactPage({
               </p>
               <h1 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', lineHeight: 1.15, marginBottom: '16px' }}>
                 Let&rsquo;s plan your<br />
-                <span style={{ color: 'var(--gold)' }}>Zamboanga adventure.</span>
+                <span style={{ color: 'var(--pink)' }}>Zamboanga adventure.</span>
               </h1>
               <p style={{ fontSize: '.9rem', color: 'rgba(255,255,255,.55)', lineHeight: 1.75, marginBottom: '40px', maxWidth: '340px' }}>
                 No upfront payment. No booking fees. Just tell us when you want to go and we&rsquo;ll handle everything.
@@ -96,7 +96,7 @@ export default function ContactPage({
                 rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  background: 'var(--gold)', color: 'var(--navy)',
+                  background: 'var(--pink)', color: '#fff',
                   fontWeight: 800, fontSize: '.78rem', letterSpacing: '.04em',
                   padding: '12px 22px', borderRadius: '8px',
                   textDecoration: 'none', transition: 'opacity .15s',
@@ -163,8 +163,8 @@ export default function ContactPage({
                 type="submit"
                 style={{
                   width: '100%',
-                  background: 'var(--gold)',
-                  color: 'var(--navy)',
+                  background: 'var(--pink)',
+                  color: '#fff',
                   border: 'none',
                   borderRadius: '10px',
                   padding: '16px',

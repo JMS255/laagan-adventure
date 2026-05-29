@@ -22,8 +22,8 @@ function formatDate(val: string) {
 
 const counterBtn: React.CSSProperties = {
   width: 26, height: 26, borderRadius: '50%',
-  border: '1.5px solid rgba(255,255,255,.4)',
-  background: 'none', color: '#fff', cursor: 'pointer',
+  border: '1.5px solid var(--border)',
+  background: 'none', color: 'var(--navy)', cursor: 'pointer',
   fontSize: '1rem', fontFamily: 'inherit',
   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
 }
@@ -116,9 +116,9 @@ export default function BookingWidget() {
         {/* Guests field */}
         <div className="bw__field">
           <span className="bw__label">With</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1.5px solid rgba(255,255,255,.3)', paddingBottom: 3 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1.5px solid var(--border)', paddingBottom: 3 }}>
             <button type="button" onClick={() => setGuests(Math.max(1, guests - 1))} style={counterBtn}>−</button>
-            <span style={{ fontSize: '.95rem', fontWeight: 600, color: '#fff', minWidth: 64 }}>
+            <span style={{ fontSize: '.95rem', fontWeight: 600, color: 'var(--navy)', minWidth: 64 }}>
               {guests} Guest{guests !== 1 ? 's' : ''}
             </span>
             <button type="button" onClick={() => setGuests(guests + 1)} style={counterBtn}>+</button>
@@ -161,11 +161,11 @@ function TourDropdown({
       ref={ref}
       style={{
         position: 'fixed', top, left, width: w,
-        background: '#18180c',
-        border: '1px solid rgba(255,255,255,.14)',
+        background: '#ffffff',
+        border: '1px solid var(--border)',
         borderRadius: 12, overflow: 'hidden',
         zIndex: 9999,
-        boxShadow: '0 20px 60px rgba(0,0,0,.7)',
+        boxShadow: '0 12px 40px rgba(0,40,70,.18)',
         animation: 'fadeIn .15s ease',
       }}
     >
@@ -176,15 +176,15 @@ function TourDropdown({
           style={{
             padding: '13px 20px',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            background: t === value ? 'rgba(217,242,42,.1)' : 'transparent',
-            color: t === value ? '#d9f22a' : 'rgba(255,255,255,.85)',
+            background: t === value ? 'rgba(217,107,138,.08)' : 'transparent',
+            color: t === value ? 'var(--pink)' : 'var(--navy)',
             fontSize: '.88rem', fontWeight: t === value ? 700 : 400,
             cursor: 'pointer',
-            borderBottom: i < TOURS.length - 1 ? '1px solid rgba(255,255,255,.07)' : 'none',
+            borderBottom: i < TOURS.length - 1 ? '1px solid var(--border)' : 'none',
             transition: 'background .1s',
           }}
           onMouseEnter={e => {
-            if (t !== value) (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,.07)'
+            if (t !== value) (e.currentTarget as HTMLElement).style.background = 'rgba(0,78,100,.05)'
           }}
           onMouseLeave={e => {
             if (t !== value) (e.currentTarget as HTMLElement).style.background = 'transparent'

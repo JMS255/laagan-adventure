@@ -232,10 +232,10 @@ export default async function HomePage() {
         {/* ── FINAL CTA ── */}
         <section style={{ background: 'var(--navy)', padding: '96px 0' }}>
           <div className="container" style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '16px' }}>
+            <p style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--pink)', marginBottom: '16px' }}>
               Ready to explore?
             </p>
-            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', lineHeight: 1.15, marginBottom: '20px', maxWidth: '560px', margin: '0 auto 20px' }}>
+            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.02em', lineHeight: 1.15, marginBottom: '20px', maxWidth: '560px', margin: '0 auto 20px', fontStyle: 'italic' }}>
               Your Zamboanga adventure starts with one message.
             </h2>
             <p style={{ color: 'rgba(255,255,255,.65)', marginBottom: '40px', maxWidth: '440px', margin: '0 auto 40px', lineHeight: 1.7 }}>
