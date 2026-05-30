@@ -289,6 +289,7 @@
     <a href="#sprint3">Sprint 3 — Done ✅</a>
     <a href="#sprint4">Sprint 4 — Done ✅</a>
     <a href="#sprint5">Sprint 5 — Done ✅</a>
+    <a href="#mobile-ux">Mobile UX Overhaul — Done ✅ <span class="sidebar__badge badge--fix">New</span></a>
     <a href="#sprint6">Sprint 6</a>
 
     <div class="sidebar__section">Guides</div>
@@ -305,7 +306,7 @@
       <span>🔗 <strong>Live:</strong> laagan-adventure.vercel.app</span>
       <span>📦 <strong>Repo:</strong> JMS255/laagan-adventure</span>
       <span>🛠 <strong>Framework:</strong> Next.js 15 App Router</span>
-      <span>📅 <strong>Last updated:</strong> May 2026 · Sprint 5 complete</span>
+      <span>📅 <strong>Last updated:</strong> May 2026 · Mobile UX overhaul complete</span>
     </div>
   </div>
 
@@ -394,6 +395,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;<span class="new">BookingDrawer.tsx</span> &nbsp;← slide-in tour selector panel<br>
         &nbsp;&nbsp;&nbsp;&nbsp;<span class="new">TourTabs.tsx</span> &nbsp;← sticky tabs with scrollspy<br>
         &nbsp;&nbsp;&nbsp;&nbsp;<span class="new">FAQAccordion.tsx</span> &nbsp;← expandable FAQ with defaults<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="new">StickyBookBar.tsx</span> &nbsp;← mobile-only sticky bottom booking bar<br>
         &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">Footer.tsx</span><br>
         &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">MessengerFloat.tsx</span><br>
         &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">TestimonialCarousel.tsx</span><br>
@@ -618,8 +620,15 @@ const playfair = Playfair_Display({
         <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
-            <div class="title">Sticky Booking Card (sidebar)</div>
-            <div class="desc">Price, duration, "Book This Tour" → /contact, "Ask a Question" → Messenger. Trust badges. Sticks as you scroll.</div>
+            <div class="title">Sticky Booking Card (sidebar — desktop only)</div>
+            <div class="desc">Price, duration, "Book This Tour" → /book/[slug], "Ask a Question" → Messenger. Trust badges. Sticks as you scroll. Hidden on mobile (≤600px) via .tour-detail-sidebar class — replaced by StickyBookBar.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">StickyBookBar.tsx (mobile only)</div>
+            <div class="desc">Fixed bottom bar on tour pages, visible on ≤768px only. Appears after 400px scroll (scroll listener with passive:true). Shows price + "Book This Tour →" link + "💬 Ask" Messenger link. z-index 149 (below Messenger float at 200). Handles notched phones via env(safe-area-inset-bottom).</div>
           </div>
         </div>
         <div class="changelog-item">
@@ -709,6 +718,14 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
       <h2>Changelog</h2>
 
       <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Mobile UX Overhaul — Trafalgar pattern audit (7 issues fixed)</div>
+            <div class="desc">Critical: (1) StickyBookBar.tsx — mobile-only fixed bottom bar (price + Book CTA + Ask) appears after 400px scroll on tour detail pages; desktop sidebar hidden on mobile via .tour-detail-sidebar. (2) Homepage photo wall inline grid replaced with .photo-wall class — collapses to 2-col at 600px. (3) Group tours section inline grid replaced with .group-tours-grid/.group-tours-cell — stacks to 1-col at 600px with correct padding. Medium: (4) Messenger float lifted to bottom:100px on mobile to clear the sticky bar. (5) Nav toggle tap target fixed: padding 4px → 12px 8px (now 48px). (6) Spotlight content padding tightened: 40px 32px → 24px 20px at 600px. (7) Booking sidebar hidden on mobile — replaced by sticky bar. Build: clean ✅ zero TypeScript errors.</div>
+          </div>
+          <div class="commit">pending</div>
+        </div>
         <div class="changelog-item">
           <div class="dot dot--fix"></div>
           <div class="info">
@@ -968,6 +985,12 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
             <td>Emotional UX — identity filter, "How It Works", hero rewrite, trust block, social proof upgrade, urgency badges, story block, nav copy, emoji reduction</td>
             <td><span style="color:var(--green);font-weight:700">✅ Complete</span></td>
             <td>~4 sessions</td>
+          </tr>
+          <tr>
+            <td><strong>Mobile UX</strong></td>
+            <td>Full mobile audit — sticky booking bar, responsive breakpoints, tap targets, Trafalgar conversion pattern</td>
+            <td><span style="color:var(--green);font-weight:700">✅ Complete</span></td>
+            <td>1 session</td>
           </tr>
           <tr>
             <td><strong>Sprint 6</strong></td>
@@ -1415,6 +1438,80 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
       <div class="callout">
         <strong>Implementation order:</strong> P1 (identity filter) → P2 (how it works) → P6 (trust block) → P8 (nav + emoji) → P3 (hero) → P4 (social proof) → P5 (urgency badges) → P7 (story block) → P9 (copy). Start with the no-code/low-code wins first.
       </div>
+    </section>
+
+    <!-- MOBILE UX OVERHAUL -->
+    <section class="doc-section" id="mobile-ux">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Mobile UX Overhaul — Trafalgar Pattern <span style="font-size:.8rem;font-weight:500;color:var(--green)">✅ Complete</span></h2>
+      <p>Between Sprint 5 and Sprint 6, a full mobile audit was completed. The site was built desktop-first; several sections had no mobile breakpoints and the tour detail page had a critical conversion gap — the booking CTA was buried at the very bottom of the page on mobile. Based on a Trafalgar.com mobile UX analysis, 7 issues were identified and fixed.</p>
+
+      <div class="callout">
+        <strong>Trafalgar insight applied:</strong> The sticky bottom bar is the single biggest conversion booster on mobile travel sites. Their "thumb zone" CTA is always visible, price-anchored, and zero friction. Now ours is too.
+      </div>
+
+      <h3>Critical fixes</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">StickyBookBar.tsx — mobile booking CTA</div>
+            <div class="desc">New client component. Fixed to bottom of viewport on tour detail pages (mobile ≤768px only). Appears after 400px scroll. Shows price + "Book This Tour →" + "💬 Ask" buttons. Desktop sidebar hidden via .tour-detail-sidebar class to avoid duplicate CTAs. Messenger float lifted to bottom:100px on mobile to clear the bar.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Photo wall — missing mobile breakpoint</div>
+            <div class="desc">Inline <code>repeat(3,1fr)</code> grid had no responsive override. At 375px the 3 columns rendered at ~115px each. Replaced with <code>.photo-wall</code> class → collapses to <code>repeat(2,1fr)</code> at 600px. First/last wide photos (span 2) still work correctly.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Group tours section — missing mobile breakpoint</div>
+            <div class="desc">Inline <code>1fr 1fr</code> grid with <code>padding: 56px 48px</code> per cell — at 375px rendered two ~170px cells with huge padding. Replaced with <code>.group-tours-grid</code> / <code>.group-tours-cell</code> classes → stacks to 1-col at 600px, padding reduces to <code>40px 20px</code>.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Medium fixes</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Nav hamburger tap target — 24px → 48px</div>
+            <div class="desc"><code>.nav__toggle</code> had <code>padding: 4px</code>, giving a ~24px tap area. Mobile minimum is 48px. Fixed: <code>padding: 12px 8px</code> in the 600px breakpoint.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Spotlight content padding on mobile</div>
+            <div class="desc"><code>.spotlight__content</code> kept <code>padding: 40px 32px</code> even at 600px (from the 900px breakpoint). Added <code>padding: 24px 20px</code> override at 600px for breathing room.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Messenger float clearance</div>
+            <div class="desc">Messenger float sits at <code>bottom: 28px</code>. Adding a sticky bar at bottom:0 (~72px tall) would obscure it. Added <code>bottom: 100px</code> at 600px breakpoint.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>New CSS classes added</h3>
+      <table>
+        <thead><tr><th>Class</th><th>Purpose</th><th>Breakpoint</th></tr></thead>
+        <tbody>
+          <tr><td><code>.sticky-book-bar</code></td><td>Fixed bottom bar — tour pages, mobile only</td><td>Hidden at ≥769px</td></tr>
+          <tr><td><code>.sticky-book-bar--hidden</code></td><td>JS-controlled — hidden before 400px scroll</td><td>—</td></tr>
+          <tr><td><code>.photo-wall</code></td><td>Homepage social proof photo grid</td><td>3-col → 2-col at 600px</td></tr>
+          <tr><td><code>.group-tours-grid</code></td><td>Group/corporate tours wrapper grid</td><td>1fr 1fr → 1fr at 600px</td></tr>
+          <tr><td><code>.group-tours-cell</code></td><td>Individual group tour cell padding</td><td>56px 48px → 40px 20px at 600px</td></tr>
+          <tr><td><code>.tour-detail-sidebar</code></td><td>Desktop booking sidebar (hidden on mobile)</td><td>display:none at 600px</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- SPRINT 6 -->

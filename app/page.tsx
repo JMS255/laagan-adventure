@@ -173,7 +173,7 @@ export default async function HomePage() {
                 <h2 className="section__title" style={{ margin: '0 auto 8px' }}>#LaaganaAdventure</h2>
                 <p style={{ color: 'var(--text-muted)', fontSize: '.9rem' }}>Real moments from real travelers</p>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+              <div className="photo-wall">
                 {(galleryPhotos as { _id: string; image: object; caption: string }[]).slice(0, 6).map((photo, i) => (
                   <div key={photo._id} style={{
                     gridColumn: (i === 0 || i === 5) ? 'span 2' : 'span 1',
@@ -199,12 +199,12 @@ export default async function HomePage() {
         {/* ── GROUP TOURS ── */}
         <ScrollReveal>
         <section style={{ background: 'var(--bg-2)', padding: '0' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
+          <div className="group-tours-grid">
             {[
               { icon: '🎓', title: 'School & Group Tours', desc: 'Educational and recreational tours for schools, organizations, and large groups. Custom itineraries, group rates, and full coordination.', cta: 'Inquire for Groups', tour: 'Custom / Group Tour' },
               { icon: '🏢', title: 'Corporate & Team Outings', desc: 'Teambuilding events, company outings, and incentive trips. We handle the logistics so you can focus on the experience.', cta: 'Plan a Corporate Tour', tour: 'Custom / Group Tour' },
             ].map(item => (
-              <div key={item.title} style={{ padding: '56px 48px', borderRight: '1px solid var(--border)' }}>
+              <div key={item.title} className="group-tours-cell" style={{ borderRight: '1px solid var(--border)' }}>
                 <p style={{ fontSize: '2.5rem', marginBottom: '16px' }}>{item.icon}</p>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--navy)', marginBottom: '12px', letterSpacing: '-.02em' }}>{item.title}</h3>
                 <p style={{ fontSize: '.85rem', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '24px' }}>{item.desc}</p>

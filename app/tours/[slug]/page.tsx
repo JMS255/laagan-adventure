@@ -8,6 +8,7 @@ import TourTabs from '@/components/TourTabs'
 import FAQAccordion from '@/components/FAQAccordion'
 import JoinersPrivateToggle from '@/components/JoinersPrivateToggle'
 import QuickInquiryButton from '@/components/QuickInquiryButton'
+import StickyBookBar from '@/components/StickyBookBar'
 import DayItinerary from '@/components/DayItinerary'
 import { client, urlFor, TOUR_QUERY, SIMILAR_TOURS_QUERY, TESTIMONIALS_QUERY } from '@/lib/sanity'
 import type { Metadata } from 'next'
@@ -298,7 +299,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
             </div>
 
             {/* ── RIGHT: STICKY BOOKING CARD ── */}
-            <div>
+            <div className="tour-detail-sidebar">
               <div style={{
                 position: 'sticky',
                 top: 'calc(var(--nav-h) + 72px)',
@@ -555,6 +556,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
           </div>
         </section>
 
+        <StickyBookBar tourPrice={tour.price} tourSlug={tour.slug.current} />
       </main>
       <Footer />
     </>

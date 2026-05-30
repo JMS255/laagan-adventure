@@ -152,7 +152,7 @@ export default function ContactFlow({ initialTour }: { initialTour?: string }) {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+        <div className="contact-intent-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
           {[
             { id: 'joiners' as Intent,  icon: '👥', label: 'Join a Shared Tour',       sub: '1–5 travelers · split cost' },
             { id: 'private' as Intent,  icon: '🔑', label: 'Private Group Charter',    sub: '6+ pax · exclusive dates' },

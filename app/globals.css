@@ -550,6 +550,18 @@ h1, h2 {
 
   /* Promo strip — smaller text, tighter padding */
   .promo-strip { font-size: .68rem; padding: 0 40px; }
+
+  /* Spotlight — tighter padding on phone */
+  .spotlight__content { padding: 24px 20px; }
+
+  /* Messenger float — lift above sticky book bar */
+  .messenger-float { bottom: 100px; }
+
+  /* Nav toggle — 48px tap target */
+  .nav__toggle { padding: 12px 8px; }
+
+  /* Tour detail sidebar — hidden on mobile, replaced by sticky bar */
+  .tour-detail-sidebar { display: none; }
 }
 
 /* MOBILE — 480px: small phone */
@@ -619,3 +631,27 @@ h1, h2 {
 
 /* Prevent horizontal scroll sitewide */
 html, body { overflow-x: hidden; max-width: 100%; }
+
+/* PHOTO WALL */
+.photo-wall { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 600px) { .photo-wall { grid-template-columns: repeat(2, 1fr); } }
+
+/* GROUP TOURS */
+.group-tours-grid { display: grid; grid-template-columns: 1fr 1fr; }
+.group-tours-cell { padding: 56px 48px; }
+@media (max-width: 600px) {
+  .group-tours-grid { grid-template-columns: 1fr; }
+  .group-tours-cell { padding: 40px 20px; border-right: none !important; border-bottom: 1px solid var(--border); }
+  .group-tours-cell:last-child { border-bottom: none; }
+}
+
+/* STICKY MOBILE BOOK BAR */
+.sticky-book-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 149;
+  background: #fff; border-top: 1px solid var(--border);
+  padding: 12px 16px max(12px, env(safe-area-inset-bottom));
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 -4px 20px rgba(0,40,70,.12);
+}
+.sticky-book-bar--hidden { display: none !important; }
+@media (min-width: 769px) { .sticky-book-bar { display: none; } }
