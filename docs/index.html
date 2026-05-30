@@ -291,7 +291,7 @@
     <a href="#sprint4">Sprint 4 — Done ✅</a>
     <a href="#sprint5">Sprint 5 — Done ✅</a>
     <a href="#mobile-ux">Mobile UX Overhaul — Done ✅</a>
-    <a href="#mobile-audit-2">Mobile Audit 2 — Pending 🕘</a>
+    <a href="#mobile-audit-2">Mobile Audit 2 — Pending ⏳</a>
     <a href="#sprint6">Sprint 6</a>
 
     <div class="sidebar__section">Guides</div>
@@ -308,7 +308,7 @@
       <span>🔗 <strong>Live:</strong> laagan-adventure.vercel.app</span>
       <span>📦 <strong>Repo:</strong> JMS255/laagan-adventure</span>
       <span>🛠 <strong>Framework:</strong> Next.js 15 App Router</span>
-      <span>📅 <strong>Last updated:</strong> May 30 2026 · Destination pages live — mobile audit pending (9pm)</span>
+      <span>📅 <strong>Last updated:</strong> May 31 2026 · Hero conversion fix live — Mobile Audit 2 pending</span>
     </div>
   </div>
 
@@ -774,6 +774,14 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
 
       <div class="changelog">
         <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Hero conversion fix — price anchor, mobile CTAs, homepage reorder</div>
+            <div class="desc">Triggered by user-testing: first-time visitor asked "where do I look? what do I do here?" — the hero was 100% aspirational and 0% informational. Three fixes: (1) Sub copy rewritten to include price anchor ("from ₱800/person") and trust line ("DTI Registered · 500+ travelers · No upfront payment") — answers the 8-second test without scrolling. (2) Mobile hero (≤768px): BookingWidget hidden, replaced with two large thumb-friendly CTAs — "Browse Our Tours →" (links to /tours) and "💬 Ask on Messenger". Desktop widget unchanged. (3) Homepage reordered — TravelerFilter (tour cards) moved immediately after stats bar; Google searchers now see tours on first scroll instead of destination browsing sections. New CSS classes: .hero__mobile-cta, .hero__mobile-btn, .hero__widget-desktop.</div>
+          </div>
+          <div class="commit">0efb4c9</div>
+        </div>
+        <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
             <div class="title">Destination pages — Trafalgar-style browse strip + detail pages</div>
@@ -1088,7 +1096,7 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
           <tr>
             <td><strong>Mobile UX 2</strong></td>
             <td>Mobile audit for new destination pages and DestinationStrip/Showcase — Playwright-verified, UX optimizations</td>
-            <td><span style="color:#f59e0b;font-weight:700">🕘 Tonight 9pm</span></td>
+            <td><span style="color:#f59e0b;font-weight:700">⏳ Pending</span></td>
             <td>1 session</td>
           </tr>
           <tr>
@@ -1616,7 +1624,7 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
     <!-- MOBILE AUDIT 2 -->
     <section class="doc-section" id="mobile-audit-2">
       <p class="eyebrow">Roadmap</p>
-      <h2>Mobile Audit 2 — Destinations &amp; UX <span style="font-size:.8rem;font-weight:500;color:#f59e0b">🕘 Tonight 9pm</span></h2>
+      <h2>Mobile Audit 2 — Destinations &amp; UX <span style="font-size:.8rem;font-weight:500;color:#f59e0b">⏳ Pending</span></h2>
       <p>The new destination pages and DestinationStrip/Showcase were built but not yet Playwright-verified on mobile. This session also covers general UX conversion improvements for mobile — our primary audience.</p>
 
       <div class="callout">
