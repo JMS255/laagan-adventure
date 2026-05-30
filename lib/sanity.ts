@@ -53,3 +53,7 @@ export const BLOG_QUERY = `*[_type == "blogPost"] | order(publishedAt desc) {
 export const BLOG_POST_QUERY = `*[_type == "blogPost" && slug.current == $slug][0] {
   _id, title, slug, excerpt, mainImage, publishedAt, tags, body
 }`
+
+export const TOURS_BY_DESTINATION_QUERY = `*[_type == "tour" && destination == $destination] | order(_createdAt asc) {
+  _id, title, slug, tagline, mainImage, price, priceNote, duration, destination, badgeLabel, urgencyNote, audience
+}`

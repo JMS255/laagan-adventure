@@ -6,6 +6,8 @@ import Footer from '@/components/Footer'
 import BookingWidget from '@/components/BookingWidget'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
 import TravelerFilter from '@/components/TravelerFilter'
+import DestinationStrip from '@/components/DestinationStrip'
+import DestinationShowcase from '@/components/DestinationShowcase'
 import HowItWorks from '@/components/HowItWorks'
 import GuestStoryBlock from '@/components/GuestStoryBlock'
 import ScrollReveal from '@/components/ScrollReveal'
@@ -93,6 +95,12 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
+
+        {/* ── DESTINATION BROWSE STRIP ── */}
+        <DestinationStrip />
+
+        {/* ── FEATURED TOURS SHOWCASE ── */}
+        <DestinationShowcase tours={allTours} />
 
         {/* ── TOUR DISCOVERY + IDENTITY FILTER ── */}
         <TravelerFilter tours={allTours} />
