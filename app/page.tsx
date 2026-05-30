@@ -155,7 +155,7 @@ export default async function HomePage() {
 
         {/* ── TESTIMONIALS ── */}
         <section className="section fade-in-section" style={{ background: '#fff' }}>
-          <div className="container">
+          <div style={{ display:'block', width:'100%', maxWidth:'1100px', marginLeft:'auto', marginRight:'auto', padding:'0 32px', boxSizing:'border-box' }}>
             <p className="section__label" style={{ textAlign: 'center' }}>What travelers say</p>
             <h2 className="section__title" style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 48px' }}>
               Real words from real travelers.
