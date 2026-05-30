@@ -710,6 +710,14 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
 
       <div class="changelog">
         <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Fix: testimonial cards not centered — min-width:0 on grid items</div>
+            <div class="desc">Root cause: "ZAMBASULTA Complete Journey · January 2025" tour name has white-space:nowrap, which forced the card div wider than its 1fr grid cell, pushing the whole grid right. Fix: add minWidth:0 to the TestimonialCard outer div so CSS grid can properly constrain it. CLAUDE_RULES.md also added this session — surgical edits only, 25-line cap, measure DOM before theorizing.</div>
+          </div>
+          <div class="commit">d8143df</div>
+        </div>
+        <div class="changelog-item">
           <div class="dot dot--feature"></div>
           <div class="info">
             <div class="title">Sprint 5 complete — Emotional UX & Conversion</div>
