@@ -87,6 +87,12 @@ h1, h2 {
   flex-shrink: 0;
 }
 .nav__book-btn:hover { background: var(--pink-dark); }
+.nav__phone {
+  font-size: .78rem; font-weight: 600; color: var(--text-muted);
+  text-decoration: none; white-space: nowrap; flex-shrink: 0;
+  transition: color .2s;
+}
+.nav__phone:hover { color: var(--navy); }
 .nav__toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
 .nav__toggle span { display: block; width: 22px; height: 2px; background: var(--navy); border-radius: 2px; transition: all .3s; }
 .nav__mobile-menu {
@@ -518,6 +524,7 @@ h1, h2 {
   .form-row { grid-template-columns: 1fr; }
   .nav { padding: 0 16px; }
   .nav__links { display: none; }
+  .nav__phone  { display: none; }
   .nav__book-btn { display: none; }
   .nav__toggle { display: flex; }
   .tour-types-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -550,6 +557,19 @@ h1, h2 {
   .gcash-grid { grid-template-columns: 1fr; }
   .tour-types-grid { grid-template-columns: 1fr 1fr; }
   .promo-strip { font-size: .65rem; letter-spacing: .01em; }
+}
+
+/* TRUST STRIP */
+.trust-strip-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 32px;
+}
+@media (max-width: 900px) {
+  .trust-strip-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+}
+@media (max-width: 600px) {
+  .trust-strip-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
 }
 
 /* CONTACT FLOW */

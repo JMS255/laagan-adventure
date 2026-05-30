@@ -11,7 +11,7 @@ const links = [
   { href: '/gallery', label: 'Gallery' },
   { href: '/blog',    label: 'Blog' },
   { href: '/about',   label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/contact', label: 'Plan My Trip' },
 ]
 
 export default function Nav({ transparent = false }: { transparent?: boolean }) {
@@ -40,6 +40,10 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
         <nav className="nav__links">
           {links.map(l => <Link key={l.href} href={l.href}>{l.label}</Link>)}
         </nav>
+
+        <a href="tel:09052435196" className="nav__phone">
+          0905-243-5196
+        </a>
 
         <button
           onClick={() => openDrawer()}

@@ -7,6 +7,7 @@ import BookingWidget from '@/components/BookingWidget'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
 import DestinationShowcase from '@/components/DestinationShowcase'
 import ScrollReveal from '@/components/ScrollReveal'
+import TrustStrip from '@/components/TrustStrip'
 import { client, urlFor, TOURS_QUERY, TESTIMONIALS_QUERY, GALLERY_QUERY } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
@@ -97,10 +98,9 @@ export default async function HomePage() {
         {/* ── SPOTLIGHT 1 — Santa Cruz ── */}
         <div className="spotlight">
           <div className="spotlight__image spotlight__image--gradient"
-            style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #0369a1 50%, #1a2744 100%)', minHeight: '400px' }}>
-            <div style={{ textAlign: 'center', color: '#fff' }}>
-              <p style={{ fontSize: '4rem' }}>🏖️</p>
-              <p style={{ fontWeight: 700, opacity: .7, fontSize: '.85rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>Photo coming soon</p>
+            style={{ background: 'linear-gradient(160deg, #0ea5e9 0%, #0369a1 50%, #1a2744 100%)', minHeight: '400px' }}>
+            <div style={{ textAlign: 'center', color: 'rgba(255,255,255,.35)', letterSpacing: '.12em', fontSize: '.72rem', fontWeight: 700, textTransform: 'uppercase' }}>
+              Santa Cruz Island · Photo coming soon
             </div>
           </div>
           <div className="spotlight__content" style={{ background: 'var(--bg-2)' }}>
@@ -135,13 +135,15 @@ export default async function HomePage() {
             <Link href="/about" className="btn btn--outline-light">Learn About Us</Link>
           </div>
           <div className="spotlight__image spotlight__image--gradient"
-            style={{ background: 'linear-gradient(135deg, #d97706 0%, #92400e 50%, #1a2744 100%)', minHeight: '400px' }}>
-            <div style={{ textAlign: 'center', color: '#fff' }}>
-              <p style={{ fontSize: '4rem' }}>🗺️</p>
-              <p style={{ fontWeight: 700, opacity: .7, fontSize: '.85rem', letterSpacing: '.1em', textTransform: 'uppercase' }}>Photo coming soon</p>
+            style={{ background: 'linear-gradient(160deg, #d97706 0%, #92400e 50%, #1a2744 100%)', minHeight: '400px' }}>
+            <div style={{ textAlign: 'center', color: 'rgba(255,255,255,.35)', letterSpacing: '.12em', fontSize: '.72rem', fontWeight: 700, textTransform: 'uppercase' }}>
+              Zamboanga City · Photo coming soon
             </div>
           </div>
         </div>
+
+        {/* ── TRUST STRIP ── */}
+        <TrustStrip />
 
         {/* ── TESTIMONIALS ── */}
         <ScrollReveal>
