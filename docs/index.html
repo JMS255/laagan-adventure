@@ -306,7 +306,7 @@
       <span>🔗 <strong>Live:</strong> laagan-adventure.vercel.app</span>
       <span>📦 <strong>Repo:</strong> JMS255/laagan-adventure</span>
       <span>🛠 <strong>Framework:</strong> Next.js 15 App Router</span>
-      <span>📅 <strong>Last updated:</strong> May 2026 · Mobile UX verified + contact fix</span>
+      <span>📅 <strong>Last updated:</strong> May 2026 · Full mobile pass complete</span>
     </div>
   </div>
 
@@ -718,6 +718,22 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
       <h2>Changelog</h2>
 
       <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Fix: nav logo truncated + pricing table Book button hidden on mobile</div>
+            <div class="desc">Nav: <code>.nav__logo-text</code> had <code>max-width: 140px</code> which clipped "LAAGAN ADVENTURE" to "LAAGAN ADVERT…". Removed — <code>flex:1 + overflow:hidden</code> on <code>.nav__logo</code> already prevents real overflow. Pricing table: <code>min-width: 420px</code> on <code>.pricing-tiers-grid</code> forced horizontal scroll, hiding the Book→ link off-screen to the right. At ≤600px: grid collapses to 2-col (Group Size + Per Person) + auto Book column; Est. Total column hidden via <code>nth-child(3)</code>; padding tightened to 12px. Book→ now visible on all rows without scrolling.</div>
+          </div>
+          <div class="commit">c01435e</div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Fix: DayItinerary rows overflowing viewport on mobile</div>
+            <div class="desc">Root cause: the tour-detail-grid left content column had no <code>min-width: 0</code>, so the grid item expanded to its content width (422px) instead of staying at <code>1fr</code> (343px on mobile). This made the entire page 446px wide on a 375px viewport, causing all content inside the column — including every day accordion row — to render off-screen to the right. Fix 1: <code>style={{ minWidth: 0 }}</code> on the left content div in <code>tours/[slug]/page.tsx</code> → page scrollWidth dropped from 446px to 375px. Fix 2: DayItinerary accordion row title changed from <code>white-space: nowrap</code> (truncation) to natural wrapping with <code>flex: 1</code> on the left side and <code>align-items: flex-start</code> on the row — "See less/more" button now always visible.</div>
+          </div>
+          <div class="commit">f874046</div>
+        </div>
         <div class="changelog-item">
           <div class="dot dot--fix"></div>
           <div class="info">
