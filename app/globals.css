@@ -578,6 +578,14 @@ h1, h2 {
   .zambasulta-grid     { grid-template-columns: 1fr !important; }
 }
 
+/* TESTIMONIALS GRID */
+@media (max-width: 860px) {
+  .testimonials-grid { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 560px) {
+  .testimonials-grid { grid-template-columns: 1fr !important; }
+}
+
 /* TRAVELER FILTER */
 @media (max-width: 700px) {
   .traveler-filter-grid { grid-template-columns: 1fr 1fr !important; }
