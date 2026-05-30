@@ -145,6 +145,8 @@ export default function TestimonialCarousel({ testimonials }: { testimonials: Te
       display: 'grid',
       gridTemplateColumns: 'repeat(3, 1fr)',
       gap: '20px',
+      width: '100%',
+      boxSizing: 'border-box',
     }}
       className="testimonials-grid"
     >
