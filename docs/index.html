@@ -290,7 +290,8 @@
     <a href="#sprint3">Sprint 3 — Done ✅</a>
     <a href="#sprint4">Sprint 4 — Done ✅</a>
     <a href="#sprint5">Sprint 5 — Done ✅</a>
-    <a href="#mobile-ux">Mobile UX Overhaul — Done ✅ <span class="sidebar__badge badge--fix">New</span></a>
+    <a href="#mobile-ux">Mobile UX Overhaul — Done ✅</a>
+    <a href="#mobile-audit-2">Mobile Audit 2 — Pending 🕘</a>
     <a href="#sprint6">Sprint 6</a>
 
     <div class="sidebar__section">Guides</div>
@@ -307,7 +308,7 @@
       <span>🔗 <strong>Live:</strong> laagan-adventure.vercel.app</span>
       <span>📦 <strong>Repo:</strong> JMS255/laagan-adventure</span>
       <span>🛠 <strong>Framework:</strong> Next.js 15 App Router</span>
-      <span>📅 <strong>Last updated:</strong> May 2026 · Destination pages live</span>
+      <span>📅 <strong>Last updated:</strong> May 30 2026 · Destination pages live — mobile audit pending (9pm)</span>
     </div>
   </div>
 
@@ -1079,9 +1080,15 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
             <td>~4 sessions</td>
           </tr>
           <tr>
-            <td><strong>Mobile UX</strong></td>
+            <td><strong>Mobile UX 1</strong></td>
             <td>Full mobile audit — sticky booking bar, responsive breakpoints, tap targets, Trafalgar conversion pattern</td>
             <td><span style="color:var(--green);font-weight:700">✅ Complete</span></td>
+            <td>1 session</td>
+          </tr>
+          <tr>
+            <td><strong>Mobile UX 2</strong></td>
+            <td>Mobile audit for new destination pages and DestinationStrip/Showcase — Playwright-verified, UX optimizations</td>
+            <td><span style="color:#f59e0b;font-weight:700">🕘 Tonight 9pm</span></td>
             <td>1 session</td>
           </tr>
           <tr>
@@ -1604,6 +1611,108 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
           <tr><td><code>.tour-detail-sidebar</code></td><td>Desktop booking sidebar (hidden on mobile)</td><td>display:none at 600px</td></tr>
         </tbody>
       </table>
+    </section>
+
+    <!-- MOBILE AUDIT 2 -->
+    <section class="doc-section" id="mobile-audit-2">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Mobile Audit 2 — Destinations &amp; UX <span style="font-size:.8rem;font-weight:500;color:#f59e0b">🕘 Tonight 9pm</span></h2>
+      <p>The new destination pages and DestinationStrip/Showcase were built but not yet Playwright-verified on mobile. This session also covers general UX conversion improvements for mobile — our primary audience.</p>
+
+      <div class="callout">
+        <strong>Priority:</strong> Most Laagan Adventure users are on mobile. Every scroll, tap, and CTA needs to work flawlessly at 375px. Desktop is secondary.
+      </div>
+
+      <h3>Items to audit and fix</h3>
+
+      <table>
+        <thead><tr><th>Item</th><th>Location</th><th>What to check / fix</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>DestinationStrip</strong></td>
+            <td><code>components/DestinationStrip.tsx</code></td>
+            <td>Playwright screenshot at 375px. Cards should horizontal-scroll with snap. Card height, text sizing, "Explore →" tap target (min 48px).</td>
+            <td>🔴 High</td>
+          </tr>
+          <tr>
+            <td><strong>DestinationShowcase</strong></td>
+            <td><code>components/DestinationShowcase.tsx</code></td>
+            <td>7/5 asymmetric grid on mobile. Already has 860px/600px breakpoints but needs visual verification. Hero card vs secondary cards at 375px.</td>
+            <td>🔴 High</td>
+          </tr>
+          <tr>
+            <td><strong>Destination detail hero</strong></td>
+            <td><code>app/destinations/[slug]/page.tsx</code></td>
+            <td>minHeight 480px + nav-h padding. Title wrapping at small sizes. "See Available Tours ↓" button full-width on mobile.</td>
+            <td>🔴 High</td>
+          </tr>
+          <tr>
+            <td><strong>Things To Do grid</strong></td>
+            <td>Destination page (.why-grid)</td>
+            <td>.why-grid is 3-col default → 1-col at 600px. With 4 items, 1-col = 4 stacked cards. Consider 2-col at 600px for destination pages specifically.</td>
+            <td>🟡 Medium</td>
+          </tr>
+          <tr>
+            <td><strong>Destination page sticky CTA</strong></td>
+            <td>Destination detail page</td>
+            <td>No sticky bottom bar on destination pages. User has to scroll to end to find a booking CTA. Consider adding StickyBookBar variant ("Plan This Trip →") that appears after hero scroll.</td>
+            <td>🟡 Medium</td>
+          </tr>
+          <tr>
+            <td><strong>Homepage scroll depth</strong></td>
+            <td><code>app/page.tsx</code></td>
+            <td>Adding DestinationStrip + DestinationShowcase increased homepage length significantly on mobile. Audit total scroll depth. Consider reordering or condensing sections.</td>
+            <td>🟡 Medium</td>
+          </tr>
+          <tr>
+            <td><strong>Tours grid on destination page</strong></td>
+            <td>Destination detail page</td>
+            <td>.tours-grid is already responsive (1-col at 600px). Verify card image aspect ratio and text at 375px.</td>
+            <td>🟢 Low</td>
+          </tr>
+          <tr>
+            <td><strong>About section (story-grid)</strong></td>
+            <td>Destination detail page</td>
+            <td>.story-grid already collapses to 1-col at 900px. Verify column order on mobile (description first, highlights second).</td>
+            <td>🟢 Low</td>
+          </tr>
+          <tr>
+            <td><strong>General tap targets</strong></td>
+            <td>All new components</td>
+            <td>All new buttons/links in DestinationStrip and destination pages should have min 48px tap target height. Especially "Explore →" chips and inline links.</td>
+            <td>🟡 Medium</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>General mobile UX improvements (broader)</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Homepage section ordering on mobile</div>
+            <div class="desc">The homepage now has: Hero → Stats → DestinationStrip → DestinationShowcase → TravelerFilter → HowItWorks → GuestStory → Spotlight → Spotlight → TrustStrip → Testimonials → Photo Wall → Group Tours → Final CTA. That's a very long scroll. On mobile, consider whether some sections can be condensed or reordered to bring the booking CTA higher.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Destination page sticky booking bar</div>
+            <div class="desc">The tour detail page has a StickyBookBar that appears after 400px scroll. Destination pages should have the same pattern — a sticky "Plan My Trip →" bar that appears on mobile after the hero. Currently users have to scroll 7+ sections to reach the CTA at the bottom.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Font sizes on new components</div>
+            <div class="desc">Audit body text on destination pages — several spans use .65rem and .72rem which may be too small on mobile. Minimum readable size is ~13px (.82rem). Review DestinationStrip card sub-text and destination page "Zamboanga Region" eyebrows.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout green">
+        <strong>Session plan for 9pm:</strong> (1) Playwright screenshots of all new components at 375px. (2) Fix any broken layouts found. (3) Add destination page sticky bar. (4) Audit homepage scroll depth. (5) Build check + push.
+      </div>
     </section>
 
     <!-- SPRINT 6 -->
