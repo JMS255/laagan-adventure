@@ -5,7 +5,7 @@ export const client = createClient({
   projectId: 'o5mustem',
   dataset: 'production',
   apiVersion: '2024-01-01',
-  useCdn: true,
+  useCdn: false,
 })
 
 const builder = createImageUrlBuilder(client)
@@ -16,7 +16,8 @@ export function urlFor(source: any) {
 
 // Queries
 export const TOURS_QUERY = `*[_type == "tour"] | order(_createdAt asc) {
-  _id, title, slug, tagline, mainImage, price, priceNote, duration, destination, featured
+  _id, title, slug, tagline, mainImage, price, priceNote, duration, destination, featured,
+  audience, badgeLabel, urgencyNote
 }`
 
 export const FEATURED_TOURS_QUERY = `*[_type == "tour" && featured == true] | order(_createdAt asc) {

@@ -578,5 +578,27 @@ h1, h2 {
   .zambasulta-grid     { grid-template-columns: 1fr !important; }
 }
 
+/* TRAVELER FILTER */
+@media (max-width: 700px) {
+  .traveler-filter-grid { grid-template-columns: 1fr 1fr !important; }
+}
+@media (max-width: 400px) {
+  .traveler-filter-grid { grid-template-columns: 1fr !important; }
+}
+
+/* HOW IT WORKS */
+@media (max-width: 700px) {
+  .how-it-works-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .how-it-works-grid > div {
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+  .how-it-works-grid > div:last-child {
+    border-bottom: none;
+  }
+}
+
 /* Prevent horizontal scroll sitewide */
 html, body { overflow-x: hidden; max-width: 100%; }

@@ -5,7 +5,9 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import BookingWidget from '@/components/BookingWidget'
 import TestimonialCarousel from '@/components/TestimonialCarousel'
-import DestinationShowcase from '@/components/DestinationShowcase'
+import TravelerFilter from '@/components/TravelerFilter'
+import HowItWorks from '@/components/HowItWorks'
+import GuestStoryBlock from '@/components/GuestStoryBlock'
 import ScrollReveal from '@/components/ScrollReveal'
 import TrustStrip from '@/components/TrustStrip'
 import { client, urlFor, TOURS_QUERY, TESTIMONIALS_QUERY, GALLERY_QUERY } from '@/lib/sanity'
@@ -55,11 +57,11 @@ export default async function HomePage() {
             {/* Text content */}
             <div className="hero__content">
               <p className="hero__eyebrow">📍 Zamboanga City, Philippines</p>
-              <h1 className="hero__title" style={{ maxWidth: '640px' }}>
-                Where local knowledge<br />meets <span>island adventure</span>
+              <h1 className="hero__title" style={{ maxWidth: '620px' }}>
+                There&rsquo;s a beach in Zamboanga where the <span>sand is pink.</span> We&rsquo;ll take you there.
               </h1>
               <p className="hero__sub">
-                Guided tours to Santa Cruz Island, cultural heritage sites, and hidden Zamboanga destinations — by people who actually live here.
+                Local-guided tours to Santa Cruz Island and beyond — no crowds, no complications. Just Zamboanga at its best.
               </p>
             </div>
 
@@ -92,8 +94,11 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* ── TOUR DISCOVERY ── */}
-        <ScrollReveal><DestinationShowcase tours={allTours} /></ScrollReveal>
+        {/* ── TOUR DISCOVERY + IDENTITY FILTER ── */}
+        <TravelerFilter tours={allTours} />
+
+        {/* ── HOW IT WORKS ── */}
+        <HowItWorks />
 
         {/* ── SPOTLIGHT 1 — Santa Cruz ── */}
         <div className="spotlight">
@@ -144,6 +149,9 @@ export default async function HomePage() {
 
         {/* ── TRUST STRIP ── */}
         <TrustStrip />
+
+        {/* ── GUEST STORY ── */}
+        <ScrollReveal><GuestStoryBlock /></ScrollReveal>
 
         {/* ── TESTIMONIALS ── */}
         <ScrollReveal>

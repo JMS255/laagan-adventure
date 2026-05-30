@@ -47,6 +47,16 @@ function PhotoCard({ tour, large }: { tour: Tour; large?: boolean }) {
 
   return (
     <Link href={`/tours/${tour.slug.current}`} className="dest-card" style={{ gridRow: large ? 'span 2' : undefined }}>
+      {tour.badgeLabel && (
+        <span style={{
+          position: 'absolute', top: '14px', left: '14px', zIndex: 2,
+          background: 'var(--pink)', color: '#fff',
+          fontSize: '.62rem', fontWeight: 700, letterSpacing: '.07em', textTransform: 'uppercase',
+          padding: '4px 10px', borderRadius: '999px',
+        }}>
+          {tour.badgeLabel}
+        </span>
+      )}
       {imgUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={imgUrl} alt={tour.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />

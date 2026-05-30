@@ -58,6 +58,34 @@ export default defineType({
     }),
     defineField({ name: 'destination', title: 'Destination Tag', type: 'string' }),
     defineField({
+      name: 'audience',
+      title: 'Best For (Traveler Type)',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        list: [
+          { title: 'Solo Traveler', value: 'solo' },
+          { title: 'Couple Getaway', value: 'couple' },
+          { title: 'Barkada / Group', value: 'barkada' },
+          { title: 'Family & Kids', value: 'family' },
+        ],
+        layout: 'grid',
+      },
+      description: 'Which traveler types is this tour best for? Used for the homepage filter.',
+    }),
+    defineField({
+      name: 'badgeLabel',
+      title: 'Badge Label',
+      type: 'string',
+      description: 'e.g. "Most Popular", "Limited Slots", "New". Shows as an overlay badge on tour cards.',
+    }),
+    defineField({
+      name: 'urgencyNote',
+      title: 'Urgency Note',
+      type: 'string',
+      description: 'e.g. "Only 4 spots left this weekend". Shows below the badge on tour cards.',
+    }),
+    defineField({
       name: 'pricingTiers',
       title: 'Pricing Tiers (by group size)',
       description: 'Set different prices per person based on group size. Leave empty to use the base Price field for all group sizes.',

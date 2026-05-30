@@ -76,6 +76,9 @@ export interface TourCard {
   duration?: string
   destination?: string
   featured?: boolean
+  audience?: ('solo' | 'couple' | 'barkada' | 'family')[]
+  badgeLabel?: string
+  urgencyNote?: string
 }
 
 // ── Testimonial ───────────────────────────────────────────────────
