@@ -100,6 +100,9 @@ export default async function HomePage() {
         {/* ── HOW IT WORKS ── */}
         <HowItWorks />
 
+        {/* ── GUEST STORY ── */}
+        <ScrollReveal><GuestStoryBlock /></ScrollReveal>
+
         {/* ── SPOTLIGHT 1 — Santa Cruz ── */}
         <div className="spotlight">
           <div className="spotlight__image spotlight__image--gradient"
@@ -150,16 +153,13 @@ export default async function HomePage() {
         {/* ── TRUST STRIP ── */}
         <TrustStrip />
 
-        {/* ── GUEST STORY ── */}
-        <ScrollReveal><GuestStoryBlock /></ScrollReveal>
-
         {/* ── TESTIMONIALS ── */}
         <ScrollReveal>
         <section className="section" style={{ background: '#fff' }}>
           <div className="container">
             <p className="section__label" style={{ textAlign: 'center' }}>What travelers say</p>
-            <h2 className="section__title" style={{ textAlign: 'center', maxWidth: '480px', margin: '0 auto 48px' }}>
-              Real words from real Zamboanga travelers.
+            <h2 className="section__title" style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 48px' }}>
+              Real words from real travelers.
             </h2>
             <TestimonialCarousel testimonials={testimonials} />
           </div>

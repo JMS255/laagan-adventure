@@ -35,15 +35,15 @@ export default function GuestStoryBlock() {
             fontStyle: 'italic',
             marginBottom: '36px',
           }}>
-            We almost didn&rsquo;t go because we thought it would be too far, too complicated.
-            But James met us at the port at 6am with the broadest smile, and two hours later we were
-            standing on pink sand with no one else around. My daughter still talks about it every week.
+            I&rsquo;ve done group tours across Southeast Asia. Nothing came close to this.
+            By Day 3 we were inside a 500-year-old mosque in Sulu, having lunch with a family
+            who insisted we stay. That doesn&rsquo;t happen on a package tour. That&rsquo;s Laagan.
           </blockquote>
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-            <p style={{ fontWeight: 700, color: '#fff', fontSize: '.95rem' }}>Maria Santos</p>
+            <p style={{ fontWeight: 700, color: '#fff', fontSize: '.95rem' }}>Carlo Mendoza</p>
             <p style={{ fontSize: '.8rem', color: 'rgba(255,255,255,.45)' }}>
-              Santa Cruz Island Tour · Zamboanga City, 2025
+              ZAMBASULTA Complete Journey · January 2025
             </p>
           </div>
 
