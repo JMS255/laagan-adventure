@@ -1,4 +1,4 @@
-export const revalidate = 60
+export const revalidate = 30
 
 import Link from 'next/link'
 import Nav from '@/components/Nav'
