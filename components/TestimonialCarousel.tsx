@@ -55,6 +55,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
       gap: '20px',
       boxShadow: '0 2px 16px rgba(0,0,0,.04)',
       transition: 'box-shadow .25s, transform .25s',
+      minWidth: 0,
     }}
       onMouseEnter={e => {
         (e.currentTarget as HTMLDivElement).style.boxShadow = '0 8px 32px rgba(0,0,0,.09)'
