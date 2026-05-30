@@ -276,6 +276,7 @@
     <a href="#booking-flow">Booking Flow <span class="sidebar__badge badge--new">New</span></a>
     <a href="#promo-codes">Promo Codes <span class="sidebar__badge badge--new">New</span></a>
     <a href="#tours">Tour Detail Page</a>
+    <a href="#destinations">Destination Pages <span class="sidebar__badge badge--new">New</span></a>
     <a href="#sanity">Sanity CMS</a>
     <a href="#contact">Contact Page</a>
 
@@ -306,7 +307,7 @@
       <span>🔗 <strong>Live:</strong> laagan-adventure.vercel.app</span>
       <span>📦 <strong>Repo:</strong> JMS255/laagan-adventure</span>
       <span>🛠 <strong>Framework:</strong> Next.js 15 App Router</span>
-      <span>📅 <strong>Last updated:</strong> May 2026 · Full mobile pass complete</span>
+      <span>📅 <strong>Last updated:</strong> May 2026 · Destination pages live</span>
     </div>
   </div>
 
@@ -700,6 +701,59 @@ BLOG_QUERY           — all blog posts
 BLOG_POST_QUERY      — single blog post by slug</pre>
     </section>
 
+    <!-- DESTINATION PAGES -->
+    <section class="doc-section" id="destinations">
+      <p class="eyebrow">Feature</p>
+      <h2>Destination Pages</h2>
+      <p>Trafalgar-style destination browsing. A horizontal card strip on the homepage lets users explore by destination (Santa Cruz Island, Zamboanga City, Basilan, ZAMBASULTA). Clicking a card opens a rich destination detail page at <code>/destinations/[slug]</code>.</p>
+
+      <h3>URLs</h3>
+      <table>
+        <thead><tr><th>URL</th><th>Destination</th></tr></thead>
+        <tbody>
+          <tr><td><code>/destinations/santa-cruz-island</code></td><td>Santa Cruz Island</td></tr>
+          <tr><td><code>/destinations/zamboanga-city</code></td><td>Zamboanga City</td></tr>
+          <tr><td><code>/destinations/basilan-province</code></td><td>Basilan Province</td></tr>
+          <tr><td><code>/destinations/zambasulta</code></td><td>ZAMBASULTA Journey</td></tr>
+        </tbody>
+      </table>
+
+      <h3>How tours appear on destination pages</h3>
+      <p>The destination detail page fetches Sanity tours where <code>destination == $destinationTag</code>. The <code>destinationTag</code> values are:</p>
+      <table>
+        <thead><tr><th>Destination page</th><th>Sanity tour.destination must equal</th></tr></thead>
+        <tbody>
+          <tr><td>Santa Cruz Island</td><td><code>"Santa Cruz Island"</code></td></tr>
+          <tr><td>Zamboanga City</td><td><code>"Zamboanga City"</code></td></tr>
+          <tr><td>Basilan Province</td><td><code>"Basilan"</code></td></tr>
+          <tr><td>ZAMBASULTA</td><td><code>"ZAMBASULTA"</code></td></tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        <strong>To add tours to a destination page:</strong> open Sanity Studio → edit the tour → set the <code>Destination Tag</code> field to exactly the string above. The page revalidates within 60 seconds.
+      </div>
+
+      <h3>Destination page sections</h3>
+      <div class="changelog">
+        <div class="changelog-item"><div class="dot dot--feature"></div><div class="info"><div class="title">Hero</div><div class="desc">Full-bleed gradient (heroGradient from lib/destinations.ts), destination name, tagline, "See Available Tours ↓" anchor.</div></div></div>
+        <div class="changelog-item"><div class="dot dot--feature"></div><div class="info"><div class="title">Available Tours</div><div class="desc">Sanity-powered grid using TOURS_BY_DESTINATION_QUERY. Uses same .tour-card CSS as /tours page. Shows "Coming soon" fallback if no tours are tagged yet.</div></div></div>
+        <div class="changelog-item"><div class="dot dot--feature"></div><div class="info"><div class="title">About + Highlights</div><div class="desc">description paragraph + highlights[] checklist from lib/destinations.ts.</div></div></div>
+        <div class="changelog-item"><div class="dot dot--feature"></div><div class="info"><div class="title">Top Things To Do</div><div class="desc">4-item grid (thingsToDo[]) using .why-grid CSS. Icon + title + description.</div></div></div>
+        <div class="changelog-item"><div class="dot dot--feature"></div><div class="info"><div class="title">Best Time / Weather</div><div class="desc">bestTime + weatherNote from config in a 2-col card layout.</div></div></div>
+        <div class="changelog-item"><div class="dot dot--feature"></div><div class="info"><div class="title">Reviews</div><div class="desc">First 3 testimonials from TESTIMONIALS_QUERY (all tours, not destination-filtered yet).</div></div></div>
+        <div class="changelog-item"><div class="dot dot--feature"></div><div class="info"><div class="title">CTA</div><div class="desc">Navy section linking to /contact?tour=[destination name] + Messenger link.</div></div></div>
+      </div>
+
+      <h3>Migration to Sanity (future)</h3>
+      <p>When you're ready to manage destination content from Sanity Studio:</p>
+      <ol style="padding-left:20px;font-size:.88rem;color:var(--muted);line-height:2">
+        <li>Create a <code>destination</code> document type in <code>sanity/schemas/destination.ts</code> with the same fields as the <code>Destination</code> interface in <code>lib/destinations.ts</code></li>
+        <li>Add <code>DESTINATIONS_QUERY</code> and <code>DESTINATION_QUERY</code> to <code>lib/sanity.ts</code></li>
+        <li>In <code>app/destinations/[slug]/page.tsx</code>: replace <code>DESTINATIONS.map()</code> in generateStaticParams with a Sanity fetch, and replace <code>getDestination(slug)</code> with a Sanity query</li>
+        <li>Everything else (page sections, CSS, tour fetching) stays identical</li>
+      </ol>
+    </section>
+
     <!-- CONTACT PAGE -->
     <section class="doc-section" id="contact">
       <p class="eyebrow">Feature</p>
@@ -718,6 +772,20 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
       <h2>Changelog</h2>
 
       <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Destination pages — Trafalgar-style browse strip + detail pages</div>
+            <div class="desc">
+              <strong>lib/destinations.ts</strong> — static config for 4 destinations (Santa Cruz Island, Zamboanga City, Basilan Province, ZAMBASULTA). Fields shaped to match a future Sanity <code>destination</code> schema for easy migration. Each entry has: slug, name, tagline, description, heroGradient, bestTime, weatherNote, thingsToDo[], highlights[], and destinationTag (must match the <code>destination</code> string field on Sanity tours).<br><br>
+              <strong>components/DestinationStrip.tsx</strong> — 4-card horizontal grid on homepage. 2-col on tablet, horizontal scroll (snap) on mobile. Each card links to <code>/destinations/[slug]</code>.<br><br>
+              <strong>app/destinations/[slug]/page.tsx</strong> — full destination detail page. SSG via generateStaticParams from the static config. Sections: hero, available tours (TOURS_BY_DESTINATION_QUERY filtered by destinationTag), about + highlights checklist, top 4 things to do (.why-grid), best time/weather cards, testimonials, CTA. Falls back to "Tours coming soon" if no Sanity tours are tagged yet.<br><br>
+              <strong>lib/sanity.ts</strong> — +TOURS_BY_DESTINATION_QUERY: <code>*[_type == "tour" &amp;&amp; destination == $destination]</code>.<br><br>
+              <strong>app/page.tsx</strong> — DestinationStrip + DestinationShowcase (Sprint 4, previously unrendered) both wired into homepage after the stats bar.
+            </div>
+          </div>
+          <div class="commit">bbfefac</div>
+        </div>
         <div class="changelog-item">
           <div class="dot dot--fix"></div>
           <div class="info">
