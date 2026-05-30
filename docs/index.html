@@ -306,7 +306,7 @@
       <span>🔗 <strong>Live:</strong> laagan-adventure.vercel.app</span>
       <span>📦 <strong>Repo:</strong> JMS255/laagan-adventure</span>
       <span>🛠 <strong>Framework:</strong> Next.js 15 App Router</span>
-      <span>📅 <strong>Last updated:</strong> May 2026 · Mobile UX overhaul complete</span>
+      <span>📅 <strong>Last updated:</strong> May 2026 · Mobile UX verified + contact fix</span>
     </div>
   </div>
 
@@ -718,6 +718,14 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
       <h2>Changelog</h2>
 
       <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Fix: ContactFlow intent cards not stacking on mobile</div>
+            <div class="desc">The 3 intent cards (Join a Shared Tour / Private Group Charter / General Question) were rendering as a horizontal 3-col scroll on mobile — the third card was half-visible off-screen. Root cause: the grid div used an inline <code>gridTemplateColumns: 'repeat(3,1fr)'</code> and had no CSS class, so the existing <code>.contact-intent-grid { grid-template-columns: 1fr !important }</code> breakpoint rule in globals.css was never applied. Fix: added <code>className="contact-intent-grid"</code> to the div in ContactFlow.tsx line 155. The <code>!important</code> in the stylesheet overrides the inline style at ≤600px. Verified with Playwright screenshot at 375px — all 3 cards now stack full-width.</div>
+          </div>
+          <div class="commit">04e1c51</div>
+        </div>
         <div class="changelog-item">
           <div class="dot dot--fix"></div>
           <div class="info">
