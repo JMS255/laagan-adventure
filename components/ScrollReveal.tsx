@@ -13,7 +13,7 @@ export default function ScrollReveal({ children, delay = 0, className, style }: 
   return (
     <motion.div
       className={className}
-      style={style}
+      style={{ width: '100%', ...style }}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
