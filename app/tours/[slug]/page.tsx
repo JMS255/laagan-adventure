@@ -113,7 +113,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
           <div className="tour-detail-grid">
 
             {/* ── LEFT: CONTENT ── */}
-            <div>
+            <div style={{ minWidth: 0 }}>
 
               {/* About */}
               <section id="about" style={{ scrollMarginTop: SCROLL_OFFSET, paddingTop: '8px' }}>

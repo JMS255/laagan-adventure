@@ -68,14 +68,14 @@ export default function DayItinerary({ days }: { days: DayItem[] }) {
               <div
                 onClick={() => toggle(i)}
                 style={{
-                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  padding: '16px 24px', cursor: 'pointer', userSelect: 'none',
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
+                  padding: '16px 20px', cursor: 'pointer', userSelect: 'none',
                   background: isOpen ? 'var(--bg-2)' : '#fff',
                   transition: 'background .15s',
-                  gap: '12px',
+                  gap: '10px',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', flex: 1, minWidth: 0 }}>
                   <span style={{
                     background: isOpen ? 'var(--pink)' : 'transparent',
                     color: isOpen ? '#fff' : 'var(--text-muted)',
@@ -84,13 +84,13 @@ export default function DayItinerary({ days }: { days: DayItem[] }) {
                     padding: '3px 10px',
                     fontSize: '.65rem', fontWeight: 800, letterSpacing: '.06em',
                     textTransform: 'uppercase', flexShrink: 0,
-                    transition: 'all .15s',
+                    transition: 'all .15s', marginTop: '2px',
                   }}>
                     {label}
                   </span>
                   <span style={{
                     fontSize: '.92rem', fontWeight: 600, color: 'var(--navy)',
-                    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                    lineHeight: 1.35,
                   }}>
                     {day.title}
                   </span>
