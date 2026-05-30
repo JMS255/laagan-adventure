@@ -63,12 +63,21 @@ export default async function HomePage() {
                 There&rsquo;s a beach in Zamboanga where the <span>sand is pink.</span> We&rsquo;ll take you there.
               </h1>
               <p className="hero__sub">
-                Local-guided tours to Santa Cruz Island and beyond — no crowds, no complications. Just Zamboanga at its best.
+                Day tours and multi-day packages from ₱800/person — fully guided, all permits included.
+              </p>
+              <p className="hero__sub" style={{ marginTop: '10px', fontSize: 'clamp(.78rem, 1.4vw, .88rem)', opacity: .75 }}>
+                DTI Registered &middot; 500+ travelers &middot; No upfront payment
               </p>
             </div>
 
-            {/* Booking widget — pinned to bottom */}
-            <div className="hero__widget-wrap" style={{ paddingBottom: '40px' }}>
+            {/* Mobile CTA — two big buttons, shown instead of widget on small screens */}
+            <div className="hero__mobile-cta">
+              <Link href="/tours" className="btn btn--primary hero__mobile-btn">Browse Our Tours →</Link>
+              <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--outline-light hero__mobile-btn">💬 Ask on Messenger</a>
+            </div>
+
+            {/* Booking widget — desktop only */}
+            <div className="hero__widget-wrap hero__widget-desktop" style={{ paddingBottom: '40px' }}>
               <BookingWidget />
             </div>
           </div>
@@ -96,17 +105,17 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* ── DESTINATION BROWSE STRIP ── */}
-        <DestinationStrip />
-
-        {/* ── FEATURED TOURS SHOWCASE ── */}
-        <DestinationShowcase tours={allTours} />
-
         {/* ── TOUR DISCOVERY + IDENTITY FILTER ── */}
         <TravelerFilter tours={allTours} />
 
+        {/* ── DESTINATION BROWSE STRIP ── */}
+        <DestinationStrip />
+
         {/* ── HOW IT WORKS ── */}
         <HowItWorks />
+
+        {/* ── FEATURED TOURS SHOWCASE ── */}
+        <DestinationShowcase tours={allTours} />
 
         {/* ── GUEST STORY ── */}
         <ScrollReveal><GuestStoryBlock /></ScrollReveal>

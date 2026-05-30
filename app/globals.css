@@ -634,6 +634,15 @@ h1, h2 {
 /* Prevent horizontal scroll sitewide */
 html, body { overflow-x: hidden; max-width: 100%; }
 
+/* HERO MOBILE CTA */
+.hero__mobile-cta   { display: none; }
+.hero__widget-desktop { display: flex; justify-content: center; }
+@media (max-width: 768px) {
+  .hero__mobile-cta { display: flex; flex-direction: column; gap: 12px; padding: 0 20px 40px; width: 100%; }
+  .hero__mobile-btn { justify-content: center; font-size: .95rem !important; padding: 16px 24px !important; border-radius: 12px !important; }
+  .hero__widget-desktop { display: none !important; }
+}
+
 /* DESTINATION STRIP */
 .dest-strip-card:hover { transform: translateY(-5px); box-shadow: 0 20px 48px rgba(0,20,50,.25); }
 @media (max-width: 900px) { .dest-strip-grid { grid-template-columns: 1fr 1fr !important; } }
