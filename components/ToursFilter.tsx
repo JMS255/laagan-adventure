@@ -69,6 +69,18 @@ export default function ToursFilter({ tours }: { tours: TourCard[] }) {
                 ) : (
                   <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, var(--navy-2), var(--navy))' }} />
                 )}
+                {tour.badgeLabel && (
+                  <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'flex-start' }}>
+                    <span style={{ background: 'var(--pink)', color: '#fff', fontSize: '.7rem', fontWeight: 800, padding: '4px 10px', borderRadius: '999px', letterSpacing: '.04em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+                      {tour.badgeLabel}
+                    </span>
+                    {tour.urgencyNote && (
+                      <span style={{ background: 'rgba(0,0,0,.65)', color: '#fff', fontSize: '.68rem', fontWeight: 600, padding: '3px 9px', borderRadius: '999px', backdropFilter: 'blur(4px)', whiteSpace: 'nowrap' }}>
+                        {tour.urgencyNote}
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
               <div className="tour-card__body">
                 <p className="tour-card__tag">{tour.destination || 'Zamboanga City'}</p>
