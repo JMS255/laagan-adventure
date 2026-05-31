@@ -115,6 +115,13 @@ export default defineType({
       description: 'e.g. "Available daily, weather permitting" or "Best from December to May"',
     }),
     defineField({
+      name: 'availableDates',
+      title: 'Available Tour Dates',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'ISO dates (YYYY-MM-DD). Leave empty to allow any date via free text input.',
+    }),
+    defineField({
       name: 'mapQuery',
       title: 'Map Location (Google Maps search)',
       type: 'string',

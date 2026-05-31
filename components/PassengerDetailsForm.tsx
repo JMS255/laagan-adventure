@@ -13,6 +13,7 @@ interface Props {
   pricePerPerson: number
   totalPrice: number
   discount: number
+  depositAmount: number
 }
 
 function fmt(d: string) {
@@ -27,12 +28,13 @@ function genRef() {
 }
 
 export default function PassengerDetailsForm({
-  tourTitle, tourSlug, date, guests, promo, pricePerPerson, totalPrice, discount,
+  tourTitle, tourSlug, date, guests, promo, pricePerPerson, totalPrice, discount, depositAmount,
 }: Props) {
-  const [status, setStatus]       = useState<'idle' | 'sending' | 'sent'>('idle')
+  const [status, setStatus]           = useState<'idle' | 'sending' | 'sent'>('idle')
   const [submitError, setSubmitError] = useState('')
-  const [bookingRef]              = useState(genRef)
-  const formRef                   = useRef<HTMLFormElement>(null)
+  const [depositSent, setDepositSent] = useState(false)
+  const [bookingRef]                  = useState(genRef)
+  const formRef                       = useRef<HTMLFormElement>(null)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -40,35 +42,39 @@ export default function PassengerDetailsForm({
     setSubmitError('')
 
     if (!formRef.current) return
-    const data = new FormData(formRef.current)
+    const fd = new FormData(formRef.current)
 
-    // Attach full booking context to the Formspree email
-    data.set('_subject',         `New Booking [${bookingRef}] — ${tourTitle}`)
-    data.set('booking_reference', bookingRef)
-    data.set('tour',             tourTitle)
-    data.set('tour_date',        fmt(date))
-    data.set('guests',           String(guests))
-    data.set('price_per_person', `₱${pricePerPerson.toLocaleString()}`)
-    if (discount > 0) data.set('promo_discount', `₱${discount.toLocaleString()} (code: ${promo})`)
-    data.set('total_price',      `₱${totalPrice.toLocaleString()}`)
+    const payload = {
+      bookingRef,
+      tourTitle,
+      tourSlug,
+      date,
+      guests,
+      promo,
+      pricePerPerson,
+      totalPrice,
+      discount,
+      depositSent,
+      name:   fd.get('name') as string,
+      phone:  fd.get('phone') as string,
+      email:  fd.get('email') as string,
+      notes:  fd.get('special_requirements') as string,
+    }
 
     try {
-      const res = await fetch('https://formspree.io/f/xqejjkbp', {
+      const res = await fetch('/api/book', {
         method: 'POST',
-        body: data,
-        headers: { Accept: 'application/json' },
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' },
       })
-      const json = await res.json().catch(() => ({}))
       if (res.ok) {
         setStatus('sent')
       } else {
-        const msg = json?.errors?.[0]?.message || json?.error || `Error ${res.status}`
-        console.error('Formspree error:', json)
-        setSubmitError(`Submission failed: ${msg}. Please message us on Messenger to book.`)
+        const json = await res.json().catch(() => ({}))
+        setSubmitError(json?.error || `Error ${res.status}. Please message us on Messenger.`)
         setStatus('idle')
       }
-    } catch (err) {
-      console.error('Fetch error:', err)
+    } catch {
       setSubmitError('Network error. Please check your connection and try again.')
       setStatus('idle')
     }
@@ -77,8 +83,9 @@ export default function PassengerDetailsForm({
   if (status === 'sent') {
     return (
       <div className="container" style={{ padding: '60px 32px 80px', maxWidth: '680px' }}>
+
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <p style={{ fontSize: '3rem', marginBottom: '12px' }}>🎉</p>
           <h1 style={{ fontSize: 'clamp(1.6rem, 3vw, 2rem)', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.02em', marginBottom: '10px' }}>
             Booking Request Received!
@@ -104,55 +111,49 @@ export default function PassengerDetailsForm({
           </div>
         </div>
 
-        {/* GCash payment section */}
-        <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', padding: '28px', marginBottom: '24px' }}>
-          <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '6px' }}>
-            💸 Secure your slot with GCash
-          </h2>
-          <p style={{ fontSize: '.82rem', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: 1.65 }}>
-            Scan the QR code or send to our number. Include your booking reference in the payment note so we can match your payment.
-          </p>
+        {/* GCash deposit section */}
+        {depositAmount > 0 && (
+          <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', padding: '28px', marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '6px' }}>
+              💸 Hold your slot — send a ₱{depositAmount.toLocaleString()} deposit
+            </h2>
+            <p style={{ fontSize: '.82rem', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: 1.65 }}>
+              Your slot is <strong style={{ color: 'var(--navy)' }}>not confirmed</strong> until we receive your deposit. Scan the QR or send to our GCash number. Include your reference in the note.
+            </p>
 
-          <div className="gcash-grid">
-            {/* QR Code */}
-            <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid var(--border)', padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1', position: 'relative', minHeight: '140px' }}>
-              {/* Replace /gcash-qr.png with your actual GCash QR code */}
-              <Image src="/gcash-qr.png" fill alt="GCash QR Code" style={{ objectFit: 'contain', borderRadius: '6px' }} onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
+            <div className="gcash-grid">
+              <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid var(--border)', padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1', position: 'relative', minHeight: '140px' }}>
+                <Image src="/gcash-qr.png" fill alt="GCash QR Code" style={{ objectFit: 'contain', borderRadius: '6px' }} onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {[
+                  { label: 'GCash Number', value: '0905-243-5196' },
+                  { label: 'Account Name', value: 'Laagan Adventure' },
+                  { label: 'Deposit Amount', value: `₱${depositAmount.toLocaleString()}` },
+                  { label: 'Payment Note', value: `${bookingRef} – ${tourTitle}` },
+                ].map(({ label, value }) => (
+                  <div key={label}>
+                    <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '2px' }}>{label}</p>
+                    <p style={{ fontSize: label === 'Deposit Amount' ? '1.1rem' : '.9rem', fontWeight: label === 'Payment Note' || label === 'Deposit Amount' ? 700 : 500, color: label === 'Payment Note' ? 'var(--pink)' : 'var(--navy)', fontFamily: label === 'Payment Note' ? 'monospace' : 'inherit' }}>
+                      {value}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Payment details */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {[
-                { label: 'GCash Number',   value: '0905-243-5196' },
-                { label: 'Account Name',   value: 'Laagan Adventure' },
-                { label: 'Amount',         value: `₱${totalPrice.toLocaleString()}` },
-                { label: 'Payment Note',   value: `${bookingRef} – ${tourTitle}` },
-              ].map(({ label, value }) => (
-                <div key={label}>
-                  <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '2px' }}>{label}</p>
-                  <p style={{ fontSize: label === 'Amount' ? '1.1rem' : '.9rem', fontWeight: label === 'Payment Note' || label === 'Amount' ? 700 : 500, color: label === 'Payment Note' ? 'var(--pink)' : 'var(--navy)', fontFamily: label === 'Payment Note' ? 'monospace' : 'inherit' }}>
-                    {value}
-                  </p>
-                </div>
-              ))}
+            <div style={{ marginTop: '20px', padding: '12px 16px', background: 'rgba(217,107,138,.08)', border: '1px solid rgba(217,107,138,.2)', borderRadius: '8px', fontSize: '.8rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>
+              ⚠️ <strong style={{ color: 'var(--navy)' }}>After paying:</strong> send your GCash screenshot to our Messenger with reference <strong style={{ color: 'var(--pink)', fontFamily: 'monospace' }}>{bookingRef}</strong>.
             </div>
           </div>
-
-          <div style={{ marginTop: '20px', padding: '12px 16px', background: 'rgba(217,107,138,.08)', border: '1px solid rgba(217,107,138,.2)', borderRadius: '8px', fontSize: '.8rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>
-            ⚠️ <strong style={{ color: 'var(--navy)' }}>Important:</strong> After paying, send your GCash receipt/screenshot to our Messenger. Include your reference <strong style={{ color: 'var(--pink)', fontFamily: 'monospace' }}>{bookingRef}</strong> so we can match your payment and confirm your tour.
-          </div>
-        </div>
+        )}
 
         {/* Actions */}
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <a
-            href="https://m.me/61562040673545"
-            target="_blank"
-            rel="noopener noreferrer"
+          <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer"
             className="btn btn--primary"
-            style={{ flex: 1, justifyContent: 'center', minWidth: '180px', fontFamily: 'inherit', borderRadius: '10px' }}
-          >
-            💬 Send Receipt on Messenger
+            style={{ flex: 1, justifyContent: 'center', minWidth: '180px', fontFamily: 'inherit', borderRadius: '10px' }}>
+            💬 {depositAmount > 0 ? 'Send Deposit Receipt' : 'Message Us on Messenger'}
           </a>
           <Link href="/tours" className="btn btn--outline"
             style={{ flex: 1, justifyContent: 'center', minWidth: '140px', borderRadius: '10px' }}>
@@ -161,7 +162,7 @@ export default function PassengerDetailsForm({
         </div>
 
         <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', marginTop: '16px', textAlign: 'center' }}>
-          Your tour is not fully confirmed until we verify your payment. We&rsquo;ll send a confirmation message within 24 hours.
+          Your tour is not fully confirmed until we verify your{depositAmount > 0 ? ' deposit and' : ''} details. We&rsquo;ll reply within 24 hours.
         </p>
       </div>
     )
@@ -230,6 +231,16 @@ export default function PassengerDetailsForm({
               </div>
             </div>
 
+            {/* Deposit note (pre-submit) */}
+            {depositAmount > 0 && (
+              <div style={{ background: 'rgba(217,107,138,.06)', border: '1.5px solid rgba(217,107,138,.25)', borderRadius: '12px', padding: '16px 20px', marginBottom: '20px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>💸</span>
+                <p style={{ fontSize: '.82rem', color: 'var(--navy)', lineHeight: 1.65 }}>
+                  A <strong>₱{depositAmount.toLocaleString()} GCash deposit</strong> will be required after submitting to hold your slot. Payment details will appear on the next screen.
+                </p>
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={status === 'sending'}
@@ -246,7 +257,9 @@ export default function PassengerDetailsForm({
             )}
 
             <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '10px', lineHeight: 1.7 }}>
-              No payment now. We&rsquo;ll confirm via Messenger or phone within 24 hours.
+              {depositAmount > 0
+                ? `₱${depositAmount.toLocaleString()} GCash deposit required after submitting. Full payment on the day.`
+                : 'No payment now. We\'ll confirm via Messenger or phone within 24 hours.'}
             </p>
           </form>
         </div>
@@ -293,7 +306,9 @@ export default function PassengerDetailsForm({
             </div>
 
             <div style={{ background: 'var(--bg-2)', borderRadius: '10px', padding: '14px', fontSize: '.78rem', color: 'var(--text-muted)', lineHeight: 1.7, border: '1px solid var(--border)' }}>
-              💡 Payment via GCash or cash on the day of the tour. Instructions will appear after you submit.
+              {depositAmount > 0
+                ? `💳 ₱${depositAmount.toLocaleString()} GCash deposit to hold your slot. Full balance paid on tour day.`
+                : '💡 Full payment via GCash or cash on the day of the tour.'}
             </div>
           </div>
         </div>

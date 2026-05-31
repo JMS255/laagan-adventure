@@ -17,6 +17,12 @@ export const siteConfig = defineType({
       type: 'number',
       description: 'Total price in PHP for groups of 6 or more. Default: 4500.',
     }),
+    defineField({
+      name: 'depositAmount',
+      title: 'GCash Deposit Amount (₱)',
+      type: 'number',
+      description: 'Deposit to hold a slot after booking. Default: 500. Set to 0 to disable.',
+    }),
   ],
   preview: {
     prepare: () => ({ title: 'Site Config' }),

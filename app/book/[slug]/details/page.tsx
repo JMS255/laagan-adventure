@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import PassengerDetailsForm from '@/components/PassengerDetailsForm'
-import { client, TOUR_QUERY } from '@/lib/sanity'
+import { client, TOUR_QUERY, SITE_CONFIG_QUERY } from '@/lib/sanity'
 import { getPricePerPerson, applyPromo } from '@/lib/promoCodes'
 import type { Metadata } from 'next'
 
@@ -21,13 +21,17 @@ export default async function BookDetailsPage({
 }) {
   const { slug }                           = await params
   const { date, guests: g, promo, price }  = await searchParams
-  const tour                               = await client.fetch(TOUR_QUERY, { slug }).catch(() => null)
+  const [tour, config] = await Promise.all([
+    client.fetch(TOUR_QUERY, { slug }).catch(() => null),
+    client.fetch(SITE_CONFIG_QUERY).catch(() => null),
+  ])
   if (!tour) notFound()
 
   const guests         = Math.max(1, Number(g) || 2)
   const pricePerPerson = price ? Number(price) : getPricePerPerson(tour.pricingTiers, tour.price, guests)
   const subtotal       = pricePerPerson * guests
   const { discount, finalTotal } = applyPromo(subtotal, promo ?? '')
+  const depositAmount  = config?.depositAmount ?? 500
 
   return (
     <>
@@ -42,6 +46,7 @@ export default async function BookDetailsPage({
           pricePerPerson={pricePerPerson}
           totalPrice={finalTotal}
           discount={discount}
+          depositAmount={depositAmount}
         />
       </main>
       <Footer />

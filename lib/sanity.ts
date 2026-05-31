@@ -30,7 +30,7 @@ export const TOUR_QUERY = `*[_type == "tour" && slug.current == $slug][0] {
   inclusions, exclusions, itinerary,
   dayItinerary[] { _key, dayLabel, title, description, highlights, photo },
   pricingTiers[] { label, minPax, maxPax, pricePerPerson },
-  availabilityNote,
+  availabilityNote, availableDates,
   mapQuery, faq
 }`
 
@@ -54,7 +54,12 @@ export const BLOG_POST_QUERY = `*[_type == "blogPost" && slug.current == $slug][
   _id, title, slug, excerpt, mainImage, publishedAt, tags, body
 }`
 
-export const SITE_CONFIG_QUERY = `*[_type == "siteConfig"][0]{ tripSmallGroupPrice, tripLargeGroupPrice }`
+export const SITE_CONFIG_QUERY = `*[_type == "siteConfig"][0]{ tripSmallGroupPrice, tripLargeGroupPrice, depositAmount }`
+
+export const BOOKINGS_QUERY = `*[_type == "booking"] | order(submittedAt desc) {
+  _id, bookingRef, status, tourTitle, date, guests, name, phone, email,
+  totalPrice, depositSent, submittedAt
+}`
 
 export const TOURS_BY_DESTINATION_QUERY = `*[_type == "tour" && destination == $destination] | order(_createdAt asc) {
   _id, title, slug, tagline, mainImage, price, priceNote, duration, destination, badgeLabel, urgencyNote, audience

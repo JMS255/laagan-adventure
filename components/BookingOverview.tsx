@@ -104,8 +104,28 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
             <div className="form-row">
               <div className="form-group">
                 <label>Preferred Date *</label>
-                <input type="date" value={date} min={today}
-                  onChange={e => setDate(e.target.value)} style={{ width: '100%' }} />
+                {tour.availableDates && tour.availableDates.length > 0 ? (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
+                    {tour.availableDates.filter(d => d >= today).map(d => {
+                      const formatted = new Date(d + 'T12:00:00').toLocaleDateString('en-PH', { month: 'short', day: 'numeric', weekday: 'short' })
+                      const active = date === d
+                      return (
+                        <button key={d} type="button" onClick={() => setDate(d)} style={{
+                          padding: '8px 16px', borderRadius: '999px', fontFamily: 'inherit',
+                          fontSize: '.82rem', fontWeight: 600, cursor: 'pointer', transition: 'all .15s',
+                          border: `2px solid ${active ? 'var(--pink)' : 'var(--border)'}`,
+                          background: active ? 'var(--pink)' : '#fff',
+                          color: active ? '#fff' : 'var(--navy)',
+                        }}>
+                          {formatted}
+                        </button>
+                      )
+                    })}
+                  </div>
+                ) : (
+                  <input type="date" value={date} min={today}
+                    onChange={e => setDate(e.target.value)} style={{ width: '100%' }} />
+                )}
               </div>
               <div className="form-group">
                 <label>Number of Guests *</label>

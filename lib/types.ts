@@ -59,6 +59,7 @@ export interface Tour {
   dayItinerary?: DayItem[]
   pricingTiers?: PricingTier[]
   availabilityNote?: string
+  availableDates?: string[]
   mapQuery?: string
   faq?: FAQItem[]
   featured?: boolean
@@ -79,6 +80,23 @@ export interface TourCard {
   audience?: ('solo' | 'couple' | 'barkada' | 'family')[]
   badgeLabel?: string
   urgencyNote?: string
+  availableDates?: string[]
+}
+
+// ── Booking ───────────────────────────────────────────────────────
+export interface Booking {
+  _id: string
+  bookingRef: string
+  status: 'pending' | 'confirmed' | 'cancelled'
+  tourTitle: string
+  date: string
+  guests: number
+  name: string
+  phone: string
+  email?: string
+  totalPrice: number
+  depositSent: boolean
+  submittedAt: string
 }
 
 // ── Testimonial ───────────────────────────────────────────────────
