@@ -17,6 +17,7 @@ Tour booking website for Laagan Adventure, a Zamboanga City–based tour operato
 | Styling | CSS custom properties + utility classes in `globals.css` |
 | Fonts | Plus Jakarta Sans (body) · Playfair Display (headings) |
 | Forms | `POST /api/book` → Sanity + Formspree backup |
+| Payments | Xendit (GCash deposits via hosted invoice) |
 | Deployment | Vercel (auto-deploy on push to `master`) |
 | Analytics | Google Analytics 4 |
 
@@ -42,8 +43,11 @@ Add these to `.env.local` locally and to Vercel → Settings → Environment Var
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | Sanity project ID (`o5mustem`) |
 | `NEXT_PUBLIC_SANITY_DATASET` | Sanity dataset (`production`) |
 | `NEXT_PUBLIC_GA_ID` | Google Analytics 4 Measurement ID |
-| `SANITY_WRITE_TOKEN` | Sanity API token with write access — used by `/api/book` |
+| `SANITY_WRITE_TOKEN` | Sanity API token with write access — used by `/api/book` and `/api/xendit/webhook` |
 | `DASHBOARD_PASSWORD` | Password for `/dashboard` (default: `laagan2026`) |
+| `XENDIT_SECRET_KEY` | Xendit secret key (`xnd_development_...` for test, `xnd_production_...` for live) |
+| `XENDIT_WEBHOOK_TOKEN` | Xendit callback token — from Xendit dashboard → Settings → Webhooks |
+| `NEXT_PUBLIC_SITE_URL` | Full site URL e.g. `https://laagan-adventure.vercel.app` (used in Xendit redirect URLs) |
 
 ---
 
@@ -59,7 +63,10 @@ app/
   book/[slug]/details/page.tsx  Booking step 2 — passenger details
   contact/page.tsx            Trip Builder (replaces contact form)
   dashboard/page.tsx          Bookings dashboard (password-protected)
-  api/book/route.ts           POST — writes booking to Sanity + Formspree
+  book/paid/page.tsx          Xendit payment redirect landing page
+  api/book/route.ts           POST — writes booking to Sanity + Formspree backup
+  api/xendit/create/route.ts  POST — creates Xendit invoice, returns payment URL
+  api/xendit/webhook/route.ts POST — Xendit callback, confirms booking in Sanity
 
 components/
   TripBuilder.tsx             Interactive trip planner on /contact
@@ -98,8 +105,8 @@ Core content. Key fields:
 ### Booking
 Written automatically when a guest submits the booking form. Fields:
 - `bookingRef` — auto-generated 6-char code (e.g. `AB12CD`)
-- `status` — `pending | confirmed | cancelled` (update manually in Studio)
-- `depositSent` — toggled by guest on success screen (unverified, for reference)
+- `status` — `pending | confirmed | cancelled`. Auto-set to `confirmed` when Xendit webhook fires on successful payment. Can also be updated manually in Studio.
+- `depositSent` — set to `true` automatically by the Xendit webhook on payment. Not manually verified.
 
 ### Site Config (singleton — create only one)
 - `tripSmallGroupPrice` / `tripLargeGroupPrice` — Trip Builder pricing (₱)
@@ -112,12 +119,20 @@ Written automatically when a guest submits the booking form. Fields:
 ```
 /tours/[slug]
   → StickyBookBar / JoinersPrivateToggle "Book Now"
-  → /book/[slug]?date=&guests=      ← BookingOverview (Step 1)
-  → /book/[slug]/details?...        ← PassengerDetailsForm (Step 2)
+  → /book/[slug]?date=&guests=        ← BookingOverview (Step 1)
+      • date chips if availableDates set in Sanity, else free date input
+  → /book/[slug]/details?...          ← PassengerDetailsForm (Step 2)
   → POST /api/book
-      ├── writes Sanity booking document
+      ├── writes Sanity booking document (status: pending)
       └── sends Formspree backup email
-  → Success screen with GCash deposit instructions
+  → Success screen
+      └── "Pay ₱X via GCash →" button (if depositAmount > 0 in siteConfig)
+          → POST /api/xendit/create
+              └── creates Xendit invoice → redirects to Xendit hosted checkout
+                  → guest pays via GCash
+                  → Xendit fires webhook → POST /api/xendit/webhook
+                      └── updates Sanity booking: status=confirmed, depositSent=true
+                  → redirects to /book/paid?ref=XXXXXX
 ```
 
 ---
@@ -130,11 +145,20 @@ Spot list lives in `lib/spots.ts`. Pricing comes from the Sanity `siteConfig` do
 
 ---
 
+## Xendit GCash payments
+
+- **Test mode:** uses `xnd_development_...` key. Payments are simulated — no real money moves. Test GCash PIN is `123456`.
+- **Live mode:** swap to `xnd_production_...` key in Vercel env vars after Xendit business verification. No code changes needed.
+- **Fees:** ~2.5% per GCash transaction (deducted from payout, not charged upfront).
+- **Webhook setup:** Xendit dashboard → Settings → Webhooks → add `https://laagan-adventure.vercel.app/api/xendit/webhook` → enable **Invoice paid** → copy callback token → add as `XENDIT_WEBHOOK_TOKEN` in Vercel.
+
+---
+
 ## Booking dashboard (/dashboard)
 
 URL: `/dashboard?pw=YOUR_PASSWORD`
 
-Password is set via `DASHBOARD_PASSWORD` env var (default: `laagan2026`). Read-only — shows all bookings ordered newest-first. Update status in Sanity Studio → Booking → change `Status` → Publish → refresh dashboard.
+Password is set via `DASHBOARD_PASSWORD` env var (default: `laagan2026`). Read-only — shows all bookings ordered newest-first. Deposit column shows ✅ when Xendit payment confirmed, ⏳ when pending. Update status manually in Sanity Studio → Booking → change `Status` → Publish → refresh dashboard.
 
 ---
 
@@ -158,3 +182,4 @@ Pages that read from Sanity use `export const revalidate = 60`. This means:
 | 5 | Emotional UX — TravelerFilter, HowItWorks, TrustStrip, TestimonialCarousel | ✅ |
 | Mobile | Full mobile audit — 375px pass, StickyBookBar, overflow fixes | ✅ |
 | 6 | Booking infrastructure — available dates, GCash deposit, booking dashboard | ✅ |
+| 6b | Xendit GCash payment integration — hosted checkout, webhook auto-confirm | ✅ |
