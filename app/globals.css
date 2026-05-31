@@ -634,6 +634,12 @@ h1, h2 {
 /* Prevent horizontal scroll sitewide */
 html, body { overflow-x: hidden; max-width: 100%; }
 
+/* WHY-GRID 2-col variant — double-class selector beats .why-grid single-class */
+@media (max-width: 600px) {
+  .why-grid.why-grid--2col { grid-template-columns: 1fr 1fr !important; }
+  .why-grid.why-grid--2col .why-card { padding: 24px 16px; }
+}
+
 /* HERO MOBILE CTA */
 .hero__mobile-cta   { display: none; }
 .hero__widget-desktop { display: flex; justify-content: center; }

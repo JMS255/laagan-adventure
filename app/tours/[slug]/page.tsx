@@ -1,6 +1,7 @@
 export const revalidate = 60
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
@@ -54,10 +55,13 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
         {/* ── HERO ── */}
         <div style={{ height: '480px', background: 'var(--navy-2)', overflow: 'hidden', position: 'relative' }}>
           {tour.mainImage && (
-            <img
+            <Image
               src={urlFor(tour.mainImage).width(1400).height(600).url()}
+              fill
               alt={tour.title}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: .6 }}
+              style={{ objectFit: 'cover', opacity: .6 }}
+              sizes="100vw"
+              priority
             />
           )}
           <div style={{
@@ -507,9 +511,9 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                   priceNote: string; duration: string; destination: string;
                 }) => (
                   <Link href={`/tours/${t.slug.current}`} className="tour-card" key={t._id}>
-                    <div className="tour-card__img">
+                    <div className="tour-card__img" style={{ position: 'relative' }}>
                       {t.mainImage ? (
-                        <img src={urlFor(t.mainImage).width(600).height(450).url()} alt={t.title} />
+                        <Image src={urlFor(t.mainImage).width(600).height(450).url()} fill alt={t.title} style={{ objectFit: 'cover' }} sizes="(max-width:600px) 100vw,33vw" />
                       ) : (
                         <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, var(--navy-2), var(--navy))' }} />
                       )}

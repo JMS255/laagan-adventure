@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { urlFor } from '@/lib/sanity'
 import type { TourCard as Tour } from '@/lib/types'
 
@@ -58,8 +59,7 @@ function PhotoCard({ tour, large }: { tour: Tour; large?: boolean }) {
         </span>
       )}
       {imgUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={imgUrl} alt={tour.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+        <Image src={imgUrl} fill alt={tour.title} style={{ objectFit: 'cover' }} sizes="(max-width:860px) 100vw,58vw" />
       ) : (
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, #0ea5e9, #1a2744)' }} />
       )}

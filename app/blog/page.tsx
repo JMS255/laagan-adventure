@@ -1,6 +1,7 @@
 export const revalidate = 60
 
 import Link from 'next/link'
+import Image from 'next/image'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { client, urlFor, BLOG_QUERY } from '@/lib/sanity'
@@ -41,10 +42,9 @@ export default async function BlogPage() {
                   excerpt: string; mainImage: object; publishedAt: string; tags: string[]
                 }) => (
                   <article key={post._id} style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: '32px', alignItems: 'center', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--rl)', overflow: 'hidden' }}>
-                    <div style={{ aspectRatio: '4/3', background: 'var(--bg-2)', overflow: 'hidden' }}>
+                    <div style={{ aspectRatio: '4/3', background: 'var(--bg-2)', overflow: 'hidden', position: 'relative' }}>
                       {post.mainImage && (
-                        <img src={urlFor(post.mainImage).width(400).height(300).url()} alt={post.title}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        <Image src={urlFor(post.mainImage).width(400).height(300).url()} fill alt={post.title} style={{ objectFit: 'cover' }} sizes="(max-width:600px) 100vw,400px" />
                       )}
                     </div>
                     <div style={{ padding: '28px 28px 28px 0' }}>

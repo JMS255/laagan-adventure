@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface Props {
   tourTitle: string
@@ -114,20 +115,9 @@ export default function PassengerDetailsForm({
 
           <div className="gcash-grid">
             {/* QR Code */}
-            <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid var(--border)', padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1' }}>
+            <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid var(--border)', padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1', position: 'relative', minHeight: '140px' }}>
               {/* Replace /gcash-qr.png with your actual GCash QR code */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/gcash-qr.png" alt="GCash QR Code"
-                style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '6px' }}
-                onError={e => {
-                  const el = e.currentTarget
-                  el.style.display = 'none'
-                  const parent = el.parentElement
-                  if (parent) {
-                    parent.innerHTML = '<div style="text-align:center;color:#aaa;font-size:.75rem;padding:8px">Add your GCash QR<br/>to /public/gcash-qr.png</div>'
-                  }
-                }}
-              />
+              <Image src="/gcash-qr.png" fill alt="GCash QR Code" style={{ objectFit: 'contain', borderRadius: '6px' }} onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
             </div>
 
             {/* Payment details */}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { urlFor } from '@/lib/sanity'
 import type { TourCard } from '@/lib/types'
 
@@ -32,9 +33,9 @@ function TourCardItem({ tour }: { tour: TourCard }) {
           {tour.badgeLabel}
         </div>
       )}
-      <div className="tour-card__img">
+      <div className="tour-card__img" style={{ position: 'relative' }}>
         {imgUrl
-          ? <img src={imgUrl} alt={tour.title} />
+          ? <Image src={imgUrl} fill alt={tour.title} style={{ objectFit: 'cover' }} sizes="(max-width:600px) 100vw,(max-width:900px) 50vw,33vw" />
           : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg, #0ea5e9, #1a2744)' }} />
         }
       </div>

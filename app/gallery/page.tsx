@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
+import Image from 'next/image'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { client, urlFor, GALLERY_QUERY } from '@/lib/sanity'
@@ -67,8 +68,8 @@ export default function GalleryPage() {
             {filtered.length > 0 ? (
               <div className="gallery-grid">
                 {filtered.map((p, i) => (
-                  <div key={p._id} className="gallery-item" onClick={() => { setLbIdx(i); setLbOpen(true) }}>
-                    <img src={urlFor(p.image).width(600).height(450).url()} alt={p.caption || 'Tour photo'} loading="lazy" />
+                  <div key={p._id} className="gallery-item" style={{ position: 'relative' }} onClick={() => { setLbIdx(i); setLbOpen(true) }}>
+                    <Image src={urlFor(p.image).width(600).height(450).url()} fill alt={p.caption || 'Tour photo'} style={{ objectFit: 'cover' }} sizes="(max-width:600px) 50vw,33vw" />
                   </div>
                 ))}
               </div>

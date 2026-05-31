@@ -1,6 +1,7 @@
 export const revalidate = 60
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
@@ -70,9 +71,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Cover Image */}
         {post.mainImage && (
           <div style={{ maxWidth: '720px', margin: '0 auto', padding: '0 32px' }}>
-            <div style={{ marginTop: '40px', borderRadius: 'var(--rl)', overflow: 'hidden', aspectRatio: '16/9' }}>
-              <img src={urlFor(post.mainImage).width(800).height(450).url()} alt={post.title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div style={{ marginTop: '40px', borderRadius: 'var(--rl)', overflow: 'hidden', aspectRatio: '16/9', position: 'relative' }}>
+              <Image src={urlFor(post.mainImage).width(800).height(450).url()} fill alt={post.title} style={{ objectFit: 'cover' }} sizes="(max-width:768px) 100vw,720px" />
             </div>
           </div>
         )}

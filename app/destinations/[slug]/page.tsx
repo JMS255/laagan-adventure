@@ -1,11 +1,13 @@
 export const revalidate = 60
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import { client, urlFor, TOURS_BY_DESTINATION_QUERY, TESTIMONIALS_QUERY } from '@/lib/sanity'
 import { DESTINATIONS, getDestination } from '@/lib/destinations'
+import StickyBookBar from '@/components/StickyBookBar'
 import type { Metadata } from 'next'
 import type { TourCard, Testimonial } from '@/lib/types'
 
@@ -70,9 +72,9 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
               <div className="tours-grid">
                 {(tours as TourCard[]).map(t => (
                   <Link href={`/tours/${t.slug.current}`} className="tour-card" key={t._id}>
-                    <div className="tour-card__img">
+                    <div className="tour-card__img" style={{ position: 'relative' }}>
                       {t.mainImage
-                        ? <img src={urlFor(t.mainImage).width(600).height(450).url()} alt={t.title} />
+                        ? <Image src={urlFor(t.mainImage).width(600).height(450).url()} fill alt={t.title} style={{ objectFit: 'cover' }} sizes="(max-width:600px) 100vw,(max-width:900px) 50vw,33vw" />
                         : <div style={{ width: '100%', height: '100%', background: dest.heroGradient }} />
                       }
                     </div>
@@ -107,7 +109,7 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
         {/* ── ABOUT ── */}
         <section style={{ padding: '80px 0', background: 'var(--bg-2)' }}>
           <div className="container">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'start' }} className="story-grid">
+            <div style={{ alignItems: 'start' }} className="story-grid">
               <div>
                 <p className="section__label">About this destination</p>
                 <h2 className="section__title" style={{ marginBottom: '20px' }}>Why {dest.name}?</h2>
@@ -138,7 +140,7 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
           <div className="container">
             <p className="section__label">Experiences</p>
             <h2 className="section__title" style={{ marginBottom: '48px' }}>Top things to do in {dest.name}</h2>
-            <div className="why-grid">
+            <div className="why-grid why-grid--2col">
               {dest.thingsToDo.map((t, i) => (
                 <div key={i} className="why-card">
                   <p className="why-card__icon">{t.icon}</p>
@@ -153,7 +155,7 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
         {/* ── BEST TIME + WEATHER ── */}
         <section style={{ padding: '80px 0', background: 'var(--bg-2)' }}>
           <div className="container">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', maxWidth: '800px' }} className="trust-grid">
+            <div style={{ gap: '32px', maxWidth: '800px' }} className="trust-grid">
               <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--rl)', padding: '32px' }}>
                 <p style={{ fontSize: '2rem', marginBottom: '14px' }}>📅</p>
                 <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '8px' }}>Best time to visit</h3>
@@ -222,6 +224,10 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
           </div>
         </section>
 
+        <StickyBookBar
+          href={`/contact?tour=${encodeURIComponent(dest.name)}`}
+          label="Plan My Trip →"
+        />
       </main>
       <Footer />
     </>

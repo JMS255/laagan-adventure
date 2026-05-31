@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { urlFor } from '@/lib/sanity'
 import { getPricePerPerson, applyPromo } from '@/lib/promoCodes'
 import type { TourCard } from '@/lib/types'
@@ -79,10 +80,9 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
 
           {/* Tour summary card */}
           <div style={{ display: 'flex', gap: '16px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px', marginBottom: '36px' }}>
-            <div style={{ width: 80, height: 80, borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'var(--navy-2)' }}>
+            <div style={{ width: 80, height: 80, borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'var(--navy-2)', position: 'relative' }}>
               {tour.mainImage && (
-                <img src={urlFor(tour.mainImage).width(160).height(160).url()} alt={tour.title}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <Image src={urlFor(tour.mainImage).width(160).height(160).url()} fill alt={tour.title} style={{ objectFit: 'cover' }} sizes="80px" />
               )}
             </div>
             <div>
