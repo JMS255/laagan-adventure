@@ -2,7 +2,6 @@
 
 import { useState, useRef } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 
 interface Props {
   tourTitle: string
@@ -33,8 +32,12 @@ export default function PassengerDetailsForm({
   const [status, setStatus]           = useState<'idle' | 'sending' | 'sent'>('idle')
   const [submitError, setSubmitError] = useState('')
   const [depositSent, setDepositSent] = useState(false)
+  const [payLoading, setPayLoading]   = useState(false)
   const [bookingRef]                  = useState(genRef)
   const formRef                       = useRef<HTMLFormElement>(null)
+  const nameRef                       = useRef('')
+  const emailRef                      = useRef('')
+  const phoneRef                      = useRef('')
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -43,6 +46,10 @@ export default function PassengerDetailsForm({
 
     if (!formRef.current) return
     const fd = new FormData(formRef.current)
+
+    nameRef.current  = fd.get('name') as string
+    phoneRef.current = fd.get('phone') as string
+    emailRef.current = fd.get('email') as string
 
     const payload = {
       bookingRef,
@@ -55,9 +62,9 @@ export default function PassengerDetailsForm({
       totalPrice,
       discount,
       depositSent,
-      name:   fd.get('name') as string,
-      phone:  fd.get('phone') as string,
-      email:  fd.get('email') as string,
+      name:   nameRef.current,
+      phone:  phoneRef.current,
+      email:  emailRef.current,
       notes:  fd.get('special_requirements') as string,
     }
 
@@ -77,6 +84,34 @@ export default function PassengerDetailsForm({
     } catch {
       setSubmitError('Network error. Please check your connection and try again.')
       setStatus('idle')
+    }
+  }
+
+  async function handlePayDeposit() {
+    setPayLoading(true)
+    try {
+      const res = await fetch('/api/xendit/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bookingRef,
+          tourTitle,
+          depositAmount,
+          name:  nameRef.current,
+          email: emailRef.current,
+          phone: phoneRef.current,
+        }),
+      })
+      const data = await res.json()
+      if (data.invoiceUrl) {
+        window.location.href = data.invoiceUrl
+      } else {
+        alert('Could not create payment link. Please message us on Messenger.')
+      }
+    } catch {
+      alert('Network error. Please message us on Messenger.')
+    } finally {
+      setPayLoading(false)
     }
   }
 
@@ -111,40 +146,31 @@ export default function PassengerDetailsForm({
           </div>
         </div>
 
-        {/* GCash deposit section */}
+        {/* Xendit GCash deposit section */}
         {depositAmount > 0 && (
           <div style={{ background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '14px', padding: '28px', marginBottom: '24px' }}>
             <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '6px' }}>
-              💸 Hold your slot — send a ₱{depositAmount.toLocaleString()} deposit
+              💸 Hold your slot — pay ₱{depositAmount.toLocaleString()} deposit
             </h2>
             <p style={{ fontSize: '.82rem', color: 'var(--text-muted)', marginBottom: '24px', lineHeight: 1.65 }}>
-              Your slot is <strong style={{ color: 'var(--navy)' }}>not confirmed</strong> until we receive your deposit. Scan the QR or send to our GCash number. Include your reference in the note.
+              Your slot is <strong style={{ color: 'var(--navy)' }}>not confirmed</strong> until we receive your deposit. Pay securely via GCash — takes less than a minute.
             </p>
-
-            <div className="gcash-grid">
-              <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid var(--border)', padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1', position: 'relative', minHeight: '140px' }}>
-                <Image src="/gcash-qr.jpg" fill alt="GCash QR Code" sizes="140px" style={{ objectFit: 'contain', borderRadius: '6px' }} />
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {[
-                  { label: 'GCash Number', value: '0905-243-5196' },
-                  { label: 'Account Name', value: 'Laagan Adventure' },
-                  { label: 'Deposit Amount', value: `₱${depositAmount.toLocaleString()}` },
-                  { label: 'Payment Note', value: `${bookingRef} – ${tourTitle}` },
-                ].map(({ label, value }) => (
-                  <div key={label}>
-                    <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '2px' }}>{label}</p>
-                    <p style={{ fontSize: label === 'Deposit Amount' ? '1.1rem' : '.9rem', fontWeight: label === 'Payment Note' || label === 'Deposit Amount' ? 700 : 500, color: label === 'Payment Note' ? 'var(--pink)' : 'var(--navy)', fontFamily: label === 'Payment Note' ? 'monospace' : 'inherit' }}>
-                      {value}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ marginTop: '20px', padding: '12px 16px', background: 'rgba(217,107,138,.08)', border: '1px solid rgba(217,107,138,.2)', borderRadius: '8px', fontSize: '.8rem', color: 'var(--text-muted)', lineHeight: 1.65 }}>
-              ⚠️ <strong style={{ color: 'var(--navy)' }}>After paying:</strong> send your GCash screenshot to our Messenger with reference <strong style={{ color: 'var(--pink)', fontFamily: 'monospace' }}>{bookingRef}</strong>.
-            </div>
+            <button
+              onClick={handlePayDeposit}
+              disabled={payLoading}
+              style={{
+                width: '100%', padding: '16px', borderRadius: '12px', border: 'none',
+                background: payLoading ? 'var(--border)' : '#0070e0',
+                color: '#fff', fontSize: '1rem', fontWeight: 800,
+                fontFamily: 'inherit', cursor: payLoading ? 'not-allowed' : 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+              }}
+            >
+              {payLoading ? 'Opening payment…' : `Pay ₱${depositAmount.toLocaleString()} via GCash →`}
+            </button>
+            <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '10px' }}>
+              Powered by Xendit · Secure payment
+            </p>
           </div>
         )}
 
