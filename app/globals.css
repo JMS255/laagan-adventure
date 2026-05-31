@@ -640,6 +640,11 @@ html, body { overflow-x: hidden; max-width: 100%; }
   .why-grid.why-grid--2col .why-card { padding: 24px 16px; }
 }
 
+/* TRIP BUILDER */
+@media (max-width: 500px) {
+  .trip-dest-grid { grid-template-columns: 1fr !important; }
+}
+
 /* HERO MOBILE CTA */
 .hero__mobile-cta   { display: none; }
 .hero__widget-desktop { display: flex; justify-content: center; }

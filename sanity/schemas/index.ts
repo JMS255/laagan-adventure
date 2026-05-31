@@ -2,5 +2,6 @@ import tour from './tour'
 import gallery from './gallery'
 import testimonial from './testimonial'
 import blogPost from './blogPost'
+import { siteConfig } from './siteConfig'
 
-export const schemaTypes = [tour, gallery, testimonial, blogPost]
+export const schemaTypes = [tour, gallery, testimonial, blogPost, siteConfig]

@@ -1,18 +1,28 @@
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import ContactFlow from '@/components/ContactFlow'
+import TripBuilder from '@/components/TripBuilder'
+import { client, SITE_CONFIG_QUERY } from '@/lib/sanity'
+import { PRICING_FALLBACK } from '@/lib/spots'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact Us',
-  description: 'Plan your Zamboanga City tour with Laagan Adventure. Choose your tour type and connect with us directly on Messenger.',
+  title: 'Plan My Trip — Laagan Adventure',
+  description: 'Build your perfect Zamboanga tour. Pick your destination, group size, and stops — we\'ll confirm everything on Messenger.',
 }
 
-export default function ContactPage({
+export default async function ContactPage({
   searchParams,
 }: {
-  searchParams: { tour?: string }
+  searchParams: Promise<{ tour?: string }>
 }) {
+  const { tour } = await searchParams
+
+  const config = await client.fetch(SITE_CONFIG_QUERY).catch(() => null)
+  const pricing = {
+    small: { label: '2–5 pax', price: config?.tripSmallGroupPrice ?? PRICING_FALLBACK.small.price },
+    large: { label: '6+ pax',  price: config?.tripLargeGroupPrice ?? PRICING_FALLBACK.large.price },
+  }
+
   return (
     <>
       <Nav />
@@ -27,12 +37,13 @@ export default function ContactPage({
               <span style={{ color: 'var(--pink)', fontStyle: 'italic' }}>Zamboanga adventure.</span>
             </h1>
             <p style={{ color: 'rgba(255,255,255,.6)', fontSize: '.95rem', lineHeight: 1.7 }}>
-              No booking fees. No upfront payment.<br />Just tell us what you need.
+              Pick your destination, choose your stops, set your date.<br />
+              We&apos;ll confirm everything on Messenger.
             </p>
           </div>
         </div>
 
-        {/* Flow card — overlaps header */}
+        {/* Builder card — overlaps header */}
         <div className="container" style={{ marginTop: '-56px', paddingBottom: '64px' }}>
           <div style={{
             background: '#fff',
@@ -41,7 +52,7 @@ export default function ContactPage({
             boxShadow: '0 12px 60px rgba(0,40,70,.12)',
             border: '1px solid var(--border)',
           }}>
-            <ContactFlow initialTour={searchParams.tour} />
+            <TripBuilder pricing={pricing} initialTour={tour} />
           </div>
         </div>
 

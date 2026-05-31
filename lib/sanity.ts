@@ -54,6 +54,8 @@ export const BLOG_POST_QUERY = `*[_type == "blogPost" && slug.current == $slug][
   _id, title, slug, excerpt, mainImage, publishedAt, tags, body
 }`
 
+export const SITE_CONFIG_QUERY = `*[_type == "siteConfig"][0]{ tripSmallGroupPrice, tripLargeGroupPrice }`
+
 export const TOURS_BY_DESTINATION_QUERY = `*[_type == "tour" && destination == $destination] | order(_createdAt asc) {
   _id, title, slug, tagline, mainImage, price, priceNote, duration, destination, badgeLabel, urgencyNote, audience
 }`
