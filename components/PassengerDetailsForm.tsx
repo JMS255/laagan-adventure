@@ -123,7 +123,7 @@ export default function PassengerDetailsForm({
 
             <div className="gcash-grid">
               <div style={{ background: '#fff', borderRadius: '12px', border: '1px solid var(--border)', padding: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1', position: 'relative', minHeight: '140px' }}>
-                <Image src="/gcash-qr.png" fill alt="GCash QR Code" style={{ objectFit: 'contain', borderRadius: '6px' }} onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none' }} />
+                <Image src="/gcash-qr.jpg" fill alt="GCash QR Code" sizes="140px" style={{ objectFit: 'contain', borderRadius: '6px' }} />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {[
