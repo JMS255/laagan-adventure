@@ -312,7 +312,7 @@
       <span>🔗 <strong>Live:</strong> laagan-adventure.vercel.app</span>
       <span>📦 <strong>Repo:</strong> JMS255/laagan-adventure</span>
       <span>🛠 <strong>Framework:</strong> Next.js 15 App Router</span>
-      <span>📅 <strong>Last updated:</strong> June 3 2026 · Design sprint + bug fixes shipped — Sprint 7 next</span>
+      <span>📅 <strong>Last updated:</strong> June 3 2026 · Content sprint complete — 7 tours, hybrid content model, 28 static pages</span>
     </div>
   </div>
 
@@ -1151,6 +1151,81 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <!-- CONTENT SPRINT -->
+    <section class="doc-section" id="content-sprint">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Content Sprint — Hybrid Content Model &amp; 7 Tours <span style="font-size:.8rem;font-weight:500;color:var(--green)">✅ Complete</span></h2>
+      <p>Built all tour content using a hybrid model: tour content hardcoded in <code>lib/tours-data.ts</code>, prices editable in Sanity. 7 full tours with real itineraries based on research from iTravel, Right Deal Travel, Guide to the Philippines, and Lakad Pilipinas.</p>
+
+      <h3>Content Architecture</h3>
+      <table>
+        <thead><tr><th>Layer</th><th>What lives there</th><th>Who edits</th></tr></thead>
+        <tbody>
+          <tr><td><code>lib/tours-data.ts</code></td><td>Title, description, photos, inclusions, itinerary, highlights, what to bring</td><td>James (code)</td></tr>
+          <tr><td>Sanity Studio</td><td>price, priceNote, badgeLabel, urgencyNote, availableDates</td><td>James (Studio UI)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>To add prices:</strong> Go to <code>/studio</code> → New Tour document → set slug to match exactly one of the 7 slugs → enter price. That's it.
+      </div>
+
+      <h3>7 Tours Built</h3>
+      <table>
+        <thead><tr><th>Slug</th><th>Title</th><th>Duration</th><th>Type</th></tr></thead>
+        <tbody>
+          <tr><td>santa-cruz-island-tour</td><td>Santa Cruz Island Tour</td><td>Full Day</td><td>Island</td></tr>
+          <tr><td>once-islas-island-hopping</td><td>Once Islas — 11 Islands</td><td>Full Day</td><td>Island</td></tr>
+          <tr><td>zamboanga-city-heritage-tour</td><td>City Heritage Tour</td><td>Half Day</td><td>Culture</td></tr>
+          <tr><td>merloquet-falls-eco-tour</td><td>Merloquet Falls Eco Tour</td><td>Full Day</td><td>Adventure</td></tr>
+          <tr><td>paseo-del-mar-sunset-cruise</td><td>Sunset Cruise</td><td>Evening</td><td>Leisure</td></tr>
+          <tr><td>zambasulta-complete-tour</td><td>ZambaSulta — 7-Day Journey</td><td>7 Days</td><td>Multi-day</td></tr>
+          <tr><td>basilan-day-trip</td><td>Basilan Day Trip</td><td>Full Day</td><td>Adventure</td></tr>
+        </tbody>
+      </table>
+
+      <h3>New Components</h3>
+      <table>
+        <thead><tr><th>Component</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>TourGallery.tsx</code></td><td>Photo grid + fullscreen lightbox with prev/next arrows</td></tr>
+          <tr><td><code>TourItinerary.tsx</code></td><td>Click-to-expand accordion for single-day hourly itineraries</td></tr>
+          <tr><td><code>TourDayItinerary.tsx</code></td><td>Day-by-day accordion (expand all / collapse all) for multi-day tours</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>Type names — do NOT confuse:</strong>
+        <code>TourDay</code> (in tours-data.ts) is for hardcoded multi-day tours.
+        <code>DayItem</code> (in types.ts) is the Sanity schema type.
+        They are structurally different and not interchangeable.
+      </div>
+
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Bug fixes — mobile layouts, trust strip, photo lightbox, map (June 3 2026)</div>
+            <div class="desc">
+              White gap on all pages fixed (dynamic --nav-h). Testimonials, tours grid, FAQ grid all single-column on mobile. Footer padding for sticky bar. TrustStrip expanded to 6 items (added Money-Back Guarantee, kept Pay on the Day). Meeting point removed from tour detail. TourGallery lightbox built. "Plan a Custom Trip" button flex layout fix. Contact page now shows Google Maps iframe (Zamboanga City). Footer "About James &amp; Ivy" → "About".
+            </div>
+          </div>
+          <div class="commit">5f43626→5373f4e</div>
+        </div>
+
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">7 tours built with full content — hybrid content model (June 3 2026)</div>
+            <div class="desc">
+              <code>lib/tours-data.ts</code> created — all tour content hardcoded. <code>TravelerFilter</code> and <code>ToursFilter</code> rewritten to merge hardcoded content with Sanity prices. Tour detail page rewritten to use <code>getTourBySlug()</code> + Sanity price. <code>generateStaticParams</code> now sources from <code>TOURS_DATA</code> — 28 static pages built (was 23). Photos are Wikimedia/Unsplash placeholders, replaceable by swapping URLs in the <code>P</code> object.
+            </div>
+          </div>
+          <div class="commit">7bc2a2b→5816c7c</div>
+        </div>
+      </div>
     </section>
 
     <!-- SPRINT 1 -->
