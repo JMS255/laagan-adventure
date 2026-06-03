@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Santa Cruz Island Tour — Laagan Adventures</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    .gallery{display:grid;grid-template-columns:7fr 3fr;gap:10px;border-radius:20px;overflow:hidden;margin-bottom:40px;max-height:480px}
+    .gallery__main{overflow:hidden;position:relative}
+    .gallery__main-img{width:100%;height:100%;object-fit:cover}
+    .gallery__thumbs{display:flex;flex-direction:column;gap:10px}
+    .gallery__thumb{flex:1;overflow:hidden;position:relative}
+    .gallery__thumb-img{width:100%;height:100%;object-fit:cover}
+    .gallery__view-all{position:absolute;bottom:14px;right:14px;background:rgba(0,0,0,.65);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:.78rem;font-weight:700;cursor:pointer;backdrop-filter:blur(4px)}
+    .tour-header{margin-bottom:32px}
+    .tour-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;color:var(--navy);margin-bottom:16px;line-height:1.1}
+    .tour-meta{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .tour-meta .chip{font-size:.78rem}
+    .urgency-bar{display:flex;align-items:center;gap:10px;background:#fff4f7;border:1px solid rgba(217,107,138,.25);border-radius:10px;padding:10px 16px;font-size:.82rem}
+    .urgency-bar__badge{background:var(--pink);color:#fff;border-radius:6px;padding:3px 10px;font-size:.7rem;font-weight:800;letter-spacing:.04em;white-space:nowrap}
+    .urgency-bar__text{color:var(--text);font-weight:600}
+    .urgency-bar__note{color:var(--muted);font-size:.78rem;margin-left:auto}
+    /* Two-column layout */
+    .detail-grid{display:grid;grid-template-columns:1fr 380px;gap:56px;align-items:start;padding:40px 0 80px}
+    /* Left content */
+    .detail-section{margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid var(--border)}
+    .detail-section:last-child{border-bottom:none;margin-bottom:0}
+    .detail-section__title{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:20px;letter-spacing:-.01em}
+    .inc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .inc-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .inc-list li{display:flex;gap:10px;font-size:.88rem;color:var(--text);line-height:1.5}
+    .inc-list li span:first-child{flex-shrink:0;font-size:1rem}
+    .rating-summary{display:flex;align-items:center;gap:20px;padding:20px;background:var(--bg-2);border-radius:var(--r);margin-bottom:24px}
+    .rating-big{font-family:'Playfair Display',serif;font-size:3rem;font-weight:800;color:var(--navy);line-height:1}
+    .rating-stars{color:#f5a623;font-size:1.2rem;letter-spacing:2px}
+    .review-card{padding:20px 0;border-bottom:1px solid var(--border)}
+    .review-card:last-child{border-bottom:none}
+    .review-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .review-avatar{width:38px;height:38px;border-radius:50%;background:rgba(217,107,138,.12);border:1.5px solid rgba(217,107,138,.25);color:var(--pink);font-weight:800;font-size:.82rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .review-name{font-weight:700;font-size:.85rem;color:var(--navy)}
+    .review-date{font-size:.72rem;color:var(--muted)}
+    .review-tour{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--pink)}
+    .review-text{font-size:.86rem;color:var(--muted);line-height:1.75;font-style:italic}
+    /* Sidebar */
+    .booking-sidebar{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:28px;position:sticky;top:130px;box-shadow:0 4px 24px rgba(0,40,70,.07)}
+    .sidebar-price-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:4px}
+    .sidebar-price{font-size:2rem;font-weight:800;color:var(--pink);letter-spacing:-.02em;margin-bottom:6px;line-height:1}
+    .sidebar-price small{font-size:.88rem;color:var(--muted);font-weight:500}
+    .tour-type-toggle{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:20px}
+    .tt-btn{padding:10px;font-size:.8rem;font-weight:700;color:var(--muted);cursor:pointer;border:none;background:#fff;transition:all .2s;border-right:1px solid var(--border)}
+    .tt-btn:last-child{border-right:none}
+    .tt-btn.is-active{background:var(--navy);color:#fff}
+    .stepper-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)}
+    .stepper-row:last-child{border-bottom:none}
+    .stepper-label{font-size:.85rem;font-weight:600;color:var(--navy)}
+    .stepper-sub{font-size:.72rem;color:var(--muted)}
+    .price-breakdown{background:var(--bg-2);border-radius:10px;padding:14px;margin:16px 0;font-size:.82rem}
+    .price-breakdown-row{display:flex;justify-content:space-between;padding:5px 0;color:var(--muted)}
+    .price-breakdown-total{display:flex;justify-content:space-between;padding:10px 0 0;border-top:1px solid var(--border);font-weight:800;color:var(--navy);font-size:1rem;margin-top:4px}
+    /* Meeting point / policy boxes */
+    .info-box{background:var(--bg-2);border-radius:var(--r);padding:18px;font-size:.85rem;color:var(--muted);line-height:1.65}
+    .info-box strong{color:var(--navy)}
+    /* Related tours */
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+    @media(max-width:900px){
+      .gallery{grid-template-columns:1fr;max-height:340px}
+      .gallery__thumbs{display:none}
+      .gallery__main{height:340px}
+      .detail-grid{grid-template-columns:1fr;gap:0}
+      .booking-sidebar{display:none}
+      .related-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:600px){
+      .inc-grid{grid-template-columns:1fr}
+      .related-grid{grid-template-columns:1fr}
+      .tour-meta .chip{font-size:.7rem}
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="promo-strip">
+    <span>⚠️ <strong>400 visitor/day cap</strong> on Santa Cruz Island — spots fill fast on weekends</span>
+  </div>
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">
+      <img src="../public/logo.jpg" alt="Laagan Adventures">
+      <span class="nav__logo-text">Laagan Adventures</span>
+    </a>
+    <div class="nav__links">
+      <a href="tours.html" class="is-active">Tours</a>
+      <a href="#">Destinations</a>
+      <a href="#">Blog</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav__right">
+      <a href="tel:09052435196" class="nav__phone">0905-243-5196</a>
+      <a href="booking.html" class="nav__cta">Book Now</a>
+    </div>
+    <button class="nav__toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <nav class="nav__mobile">
+    <a href="tours.html">Tours</a>
+    <a href="contact.html">Plan My Trip</a>
+    <a href="index.html">Home</a>
+    <a href="tel:09052435196">📞 0905-243-5196</a>
+  </nav>
+</header>
+
+<main class="page-top">
+  <div class="container">
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb" style="padding-top:32px">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb__sep">›</span>
+      <a href="tours.html">Tours</a>
+      <span class="breadcrumb__sep">›</span>
+      <span>Santa Cruz Island Tour</span>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="gallery">
+      <div class="gallery__main">
+        <div class="gallery__main-img" style="background:linear-gradient(160deg,#0ea5e9 0%,#0284c7 50%,#0c4a6e 100%);width:100%;height:100%"></div>
+        <button class="gallery__view-all">📷 View all 12 photos</button>
+      </div>
+      <div class="gallery__thumbs">
+        <div class="gallery__thumb">
+          <div class="gallery__thumb-img" style="background:linear-gradient(160deg,#d96b8a,#bf5070);width:100%;height:100%"></div>
+        </div>
+        <div class="gallery__thumb">
+          <div class="gallery__thumb-img" style="background:linear-gradient(160deg,#10b981,#059669);width:100%;height:100%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tour Header -->
+    <div class="tour-header">
+      <h1 class="tour-title">Santa Cruz Island Tour</h1>
+      <div class="tour-meta">
+        <span class="chip">⏱ 8 hours</span>
+        <span class="chip">👥 2–20 guests</span>
+        <span class="chip">📍 Paseo del Mar Jetty</span>
+        <span class="chip">⭐ 5.0 (124 reviews)</span>
+        <span class="chip">🏝 Island Tour</span>
+      </div>
+      <div class="urgency-bar">
+        <span class="urgency-bar__badge">🔥 Most Popular</span>
+        <span class="urgency-bar__text">Only 400 visitors/day on Santa Cruz Island</span>
+        <span class="urgency-bar__note">Weekends sell out fast</span>
+      </div>
+    </div>
+
+    <!-- Detail Grid: Left Content + Right Sidebar -->
+    <div class="detail-grid">
+
+      <!-- ── LEFT COLUMN ── -->
+      <div>
+
+        <!-- Overview -->
+        <div class="detail-section">
+          <h2 class="detail-section__title">Overview</h2>
+          <p style="font-size:.95rem;color:var(--text);line-height:1.8;margin-bottom:20px">You'll spend a full day on one of the most extraordinary beaches in the world — a beach with naturally pink sand, crystal-clear water, and a jellyfish lagoon where you can swim freely. We sail there on a traditional Tausug vinta: colorful, hand-crafted outrigger boats that have crossed these waters for centuries.</p>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;gap:12px;font-size:.88rem">
+              <span style="color:var(--pink);font-size:1.1rem;flex-shrink:0">🏖</span>
+              <div><strong style="color:var(--navy)">The only pink sand beach in Asia</strong> — National Geographic Top 21 Beaches in the World (2017)</div>
+            </div>
+            <div style="display:flex;gap:12px;font-size:.88rem">
+              <span style="color:var(--pink);font-size:1.1rem;flex-shrink:0">🪼</span>
+              <div><strong style="color:var(--navy)">Swim with stingless jellyfish</strong> — one of only a few places on earth where this is safely possible</div>
+            </div>
+            <div style="display:flex;gap:12px;font-size:.88rem">
+              <span style="color:var(--pink);font-size:1.1rem;flex-shrink:0">⛵</span>
+              <div><strong style="color:var(--navy)">Sail on a traditional vinta</strong> — authentic Tausug outrigger boats, unique to Zamboanga</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inclusions -->
+        <div class="detail-section">
+          <h2 class="detail-section__title">What's Included</h2>
+          <div class="inc-grid">
+            <ul class="inc-list">
+              <li><span>✅</span><span>Boat transportation (vinta + speedboat)</span></li>
+              <li><span>✅</span><span>Santa Cruz Island entrance permit</span></li>
+              <li><span>✅</span><span>Snorkeling gear & life jackets</span></li>
+              <li><span>✅</span><span>Packed lunch (Filipino meals)</span></li>
+              <li><span>✅</span><span>Licensed local tour guide</span></li>
+              <li><span>✅</span><span>First aid & emergency kit</span></li>
+            </ul>
+            <ul class="inc-list">
+              <li><span>❌</span><span>Personal expenses & shopping</span></li>
+              <li><span>❌</span><span>Additional drinks & snacks</span></li>
+              <li><span>❌</span><span>Underwater camera rental</span></li>
+              <li><span>❌</span><span>Travel insurance</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Itinerary -->
+        <div class="detail-section" data-accordion>
+          <h2 class="detail-section__title">Full Day Itinerary</h2>
+          <div class="accordion-item is-open">
+            <button class="accordion-trigger">
+              <span>🌅 6:00 AM — Meet at Paseo del Mar Jetty</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">Gather at the Paseo del Mar waterfront. James or a guide will meet your group, brief you on safety, and help you board the vinta. <strong>Tip:</strong> Arrive 10 minutes early to get a good spot.</div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              <span>⛵ 6:30 AM — Depart on Tausug Vinta</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">A 60-minute sail through Zamboanga waters on a traditional vinta. Perfect for photos — the colorful sails against the ocean are unforgettable.</div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              <span>🏖 7:30 AM – 12:00 PM — Santa Cruz Island</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">Free time on the pink sand beach. Swim, snorkel the coral gardens, visit the stingless jellyfish lagoon, and explore the sandbar. Maximum 400 visitors are admitted per day — it stays uncrowded.</div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              <span>🍱 12:30 PM — Lunch at the Island</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">Packed Filipino lunch served under the shade. Rice, viand, fresh buko (coconut) water. Vegetarian options available — let us know when booking.</div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              <span>🛶 2:00 PM — Return Journey</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="accordion-body">Depart from Santa Cruz Island. Speedboat return trip for efficiency. Back at Paseo del Mar by 3:00–3:30 PM depending on conditions.</div>
+          </div>
+        </div>
+
+        <!-- What to Bring -->
+        <div class="detail-section">
+          <h2 class="detail-section__title">What to Bring</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="font-size:.85rem;color:var(--text)">☀️ Sunscreen (reef-safe preferred)</div>
+            <div style="font-size:.85rem;color:var(--text)">👙 Swimwear + change of clothes</div>
+            <div style="font-size:.85rem;color:var(--text)">💵 Cash for extras (GCash works too)</div>
+            <div style="font-size:.85rem;color:var(--text)">📷 Waterproof camera / case</div>
+            <div style="font-size:.85rem;color:var(--text)">🧴 Insect repellent</div>
+            <div style="font-size:.85rem;color:var(--text)">🎒 Small dry bag for electronics</div>
+          </div>
+        </div>
+
+        <!-- Meeting Point + Policy -->
+        <div class="detail-section">
+          <h2 class="detail-section__title">Meeting Point</h2>
+          <div class="info-box" style="margin-bottom:12px">
+            <strong>📍 Paseo del Mar Jetty, Zamboanga City</strong><br>
+            Near the main Paseo del Mar waterfront. Look for the Laagan Adventures vinta with the colorful sail.
+            <br><br><a href="https://maps.google.com" target="_blank" style="color:var(--pink);font-weight:600">Open in Google Maps →</a>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h2 class="detail-section__title">Cancellation Policy</h2>
+          <div class="info-box">
+            <strong>✅ Free cancellation up to 24 hours before your tour.</strong><br>
+            Cancel within 24 hours and you'll receive a full refund or free reschedule. For cancellations due to bad weather, we'll reschedule at no charge — your safety always comes first.
+          </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="detail-section">
+          <h2 class="detail-section__title">Guest Reviews</h2>
+          <div class="rating-summary">
+            <div>
+              <div class="rating-big">5.0</div>
+              <div class="rating-stars">★★★★★</div>
+              <div style="font-size:.72rem;color:var(--muted);margin-top:4px">124 reviews</div>
+            </div>
+            <div style="flex:1;padding-left:24px">
+              <div style="font-size:.85rem;font-weight:600;color:var(--navy);margin-bottom:6px">What guests love most:</div>
+              <div style="font-size:.82rem;color:var(--muted);line-height:1.7">"The pink sand is real, and it's magical." · "James and Ivy are the best guides." · "Worth every peso." · "Can't believe this exists in the Philippines."</div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-meta">
+              <div class="review-avatar">M</div>
+              <div>
+                <div class="review-name">Maria G. <span style="color:#f5a623;font-size:.85rem">★★★★★</span></div>
+                <div class="review-date">Davao City · May 2026</div>
+              </div>
+              <div class="review-tour" style="margin-left:auto">Santa Cruz Island</div>
+            </div>
+            <p class="review-text">"James and Ivy are incredible. The pink sand beach is everything they promised and more. Worth every peso — I'll be back with my whole family next time."</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-meta">
+              <div class="review-avatar">R</div>
+              <div>
+                <div class="review-name">Robert C. <span style="color:#f5a623;font-size:.85rem">★★★★★</span></div>
+                <div class="review-date">Manila · April 2026</div>
+              </div>
+              <div class="review-tour" style="margin-left:auto">Santa Cruz Island</div>
+            </div>
+            <p class="review-text">"The vinta ride alone was worth coming to Zamboanga for. Booked 2 days before, confirmed same day, paid on arrival. No stress at all. Best day trip in the Philippines."</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-meta">
+              <div class="review-avatar">J</div>
+              <div>
+                <div class="review-name">Jessica L. <span style="color:#f5a623;font-size:.85rem">★★★★★</span></div>
+                <div class="review-date">Singapore · March 2026</div>
+              </div>
+              <div class="review-tour" style="margin-left:auto">Santa Cruz Island</div>
+            </div>
+            <p class="review-text">"I've traveled a lot but I've never seen sand like that. The jellyfish lagoon was surreal. Ivy's knowledge of the area and history made the trip so much richer."</p>
+          </div>
+
+          <div style="margin-top:20px">
+            <a href="https://facebook.com" target="_blank" style="font-size:.82rem;font-weight:600;color:var(--pink)">See all reviews on Facebook →</a>
+          </div>
+        </div>
+
+      </div><!-- end left column -->
+
+      <!-- ── RIGHT SIDEBAR ── -->
+      <div class="booking-sidebar">
+        <div class="sidebar-price-label">Starting from</div>
+        <div class="sidebar-price">₱1,500 <small>/ person</small></div>
+
+        <div class="tour-type-toggle">
+          <button class="tt-btn is-active" id="tt-joiners">Joiners</button>
+          <button class="tt-btn" id="tt-private">Private</button>
+        </div>
+
+        <!-- Joiners view -->
+        <div id="view-joiners">
+          <div class="stepper-row">
+            <div>
+              <div class="stepper-label">Adults</div>
+              <div class="stepper-sub">Ages 13+</div>
+            </div>
+            <div class="stepper" data-stepper data-type="adults" data-min="1" data-max="20" data-val="2">
+              <button class="stepper__btn" data-dec>−</button>
+              <span class="stepper__val" data-val>2</span>
+              <button class="stepper__btn" data-inc>+</button>
+            </div>
+          </div>
+          <div class="stepper-row" style="margin-bottom:16px">
+            <div>
+              <div class="stepper-label">Children</div>
+              <div class="stepper-sub">Ages 4–12 (₱750)</div>
+            </div>
+            <div class="stepper" data-stepper data-type="children" data-min="0" data-max="10" data-val="0">
+              <button class="stepper__btn" data-dec>−</button>
+              <span class="stepper__val" data-val>0</span>
+              <button class="stepper__btn" data-inc>+</button>
+            </div>
+          </div>
+          <div class="field" style="margin-bottom:8px">
+            <label>Preferred Date</label>
+            <input type="date" id="tour-date" min="2026-06-04" style="font-size:.88rem">
+          </div>
+          <div class="price-breakdown">
+            <div class="price-breakdown-row"><span id="pb-adults-label">₱1,500 × 2 adults</span><span id="pb-adults-val">₱3,000</span></div>
+            <div class="price-breakdown-row" id="pb-children-row" style="display:none"><span id="pb-children-label">₱750 × 0 children</span><span id="pb-children-val">₱0</span></div>
+            <div class="price-breakdown-total"><span>Total estimate</span><span id="pb-total">₱3,000</span></div>
+          </div>
+        </div>
+
+        <!-- Private view (hidden by default) -->
+        <div id="view-private" style="display:none">
+          <div class="price-breakdown" style="margin-bottom:16px">
+            <div class="price-breakdown-row"><span>Up to 10 pax</span><span style="font-weight:700;color:var(--navy)">₱8,000 flat</span></div>
+            <div class="price-breakdown-row"><span>11–15 pax</span><span style="font-weight:700;color:var(--navy)">₱9,500 flat</span></div>
+            <div class="price-breakdown-row"><span>16–20 pax</span><span style="font-weight:700;color:var(--navy)">₱11,000 flat</span></div>
+          </div>
+          <div class="field" style="margin-bottom:8px">
+            <label>Preferred Date</label>
+            <input type="date" min="2026-06-04" style="font-size:.88rem">
+          </div>
+        </div>
+
+        <a href="booking.html" class="btn btn--primary btn--full" style="margin-top:4px;font-size:.9rem">Check Availability →</a>
+        <div class="trust-micro">
+          <span>🔒 No payment yet</span>
+          <span>✅ Free cancellation</span>
+          <span>💬 24hr reply</span>
+        </div>
+        <div style="text-align:center;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+          <a href="https://m.me/61562040673545" target="_blank" style="font-size:.8rem;font-weight:600;color:var(--muted)">Have questions? Message us →</a>
+        </div>
+      </div><!-- end sidebar -->
+
+    </div><!-- end detail-grid -->
+
+    <!-- Related Tours -->
+    <div style="padding-bottom:80px">
+      <h2 class="section__title" style="font-size:1.6rem">You Might Also Like</h2>
+      <div class="related-grid">
+        <a href="tour-detail.html" class="tour-card">
+          <div class="tour-card__img"><div class="tour-card__img-bg" style="background:linear-gradient(160deg,#f59e0b,#d97706,#78350f)"></div></div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">City Heritage Tour</h3>
+            <div class="tour-card__chips"><span class="chip chip--sm">⏱ 4 hrs</span><span class="chip chip--sm">🏛 Culture</span></div>
+            <div class="tour-card__footer"><div><div class="tour-card__price">₱800</div></div><span class="btn btn--outline btn--sm">View</span></div>
+          </div>
+        </a>
+        <a href="tour-detail.html" class="tour-card">
+          <div class="tour-card__img"><div class="tour-card__img-bg" style="background:linear-gradient(160deg,#10b981,#059669,#064e3b)"></div></div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">Island Hopping</h3>
+            <div class="tour-card__chips"><span class="chip chip--sm">⏱ 10 hrs</span><span class="chip chip--sm">⛵ Adventure</span></div>
+            <div class="tour-card__footer"><div><div class="tour-card__price">₱1,800</div></div><span class="btn btn--outline btn--sm">View</span></div>
+          </div>
+        </a>
+        <a href="tour-detail.html" class="tour-card">
+          <div class="tour-card__img"><div class="tour-card__img-bg" style="background:linear-gradient(160deg,#8b5cf6,#7c3aed,#4c1d95)"></div></div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">ZambaSulta + ZamPen</h3>
+            <div class="tour-card__chips"><span class="chip chip--sm">⏱ 2 days</span><span class="chip chip--sm">🗺 Full Tour</span></div>
+            <div class="tour-card__footer"><div><div class="tour-card__price">₱2,500</div></div><span class="btn btn--outline btn--sm">View</span></div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- end container -->
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div><div class="footer__brand-name">Laagan Adventures</div><p class="footer__brand-desc">Local guides. Authentic experiences. Zamboanga's trusted tour operator since 2022.</p><div class="footer__social"><a href="#" class="footer__social-link">FB</a><a href="#" class="footer__social-link">IG</a></div></div>
+      <div><div class="footer__col-title">Our Tours</div><div class="footer__links"><a href="tour-detail.html">Santa Cruz Island</a><a href="tours.html">All Tours</a></div></div>
+      <div><div class="footer__col-title">Company</div><div class="footer__links"><a href="#">About</a><a href="contact.html">Contact</a></div></div>
+      <div><div class="footer__col-title">Contact</div><div class="footer__links"><a href="tel:09052435196">📞 0905-243-5196</a><a href="https://m.me/61562040673545">💬 Messenger</a></div></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Laagan Adventures · DTI Registered</span></div>
+  </div>
+</footer>
+
+<!-- Mobile Sticky Book Bar -->
+<div class="sticky-bar">
+  <div class="sticky-bar__price">
+    <div class="sticky-bar__amount" id="sticky-price">₱3,000</div>
+    <div class="sticky-bar__note">est. for 2 adults</div>
+  </div>
+  <a href="booking.html" class="btn btn--primary" style="border-radius:10px;padding:12px 24px">Check Availability</a>
+</div>
+
+<div class="float-btns">
+  <a href="https://wa.me/639052435196" target="_blank" class="float-btn float-btn--wa">📱</a>
+  <a href="https://m.me/61562040673545" target="_blank" class="float-btn float-btn--ms">💬</a>
+</div>
+
+<script src="shared.js"></script>
+<script>
+  // Price calculator
+  function updatePrice() {
+    const adults   = parseInt(document.querySelector('[data-type="adults"] [data-val]').textContent);
+    const children = parseInt(document.querySelector('[data-type="children"] [data-val]').textContent);
+    const aTotal = adults * 1500;
+    const cTotal = children * 750;
+    const total  = aTotal + cTotal;
+    document.getElementById('pb-adults-label').textContent  = `₱1,500 × ${adults} adult${adults !== 1 ? 's' : ''}`;
+    document.getElementById('pb-adults-val').textContent    = `₱${aTotal.toLocaleString()}`;
+    document.getElementById('pb-children-label').textContent = `₱750 × ${children} child${children !== 1 ? 'ren' : ''}`;
+    document.getElementById('pb-children-val').textContent   = `₱${cTotal.toLocaleString()}`;
+    document.getElementById('pb-children-row').style.display = children > 0 ? 'flex' : 'none';
+    document.getElementById('pb-total').textContent = `₱${total.toLocaleString()}`;
+    document.getElementById('sticky-price').textContent = `₱${total.toLocaleString()}`;
+  }
+  document.addEventListener('change', e => { if (e.target.closest('[data-stepper]')) updatePrice(); });
+
+  // Tour type toggle
+  document.getElementById('tt-joiners').addEventListener('click', () => {
+    document.getElementById('tt-joiners').classList.add('is-active');
+    document.getElementById('tt-private').classList.remove('is-active');
+    document.getElementById('view-joiners').style.display = '';
+    document.getElementById('view-private').style.display = 'none';
+  });
+  document.getElementById('tt-private').addEventListener('click', () => {
+    document.getElementById('tt-private').classList.add('is-active');
+    document.getElementById('tt-joiners').classList.remove('is-active');
+    document.getElementById('view-private').style.display = '';
+    document.getElementById('view-joiners').style.display = 'none';
+  });
+</script>
+</body>
+</html>

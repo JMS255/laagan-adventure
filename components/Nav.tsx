@@ -41,16 +41,10 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
           {links.map(l => <Link key={l.href} href={l.href}>{l.label}</Link>)}
         </nav>
 
-        <a href="tel:09052435196" className="nav__phone">
-          0905-243-5196
-        </a>
-
-        <button
-          onClick={() => openDrawer()}
-          className="nav__book-btn"
-        >
-          Book Now
-        </button>
+        <div className="nav__right">
+          <a href="tel:09052435196" className="nav__phone">0905-243-5196</a>
+          <button onClick={() => openDrawer()} className="nav__cta">Book Now</button>
+        </div>
 
         <button className="nav__toggle" onClick={() => setOpen(v => !v)} aria-label="Menu">
           <span /><span /><span />
@@ -58,22 +52,20 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
       </header>
 
       {/* Mobile menu */}
-      {open && (
-        <div className="nav__mobile-menu">
-          {links.map(l => (
-            <Link key={l.href} href={l.href} onClick={() => setOpen(false)} className="nav__mobile-link">
-              {l.label}
-            </Link>
-          ))}
-          <button
-            className="nav__book-btn"
-            style={{ width: '100%', justifyContent: 'center' }}
-            onClick={() => { setOpen(false); openDrawer() }}
-          >
-            Book Now
-          </button>
-        </div>
-      )}
+      <div className={`nav__mobile${open ? ' is-open' : ''}`}>
+        {links.map(l => (
+          <Link key={l.href} href={l.href} onClick={() => setOpen(false)}>
+            {l.label}
+          </Link>
+        ))}
+        <button
+          className="nav__cta"
+          style={{ margin: '8px 24px', justifyContent: 'center' }}
+          onClick={() => { setOpen(false); openDrawer() }}
+        >
+          Book Now
+        </button>
+      </div>
     </div>
   )
 }

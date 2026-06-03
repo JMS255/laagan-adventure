@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Your Tour — Laagan Adventures</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body{background:var(--bg-2)}
+    .booking-header{background:#fff;border-bottom:1px solid var(--border);padding:0 32px;height:68px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:300}
+    .booking-header .nav__logo-text{font-size:.88rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--navy)}
+    .booking-container{max-width:640px;margin:0 auto;padding:40px 20px 80px}
+    .booking-card{background:#fff;border-radius:var(--rl);border:1px solid var(--border);padding:28px;margin-bottom:20px}
+    .tour-summary{display:flex;gap:16px;align-items:center;padding:16px;background:var(--bg-2);border-radius:var(--r);margin-bottom:24px;border:1px solid var(--border)}
+    .tour-summary__img{width:80px;height:60px;border-radius:8px;flex-shrink:0;overflow:hidden}
+    .tour-summary__name{font-weight:800;color:var(--navy);font-size:.95rem;margin-bottom:4px}
+    .tour-summary__detail{font-size:.78rem;color:var(--muted)}
+    .tour-summary__change{font-size:.75rem;font-weight:700;color:var(--pink);margin-left:auto;flex-shrink:0}
+    /* Promo code */
+    .promo-toggle{background:none;border:none;font-size:.82rem;font-weight:600;color:var(--pink);cursor:pointer;padding:0;margin-top:4px;display:block}
+    .promo-field{display:none;margin-top:10px}
+    .promo-field.is-open{display:flex;gap:8px}
+    .promo-field input{flex:1;background:var(--pink-light);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 14px;font-size:.88rem;color:var(--text);outline:none}
+    .promo-field input:focus{border-color:var(--pink)}
+    .promo-apply{padding:10px 18px;background:var(--navy);color:#fff;border-radius:var(--r);font-size:.82rem;font-weight:700;cursor:pointer;border:none;white-space:nowrap}
+    /* Price breakdown */
+    .price-box{background:var(--bg-2);border-radius:var(--r);padding:16px;margin:16px 0 0}
+    .price-row{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);padding:5px 0}
+    .price-total-row{display:flex;justify-content:space-between;padding:12px 0 0;border-top:1px solid var(--border);font-weight:800;font-size:1.1rem;color:var(--navy);margin-top:4px}
+    /* Step 3 confirm */
+    .confirm-check{width:80px;height:80px;border-radius:50%;background:#10b981;color:#fff;font-size:2.2rem;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;box-shadow:0 8px 24px rgba(16,185,129,.3)}
+    .booking-ref{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r);padding:16px 20px;text-align:center;margin:20px 0;font-family:monospace;font-size:1.2rem;font-weight:800;letter-spacing:.08em;color:var(--navy)}
+    .confirm-summary{display:flex;flex-direction:column;gap:10px;margin:20px 0;padding:16px;background:var(--bg-2);border-radius:var(--r);border:1px solid var(--border)}
+    .confirm-row{display:flex;justify-content:space-between;font-size:.85rem}
+    .confirm-row span:first-child{color:var(--muted)}
+    .confirm-row span:last-child{font-weight:700;color:var(--navy)}
+    .ms-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 24px;background:#0084ff;color:#fff;border-radius:12px;font-weight:700;font-size:.95rem;margin-bottom:10px;transition:background .2s}
+    .ms-btn:hover{background:#006ecc}
+    .wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 24px;background:#25d366;color:#fff;border-radius:12px;font-weight:700;font-size:.88rem;transition:background .2s}
+    .wa-btn:hover{background:#1aad52}
+    /* GCash section */
+    .gcash-box{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:24px;margin-top:20px;text-align:center}
+    .gcash-box__title{font-size:.9rem;font-weight:800;color:var(--navy);margin-bottom:4px}
+    .gcash-box__sub{font-size:.78rem;color:var(--muted);margin-bottom:20px}
+    .gcash-grid{display:grid;grid-template-columns:140px 1fr;gap:20px;align-items:center;text-align:left}
+    .gcash-qr{width:140px;height:140px;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
+    .gcash-step{display:flex;align-items:flex-start;gap:10px;font-size:.82rem;color:var(--muted);margin-bottom:10px;line-height:1.4}
+    .gcash-step-num{width:22px;height:22px;border-radius:50%;background:var(--pink);color:#fff;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+    @media(max-width:600px){
+      .booking-container{padding:24px 16px 64px}
+      .gcash-grid{grid-template-columns:1fr;text-align:center}
+      .gcash-qr{margin:0 auto}
+    }
+  </style>
+</head>
+<body>
+<!-- Minimal booking header -->
+<header class="booking-header">
+  <a href="index.html" class="nav__logo" style="display:flex;align-items:center;gap:8px">
+    <img src="../public/logo.jpg" alt="" style="width:32px;height:32px;border-radius:50%;object-fit:cover">
+    <span class="nav__logo-text">Laagan Adventures</span>
+  </a>
+  <a href="tel:09052435196" class="nav__phone" style="font-size:.78rem;font-weight:600;color:var(--muted)">📞 0905-243-5196</a>
+</header>
+
+<main>
+  <div class="booking-container">
+
+    <!-- Step Progress -->
+    <div class="step-progress">
+      <div class="step-progress__item is-active" id="si-1">
+        <div class="step-progress__num">1</div>
+        <span>Tour Details</span>
+      </div>
+      <div class="step-progress__line"></div>
+      <div class="step-progress__item" id="si-2">
+        <div class="step-progress__num">2</div>
+        <span>Your Info</span>
+      </div>
+      <div class="step-progress__line"></div>
+      <div class="step-progress__item" id="si-3">
+        <div class="step-progress__num">3</div>
+        <span>Confirm</span>
+      </div>
+    </div>
+
+    <!-- ── STEP 1: Tour Details ── -->
+    <div id="step-1">
+      <div class="booking-card">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;color:var(--navy);margin-bottom:20px">Tour Details</h2>
+
+        <!-- Tour summary -->
+        <div class="tour-summary">
+          <div class="tour-summary__img">
+            <div style="width:100%;height:100%;background:linear-gradient(160deg,#0ea5e9,#0284c7,#0c4a6e)"></div>
+          </div>
+          <div>
+            <div class="tour-summary__name">Santa Cruz Island Tour</div>
+            <div class="tour-summary__detail">🏝 Island Tour · 8 hours · Joiners</div>
+          </div>
+          <a href="tours.html" class="tour-summary__change">Change</a>
+        </div>
+
+        <!-- Date -->
+        <div class="field">
+          <label>Preferred Date</label>
+          <input type="date" id="s1-date" min="2026-06-04" value="2026-06-15" style="font-size:.9rem">
+        </div>
+
+        <!-- Guests -->
+        <div style="margin-bottom:18px">
+          <div style="font-size:.78rem;font-weight:600;color:var(--navy);margin-bottom:12px;letter-spacing:.02em">Group Size</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">
+              <div>
+                <div style="font-size:.88rem;font-weight:600;color:var(--navy)">Adults</div>
+                <div style="font-size:.72rem;color:var(--muted)">Ages 13+ · ₱1,500/person</div>
+              </div>
+              <div class="stepper" data-stepper data-type="adults" data-min="1" data-max="20" data-val="2">
+                <button class="stepper__btn" data-dec>−</button>
+                <span class="stepper__val" data-val>2</span>
+                <button class="stepper__btn" data-inc>+</button>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0">
+              <div>
+                <div style="font-size:.88rem;font-weight:600;color:var(--navy)">Children</div>
+                <div style="font-size:.72rem;color:var(--muted)">Ages 4–12 · ₱750/child</div>
+              </div>
+              <div class="stepper" data-stepper data-type="children" data-min="0" data-max="10" data-val="0">
+                <button class="stepper__btn" data-dec>−</button>
+                <span class="stepper__val" data-val>0</span>
+                <button class="stepper__btn" data-inc>+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Promo code -->
+        <button class="promo-toggle" id="promo-toggle">+ Have a promo code?</button>
+        <div class="promo-field" id="promo-field">
+          <input type="text" placeholder="Enter code" id="promo-input">
+          <button class="promo-apply">Apply</button>
+        </div>
+
+        <!-- Price breakdown -->
+        <div class="price-box">
+          <div class="price-row"><span id="pb-adults-lbl">₱1,500 × 2 adults</span><span id="pb-adults-amt">₱3,000</span></div>
+          <div class="price-row" id="pb-c-row" style="display:none"><span id="pb-children-lbl">₱750 × 0 children</span><span id="pb-children-amt">₱0</span></div>
+          <div class="price-total-row"><span>Total estimate</span><span id="pb-total">₱3,000</span></div>
+        </div>
+      </div>
+
+      <button class="btn btn--primary btn--full" onclick="goTo(2)">Continue to Your Info →</button>
+      <div class="trust-micro" style="justify-content:center;margin-top:14px">
+        <span>🔒 No payment required yet</span>
+        <span>✅ Free cancellation</span>
+        <span>💬 24hr reply</span>
+      </div>
+    </div>
+
+    <!-- ── STEP 2: Your Info ── -->
+    <div id="step-2" style="display:none">
+      <div class="booking-card">
+        <button onclick="goTo(1)" style="display:flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:20px;background:none;border:none;cursor:pointer">← Back</button>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;color:var(--navy);margin-bottom:20px">Your Information</h2>
+
+        <!-- Booking summary (collapsed) -->
+        <div class="tour-summary" style="margin-bottom:24px">
+          <div class="tour-summary__img"><div style="width:100%;height:100%;background:linear-gradient(160deg,#0ea5e9,#0284c7,#0c4a6e)"></div></div>
+          <div>
+            <div class="tour-summary__name">Santa Cruz Island Tour</div>
+            <div class="tour-summary__detail" id="s2-summary">June 15, 2026 · 2 Adults</div>
+          </div>
+          <div style="margin-left:auto;text-align:right">
+            <div style="font-size:.82rem;font-weight:800;color:var(--pink)" id="s2-total">₱3,000</div>
+            <div style="font-size:.68rem;color:var(--muted)">total</div>
+          </div>
+        </div>
+
+        <div class="field"><label>Full Name *</label><input type="text" placeholder="Your complete name" autocomplete="name"></div>
+        <div class="field-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="field"><label>Phone Number *</label><input type="tel" placeholder="09XXXXXXXXX" autocomplete="tel"></div>
+          <div class="field"><label>Email Address</label><input type="email" placeholder="you@email.com" autocomplete="email"></div>
+        </div>
+        <div class="field"><label>Special Requests <span style="font-weight:400;color:var(--muted)">(optional)</span></label><textarea rows="3" placeholder="Dietary needs, accessibility, celebration, or anything we should know..."></textarea></div>
+
+        <div style="background:#fff4f7;border:1px solid rgba(217,107,138,.2);border-radius:var(--r);padding:14px 16px;margin:4px 0 20px;font-size:.82rem;color:var(--muted);line-height:1.6">
+          By confirming, you agree to our booking terms. We'll reach out via Messenger or phone within 24 hours to confirm your slot. No payment is collected at this stage.
+        </div>
+      </div>
+
+      <button class="btn btn--primary btn--full" onclick="goTo(3)">Confirm Booking →</button>
+      <div class="trust-micro" style="justify-content:center;margin-top:14px">
+        <span>🔒 Secure & private</span>
+        <span>✅ Free cancellation</span>
+        <span>💬 We reply within 24hrs</span>
+      </div>
+    </div>
+
+    <!-- ── STEP 3: Confirmation ── -->
+    <div id="step-3" style="display:none">
+      <div class="booking-card" style="text-align:center;padding:40px 28px">
+        <div class="confirm-check">✓</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;color:var(--navy);margin-bottom:10px">Booking Received!</h2>
+        <p style="font-size:.9rem;color:var(--muted);max-width:400px;margin:0 auto 20px;line-height:1.7">Your adventure is almost confirmed. We'll reach out via Messenger or phone within 24 hours to lock in your slot.</p>
+        <div class="booking-ref">#LA-AB1C2D</div>
+        <div class="confirm-summary" style="text-align:left">
+          <div class="confirm-row"><span>Tour</span><span>Santa Cruz Island</span></div>
+          <div class="confirm-row"><span>Date</span><span id="confirm-date">June 15, 2026</span></div>
+          <div class="confirm-row"><span>Guests</span><span id="confirm-guests">2 Adults</span></div>
+          <div class="confirm-row"><span>Est. Total</span><span id="confirm-total" style="color:var(--pink)">₱3,000</span></div>
+        </div>
+      </div>
+
+      <!-- Messenger + WhatsApp CTAs -->
+      <div class="booking-card" style="padding:24px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:4px">Next step: Contact us to confirm</div>
+        <p style="font-size:.8rem;color:var(--muted);margin-bottom:16px">Send your booking reference <strong>#LA-AB1C2D</strong> so we can confirm your slot.</p>
+        <a href="https://m.me/61562040673545?text=Hi!%20My%20booking%20ref%20is%20%23LA-AB1C2D%20for%20Santa%20Cruz%20Island%20on%20June%2015." target="_blank" class="ms-btn">
+          <span style="font-size:1.2rem">💬</span> Open Messenger
+        </a>
+        <a href="https://wa.me/639052435196?text=Hi!%20My%20booking%20ref%20is%20%23LA-AB1C2D%20for%20Santa%20Cruz%20Island%20on%20June%2015." target="_blank" class="wa-btn">
+          <span style="font-size:1.1rem">📱</span> Send via WhatsApp
+        </a>
+      </div>
+
+      <!-- GCash deposit -->
+      <div class="gcash-box">
+        <div class="gcash-box__title">💚 Optional: Reserve with ₱300 GCash Deposit</div>
+        <div class="gcash-box__sub">Lock in your slot now. Deposit is deducted from your total on the day.</div>
+        <div class="gcash-grid">
+          <img src="../public/gcash-qr.jpg" alt="GCash QR Code" class="gcash-qr">
+          <div>
+            <div class="gcash-step"><div class="gcash-step-num">1</div><span>Open GCash app and tap <strong>Scan QR Code</strong></span></div>
+            <div class="gcash-step"><div class="gcash-step-num">2</div><span>Scan this QR and send <strong>₱300 deposit</strong></span></div>
+            <div class="gcash-step"><div class="gcash-step-num">3</div><span>Screenshot your receipt and send to us on Messenger</span></div>
+            <div class="gcash-step"><div class="gcash-step-num">4</div><span>We'll confirm your booking within the hour ✅</span></div>
+          </div>
+        </div>
+        <a href="https://m.me/61562040673545" target="_blank" class="btn btn--primary btn--full" style="margin-top:20px;border-radius:10px">I've Paid — Notify Laagan Adventures</a>
+      </div>
+
+      <div style="text-align:center;margin-top:28px">
+        <a href="tours.html" style="font-size:.82rem;color:var(--muted);font-weight:600">← Browse more tours</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="float-btns">
+  <a href="https://wa.me/639052435196" target="_blank" class="float-btn float-btn--wa">📱</a>
+  <a href="https://m.me/61562040673545" target="_blank" class="float-btn float-btn--ms">💬</a>
+</div>
+
+<script src="shared.js"></script>
+<script>
+  // Step navigation
+  function goTo(n) {
+    [1,2,3].forEach(i => {
+      document.getElementById(`step-${i}`).style.display = i === n ? '' : 'none';
+      const si = document.getElementById(`si-${i}`);
+      si.classList.remove('is-active','is-done');
+      if (i === n) si.classList.add('is-active');
+      else if (i < n) si.classList.add('is-done');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (n === 3) syncConfirm();
+  }
+
+  // Price calc
+  function recalc() {
+    const adults   = parseInt(document.querySelector('[data-type="adults"] [data-val]').textContent);
+    const children = parseInt(document.querySelector('[data-type="children"] [data-val]').textContent);
+    const total    = adults * 1500 + children * 750;
+    document.getElementById('pb-adults-lbl').textContent = `₱1,500 × ${adults} adult${adults!==1?'s':''}`;
+    document.getElementById('pb-adults-amt').textContent = `₱${(adults*1500).toLocaleString()}`;
+    document.getElementById('pb-children-lbl').textContent = `₱750 × ${children} child${children!==1?'ren':''}`;
+    document.getElementById('pb-children-amt').textContent = `₱${(children*750).toLocaleString()}`;
+    document.getElementById('pb-c-row').style.display = children > 0 ? 'flex' : 'none';
+    document.getElementById('pb-total').textContent = `₱${total.toLocaleString()}`;
+    document.getElementById('s2-total').textContent = `₱${total.toLocaleString()}`;
+    const date = document.getElementById('s1-date').value;
+    const fmt  = date ? new Date(date+'T12:00:00').toLocaleDateString('en-PH',{month:'long',day:'numeric',year:'numeric'}) : '—';
+    document.getElementById('s2-summary').textContent = `${fmt} · ${adults} Adult${adults!==1?'s':''}${children?' + '+children+' Child':''}`;
+    window._total = total; window._adults = adults; window._children = children; window._date = fmt;
+  }
+
+  function syncConfirm() {
+    document.getElementById('confirm-date').textContent  = window._date || '—';
+    document.getElementById('confirm-guests').textContent = `${window._adults||2} Adult${(window._adults||2)!==1?'s':''}${(window._children||0)?` + ${window._children} Child`:''}`;
+    document.getElementById('confirm-total').textContent = `₱${(window._total||3000).toLocaleString()}`;
+  }
+
+  document.addEventListener('change', e => { if (e.target.closest('[data-stepper]') || e.target.id==='s1-date') recalc(); });
+
+  // Promo toggle
+  document.getElementById('promo-toggle').addEventListener('click', () => {
+    document.getElementById('promo-field').classList.toggle('is-open');
+  });
+</script>
+</body>
+</html>

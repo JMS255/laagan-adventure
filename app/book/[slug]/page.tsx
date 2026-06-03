@@ -26,7 +26,7 @@ export default async function BookPage({
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 'var(--nav-h)', minHeight: '100vh' }}>
+      <main className="page-top" style={{ minHeight: '100vh' }}>
         <BookingOverview
           tour={tour}
           initialDate={date ?? ''}

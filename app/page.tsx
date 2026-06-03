@@ -59,14 +59,14 @@ export default async function HomePage() {
             {/* Text content */}
             <div className="hero__content">
               <p className="hero__eyebrow">📍 Zamboanga City, Philippines</p>
-              <h1 className="hero__title" style={{ maxWidth: '620px' }}>
-                There&rsquo;s a beach in Zamboanga where the <span>sand is pink.</span> We&rsquo;ll take you there.
+              <h1 className="hero__title" style={{ maxWidth: '680px' }}>
+                The Only <span>Pink Sand Beach</span> in Asia.
               </h1>
               <p className="hero__sub">
-                Day tours and multi-day packages from ₱800/person — fully guided, all permits included.
+                Guided island adventures in Zamboanga City, Philippines.
               </p>
-              <p className="hero__sub" style={{ marginTop: '10px', fontSize: 'clamp(.78rem, 1.4vw, .88rem)', opacity: .75 }}>
-                DTI Registered &middot; 500+ travelers &middot; No upfront payment
+              <p style={{ marginTop: '16px', fontSize: '.78rem', color: 'rgba(255,255,255,.65)', letterSpacing: '.02em' }}>
+                ⭐ 5.0 &middot; National Geographic Best Beach &middot; DTI Accredited &middot; Pay on the Day
               </p>
             </div>
 
@@ -86,16 +86,15 @@ export default async function HomePage() {
         {/* ── STATS ── */}
         <div style={{ background: '#fff', borderBottom: '1px solid var(--border)' }}>
           <div className="container">
-            <div className="stats-row">
+            <div className="stats-bar">
               {[
-                { num: '500+', label: 'Happy travelers' },
-                { num: '10+', label: 'Tour packages' },
-                { num: '5+', label: 'Years of experience' },
-                { num: '⭐ 5.0', label: 'Average rating' },
+                { num: '500', accent: '+', label: 'Tours Completed' },
+                { num: '5.0', accent: ' ★', label: 'Average Rating' },
+                { num: 'Since', accent: " '22", label: 'Proudly Local' },
               ].map((s, i, arr) => (
                 <span key={s.label} style={{ display: 'contents' }}>
                   <div className="stat-item">
-                    <p className="stat-item__num">{s.num}</p>
+                    <p className="stat-item__num">{s.num}<em>{s.accent}</em></p>
                     <p className="stat-item__label">{s.label}</p>
                   </div>
                   {i < arr.length - 1 && <div className="stat-divider" />}
@@ -235,19 +234,18 @@ export default async function HomePage() {
         {/* ── FINAL CTA ── */}
         <section style={{ background: 'var(--navy)', padding: '96px 0' }}>
           <div className="container" style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--pink)', marginBottom: '16px' }}>
-              Ready to explore?
-            </p>
-            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.02em', lineHeight: 1.15, marginBottom: '20px', maxWidth: '560px', margin: '0 auto 20px', fontStyle: 'italic' }}>
-              Your Zamboanga adventure starts with one message.
+            <p className="section__label" style={{ textAlign: 'center' }}>Ready to explore?</p>
+            <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3.2rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.02em', lineHeight: 1.15, maxWidth: '560px', margin: '0 auto 20px', fontStyle: 'italic', fontFamily: 'var(--font-display, Georgia), serif' }}>
+              Ready to See the Pink Sand?
             </h2>
-            <p style={{ color: 'rgba(255,255,255,.65)', marginBottom: '40px', maxWidth: '440px', margin: '0 auto 40px', lineHeight: 1.7 }}>
-              No booking fees. No upfront payment. Just tell us what you&rsquo;re looking for and we&rsquo;ll plan the perfect trip.
+            <p style={{ color: 'rgba(255,255,255,.65)', maxWidth: '440px', margin: '0 auto 40px', lineHeight: 1.7 }}>
+              Book your adventure today. We&rsquo;ll confirm within 24 hours. No upfront payment required.
             </p>
             <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/contact" className="btn btn--primary" style={{ fontSize: '.9rem', padding: '16px 36px' }}>Plan My Tour →</Link>
-              <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--outline-light">Message on Messenger</a>
+              <Link href="/tours" className="btn btn--primary btn--lg">See Our Tours →</Link>
+              <a href="https://wa.me/639052435196" target="_blank" rel="noopener noreferrer" className="btn btn--outline-light">💬 Message Us</a>
             </div>
+            <p style={{ marginTop: '16px', fontSize: '.78rem', color: 'rgba(255,255,255,.4)' }}>No payment required — pay on the day</p>
           </div>
         </section>
 

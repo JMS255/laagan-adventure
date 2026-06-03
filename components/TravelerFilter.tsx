@@ -24,13 +24,8 @@ function TourCardItem({ tour }: { tour: TourCard }) {
     <Link href={`/tours/${tour.slug.current}`} className="tour-card" style={{ height: '100%', position: 'relative' }}>
       {/* Badge */}
       {tour.badgeLabel && (
-        <div style={{
-          position: 'absolute', top: '12px', left: '12px', zIndex: 2,
-          background: 'var(--pink)', color: '#fff',
-          fontSize: '.65rem', fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase',
-          padding: '4px 10px', borderRadius: '999px',
-        }}>
-          {tour.badgeLabel}
+        <div className="tour-card__badge">
+          <span className="badge badge--pink">{tour.badgeLabel}</span>
         </div>
       )}
       <div className="tour-card__img" style={{ position: 'relative' }}>
@@ -85,46 +80,18 @@ export default function TravelerFilter({ tours }: { tours: TourCard[] }) {
         </div>
 
         {/* Filter cards */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '12px',
-          marginBottom: '48px',
-        }}
-          className="traveler-filter-grid"
-        >
+        <div className="traveler-grid">
           {FILTERS.map(f => {
             const isActive = active === f.id
             return (
               <button
                 key={f.id}
                 onClick={() => setActive(isActive ? 'all' : f.id)}
-                style={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  gap: '6px', padding: '20px 16px',
-                  background: isActive ? 'var(--navy)' : 'var(--bg-2)',
-                  border: `2px solid ${isActive ? 'var(--navy)' : 'var(--border)'}`,
-                  borderRadius: 'var(--rl)', cursor: 'pointer',
-                  transition: 'all .2s', fontFamily: 'inherit',
-                  transform: isActive ? 'translateY(-2px)' : 'none',
-                  boxShadow: isActive ? '0 8px 24px rgba(0,78,100,.2)' : 'none',
-                }}
+                className={`traveler-card${isActive ? ' is-active' : ''}`}
               >
-                <span style={{ fontSize: '1.6rem', lineHeight: 1 }}>{f.icon}</span>
-                <span style={{
-                  fontSize: '.82rem', fontWeight: 700,
-                  color: isActive ? '#fff' : 'var(--navy)',
-                  transition: 'color .2s',
-                }}>
-                  {f.label}
-                </span>
-                <span style={{
-                  fontSize: '.7rem',
-                  color: isActive ? 'rgba(255,255,255,.6)' : 'var(--text-muted)',
-                  transition: 'color .2s',
-                }}>
-                  {f.sub}
-                </span>
+                <span className="traveler-card__icon">{f.icon}</span>
+                <span className="traveler-card__label">{f.label}</span>
+                <span className="traveler-card__desc">{f.sub}</span>
               </button>
             )
           })}

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laagan Adventures — Guided Island Tours in Zamboanga City</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    /* ── HERO ── */
+    .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
+    .hero__bg{position:absolute;inset:0;background-image:url('../public/images/hero-bg.png');background-size:cover;background-position:center;background-color:#003347}
+    .hero__overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.08) 35%,rgba(0,0,0,.62) 100%)}
+    .hero__inner{position:relative;z-index:1;width:100%;padding:calc(110px + 56px) 0 80px}
+    .hero__eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:20px;display:block}
+    .hero__title{font-family:'Playfair Display',serif;font-size:clamp(3rem,7vw,5.5rem);font-weight:800;letter-spacing:-.03em;line-height:1.05;color:#fff;margin-bottom:20px;max-width:680px;text-shadow:0 2px 12px rgba(0,0,0,.18)}
+    .hero__sub{font-size:clamp(1rem,2vw,1.15rem);color:rgba(255,255,255,.82);line-height:1.7;max-width:500px;margin-bottom:36px}
+    .hero__actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px}
+    .hero__trust{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.78rem;color:rgba(255,255,255,.7);font-weight:500}
+    .hero__trust-sep{color:rgba(255,255,255,.3)}
+
+    /* ── TOURS GRID ── */
+    .tours-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:0}
+    .tours-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px}
+    .view-all{font-size:.82rem;font-weight:700;color:var(--pink);display:flex;align-items:center;gap:4px;transition:gap .2s}
+    .view-all:hover{gap:8px}
+
+    /* ── SOCIAL FEED ── */
+    .feed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:40px}
+    .feed-item{aspect-ratio:1/1;border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .3s}
+    .feed-item:hover{transform:scale(1.02)}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){.tours-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){
+      .tours-grid{grid-template-columns:1fr}
+      .hero__actions{flex-direction:column}
+      .hero__actions .btn{border-radius:12px}
+      .feed-grid{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="promo-strip">
+    <span>📍 Zamboanga City, PH</span>
+    <strong>·</strong>
+    <span><strong>400 visitors/day cap</strong> on Santa Cruz Island — book ahead</span>
+  </div>
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">
+      <img src="../public/logo.jpg" alt="Laagan Adventures">
+      <span class="nav__logo-text">Laagan Adventures</span>
+    </a>
+    <div class="nav__links">
+      <a href="tours.html" class="is-active">Tours</a>
+      <a href="#">Destinations</a>
+      <a href="#">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a href="contact.html">Plan My Trip</a>
+    </div>
+    <div class="nav__right">
+      <a href="tel:09052435196" class="nav__phone">0905-243-5196</a>
+      <a href="booking.html" class="nav__cta">Book Now</a>
+    </div>
+    <button class="nav__toggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <nav class="nav__mobile">
+    <a href="tours.html">Tours</a>
+    <a href="#">Destinations</a>
+    <a href="contact.html">Plan My Trip</a>
+    <a href="#">Blog</a>
+    <a href="contact.html">Contact</a>
+    <a href="tel:09052435196">📞 0905-243-5196</a>
+  </nav>
+</header>
+
+<main class="page-top">
+
+  <!-- ── B. HERO ── -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__inner">
+      <div class="container">
+        <span class="hero__eyebrow">📍 Zamboanga City, Philippines</span>
+        <h1 class="hero__title">The Only Pink Sand<br>Beach in Asia.</h1>
+        <p class="hero__sub">Guided island adventures in Zamboanga City, Philippines.</p>
+        <div class="hero__actions">
+          <a href="tours.html" class="btn btn--primary btn--lg">See Our Tours →</a>
+          <a href="https://m.me/61562040673545" target="_blank" class="btn btn--outline-light">💬 Ask on Messenger</a>
+        </div>
+        <div class="hero__trust">
+          <span>⭐ 5.0</span>
+          <span class="hero__trust-sep">·</span>
+          <span>National Geographic Best Beach</span>
+          <span class="hero__trust-sep">·</span>
+          <span>DTI Accredited</span>
+          <span class="hero__trust-sep">·</span>
+          <span>Pay on the Day</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── C. STATS BAR ── -->
+  <div style="background:#fff">
+    <div class="container">
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-item__num">500<em>+</em></div>
+          <div class="stat-item__label">Tours Completed</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-item__num">5.0 <em>★</em></div>
+          <div class="stat-item__label">Average Rating</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-item__num">Since <em>'22</em></div>
+          <div class="stat-item__label">Proudly Local</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── D+E. TRAVELER FILTER + TOURS ── -->
+  <section class="section">
+    <div class="container">
+      <span class="section__label">Find Your Adventure</span>
+      <div class="tours-header">
+        <h2 class="section__title" style="margin-bottom:0">Discover Zamboanga's<br>Best Experiences</h2>
+        <a href="tours.html" class="view-all">View all tours →</a>
+      </div>
+
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:24px">Who's this trip for?</p>
+      <div class="traveler-grid" style="margin-top:0;margin-bottom:48px">
+        <button class="traveler-card" data-filter="solo">
+          <span class="traveler-card__icon">🧍</span>
+          <span class="traveler-card__label">Solo Traveler</span>
+          <span class="traveler-card__desc">Independent adventure</span>
+        </button>
+        <button class="traveler-card" data-filter="couple">
+          <span class="traveler-card__icon">💑</span>
+          <span class="traveler-card__label">Couple Getaway</span>
+          <span class="traveler-card__desc">Romantic escape</span>
+        </button>
+        <button class="traveler-card" data-filter="barkada">
+          <span class="traveler-card__icon">👫</span>
+          <span class="traveler-card__label">Barkada / Group</span>
+          <span class="traveler-card__desc">Friends & barkada</span>
+        </button>
+        <button class="traveler-card" data-filter="family">
+          <span class="traveler-card__icon">👨‍👩‍👧</span>
+          <span class="traveler-card__label">Family & Kids</span>
+          <span class="traveler-card__desc">Safe for all ages</span>
+        </button>
+      </div>
+
+      <div class="tours-grid" id="tours-grid">
+        <!-- Santa Cruz -->
+        <a href="tour-detail.html" class="tour-card" data-audience="solo,couple,barkada,family">
+          <div class="tour-card__img">
+            <div class="tour-card__img-bg" style="background:linear-gradient(160deg,#0ea5e9 0%,#0284c7 50%,#0c4a6e 100%)"></div>
+            <div class="tour-card__badge"><span class="badge badge--pink">🔥 Most Popular</span></div>
+          </div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">Santa Cruz Island</h3>
+            <div class="tour-card__chips">
+              <span class="chip">⏱ 8 hours</span>
+              <span class="chip">👥 2–20 guests</span>
+              <span class="chip">🏝 Island</span>
+            </div>
+            <div class="tour-card__rating">
+              <span class="tour-card__stars">★★★★★</span>
+              <span>5.0 (124 reviews)</span>
+            </div>
+            <div class="tour-card__footer">
+              <div>
+                <div class="tour-card__price">₱1,500</div>
+                <div class="tour-card__price-note">per person</div>
+              </div>
+              <span class="btn btn--outline btn--sm">Check Availability</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- City Heritage -->
+        <a href="tour-detail.html" class="tour-card" data-audience="solo,couple,family">
+          <div class="tour-card__img">
+            <div class="tour-card__img-bg" style="background:linear-gradient(160deg,#f59e0b 0%,#d97706 50%,#78350f 100%)"></div>
+          </div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">City Heritage Tour</h3>
+            <div class="tour-card__chips">
+              <span class="chip">⏱ 4 hours</span>
+              <span class="chip">👥 Any size</span>
+              <span class="chip">🏛 Culture</span>
+            </div>
+            <div class="tour-card__rating">
+              <span class="tour-card__stars">★★★★★</span>
+              <span>4.9 (56 reviews)</span>
+            </div>
+            <div class="tour-card__footer">
+              <div>
+                <div class="tour-card__price">₱800</div>
+                <div class="tour-card__price-note">per person</div>
+              </div>
+              <span class="btn btn--outline btn--sm">Check Availability</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Island Hopping -->
+        <a href="tour-detail.html" class="tour-card" data-audience="barkada,family">
+          <div class="tour-card__img">
+            <div class="tour-card__img-bg" style="background:linear-gradient(160deg,#10b981 0%,#059669 50%,#064e3b 100%)"></div>
+            <div class="tour-card__badge"><span class="badge badge--light">⭐ Best Value</span></div>
+          </div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">Island Hopping</h3>
+            <div class="tour-card__chips">
+              <span class="chip">⏱ 10 hours</span>
+              <span class="chip">👥 4–20 guests</span>
+              <span class="chip">⛵ Adventure</span>
+            </div>
+            <div class="tour-card__rating">
+              <span class="tour-card__stars">★★★★★</span>
+              <span>5.0 (89 reviews)</span>
+            </div>
+            <div class="tour-card__footer">
+              <div>
+                <div class="tour-card__price">₱1,800</div>
+                <div class="tour-card__price-note">per person</div>
+              </div>
+              <span class="btn btn--outline btn--sm">Check Availability</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- No results -->
+      <div id="no-tours" style="display:none;text-align:center;padding:48px 0;color:var(--muted)">
+        <p style="font-size:1.5rem;margin-bottom:12px">🤔</p>
+        <p style="font-weight:600;margin-bottom:8px">No tours match that filter yet.</p>
+        <p style="font-size:.85rem">We're adding more — <a href="contact.html" style="color:var(--pink)">message us</a> and we'll find the perfect trip for you.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── F. DESTINATION STORY ── -->
+  <section class="section section--dark">
+    <div class="container" style="text-align:center;margin-bottom:56px">
+      <span class="section__label">Why Zamboanga</span>
+      <h2 class="section__title section__title--light" style="max-width:640px;margin-left:auto;margin-right:auto">"A Beach So Rare,<br>National Geographic Noticed."</h2>
+      <p class="section__sub section__sub--light" style="margin:0 auto">Santa Cruz Island is the <em>only</em> pink sand beach in Asia — and one of the world's most extraordinary natural wonders. We take you there.</p>
+    </div>
+    <div class="dest-features">
+      <div class="dest-feature">
+        <div class="dest-feature__icon">🏖</div>
+        <div class="dest-feature__title">Pink Sand — Only in Asia</div>
+        <div class="dest-feature__desc">The sand gets its blush-pink hue from pulverized red coral. Nowhere else in Asia will you find this. National Geographic named it a Top 21 Beach in the World.</div>
+      </div>
+      <div class="dest-feature">
+        <div class="dest-feature__icon">🪼</div>
+        <div class="dest-feature__title">Stingless Jellyfish Lagoon</div>
+        <div class="dest-feature__desc">Swim freely through a lagoon filled with jellyfish that cannot sting you. One of the few places on Earth where this is possible — and it's right here in Zamboanga.</div>
+      </div>
+      <div class="dest-feature">
+        <div class="dest-feature__icon">⛵</div>
+        <div class="dest-feature__title">Sail on a Tausug Vinta</div>
+        <div class="dest-feature__desc">We sail on traditional Tausug outrigger vintas — colorful, hand-crafted boats unique to Zamboanga. A cultural experience as beautiful as the destination.</div>
+      </div>
+    </div>
+    <div style="text-align:center;padding:48px 32px 0">
+      <a href="contact.html" class="btn btn--primary btn--lg">Plan My Trip →</a>
+    </div>
+  </section>
+
+  <!-- ── G. HOW IT WORKS ── -->
+  <section class="section section--darker">
+    <div class="container" style="text-align:center;margin-bottom:0">
+      <span class="section__label">Simple Booking</span>
+      <h2 class="section__title section__title--light">How It Works</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-step__num">1</div>
+        <div class="how-step__time">2 minutes</div>
+        <div class="how-step__title">Choose Your Tour</div>
+        <div class="how-step__desc">Browse our tours and pick the experience that excites you. Check dates, group size, and pricing — everything is transparent.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step__num">2</div>
+        <div class="how-step__time">Within 24 hours</div>
+        <div class="how-step__title">We Confirm via Messenger</div>
+        <div class="how-step__desc">We reach out personally to confirm your slot, answer questions, and send you everything you need to prepare. Real people, fast replies.</div>
+      </div>
+      <div class="how-step">
+        <div class="how-step__num">3</div>
+        <div class="how-step__time">On the day</div>
+        <div class="how-step__title">Pay on the Day</div>
+        <div class="how-step__desc">No upfront payment required. Pay by cash or GCash on arrival. No scam risk, no surprises. Just show up and enjoy.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── H. TRUST STRIP ── -->
+  <div style="background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div class="trust-strip">
+        <div class="trust-item">
+          <div class="trust-item__icon">✅</div>
+          <div class="trust-item__text">Free Cancellation</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-item__icon">💸</div>
+          <div class="trust-item__text">Pay on the Day</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-item__icon">🌦</div>
+          <div class="trust-item__text">Weather Guarantee</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-item__icon">🏛</div>
+          <div class="trust-item__text">DTI Registered</div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-item__icon">💬</div>
+          <div class="trust-item__text">Reply Within 24hrs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── I. TESTIMONIALS ── -->
+  <section class="section section--alt">
+    <div class="container">
+      <span class="section__label section__label--center">What Travelers Say</span>
+      <h2 class="section__title section__title--center">Real Stories from Real Guests</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px" id="testimonials-grid">
+        <div class="tcard">
+          <div class="tcard__stars">★★★★★</div>
+          <p class="tcard__quote">"James and Ivy are incredible hosts. The pink sand beach is everything they promised and more. Worth every peso — I'll be back with my whole family."</p>
+          <div class="tcard__author">
+            <div class="tcard__avatar">M</div>
+            <div>
+              <div class="tcard__name">Maria G.</div>
+              <div class="tcard__meta">Davao City</div>
+              <div class="tcard__tour-tag">Santa Cruz Island Tour</div>
+            </div>
+          </div>
+        </div>
+        <div class="tcard">
+          <div class="tcard__stars">★★★★★</div>
+          <p class="tcard__quote">"Booked 2 days before, confirmed same day, paid on arrival. No stress at all. Best day trip I've had in the Philippines. The vinta ride alone was worth it."</p>
+          <div class="tcard__author">
+            <div class="tcard__avatar">R</div>
+            <div>
+              <div class="tcard__name">Robert C.</div>
+              <div class="tcard__meta">Manila</div>
+              <div class="tcard__tour-tag">Island Hopping Tour</div>
+            </div>
+          </div>
+        </div>
+        <div class="tcard">
+          <div class="tcard__stars">★★★★★</div>
+          <p class="tcard__quote">"The heritage tour showed us a side of Zamboanga most tourists never see. Ivy's knowledge of local history is genuinely impressive. Highly recommend."</p>
+          <div class="tcard__author">
+            <div class="tcard__avatar">J</div>
+            <div>
+              <div class="tcard__name">Jessica L.</div>
+              <div class="tcard__meta">Singapore</div>
+              <div class="tcard__tour-tag">City Heritage Tour</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── J. SOCIAL PROOF STRIP ── -->
+  <section class="section--sm" style="background:#fff">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:32px">
+        <span class="section__label section__label--center">Follow the Adventure</span>
+        <h2 class="section__title section__title--center" style="font-size:1.6rem">@laaganadventure</h2>
+        <p style="font-size:.85rem;color:var(--muted);margin-top:8px">Tag us in your photos and get featured here</p>
+      </div>
+      <div class="feed-grid">
+        <div class="feed-item" style="background:linear-gradient(135deg,#0ea5e9,#0369a1)"></div>
+        <div class="feed-item" style="background:linear-gradient(135deg,#d96b8a,#bf5070)"></div>
+        <div class="feed-item" style="background:linear-gradient(135deg,#10b981,#059669)"></div>
+        <div class="feed-item" style="background:linear-gradient(135deg,#f59e0b,#d97706)"></div>
+        <div class="feed-item" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)"></div>
+        <div class="feed-item" style="background:linear-gradient(135deg,#0284c7,#0ea5e9)"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── K. FINAL CTA ── -->
+  <section class="section section--dark" style="text-align:center">
+    <div class="container">
+      <span class="section__label section__label--center">Ready?</span>
+      <h2 class="section__title section__title--light" style="max-width:560px;margin-left:auto;margin-right:auto;font-style:italic;margin-bottom:20px">Ready to See the Pink Sand?</h2>
+      <p class="section__sub section__sub--light" style="margin:0 auto 40px">Book your adventure today. We'll confirm within 24 hours.<br>No payment required — pay on the day.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <a href="tours.html" class="btn btn--primary btn--lg">See Our Tours →</a>
+        <a href="https://m.me/61562040673545" target="_blank" class="btn btn--outline-light">💬 Message Us</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">Laagan Adventures</div>
+        <p class="footer__brand-desc">Local guides. Authentic experiences. Zamboanga City's most trusted island tour operator since 2022.</p>
+        <div class="footer__social">
+          <a href="#" class="footer__social-link">FB</a>
+          <a href="#" class="footer__social-link">IG</a>
+          <a href="#" class="footer__social-link">TT</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer__col-title">Our Tours</div>
+        <div class="footer__links">
+          <a href="tour-detail.html">Santa Cruz Island</a>
+          <a href="tours.html">Island Hopping</a>
+          <a href="tours.html">City Heritage</a>
+          <a href="tours.html">ZambaSulta Tour</a>
+          <a href="tours.html">View All Tours →</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer__col-title">Company</div>
+        <div class="footer__links">
+          <a href="#">About James & Ivy</a>
+          <a href="#">Blog</a>
+          <a href="contact.html">Contact</a>
+          <a href="#">Gallery</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer__col-title">Contact</div>
+        <div class="footer__links">
+          <a href="tel:09052435196">📞 0905-243-5196</a>
+          <a href="https://m.me/61562040673545" target="_blank">💬 Messenger</a>
+          <a href="https://wa.me/639052435196" target="_blank">📱 WhatsApp</a>
+          <a href="mailto:hello@laaganadventure.com">✉️ Email</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Laagan Adventures · DTI Registered · BIR Compliant</span>
+      <span style="color:rgba(255,255,255,.4)">Zamboanga City, Philippines</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── FLOAT BUTTONS ── -->
+<div class="float-btns">
+  <a href="https://wa.me/639052435196" target="_blank" class="float-btn float-btn--wa" title="Chat on WhatsApp">📱</a>
+  <a href="https://m.me/61562040673545" target="_blank" class="float-btn float-btn--ms" title="Message on Messenger">💬</a>
+</div>
+
+<script src="shared.js"></script>
+<script>
+  // Update no-tours message on filter
+  document.querySelectorAll('.traveler-card').forEach(card => {
+    card.addEventListener('click', () => {
+      setTimeout(() => {
+        const visible = [...document.querySelectorAll('#tours-grid .tour-card')].filter(c => c.style.display !== 'none');
+        document.getElementById('no-tours').style.display = visible.length ? 'none' : 'block';
+      }, 50);
+    });
+  });
+</script>
+</body>
+</html>

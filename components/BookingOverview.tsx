@@ -59,13 +59,31 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
     <div className="container" style={{ padding: '48px 32px 80px', minHeight: '80vh' }}>
 
       {/* Breadcrumb */}
-      <nav style={{ fontSize: '.78rem', color: 'var(--text-muted)', marginBottom: '32px', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-        <Link href="/tours" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Tours</Link>
-        <span>›</span>
-        <Link href={`/tours/${tour.slug.current}`} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{tour.title}</Link>
-        <span>›</span>
-        <span style={{ color: 'var(--navy)', fontWeight: 600 }}>Book</span>
+      <nav className="breadcrumb">
+        <Link href="/tours">Tours</Link>
+        <span className="breadcrumb__sep">›</span>
+        <Link href={`/tours/${tour.slug.current}`}>{tour.title}</Link>
+        <span className="breadcrumb__sep">›</span>
+        <span>Book</span>
       </nav>
+
+      {/* Step progress */}
+      <div className="step-progress" style={{ marginBottom: '40px' }}>
+        <div className="step-progress__item is-active">
+          <span className="step-progress__num">1</span>
+          <span>Tour Details</span>
+        </div>
+        <div className="step-progress__line" />
+        <div className="step-progress__item">
+          <span className="step-progress__num">2</span>
+          <span>Your Info</span>
+        </div>
+        <div className="step-progress__line" />
+        <div className="step-progress__item">
+          <span className="step-progress__num">3</span>
+          <span>Confirm</span>
+        </div>
+      </div>
 
       <div className="booking-grid">
 
@@ -102,7 +120,7 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
               Select your date & group size
             </h2>
             <div className="form-row">
-              <div className="form-group">
+              <div className="field">
                 <label>Preferred Date *</label>
                 {tour.availableDates && tour.availableDates.length > 0 ? (
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
@@ -127,20 +145,14 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
                     onChange={e => setDate(e.target.value)} style={{ width: '100%' }} />
                 )}
               </div>
-              <div className="form-group">
+              <div className="field">
                 <label>Number of Guests *</label>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--bg-2)', border: '1.5px solid var(--border)', borderRadius: 'var(--r)', padding: '10px 16px' }}>
-                  <button type="button" onClick={() => setGuests(g => Math.max(1, g - 1))}
-                    style={{ width: 28, height: 28, borderRadius: '50%', border: '1.5px solid var(--border)', background: 'none', color: 'var(--navy)', cursor: 'pointer', fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    −
-                  </button>
-                  <span style={{ flex: 1, textAlign: 'center', fontWeight: 700, color: 'var(--navy)', fontSize: '.95rem' }}>
-                    {guests} {guests === 1 ? 'guest' : 'guests'}
-                  </span>
-                  <button type="button" onClick={() => setGuests(g => g + 1)}
-                    style={{ width: 28, height: 28, borderRadius: '50%', border: '1.5px solid var(--border)', background: 'none', color: 'var(--navy)', cursor: 'pointer', fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    +
-                  </button>
+                  <div className="stepper">
+                    <button type="button" className="stepper__btn" onClick={() => setGuests(g => Math.max(1, g - 1))} disabled={guests <= 1}>−</button>
+                    <span className="stepper__val">{guests} {guests === 1 ? 'guest' : 'guests'}</span>
+                    <button type="button" className="stepper__btn" onClick={() => setGuests(g => g + 1)}>+</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -201,8 +213,8 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
         </div>
 
         {/* ── RIGHT: Summary ── */}
-        <div style={{ position: 'sticky', top: 'calc(var(--nav-h) + 24px)' }}>
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--rl)', padding: '28px', boxShadow: '0 8px 40px rgba(0,40,70,.09)' }}>
+        <div>
+          <div className="booking-sidebar">
             <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '20px' }}>
               Trip Summary
             </h2>
@@ -252,13 +264,10 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
               </div>
             )}
 
-            {/* Trust badges */}
-            <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {['No upfront payment required', 'Free cancellation (24hr notice)', 'Confirmed within 24 hours'].map(t => (
-                <div key={t} style={{ display: 'flex', gap: '8px', fontSize: '.75rem', color: 'var(--text-muted)' }}>
-                  <span style={{ color: 'var(--pink)', fontWeight: 700 }}>✓</span> {t}
-                </div>
-              ))}
+            <div className="trust-micro">
+              <span>🔒 No payment yet</span>
+              <span>✅ Free cancellation</span>
+              <span>💬 24hr reply</span>
             </div>
           </div>
         </div>

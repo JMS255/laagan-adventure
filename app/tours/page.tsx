@@ -20,17 +20,21 @@ export default async function ToursPage() {
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 'var(--nav-h)' }}>
+      <main className="page-top">
 
         {/* Header */}
-        <div style={{ background: 'var(--navy)', padding: '64px 0 56px' }}>
+        <div style={{ background: 'var(--bg-2)', borderBottom: '1px solid var(--border)', padding: '40px 0' }}>
           <div className="container">
-            <p className="section__label">Packages</p>
-            <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', marginBottom: '12px' }}>
-              Tours & Packages
+            <nav className="breadcrumb">
+              <Link href="/">Home</Link>
+              <span className="breadcrumb__sep">›</span>
+              <span>Tours</span>
+            </nav>
+            <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.03em', marginBottom: '8px', fontFamily: 'var(--font-display, Georgia), serif' }}>
+              Explore All Tours
             </h1>
-            <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '1rem', lineHeight: 1.7, maxWidth: '520px' }}>
-              Every tour is guided by locals who know Zamboanga City best. Pick your adventure below.
+            <p style={{ color: 'var(--text-muted)', fontSize: '1rem', lineHeight: 1.7, maxWidth: '520px' }}>
+              Guided adventures across Zamboanga&rsquo;s best destinations.
             </p>
           </div>
         </div>

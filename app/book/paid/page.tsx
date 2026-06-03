@@ -13,7 +13,7 @@ export default async function PaidPage({
     return (
       <>
         <Nav />
-        <main style={{ paddingTop: 'var(--nav-h)', minHeight: '100vh', background: 'var(--bg-2)' }}>
+        <main className="page-top" style={{ minHeight: '100vh', background: 'var(--bg-2)' }}>
           <div className="container" style={{ padding: '80px 32px', maxWidth: '560px', textAlign: 'center' }}>
             <p style={{ fontSize: '3rem', marginBottom: '16px' }}>😔</p>
             <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--navy)', marginBottom: '12px' }}>
@@ -40,7 +40,7 @@ export default async function PaidPage({
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 'var(--nav-h)', minHeight: '100vh', background: 'var(--bg-2)' }}>
+      <main className="page-top" style={{ minHeight: '100vh', background: 'var(--bg-2)' }}>
         <div className="container" style={{ padding: '80px 32px', maxWidth: '560px', textAlign: 'center' }}>
           <p style={{ fontSize: '3rem', marginBottom: '16px' }}>✅</p>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.02em', marginBottom: '12px' }}>
@@ -58,9 +58,9 @@ export default async function PaidPage({
             <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--primary" style={{ borderRadius: '10px', fontFamily: 'inherit' }}>
               💬 Say hi on Messenger
             </a>
-            <Link href="/tours" className="btn btn--outline" style={{ borderRadius: '10px' }}>
-              Browse More Tours
-            </Link>
+            <a href="https://wa.me/639052435196" target="_blank" rel="noopener noreferrer" className="btn btn--outline" style={{ borderRadius: '10px', borderColor: '#25d366', color: '#25d366' }}>
+              WhatsApp
+            </a>
           </div>
         </div>
       </main>

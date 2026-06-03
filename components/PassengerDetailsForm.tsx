@@ -178,13 +178,14 @@ export default function PassengerDetailsForm({
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer"
             className="btn btn--primary"
-            style={{ flex: 1, justifyContent: 'center', minWidth: '180px', fontFamily: 'inherit', borderRadius: '10px' }}>
-            💬 {depositAmount > 0 ? 'Send Deposit Receipt' : 'Message Us on Messenger'}
+            style={{ flex: 1, justifyContent: 'center', minWidth: '160px', fontFamily: 'inherit', borderRadius: '10px' }}>
+            💬 {depositAmount > 0 ? 'Send Receipt on Messenger' : 'Message on Messenger'}
           </a>
-          <Link href="/tours" className="btn btn--outline"
-            style={{ flex: 1, justifyContent: 'center', minWidth: '140px', borderRadius: '10px' }}>
-            Browse More Tours
-          </Link>
+          <a href="https://wa.me/639052435196" target="_blank" rel="noopener noreferrer"
+            className="btn btn--outline"
+            style={{ flex: 1, justifyContent: 'center', minWidth: '140px', borderRadius: '10px', borderColor: '#25d366', color: '#25d366' }}>
+            WhatsApp
+          </a>
         </div>
 
         <p style={{ fontSize: '.72rem', color: 'var(--text-muted)', marginTop: '16px', textAlign: 'center' }}>
@@ -198,15 +199,33 @@ export default function PassengerDetailsForm({
     <div className="container" style={{ padding: '48px 32px 80px' }}>
 
       {/* Breadcrumb */}
-      <nav style={{ fontSize: '.78rem', color: 'var(--text-muted)', marginBottom: '32px', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-        <Link href="/tours" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Tours</Link>
-        <span>›</span>
-        <Link href={`/tours/${tourSlug}`} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{tourTitle}</Link>
-        <span>›</span>
-        <Link href={`/book/${tourSlug}?date=${date}&guests=${guests}`} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Trip Overview</Link>
-        <span>›</span>
-        <span style={{ color: 'var(--navy)', fontWeight: 600 }}>Passenger Details</span>
+      <nav className="breadcrumb">
+        <Link href="/tours">Tours</Link>
+        <span className="breadcrumb__sep">›</span>
+        <Link href={`/tours/${tourSlug}`}>{tourTitle}</Link>
+        <span className="breadcrumb__sep">›</span>
+        <Link href={`/book/${tourSlug}?date=${date}&guests=${guests}`}>Tour Details</Link>
+        <span className="breadcrumb__sep">›</span>
+        <span>Your Info</span>
       </nav>
+
+      {/* Step progress */}
+      <div className="step-progress" style={{ marginBottom: '40px' }}>
+        <div className="step-progress__item is-done">
+          <span className="step-progress__num">1</span>
+          <span>Tour Details</span>
+        </div>
+        <div className="step-progress__line" />
+        <div className="step-progress__item is-active">
+          <span className="step-progress__num">2</span>
+          <span>Your Info</span>
+        </div>
+        <div className="step-progress__line" />
+        <div className="step-progress__item">
+          <span className="step-progress__num">3</span>
+          <span>Confirm</span>
+        </div>
+      </div>
 
       <div className="booking-grid">
 
@@ -227,16 +246,16 @@ export default function PassengerDetailsForm({
                 👤 Lead Passenger
               </h2>
               <div className="form-row">
-                <div className="form-group">
+                <div className="field">
                   <label>Full Name *</label>
                   <input type="text" name="name" required placeholder="Juan dela Cruz" />
                 </div>
-                <div className="form-group">
+                <div className="field">
                   <label>Phone / Viber *</label>
                   <input type="tel" name="phone" required placeholder="09XX-XXX-XXXX" />
                 </div>
               </div>
-              <div className="form-group" style={{ marginBottom: 0 }}>
+              <div className="field" style={{ marginBottom: 0 }}>
                 <label>Email Address</label>
                 <input type="email" name="email" placeholder="your@email.com" />
               </div>
@@ -251,7 +270,7 @@ export default function PassengerDetailsForm({
               <p style={{ fontSize: '.78rem', color: 'var(--text-muted)', marginBottom: '14px' }}>
                 Dietary needs, accessibility requirements, or anything else we should know?
               </p>
-              <div className="form-group" style={{ marginBottom: 0 }}>
+              <div className="field" style={{ marginBottom: 0 }}>
                 <textarea name="special_requirements" rows={4}
                   placeholder="e.g. Vegetarian meals, celebrating a birthday, first-time visitor to Zamboanga…" />
               </div>
@@ -291,8 +310,8 @@ export default function PassengerDetailsForm({
         </div>
 
         {/* ── RIGHT: Summary ── */}
-        <div style={{ position: 'sticky', top: 'calc(var(--nav-h) + 24px)' }}>
-          <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 'var(--rl)', padding: '28px', boxShadow: '0 8px 40px rgba(0,40,70,.09)' }}>
+        <div>
+          <div className="booking-sidebar">
             <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '20px' }}>
               Trip Summary
             </h2>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Laagan Adventures</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    .intent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:40px 0}
+    .intent-card{background:#fff;border:2px solid var(--border);border-radius:var(--rl);padding:32px 28px;transition:all .2s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+    .intent-card:hover{border-color:var(--pink);box-shadow:0 12px 40px rgba(217,107,138,.1);transform:translateY(-3px)}
+    .intent-card__icon{font-size:2.5rem;line-height:1}
+    .intent-card__title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:800;color:var(--navy)}
+    .intent-card__desc{font-size:.85rem;color:var(--muted);line-height:1.7;flex:1}
+    .contact-info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin:40px 0}
+    .contact-info-item{padding:28px 24px;border-right:1px solid var(--border);text-align:center}
+    .contact-info-item:last-child{border-right:none}
+    .contact-info-item__icon{font-size:1.5rem;margin-bottom:10px}
+    .contact-info-item__label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px}
+    .contact-info-item__val{font-size:.88rem;font-weight:700;color:var(--navy);line-height:1.5}
+    .contact-info-item__val a{color:var(--pink);transition:opacity .2s}
+    .contact-info-item__val a:hover{opacity:.75}
+    .partner-form{background:#fff;border:1px solid var(--border);border-radius:var(--rl);padding:32px;margin-top:20px;display:none}
+    .partner-form.is-open{display:block}
+    .map-placeholder{width:100%;height:280px;background:linear-gradient(160deg,#e0f2fe 0%,#bae6fd 50%,#7dd3fc 100%);border-radius:var(--rl);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#0369a1;margin-top:40px;border:1px solid var(--border)}
+    @media(max-width:900px){
+      .intent-grid{grid-template-columns:1fr}
+      .contact-info-grid{grid-template-columns:1fr 1fr}
+      .contact-info-item:nth-child(2){border-right:none}
+      .contact-info-item:nth-child(3){border-top:1px solid var(--border);border-right:1px solid var(--border)}
+      .contact-info-item:nth-child(4){border-top:1px solid var(--border)}
+    }
+    @media(max-width:600px){
+      .contact-info-grid{grid-template-columns:1fr}
+      .contact-info-item{border-right:none;border-bottom:1px solid var(--border)}
+      .contact-info-item:last-child{border-bottom:none}
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="promo-strip">
+    <span>📍 Zamboanga City, PH · <strong>Reply within 24 hours</strong> · No booking fees ever</span>
+  </div>
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">
+      <img src="../public/logo.jpg" alt="Laagan Adventures">
+      <span class="nav__logo-text">Laagan Adventures</span>
+    </a>
+    <div class="nav__links">
+      <a href="tours.html">Tours</a>
+      <a href="#">Destinations</a>
+      <a href="#">Blog</a>
+      <a href="contact.html" class="is-active">Contact</a>
+    </div>
+    <div class="nav__right">
+      <a href="tel:09052435196" class="nav__phone">0905-243-5196</a>
+      <a href="booking.html" class="nav__cta">Book Now</a>
+    </div>
+    <button class="nav__toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <nav class="nav__mobile">
+    <a href="tours.html">Tours</a>
+    <a href="contact.html">Contact</a>
+    <a href="index.html">Home</a>
+    <a href="tel:09052435196">📞 0905-243-5196</a>
+  </nav>
+</header>
+
+<main class="page-top">
+
+  <!-- Page Header -->
+  <div style="background:var(--bg-2);padding:48px 0 40px;border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb__sep">›</span>
+        <span>Contact</span>
+      </div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;color:var(--navy);margin-bottom:10px">Get in Touch</h1>
+      <p style="font-size:1rem;color:var(--muted);max-width:480px">Real people, fast replies. Tell us what you need and we'll make it happen.</p>
+    </div>
+  </div>
+
+  <section class="section--sm" style="background:#fff">
+    <div class="container">
+
+      <p style="font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">What brings you here?</p>
+      <div class="intent-grid">
+
+        <!-- Intent 1: Book a Tour -->
+        <div class="intent-card">
+          <div class="intent-card__icon">📅</div>
+          <div class="intent-card__title">I Want to Book a Tour</div>
+          <p class="intent-card__desc">Browse our tours and reserve your slot. We confirm within 24 hours. No upfront payment required.</p>
+          <a href="tours.html" class="btn btn--primary btn--full" style="border-radius:10px">Browse Tours →</a>
+          <a href="https://m.me/61562040673545?text=Hi!%20I%27d%20like%20to%20book%20a%20tour." target="_blank" style="font-size:.78rem;color:var(--pink);font-weight:600;margin-top:4px">or message us directly →</a>
+        </div>
+
+        <!-- Intent 2: Ask a Question -->
+        <div class="intent-card">
+          <div class="intent-card__icon">❓</div>
+          <div class="intent-card__title">I Have a Question</div>
+          <p class="intent-card__desc">Not sure which tour is right for you? Want to know about dates, group sizes, or accessibility? We're happy to help.</p>
+          <a href="https://m.me/61562040673545" target="_blank" class="btn btn--primary btn--full" style="border-radius:10px;background:#0084ff">💬 Message on Messenger</a>
+          <a href="https://wa.me/639052435196" target="_blank" style="font-size:.78rem;color:#25d366;font-weight:600;margin-top:4px">or chat on WhatsApp →</a>
+        </div>
+
+        <!-- Intent 3: Partner -->
+        <div class="intent-card">
+          <div class="intent-card__icon">🤝</div>
+          <div class="intent-card__title">I Want to Partner</div>
+          <p class="intent-card__desc">Schools, corporations, travel agencies, and OFW groups welcome. Custom packages, group rates, and full coordination available.</p>
+          <button class="btn btn--outline btn--full" style="border-radius:10px" onclick="togglePartnerForm()">Send Us a Message</button>
+        </div>
+
+      </div>
+
+      <!-- Partner form (shown on click) -->
+      <div class="partner-form" id="partner-form">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:800;color:var(--navy);margin-bottom:20px">Partner Inquiry</h3>
+        <div class="field-row" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="field"><label>Name / Organization</label><input type="text" placeholder="Your name or company"></div>
+          <div class="field"><label>Contact Number</label><input type="tel" placeholder="09XXXXXXXXX"></div>
+        </div>
+        <div class="field"><label>Email Address</label><input type="email" placeholder="you@company.com"></div>
+        <div class="field"><label>Tell us about your group</label><textarea rows="4" placeholder="Number of people, type of event, preferred dates, any special requirements..."></textarea></div>
+        <button class="btn btn--primary" style="border-radius:10px">Send Inquiry →</button>
+        <div class="trust-micro" style="margin-top:12px">
+          <span>✅ We reply within 24 hours</span>
+          <span>🤝 Custom rates available</span>
+        </div>
+      </div>
+
+      <!-- Contact info strip -->
+      <div class="contact-info-grid">
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon">📞</div>
+          <div class="contact-info-item__label">Phone / SMS</div>
+          <div class="contact-info-item__val"><a href="tel:09052435196">0905-243-5196</a></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon">💬</div>
+          <div class="contact-info-item__label">Messenger</div>
+          <div class="contact-info-item__val"><a href="https://m.me/61562040673545" target="_blank">@laaganadventure</a></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon">📱</div>
+          <div class="contact-info-item__label">WhatsApp</div>
+          <div class="contact-info-item__val"><a href="https://wa.me/639052435196" target="_blank">+63 905-243-5196</a></div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-item__icon">📍</div>
+          <div class="contact-info-item__label">Location</div>
+          <div class="contact-info-item__val">Zamboanga City,<br>Philippines</div>
+        </div>
+      </div>
+
+      <!-- Map placeholder -->
+      <div class="map-placeholder">
+        <div style="font-size:2rem;margin-bottom:12px">🗺</div>
+        <div style="font-weight:700;font-size:.95rem;margin-bottom:6px">Paseo del Mar Jetty, Zamboanga City</div>
+        <div style="font-size:.82rem;opacity:.8;margin-bottom:16px">Meeting point for all island tours</div>
+        <a href="https://maps.google.com/?q=Paseo+del+Mar+Zamboanga+City" target="_blank" class="btn btn--outline btn--sm" style="border-color:#0369a1;color:#0369a1">Open in Google Maps →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ teaser -->
+  <section class="section--sm section--alt">
+    <div class="container" style="text-align:center">
+      <span class="section__label section__label--center">Common Questions</span>
+      <h2 class="section__title section__title--center" style="font-size:1.8rem">Before you reach out</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px;text-align:left">
+        <div style="background:#fff;border-radius:var(--r);padding:20px;border:1px solid var(--border)">
+          <div style="font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:8px">Do I need to pay upfront?</div>
+          <div style="font-size:.82rem;color:var(--muted);line-height:1.65">No. You book, we confirm, you pay on the day in cash or GCash. We only ask for a ₱300 deposit via GCash to reserve slots for large groups.</div>
+        </div>
+        <div style="background:#fff;border-radius:var(--r);padding:20px;border:1px solid var(--border)">
+          <div style="font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:8px">What if the weather is bad?</div>
+          <div style="font-size:.82rem;color:var(--muted);line-height:1.65">Your safety is our priority. We reschedule at no charge due to weather. You will never lose your money because of something outside your control.</div>
+        </div>
+        <div style="background:#fff;border-radius:var(--r);padding:20px;border:1px solid var(--border)">
+          <div style="font-size:.85rem;font-weight:700;color:var(--navy);margin-bottom:8px">How far in advance should I book?</div>
+          <div style="font-size:.82rem;color:var(--muted);line-height:1.65">Santa Cruz Island only allows 400 visitors/day. For weekends and holidays, book 1–2 weeks ahead. Weekday tours often have same-day availability.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">Laagan Adventures</div>
+        <p class="footer__brand-desc">Local guides. Authentic experiences. Zamboanga City's trusted tour operator since 2022.</p>
+        <div class="footer__social"><a href="#" class="footer__social-link">FB</a><a href="#" class="footer__social-link">IG</a><a href="#" class="footer__social-link">TT</a></div>
+      </div>
+      <div><div class="footer__col-title">Tours</div><div class="footer__links"><a href="tour-detail.html">Santa Cruz Island</a><a href="tours.html">All Tours</a><a href="booking.html">Book Now</a></div></div>
+      <div><div class="footer__col-title">Company</div><div class="footer__links"><a href="#">About James & Ivy</a><a href="#">Blog</a><a href="contact.html">Contact</a></div></div>
+      <div><div class="footer__col-title">Contact</div><div class="footer__links"><a href="tel:09052435196">📞 0905-243-5196</a><a href="https://m.me/61562040673545">💬 Messenger</a><a href="https://wa.me/639052435196">📱 WhatsApp</a></div></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Laagan Adventures · DTI Registered · BIR Compliant</span><span>Zamboanga City, Philippines</span></div>
+  </div>
+</footer>
+
+<div class="float-btns">
+  <a href="https://wa.me/639052435196" target="_blank" class="float-btn float-btn--wa">📱</a>
+  <a href="https://m.me/61562040673545" target="_blank" class="float-btn float-btn--ms">💬</a>
+</div>
+
+<script src="shared.js"></script>
+<script>
+  function togglePartnerForm() {
+    const f = document.getElementById('partner-form');
+    f.classList.toggle('is-open');
+    if (f.classList.contains('is-open')) f.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+</body>
+</html>

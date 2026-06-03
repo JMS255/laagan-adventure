@@ -50,63 +50,55 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 'var(--nav-h)' }}>
+      <main className="page-top">
 
-        {/* ── HERO ── */}
-        <div style={{ height: '480px', background: 'var(--navy-2)', overflow: 'hidden', position: 'relative' }}>
-          {tour.mainImage && (
-            <Image
-              src={urlFor(tour.mainImage).width(1400).height(600).url()}
-              fill
-              alt={tour.title}
-              style={{ objectFit: 'cover', opacity: .6 }}
-              sizes="100vw"
-              priority
-            />
-          )}
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(to top, rgba(0,25,45,.95) 0%, rgba(0,25,45,.35) 55%, transparent 100%)',
-          }} />
-          <div className="container hero-content-overlay" style={{
-            position: 'absolute', bottom: '44px',
-            left: '50%', transform: 'translateX(-50%)', width: '100%',
-          }}>
-            {tour.destination && (
-              <span style={{
-                display: 'inline-block',
-                fontSize: '.65rem', fontWeight: 700, letterSpacing: '.12em',
-                textTransform: 'uppercase', color: '#fff',
-                background: 'var(--pink)', padding: '5px 14px', borderRadius: '999px',
-                marginBottom: '14px',
-              }}>
-                {tour.destination}
-              </span>
-            )}
-            <h1 style={{
-              fontSize: 'clamp(2rem, 4.5vw, 3.4rem)',
-              fontWeight: 800, color: '#fff',
-              letterSpacing: '-.02em', lineHeight: 1.08,
-              marginBottom: '16px', maxWidth: '720px',
-            }}>
-              {tour.title}
-            </h1>
-            <div style={{ display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' }}>
-              {tour.duration && (
-                <span style={{ fontSize: '.85rem', color: 'rgba(255,255,255,.8)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  🕐 {tour.duration}
-                </span>
-              )}
-              {tour.price && (
-                <span style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff' }}>
-                  From ₱{tour.price.toLocaleString()}
-                  {tour.priceNote && (
-                    <span style={{ fontSize: '.78rem', fontWeight: 400, opacity: .7 }}> · {tour.priceNote}</span>
-                  )}
-                </span>
+        {/* ── GALLERY ── */}
+        <div className="container" style={{ paddingTop: '32px', paddingBottom: '0' }}>
+          <nav className="breadcrumb">
+            <Link href="/">Home</Link>
+            <span className="breadcrumb__sep">›</span>
+            <Link href="/tours">Tours</Link>
+            <span className="breadcrumb__sep">›</span>
+            <span>{tour.title}</span>
+          </nav>
+
+          {/* Desktop 2-col gallery */}
+          <div style={{ display: 'grid', gridTemplateColumns: '7fr 3fr', gap: '10px', maxHeight: '480px', borderRadius: '20px', overflow: 'hidden' }} className="tour-gallery-grid">
+            <div style={{ position: 'relative', minHeight: '340px', background: 'var(--navy-2)' }}>
+              {tour.mainImage && (
+                <Image src={urlFor(tour.mainImage).width(900).height(600).url()} fill alt={tour.title} style={{ objectFit: 'cover' }} sizes="(max-width:900px) 100vw, 60vw" priority />
               )}
             </div>
+            {tour.photos?.length > 0 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {tour.photos.slice(0, 2).map((photo: object, i: number) => (
+                  <div key={i} style={{ position: 'relative', flex: 1, background: 'var(--bg-2)', minHeight: '0' }}>
+                    <Image src={urlFor(photo).width(400).height(300).url()} fill alt={`${tour.title} photo ${i + 2}`} style={{ objectFit: 'cover' }} sizes="20vw" />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
+        </div>
+
+        {/* ── TOUR HEADER ── */}
+        <div className="container" style={{ paddingTop: '28px', paddingBottom: '0' }}>
+          <h1 style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.8rem)', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.03em', lineHeight: 1.15, marginBottom: '16px', fontFamily: 'var(--font-display, Georgia), serif' }}>
+            {tour.title}
+          </h1>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+            {tour.duration && <span className="chip">⏱ {tour.duration}</span>}
+            {tour.destination && <span className="chip">📍 {tour.destination}</span>}
+            <span className="chip">⭐ 5.0 reviews</span>
+            {tour.price && <span className="chip">From ₱{tour.price.toLocaleString()}</span>}
+          </div>
+          {tour.badgeLabel && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#fff4f7', border: '1px solid rgba(217,107,138,.3)', borderRadius: '10px', padding: '12px 16px', marginBottom: '8px' }}>
+              <span className="badge badge--pink">{tour.badgeLabel}</span>
+              <span style={{ fontSize: '.82rem', color: 'var(--text-muted)' }}>Only 400 visitors allowed on Santa Cruz Island per day</span>
+              <span style={{ fontSize: '.78rem', color: 'var(--text-muted)', marginLeft: 'auto', whiteSpace: 'nowrap' }}>Weekends sell out fast</span>
+            </div>
+          )}
         </div>
 
         {/* ── STICKY TABS ── */}
@@ -114,7 +106,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
 
         {/* ── MAIN CONTENT ── */}
         <div className="container">
-          <div className="tour-detail-grid">
+          <div className="tour-detail-layout">
 
             {/* ── LEFT: CONTENT ── */}
             <div style={{ minWidth: 0 }}>
@@ -304,94 +296,47 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
 
             {/* ── RIGHT: STICKY BOOKING CARD ── */}
             <div className="tour-detail-sidebar">
-              <div style={{
-                position: 'sticky',
-                top: 'calc(var(--nav-h) + 72px)',
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-                borderRadius: 'var(--rl)',
-                padding: '28px',
-                boxShadow: '0 8px 40px rgba(0,40,70,.09)',
-              }}>
-                {tour.duration && (
-                  <p style={{
-                    fontSize: '.65rem', fontWeight: 700, letterSpacing: '.12em',
-                    textTransform: 'uppercase', color: 'var(--pink)', marginBottom: '8px',
-                  }}>
-                    {tour.duration}
-                  </p>
-                )}
-                {tour.price ? (
-                  <>
-                    <p style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.03em', lineHeight: 1 }}>
-                      ₱{tour.price.toLocaleString()}
-                    </p>
-                    {tour.priceNote && (
-                      <p style={{ fontSize: '.78rem', color: 'var(--text-muted)', marginTop: '4px', marginBottom: '24px' }}>
-                        {tour.priceNote}
-                      </p>
-                    )}
-                  </>
-                ) : (
-                  <p style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '24px' }}>
-                    Contact us for pricing
-                  </p>
-                )}
+              <div className="booking-sidebar">
+                <p className="booking-sidebar__price-label">Starting from</p>
+                <p className="booking-sidebar__price">
+                  ₱{tour.price?.toLocaleString() ?? '—'}
+                  <span> / person</span>
+                </p>
 
                 <Link
                   href={`/book/${tour.slug.current}`}
-                  className="btn btn--primary"
-                  style={{ width: '100%', justifyContent: 'center', marginBottom: '10px', borderRadius: '10px', fontFamily: 'inherit' }}
+                  className="btn btn--primary btn--full"
+                  style={{ marginBottom: '10px' }}
                 >
-                  Book This Tour →
+                  Check Availability →
                 </Link>
-                <QuickInquiryButton tourName={tour.title} />
                 <a
                   href="https://m.me/61562040673545"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn--outline"
-                  style={{ width: '100%', justifyContent: 'center', fontSize: '.82rem', borderRadius: '10px', marginTop: '8px' }}
+                  target="_blank" rel="noopener noreferrer"
+                  className="btn btn--outline btn--full"
+                  style={{ fontSize: '.82rem' }}
                 >
                   💬 Ask on Messenger
                 </a>
+                <a
+                  href="https://wa.me/639052435196"
+                  target="_blank" rel="noopener noreferrer"
+                  className="btn btn--full"
+                  style={{ fontSize: '.82rem', marginTop: '8px', background: '#25d366', color: '#fff', borderRadius: '12px', justifyContent: 'center', display: 'inline-flex', alignItems: 'center', padding: '12px 20px', fontWeight: 700 }}
+                >
+                  WhatsApp Us
+                </a>
 
-                <div style={{
-                  marginTop: '24px', paddingTop: '20px',
-                  borderTop: '1px solid var(--border)',
-                  display: 'flex', flexDirection: 'column', gap: '10px',
-                }}>
-                  {[
-                    'No upfront payment required',
-                    'We reply within 24 hours',
-                    'DTI Registered operator',
-                  ].map(text => (
-                    <div key={text} style={{
-                      display: 'flex', gap: '8px', alignItems: 'flex-start',
-                      fontSize: '.8rem', color: 'var(--text-muted)',
-                    }}>
-                      <span style={{ color: 'var(--pink)', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                      {text}
-                    </div>
-                  ))}
+                <div className="trust-micro" style={{ marginTop: '20px', paddingTop: '20px', borderTop: '1px solid var(--border)' }}>
+                  <span>🔒 No payment yet</span>
+                  <span>✅ Free cancellation</span>
+                  <span>💬 24hr reply</span>
                 </div>
 
-                {/* Contact snippet */}
-                <div style={{
-                  marginTop: '20px', paddingTop: '18px',
-                  borderTop: '1px solid var(--border)',
-                }}>
-                  <p style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '10px' }}>
-                    Have questions?
-                  </p>
-                  {[
-                    { icon: '📞', text: '0905-243-5196' },
-                    { icon: '📍', text: 'Zamboanga City, PH' },
-                  ].map(c => (
-                    <div key={c.text} style={{ display: 'flex', gap: '8px', alignItems: 'center', fontSize: '.8rem', color: 'var(--text-muted)', marginBottom: '6px' }}>
-                      <span>{c.icon}</span> {c.text}
-                    </div>
-                  ))}
+                <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border)' }}>
+                  <p style={{ fontSize: '.72rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '10px' }}>Meeting Point</p>
+                  <p style={{ fontSize: '.82rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>📍 Paseo del Mar Jetty, Zamboanga City</p>
+                  <a href="https://maps.google.com/?q=Paseo+del+Mar+Zamboanga+City" target="_blank" rel="noopener noreferrer" style={{ fontSize: '.78rem', color: 'var(--pink)', fontWeight: 600, textDecoration: 'none', display: 'inline-block', marginTop: '6px' }}>Open in Google Maps →</a>
                 </div>
               </div>
             </div>
@@ -553,9 +498,8 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
               <Link href={`/book/${tour.slug.current}`} className="btn btn--primary" style={{ fontSize: '.9rem', padding: '16px 36px' }}>
                 Book This Tour →
               </Link>
-              <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--outline-light">
-                Message on Messenger
-              </a>
+              <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--outline-light">💬 Messenger</a>
+              <a href="https://wa.me/639052435196" target="_blank" rel="noopener noreferrer" className="btn btn--outline-light">WhatsApp</a>
             </div>
           </div>
         </section>

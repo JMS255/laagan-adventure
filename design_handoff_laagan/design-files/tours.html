@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Tours — Laagan Adventures</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    .page-hero{background:var(--bg-2);padding:40px 0 32px;border-bottom:1px solid var(--border)}
+    .filter-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+    .filter-bar__left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .filter-bar__right{display:flex;align-items:center;gap:12px;flex-shrink:0}
+    .filter-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border:1.5px solid var(--border);border-radius:8px;font-size:.8rem;font-weight:700;color:var(--navy);background:#fff;cursor:pointer;transition:all .2s}
+    .filter-btn:hover{border-color:var(--navy)}
+    .sort-select{padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.8rem;font-weight:600;color:var(--navy);background:#fff;cursor:pointer;outline:none}
+    .results-count{font-size:.8rem;color:var(--muted);white-space:nowrap}
+    .active-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:rgba(217,107,138,.1);border:1px solid rgba(217,107,138,.3);border-radius:999px;font-size:.72rem;font-weight:600;color:var(--pink);cursor:pointer}
+    .active-chip:hover{background:rgba(217,107,138,.18)}
+    /* 3-col grid */
+    .tours-grid-full{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:40px 0}
+    /* Filter drawer */
+    .filter-drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:500;opacity:0;pointer-events:none;transition:opacity .25s}
+    .filter-drawer-overlay.is-open{opacity:1;pointer-events:all}
+    .filter-drawer{position:fixed;bottom:0;left:0;right:0;z-index:501;background:#fff;border-radius:20px 20px 0 0;padding:24px 20px max(24px,env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .3s cubic-bezier(.25,.46,.45,.94);max-height:80vh;overflow-y:auto}
+    .filter-drawer.is-open{transform:translateY(0)}
+    .filter-drawer__handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px}
+    .filter-drawer__title{font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
+    .filter-section{margin-bottom:24px}
+    .filter-section__label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:12px}
+    .filter-pills{display:flex;gap:8px;flex-wrap:wrap}
+    .filter-pill{padding:8px 16px;border:1.5px solid var(--border);border-radius:999px;font-size:.8rem;font-weight:600;color:var(--navy);cursor:pointer;background:#fff;transition:all .2s}
+    .filter-pill.is-active{border-color:var(--pink);background:rgba(217,107,138,.08);color:var(--pink)}
+    @media(max-width:900px){.tours-grid-full{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){
+      .tours-grid-full{grid-template-columns:1fr;gap:20px}
+      .filter-bar__right .sort-select{display:none}
+      .filter-bar__right .results-count{display:none}
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <div class="promo-strip">
+    <span>400 visitor/day cap on Santa Cruz Island — <strong>book ahead to guarantee your spot</strong></span>
+  </div>
+  <nav class="nav">
+    <a href="index.html" class="nav__logo">
+      <img src="../public/logo.jpg" alt="Laagan Adventures">
+      <span class="nav__logo-text">Laagan Adventures</span>
+    </a>
+    <div class="nav__links">
+      <a href="tours.html" class="is-active">Tours</a>
+      <a href="#">Destinations</a>
+      <a href="#">Blog</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav__right">
+      <a href="tel:09052435196" class="nav__phone">0905-243-5196</a>
+      <a href="booking.html" class="nav__cta">Book Now</a>
+    </div>
+    <button class="nav__toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <nav class="nav__mobile">
+    <a href="tours.html">Tours</a>
+    <a href="contact.html">Plan My Trip</a>
+    <a href="index.html">Home</a>
+    <a href="tel:09052435196">📞 0905-243-5196</a>
+  </nav>
+</header>
+
+<main class="page-top">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb__sep">›</span>
+        <span>Tours</span>
+      </div>
+      <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.03em;color:var(--navy);margin-bottom:10px">Explore All Tours</h1>
+      <p style="font-size:1rem;color:var(--muted)">Guided adventures across Zamboanga's best destinations</p>
+    </div>
+  </div>
+
+  <div style="background:#fff">
+    <div class="container">
+      <!-- Traveler filter -->
+      <div style="padding:28px 0 0">
+        <p style="font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:14px">Filter by traveler type:</p>
+        <div class="traveler-grid" style="margin-top:0;margin-bottom:0">
+          <button class="traveler-card" data-filter="solo"><span class="traveler-card__icon">🧍</span><span class="traveler-card__label">Solo</span></button>
+          <button class="traveler-card" data-filter="couple"><span class="traveler-card__icon">💑</span><span class="traveler-card__label">Couple</span></button>
+          <button class="traveler-card" data-filter="barkada"><span class="traveler-card__icon">👫</span><span class="traveler-card__label">Barkada</span></button>
+          <button class="traveler-card" data-filter="family"><span class="traveler-card__icon">👨‍👩‍👧</span><span class="traveler-card__label">Family</span></button>
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <div class="filter-bar__left">
+          <button class="filter-btn" id="filter-open-btn">⚙ Filter</button>
+          <span class="active-chip" id="applied-chip" style="display:none">Island · <span>×</span></span>
+        </div>
+        <div class="filter-bar__right">
+          <span class="results-count" id="results-count">Showing 6 tours</span>
+          <select class="sort-select">
+            <option>Most Popular</option>
+            <option>Price: Low to High</option>
+            <option>Duration: Shortest</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tour grid -->
+      <div class="tours-grid-full" id="all-tours">
+        <a href="tour-detail.html" class="tour-card" data-audience="solo,couple,barkada,family">
+          <div class="tour-card__img">
+            <div class="tour-card__img-bg" style="background:linear-gradient(160deg,#0ea5e9 0%,#0284c7 50%,#0c4a6e 100%)"></div>
+            <div class="tour-card__badge"><span class="badge badge--pink">🔥 Most Popular</span></div>
+          </div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">Santa Cruz Island</h3>
+            <div class="tour-card__chips"><span class="chip">⏱ 8 hrs</span><span class="chip">👥 2–20</span><span class="chip">🏝 Island</span></div>
+            <div class="tour-card__rating"><span class="tour-card__stars">★★★★★</span><span>5.0 (124 reviews)</span></div>
+            <div class="tour-card__footer">
+              <div><div class="tour-card__price">₱1,500</div><div class="tour-card__price-note">per person</div></div>
+              <span class="btn btn--outline btn--sm">Check Availability</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="tour-detail.html" class="tour-card" data-audience="solo,couple,family">
+          <div class="tour-card__img">
+            <div class="tour-card__img-bg" style="background:linear-gradient(160deg,#f59e0b 0%,#d97706 50%,#78350f 100%)"></div>
+          </div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">City Heritage Tour</h3>
+            <div class="tour-card__chips"><span class="chip">⏱ 4 hrs</span><span class="chip">👥 Any</span><span class="chip">🏛 Culture</span></div>
+            <div class="tour-card__rating"><span class="tour-card__stars">★★★★★</span><span>4.9 (56 reviews)</span></div>
+            <div class="tour-card__footer">
+              <div><div class="tour-card__price">₱800</div><div class="tour-card__price-note">per person</div></div>
+              <span class="btn btn--outline btn--sm">Check Availability</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="tour-detail.html" class="tour-card" data-audience="barkada,family">
+          <div class="tour-card__img">
+            <div class="tour-card__img-bg" style="background:linear-gradient(160deg,#10b981 0%,#059669 50%,#064e3b 100%)"></div>
+            <div class="tour-card__badge"><span class="badge badge--light">⭐ Best Value</span></div>
+          </div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">Island Hopping</h3>
+            <div class="tour-card__chips"><span class="chip">⏱ 10 hrs</span><span class="chip">👥 4–20</span><span class="chip">⛵ Adventure</span></div>
+            <div class="tour-card__rating"><span class="tour-card__stars">★★★★★</span><span>5.0 (89 reviews)</span></div>
+            <div class="tour-card__footer">
+              <div><div class="tour-card__price">₱1,800</div><div class="tour-card__price-note">per person</div></div>
+              <span class="btn btn--outline btn--sm">Check Availability</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="tour-detail.html" class="tour-card" data-audience="solo,barkada">
+          <div class="tour-card__img">
+            <div class="tour-card__img-bg" style="background:linear-gradient(160deg,#8b5cf6 0%,#7c3aed 50%,#4c1d95 100%)"></div>
+          </div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">ZambaSulta + ZamPen</h3>
+            <div class="tour-card__chips"><span class="chip">⏱ 2 days</span><span class="chip">👥 2–12</span><span class="chip">🗺 Full Tour</span></div>
+            <div class="tour-card__rating"><span class="tour-card__stars">★★★★★</span><span>4.8 (34 reviews)</span></div>
+            <div class="tour-card__footer">
+              <div><div class="tour-card__price">₱2,500</div><div class="tour-card__price-note">per person</div></div>
+              <span class="btn btn--outline btn--sm">Check Availability</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="tour-detail.html" class="tour-card" data-audience="couple,family,solo">
+          <div class="tour-card__img">
+            <div class="tour-card__img-bg" style="background:linear-gradient(160deg,#ec4899 0%,#db2777 50%,#831843 100%)"></div>
+          </div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">Paseo del Mar Sunset</h3>
+            <div class="tour-card__chips"><span class="chip">⏱ 3 hrs</span><span class="chip">👥 Any</span><span class="chip">🌅 Culture</span></div>
+            <div class="tour-card__rating"><span class="tour-card__stars">★★★★★</span><span>5.0 (41 reviews)</span></div>
+            <div class="tour-card__footer">
+              <div><div class="tour-card__price">₱600</div><div class="tour-card__price-note">per person</div></div>
+              <span class="btn btn--outline btn--sm">Check Availability</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="tour-detail.html" class="tour-card" data-audience="barkada,solo">
+          <div class="tour-card__img">
+            <div class="tour-card__img-bg" style="background:linear-gradient(160deg,#0369a1 0%,#075985 50%,#082f49 100%)"></div>
+            <div class="tour-card__badge"><span class="badge badge--navy">🆕 New</span></div>
+          </div>
+          <div class="tour-card__body">
+            <h3 class="tour-card__name">Basilan Day Trip</h3>
+            <div class="tour-card__chips"><span class="chip">⏱ Full day</span><span class="chip">👥 4–15</span><span class="chip">🌿 Nature</span></div>
+            <div class="tour-card__rating"><span class="tour-card__stars">★★★★★</span><span>5.0 (12 reviews)</span></div>
+            <div class="tour-card__footer">
+              <div><div class="tour-card__price">₱2,200</div><div class="tour-card__price-note">per person</div></div>
+              <span class="btn btn--outline btn--sm">Check Availability</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- No results -->
+      <div id="no-tours" style="display:none;text-align:center;padding:64px 0">
+        <p style="font-size:1.5rem;margin-bottom:12px">🤔</p>
+        <p style="font-weight:700;color:var(--navy);margin-bottom:8px">No tours match this filter.</p>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:24px">We're always adding new experiences — message us and we'll find the perfect trip for you.</p>
+        <a href="contact.html" class="btn btn--primary">Plan a Custom Trip</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA strip -->
+  <div style="background:var(--bg-2);border-top:1px solid var(--border);padding:48px 0;text-align:center">
+    <div class="container">
+      <p style="font-size:.9rem;color:var(--muted);margin-bottom:16px">Can't find what you're looking for?</p>
+      <a href="contact.html" class="btn btn--outline" style="margin-right:12px">Plan a Custom Trip</a>
+      <a href="https://m.me/61562040673545" target="_blank" class="btn btn--primary">💬 Ask on Messenger</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand-name">Laagan Adventures</div>
+        <p class="footer__brand-desc">Local guides. Authentic experiences. Zamboanga City's trusted tour operator since 2022.</p>
+        <div class="footer__social"><a href="#" class="footer__social-link">FB</a><a href="#" class="footer__social-link">IG</a><a href="#" class="footer__social-link">TT</a></div>
+      </div>
+      <div><div class="footer__col-title">Tours</div><div class="footer__links"><a href="tour-detail.html">Santa Cruz Island</a><a href="tours.html">Island Hopping</a><a href="tours.html">City Heritage</a><a href="tours.html">All Tours</a></div></div>
+      <div><div class="footer__col-title">Company</div><div class="footer__links"><a href="#">About</a><a href="#">Blog</a><a href="contact.html">Contact</a></div></div>
+      <div><div class="footer__col-title">Contact</div><div class="footer__links"><a href="tel:09052435196">📞 0905-243-5196</a><a href="https://m.me/61562040673545">💬 Messenger</a><a href="https://wa.me/639052435196">📱 WhatsApp</a></div></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Laagan Adventures · DTI Registered</span><span>Zamboanga City, Philippines</span></div>
+  </div>
+</footer>
+
+<!-- Filter Drawer -->
+<div class="filter-drawer-overlay" id="filter-overlay"></div>
+<div class="filter-drawer" id="filter-drawer">
+  <div class="filter-drawer__handle"></div>
+  <div class="filter-drawer__title">Filters <button id="filter-close-btn" style="font-size:.8rem;font-weight:600;color:var(--pink);background:none;border:none;cursor:pointer">Reset</button></div>
+  <div class="filter-section">
+    <div class="filter-section__label">Activity Type</div>
+    <div class="filter-pills">
+      <button class="filter-pill">Island</button>
+      <button class="filter-pill">Culture</button>
+      <button class="filter-pill">Adventure</button>
+      <button class="filter-pill">Nature</button>
+      <button class="filter-pill">Full Tour</button>
+    </div>
+  </div>
+  <div class="filter-section">
+    <div class="filter-section__label">Duration</div>
+    <div class="filter-pills">
+      <button class="filter-pill">Half day (&lt;5hrs)</button>
+      <button class="filter-pill">Full day (5–12hrs)</button>
+      <button class="filter-pill">Multi-day</button>
+    </div>
+  </div>
+  <div class="filter-section">
+    <div class="filter-section__label">Price Range</div>
+    <div class="filter-pills">
+      <button class="filter-pill">Under ₱1,000</button>
+      <button class="filter-pill">₱1,000–₱2,000</button>
+      <button class="filter-pill">₱2,000+</button>
+    </div>
+  </div>
+  <div style="padding-top:8px">
+    <button id="filter-apply-btn" class="btn btn--primary btn--full">Apply Filters</button>
+  </div>
+</div>
+
+<div class="float-btns">
+  <a href="https://wa.me/639052435196" target="_blank" class="float-btn float-btn--wa">📱</a>
+  <a href="https://m.me/61562040673545" target="_blank" class="float-btn float-btn--ms">💬</a>
+</div>
+
+<script src="shared.js"></script>
+<script>
+  // Filter drawer
+  const overlay = document.getElementById('filter-overlay');
+  const drawer  = document.getElementById('filter-drawer');
+  document.getElementById('filter-open-btn').addEventListener('click', () => {
+    overlay.classList.add('is-open');
+    drawer.classList.add('is-open');
+  });
+  [overlay, document.getElementById('filter-close-btn'), document.getElementById('filter-apply-btn')].forEach(el => {
+    el && el.addEventListener('click', () => {
+      overlay.classList.remove('is-open');
+      drawer.classList.remove('is-open');
+    });
+  });
+  // Filter pill toggle
+  document.querySelectorAll('.filter-pill').forEach(p => p.addEventListener('click', () => p.classList.toggle('is-active')));
+  // Update count
+  document.querySelectorAll('.traveler-card').forEach(card => {
+    card.addEventListener('click', () => {
+      setTimeout(() => {
+        const visible = [...document.querySelectorAll('#all-tours .tour-card')].filter(c => c.style.display !== 'none').length;
+        document.getElementById('results-count').textContent = `Showing ${visible} tour${visible !== 1 ? 's' : ''}`;
+        document.getElementById('no-tours').style.display = visible ? 'none' : 'block';
+      }, 50);
+    });
+  });
+</script>
+</body>
+</html>

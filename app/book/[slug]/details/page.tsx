@@ -36,7 +36,7 @@ export default async function BookDetailsPage({
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 'var(--nav-h)', minHeight: '100vh' }}>
+      <main className="page-top" style={{ minHeight: '100vh' }}>
         <PassengerDetailsForm
           tourTitle={tour.title}
           tourSlug={tour.slug.current}

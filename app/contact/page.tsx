@@ -26,25 +26,63 @@ export default async function ContactPage({
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 'var(--nav-h)', background: 'var(--bg-2)', minHeight: '100vh' }}>
+      <main className="page-top" style={{ background: 'var(--bg-2)', minHeight: '100vh' }}>
 
         {/* Header */}
-        <div style={{ background: 'var(--navy)', padding: '72px 0 100px', textAlign: 'center' }}>
+        <div style={{ background: 'var(--navy)', padding: '64px 0 96px', textAlign: 'center' }}>
           <div className="container" style={{ maxWidth: '600px' }}>
-            <p className="section__label">Laagan Adventure · Zamboanga City</p>
-            <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', lineHeight: 1.15, marginBottom: '14px' }}>
-              Plan your perfect<br />
-              <span style={{ color: 'var(--pink)', fontStyle: 'italic' }}>Zamboanga adventure.</span>
+            <p className="section__label" style={{ textAlign: 'center' }}>Plan My Trip</p>
+            <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', lineHeight: 1.15, marginBottom: '14px', fontFamily: 'var(--font-display, Georgia), serif', fontStyle: 'italic' }}>
+              Ready to See the Pink Sand?
             </h1>
-            <p style={{ color: 'rgba(255,255,255,.6)', fontSize: '.95rem', lineHeight: 1.7 }}>
-              Pick your destination, choose your stops, set your date.<br />
-              We&apos;ll confirm everything on Messenger.
+            <p style={{ color: 'rgba(255,255,255,.65)', fontSize: '.95rem', lineHeight: 1.7 }}>
+              Pick your tour, choose your date, and we&apos;ll confirm on Messenger within 24 hours.
             </p>
           </div>
         </div>
 
-        {/* Builder card — overlaps header */}
-        <div className="container" style={{ marginTop: '-56px', paddingBottom: '64px' }}>
+        {/* 3 Intent cards — overlaps header */}
+        <div className="container" style={{ marginTop: '-48px', paddingBottom: '32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }} className="contact-intent-grid">
+
+            {/* Book a tour */}
+            <div style={{ background: '#fff', border: '2px solid var(--border)', borderRadius: '18px', padding: '32px 28px', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all .2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--pink)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.transform = 'none'; }}>
+              <p style={{ fontSize: '2rem' }}>📅</p>
+              <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)' }}>Book a Tour</h2>
+              <p style={{ fontSize: '.85rem', color: 'var(--text-muted)', lineHeight: 1.65, flex: 1 }}>Browse our packages and reserve your spot — confirmed via Messenger.</p>
+              <a href="/tours" className="btn btn--primary btn--sm" style={{ alignSelf: 'flex-start' }}>Browse Tours →</a>
+            </div>
+
+            {/* Ask a question */}
+            <div style={{ background: '#fff', border: '2px solid var(--border)', borderRadius: '18px', padding: '32px 28px', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all .2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--pink)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.transform = 'none'; }}>
+              <p style={{ fontSize: '2rem' }}>❓</p>
+              <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)' }}>Ask a Question</h2>
+              <p style={{ fontSize: '.85rem', color: 'var(--text-muted)', lineHeight: 1.65, flex: 1 }}>Not sure where to start? Message us — real people, fast replies.</p>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--sm" style={{ background: '#0084ff', color: '#fff', borderRadius: '999px', alignSelf: 'flex-start' }}>💬 Messenger</a>
+                <a href="https://wa.me/639052435196" target="_blank" rel="noopener noreferrer" className="btn btn--sm" style={{ background: '#25d366', color: '#fff', borderRadius: '999px', alignSelf: 'flex-start' }}>WhatsApp</a>
+              </div>
+            </div>
+
+            {/* Partner */}
+            <div style={{ background: '#fff', border: '2px solid var(--border)', borderRadius: '18px', padding: '32px 28px', display: 'flex', flexDirection: 'column', gap: '12px', transition: 'all .2s' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--pink)'; (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; (e.currentTarget as HTMLElement).style.transform = 'none'; }}>
+              <p style={{ fontSize: '2rem' }}>🤝</p>
+              <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)' }}>Partner With Us</h2>
+              <p style={{ fontSize: '.85rem', color: 'var(--text-muted)', lineHeight: 1.65, flex: 1 }}>Hotels, agencies, or schools — let&apos;s build something together.</p>
+              <a href="mailto:laaganadventure@gmail.com" className="btn btn--outline btn--sm" style={{ alignSelf: 'flex-start' }}>Send Email →</a>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Builder card */}
+        <div className="container" style={{ paddingBottom: '64px' }}>
           <div style={{
             background: '#fff',
             borderRadius: '28px',

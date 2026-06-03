@@ -1,0 +1,358 @@
+/**
+ * Laagan Adventures — Design System CSS Variables
+ * 
+ * Central repository of all color, typography, spacing, and semantic tokens.
+ * Import this file in your project and use CSS custom properties throughout.
+ * 
+ * Structure:
+ * 1. Color tokens (base palette)
+ * 2. Typography tokens (scales, families, weights)
+ * 3. Spacing & sizing tokens
+ * 4. Component-specific semantic variables
+ * 5. Motion & effects
+ */
+
+:root {
+  /* ────────────────────────────────────────────────────────────────────────
+     COLOR TOKENS — Pink Sand & Ocean Palette
+     ──────────────────────────────────────────────────────────────────────── */
+
+  /* Primary Colors */
+  --navy: #004e64;           /* Deep tropical ocean — primary text, headings */
+  --navy-2: #003347;         /* Darker navy — promo strip, overlays, accents */
+  --pink: #d96b8a;           /* Pink sand — secondary CTAs, badges, accents */
+  --pink-dark: #bf5070;      /* Pink darker — button hover state */
+  --pink-light: #fff0f4;     /* Pink light — input backgrounds, warm sections */
+
+  /* Neutral & Background */
+  --bg: #ffffff;             /* Primary background */
+  --bg-2: #fdf5f7;           /* Warm-tinted background (section alternation) */
+  --bg-card: #ffffff;        /* Card background */
+  --text: #0d2637;           /* Primary text (deep ocean) */
+  --text-muted: #4e6e80;     /* Secondary text, labels */
+  --border: #e8d5da;         /* Card borders, dividers (pink-tinted) */
+
+  /* Semantic Colors */
+  --success: #10b981;        /* For confirmations, checks */
+  --warning: #f59e0b;        /* For alerts, cautions */
+  --error: #ef4444;          /* For errors, cancellations */
+  --info: #3b82f6;           /* For informational messages */
+
+  /* ────────────────────────────────────────────────────────────────────────
+     TYPOGRAPHY TOKENS
+     ──────────────────────────────────────────────────────────────────────── */
+
+  /* Font Families */
+  --font-display: 'Playfair Display', 'Georgia', serif;  /* Headings */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Courier New', monospace;
+
+  /* Font Weights */
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  /* ────────────────────────────────────────────────────────────────────────
+     SEMANTIC TYPOGRAPHY SCALES
+     Use these for consistent hierarchy across the site.
+     ──────────────────────────────────────────────────────────────────────── */
+
+  /* Heading 1 (Hero & Major Titles) */
+  --h1-size: clamp(2.4rem, 6vw, 4.8rem);
+  --h1-weight: 800;
+  --h1-tracking: -0.02em;
+  --h1-lh: 1.08;
+
+  /* Heading 2 (Section Titles) */
+  --h2-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  --h2-weight: 800;
+  --h2-tracking: -0.03em;
+  --h2-lh: 1.2;
+
+  /* Heading 3 (Subsection Titles) */
+  --h3-size: 1.5rem;
+  --h3-weight: 700;
+  --h3-tracking: -0.01em;
+  --h3-lh: 1.3;
+
+  /* Body Large (Prominent paragraphs) */
+  --body-lg-size: 1.15rem;
+  --body-lg-weight: 400;
+  --body-lg-tracking: 0em;
+  --body-lg-lh: 1.7;
+
+  /* Body Regular (Default) */
+  --body-size: 0.9rem;
+  --body-weight: 400;
+  --body-tracking: 0em;
+  --body-lh: 1.6;
+
+  /* Body Small (Secondary copy) */
+  --body-sm-size: 0.82rem;
+  --body-sm-weight: 400;
+  --body-sm-tracking: 0em;
+  --body-sm-lh: 1.6;
+
+  /* Label (Form labels, section eyebrows) */
+  --label-size: 0.78rem;
+  --label-weight: 600;
+  --label-tracking: 0.03em;
+  --label-lh: 1;
+
+  /* Micro Label (Uppercase labels, tags) */
+  --micro-size: 0.72rem;
+  --micro-weight: 700;
+  --micro-tracking: 0.12em;
+  --micro-lh: 1;
+
+  /* Button Text */
+  --btn-size: 0.85rem;
+  --btn-weight: 700;
+  --btn-tracking: 0.02em;
+  --btn-lh: 1;
+
+  /* ────────────────────────────────────────────────────────────────────────
+     SPACING & SIZING TOKENS
+     ──────────────────────────────────────────────────────────────────────── */
+
+  /* Spacing Scale */
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 12px;
+  --sp-lg: 16px;
+  --sp-xl: 20px;
+  --sp-2xl: 24px;
+  --sp-3xl: 28px;
+  --sp-4xl: 32px;
+  --sp-5xl: 40px;
+  --sp-6xl: 48px;
+  --sp-7xl: 56px;
+  --sp-8xl: 64px;
+  --sp-9xl: 80px;
+  --sp-10xl: 96px;
+
+  /* Layout & Grid */
+  --max-w: 1100px;            /* Container max-width */
+  --container-px: 32px;       /* Desktop padding */
+  --container-px-tablet: 24px;
+  --container-px-mobile: 16px;
+
+  /* Component Heights */
+  --strip-h: 42px;            /* Promo strip */
+  --nav-bar-h: 68px;          /* Navigation bar */
+  --nav-h: 110px;             /* Total header (strip + nav) */
+
+  /* Grid Gaps */
+  --gap-cards: 28px;          /* Tour cards, main grids */
+  --gap-testimonials: 24px;   /* Testimonial cards */
+  --gap-why: 32px;            /* Why-grid items */
+  --gap-gallery: 12px;        /* Gallery photos (tight) */
+
+  /* ────────────────────────────────────────────────────────────────────────
+     BORDER RADIUS
+     ──────────────────────────────────────────────────────────────────────── */
+
+  --r: 12px;                  /* Default radius (forms, small elements) */
+  --rl: 18px;                 /* Large radius (cards, major components) */
+  --r-pill: 999px;            /* Pill buttons */
+  --r-full: 50%;              /* Full round (avatars, circles) */
+
+  /* ────────────────────────────────────────────────────────────────────────
+     SHADOWS
+     ──────────────────────────────────────────────────────────────────────── */
+
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
+  --shadow-base: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 8px 24px rgba(0, 40, 70, 0.12);
+  --shadow-lg: 0 16px 48px rgba(0, 60, 100, 0.1);
+  --shadow-xl: 0 20px 60px rgba(0, 40, 70, 0.28), 0 4px 16px rgba(0, 0, 0, 0.1);
+
+  /* ────────────────────────────────────────────────────────────────────────
+     TRANSITIONS & MOTION
+     ──────────────────────────────────────────────────────────────────────── */
+
+  --ease-in: ease-in;
+  --ease-out: ease-out;
+  --ease-in-out: ease-in-out;
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --transition-fast: 0.15s;
+  --transition-base: 0.2s;
+  --transition-slow: 0.4s;
+
+  /* ────────────────────────────────────────────────────────────────────────
+     BREAKPOINTS (for reference, use in media queries)
+     ──────────────────────────────────────────────────────────────────────── */
+
+  /* --bp-sm: 600px;   Phone */
+  /* --bp-md: 860px;   Tablet */
+  /* --bp-lg: 1100px;  Desktop */
+
+  /* ────────────────────────────────────────────────────────────────────────
+     COMPONENT-SPECIFIC SEMANTIC TOKENS
+     ──────────────────────────────────────────────────────────────────────── */
+
+  /* Buttons */
+  --btn-primary-bg: var(--pink);
+  --btn-primary-text: #ffffff;
+  --btn-primary-bg-hover: var(--pink-dark);
+  --btn-primary-shadow-hover: 0 8px 24px rgba(217, 107, 138, 0.35);
+
+  --btn-outline-bg: transparent;
+  --btn-outline-text: var(--navy);
+  --btn-outline-border: 2px solid var(--navy);
+
+  --btn-outline-light-bg: transparent;
+  --btn-outline-light-text: #ffffff;
+  --btn-outline-light-border: 2px solid rgba(255, 255, 255, 0.6);
+
+  /* Form Inputs */
+  --input-bg: var(--pink-light);
+  --input-border: 1.5px solid var(--border);
+  --input-border-focus: 1.5px solid var(--pink);
+  --input-shadow-focus: 0 0 0 3px rgba(217, 107, 138, 0.15);
+  --input-text: var(--text);
+  --input-placeholder: var(--text-muted);
+
+  /* Cards */
+  --card-bg: var(--bg-card);
+  --card-border: 1px solid var(--border);
+  --card-shadow: var(--shadow-base);
+  --card-shadow-hover: var(--shadow-lg);
+  --card-radius: var(--rl);
+
+  /* Navigation */
+  --nav-bg: rgba(255, 255, 255, 0.82);
+  --nav-backdrop-blur: blur(14px);
+  --nav-border: 1px solid rgba(232, 213, 218, 0.55);
+
+  /* Hero */
+  --hero-overlay-top: rgba(0, 30, 50, 0.55);
+  --hero-overlay-mid: rgba(0, 30, 50, 0.25);
+  --hero-overlay-bottom: rgba(0, 30, 50, 0.7);
+
+  /* Destination Cards */
+  --dest-overlay-top: rgba(0, 15, 35, 0.92);
+  --dest-overlay-bottom: rgba(0, 15, 35, 0.05);
+  --dest-overlay-hover: rgba(0, 15, 35, 0.85);
+
+  /* Footer */
+  --footer-bg: var(--navy);
+  --footer-text: rgba(255, 255, 255, 0.7);
+  --footer-heading: var(--pink);
+  --footer-link-hover: #ffffff;
+
+  /* Testimonials */
+  --testimonial-stars: #f5a623;
+  --testimonial-quote: var(--text-muted);
+  --testimonial-author: var(--navy);
+
+  /* Trust Strip & Stats */
+  --stat-number: var(--navy);
+  --stat-label: var(--text-muted);
+  --stat-divider: var(--border);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   UTILITY CLASSES (Optional, for common patterns)
+   ────────────────────────────────────────────────────────────────────────── */
+
+.text-h1 {
+  font-family: var(--font-display);
+  font-size: var(--h1-size);
+  font-weight: var(--h1-weight);
+  letter-spacing: var(--h1-tracking);
+  line-height: var(--h1-lh);
+}
+
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: var(--h2-size);
+  font-weight: var(--h2-weight);
+  letter-spacing: var(--h2-tracking);
+  line-height: var(--h2-lh);
+}
+
+.text-h3 {
+  font-family: var(--font-display);
+  font-size: var(--h3-size);
+  font-weight: var(--h3-weight);
+  letter-spacing: var(--h3-tracking);
+  line-height: var(--h3-lh);
+}
+
+.text-body {
+  font-family: var(--font-sans);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  letter-spacing: var(--body-tracking);
+  line-height: var(--body-lh);
+}
+
+.text-body-lg {
+  font-family: var(--font-sans);
+  font-size: var(--body-lg-size);
+  font-weight: var(--body-lg-weight);
+  letter-spacing: var(--body-lg-tracking);
+  line-height: var(--body-lg-lh);
+}
+
+.text-label {
+  font-family: var(--font-sans);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-tracking);
+  line-height: var(--label-lh);
+}
+
+.text-micro {
+  font-family: var(--font-sans);
+  font-size: var(--micro-size);
+  font-weight: var(--micro-weight);
+  letter-spacing: var(--micro-tracking);
+  line-height: var(--micro-lh);
+  text-transform: uppercase;
+}
+
+/* Color Utilities */
+.text-navy { color: var(--navy); }
+.text-pink { color: var(--pink); }
+.text-muted { color: var(--text-muted); }
+.bg-pink-light { background-color: var(--pink-light); }
+.bg-navy { background-color: var(--navy); }
+
+/* Spacing Utilities */
+.gap-cards { gap: var(--gap-cards); }
+.gap-testimonials { gap: var(--gap-testimonials); }
+.px-container { padding-left: var(--container-px); padding-right: var(--container-px); }
+
+/* Shadow Utilities */
+.shadow-base { box-shadow: var(--shadow-base); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+
+/* Radius Utilities */
+.rounded { border-radius: var(--r); }
+.rounded-lg { border-radius: var(--rl); }
+.rounded-pill { border-radius: var(--r-pill); }
+.rounded-full { border-radius: var(--r-full); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   RESPONSIVE TYPOGRAPHY (Adjust for smaller screens)
+   ────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  :root {
+    --container-px: 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --container-px: 16px;
+    --gap-cards: 20px;
+    --gap-testimonials: 20px;
+  }
+}
