@@ -280,6 +280,9 @@
     <a href="#sanity">Sanity CMS</a>
     <a href="#contact">Contact Page</a>
 
+    <div class="sidebar__section">Research</div>
+    <a href="#research">Research Session <span class="sidebar__badge badge--new">New</span></a>
+
     <div class="sidebar__section">Changelog</div>
     <a href="#changelog">All Changes</a>
 
@@ -291,8 +294,9 @@
     <a href="#sprint4">Sprint 4 — Done ✅</a>
     <a href="#sprint5">Sprint 5 — Done ✅</a>
     <a href="#mobile-ux">Mobile UX Overhaul — Done ✅</a>
-    <a href="#mobile-audit-2">Mobile Audit 2 — Pending ⏳</a>
-    <a href="#sprint6">Sprint 6</a>
+    <a href="#sprint6">Sprint 6 — Done ✅</a>
+    <a href="#design-sprint">Design Sprint — Done ✅ <span class="sidebar__badge badge--new">New</span></a>
+    <a href="#sprint7">Sprint 7 — Next <span class="sidebar__badge badge--new">New</span></a>
 
     <div class="sidebar__section">Guides</div>
     <a href="#adding-tours">Adding a Tour</a>
@@ -308,7 +312,7 @@
       <span>🔗 <strong>Live:</strong> laagan-adventure.vercel.app</span>
       <span>📦 <strong>Repo:</strong> JMS255/laagan-adventure</span>
       <span>🛠 <strong>Framework:</strong> Next.js 15 App Router</span>
-      <span>📅 <strong>Last updated:</strong> May 31 2026 · Hero conversion fix live — Mobile Audit 2 pending</span>
+      <span>📅 <strong>Last updated:</strong> June 3 2026 · Full UI/UX design sprint shipped — Sprint 7 next</span>
     </div>
   </div>
 
@@ -1094,16 +1098,22 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
             <td>1 session</td>
           </tr>
           <tr>
-            <td><strong>Mobile UX 2</strong></td>
-            <td>Mobile audit for new destination pages and DestinationStrip/Showcase — Playwright-verified, UX optimizations</td>
-            <td><span style="color:#f59e0b;font-weight:700">⏳ Pending</span></td>
+            <td><strong>Sprint 6</strong></td>
+            <td>Booking infrastructure — Xendit GCash deposit integration, available dates in Sanity</td>
+            <td><span style="color:var(--green);font-weight:700">✅ Complete</span></td>
+            <td>~2 sessions</td>
+          </tr>
+          <tr>
+            <td><strong>Design Sprint</strong></td>
+            <td>Full UI/UX overhaul from Claude Design handoff — all 5 pages redesigned, new component system, WhatsApp added, step progress, booking sidebar, gallery, trust-micro</td>
+            <td><span style="color:var(--green);font-weight:700">✅ Complete — June 3</span></td>
             <td>1 session</td>
           </tr>
           <tr>
-            <td><strong>Sprint 6</strong></td>
-            <td>Booking infrastructure — dates calendar, dynamic search filter, GCash deposit, Image optimization, booking dashboard</td>
+            <td><strong>Sprint 7</strong></td>
+            <td>SEO (JSON-LD, canonicals, title tags), GA4 funnel events, Sanity CDN, guest booking email, slot capacity system, destination guide pages, blog content</td>
             <td><span style="color:var(--pink);font-weight:700">🔄 Next</span></td>
-            <td>~5 sessions</td>
+            <td>~4 sessions</td>
           </tr>
         </tbody>
       </table>
@@ -1726,8 +1736,8 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
     <!-- SPRINT 6 -->
     <section class="doc-section" id="sprint6">
       <p class="eyebrow">Roadmap</p>
-      <h2>Sprint 6 — Booking Infrastructure <span style="font-size:.8rem;font-weight:500;color:var(--muted)">💡 Future</span></h2>
-      <p>Advanced features for when booking volume is consistent and the business needs automation. These require more infrastructure investment — prioritize Sprints 1–5 first.</p>
+      <h2>Sprint 6 — Booking Infrastructure <span style="font-size:.8rem;font-weight:500;color:var(--green)">✅ Complete</span></h2>
+      <p>Xendit GCash deposit integration and available dates calendar in Sanity. The deposit flow (partial payment to confirm booking) went live via Xendit invoice links.</p>
 
       <div class="changelog">
         <div class="changelog-item">
@@ -1878,6 +1888,257 @@ const CODES = {
 
       <div class="callout">
         <strong>Tip:</strong> The FAQ field is optional. Leave it empty and 6 default FAQs show automatically. Only fill it if this tour has specific questions that don't apply to other tours.
+      </div>
+    </section>
+
+    <!-- RESEARCH SESSION -->
+    <section class="doc-section" id="research">
+      <p class="eyebrow">Research — June 3, 2026</p>
+      <h2>Research Session <span style="font-size:.75rem;font-weight:500;background:rgba(217,107,138,.1);color:var(--pink);padding:3px 10px;border-radius:999px;margin-left:8px">New</span></h2>
+      <p>A full research session was conducted covering market analysis, UI/UX best practices, and feature gap analysis. Full documents saved in the repo root: <code>RESEARCH.md</code> and <code>DESIGN-BRIEF.md</code>.</p>
+
+      <h3>Market Research — Key Findings</h3>
+      <table>
+        <thead><tr><th>Finding</th><th>Implication</th></tr></thead>
+        <tbody>
+          <tr><td><strong>721,699 tourists in Zamboanga City in 2024</strong> — up 16% YoY, ranked #1 in the peninsula</td><td>Growing market — invest in SEO and content now to capture organic traffic</td></tr>
+          <tr><td><strong>Zero Zamboanga listings on Klook</strong> (Klook grew 51% in PH in 2025)</td><td>First-mover OTA opportunity — apply for Klook listing</td></tr>
+          <tr><td><strong>41 local competitors, majority Facebook-only</strong></td><td>A proper website + content strategy wins by default</td></tr>
+          <tr><td><strong>Messenger reaches 79.4% of Filipino internet users</strong></td><td>Messenger-first booking model is correct and should stay</td></tr>
+          <tr><td><strong>Couples = 42.1% of adventure travelers</strong></td><td>Build a couples/honeymoon package — pink sand is intrinsically romantic</td></tr>
+          <tr><td><strong>Santa Cruz Island 400/day cap is real</strong></td><td>Use as authentic urgency — "only 400 visitors allowed daily" is not manufactured FOMO</td></tr>
+          <tr><td><strong>88% of PH web traffic is mobile</strong></td><td>Every layout decision must be 375px-first</td></tr>
+        </tbody>
+      </table>
+
+      <h3>UI/UX Research — Key Findings</h3>
+      <div class="callout">
+        <strong>The 10-second emotional journey:</strong> 0–2s: Pink sand image loads, color is warm + unfamiliar → 2–4s: "The Only Pink Sand Beach in Asia." headline → 4–6s: "See Our Tours" CTA → 6–8s: star rating or National Geographic logo noticed → 8–10s: decision to stay or leave.
+      </div>
+      <table>
+        <thead><tr><th>Pattern</th><th>Applied</th></tr></thead>
+        <tbody>
+          <tr><td>Hero: story-led, real people in experience (not empty landscape)</td><td>Updated hero headline + trust line below CTAs</td></tr>
+          <tr><td>Sticky mobile booking bar — thumb zone CTA</td><td>Already existed via StickyBookBar.tsx ✅</td></tr>
+          <tr><td>GCash first in all payment contexts</td><td>GCash deposit via Xendit implemented ✅</td></tr>
+          <tr><td>Messenger + WhatsApp persistent float buttons</td><td>Stacked .float-btns added to layout.tsx ✅</td></tr>
+          <tr><td>Step progress indicator on multi-step flows</td><td>.step-progress added to booking flow ✅</td></tr>
+          <tr><td>Authentic scarcity only — never fake countdown timers</td><td>400/day cap messaging + badgeLabel from Sanity</td></tr>
+          <tr><td>Trust microcopy adjacent to every CTA</td><td>.trust-micro added sitewide ✅</td></tr>
+          <tr><td>Filter bottom sheet drawer on mobile (not sidebar)</td><td>ToursFilter mobile drawer added ✅</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Highest-ROI Content to Create</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">"Is Zamboanga City Safe to Visit?" — #1 priority blog post</div>
+            <div class="desc">Zamboanga carries a legacy safety perception from its history. Traveler reviews consistently say fear is disproportionate to reality. The first operator to own this content space with an honest, confident, practical article converts hesitant visitors who are already halfway interested. Research shows this is the most-searched question about Zamboanga tourism and has almost no local authoritative content.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">"Santa Cruz Island Zamboanga: Complete Travel Guide 2026"</div>
+            <div class="desc">The #1 organic search target for Zamboanga tourism. National Geographic named it a Top 21 Beach in the World. This should be a pillar page ranking for "Santa Cruz Island tour", "pink sand beach Philippines", "Zamboanga island hopping". Currently no local operator has meaningful content here.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESIGN SPRINT -->
+    <section class="doc-section" id="design-sprint">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Design Sprint — Full UI/UX Overhaul <span style="font-size:.8rem;font-weight:500;color:var(--green)">✅ Complete — June 3, 2026</span></h2>
+      <p>A Claude Design handoff produced high-fidelity HTML prototypes for all 5 pages. The prototypes were implemented into the existing Next.js codebase. All files: <code>design_handoff_laagan/</code> in repo root.</p>
+
+      <div class="callout green">
+        <strong>Commit:</strong> <code>f2c0aec</code> — "feat: design handoff implementation — full UI/UX overhaul" — 32 files changed, 4827 insertions.
+      </div>
+
+      <h3>New Component System (added to globals.css)</h3>
+      <table>
+        <thead><tr><th>Class(es)</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>.traveler-grid</code> / <code>.traveler-card</code> / <code>.is-active</code></td><td>4-card traveler type filter (Solo/Couple/Barkada/Family)</td></tr>
+          <tr><td><code>.trust-strip</code> / <code>.trust-item</code></td><td>5-point horizontal trust bar</td></tr>
+          <tr><td><code>.how-grid</code> / <code>.how-step</code></td><td>3-step How It Works section</td></tr>
+          <tr><td><code>.booking-sidebar</code></td><td>Sticky right sidebar on tour detail + booking pages</td></tr>
+          <tr><td><code>.stepper</code> / <code>.stepper__btn</code> / <code>.stepper__val</code></td><td>Guest count + / − stepper component</td></tr>
+          <tr><td><code>.step-progress</code> / <code>.step-progress__item</code></td><td>Multi-step booking progress indicator</td></tr>
+          <tr><td><code>.trust-micro</code></td><td>Inline trust line adjacent to CTAs (🔒 No payment · ✅ Free cancel · 💬 24hr)</td></tr>
+          <tr><td><code>.breadcrumb</code> / <code>.breadcrumb__sep</code></td><td>Navigation breadcrumb trail</td></tr>
+          <tr><td><code>.accordion-item</code> / <code>.accordion-trigger</code> / <code>.accordion-body</code></td><td>Expandable FAQ/content sections</td></tr>
+          <tr><td><code>.field</code> / <code>.field-row</code></td><td>Form inputs (replaces old .form-group)</td></tr>
+          <tr><td><code>.float-btns</code> / <code>.float-btn--wa</code> / <code>.float-btn--ms</code></td><td>Stacked WhatsApp + Messenger float buttons</td></tr>
+          <tr><td><code>.page-top</code></td><td>Replaces <code>style={{ paddingTop: 'var(--nav-h)' }}</code> everywhere</td></tr>
+          <tr><td><code>.badge--pink</code> / <code>.badge--navy</code> / <code>.chip</code></td><td>Tour card badges + metadata chips</td></tr>
+          <tr><td><code>.tour-detail-layout</code></td><td>Replaces old .tour-detail-grid (1fr 380px, collapses on mobile)</td></tr>
+          <tr><td><code>.stats-bar</code></td><td>Replaces old .stats-row</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Page-by-Page Changes</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Homepage — hero, stats, final CTA</div>
+            <div class="desc">Hero headline: "The Only Pink Sand Beach in Asia." + trust line (⭐ 5.0 · National Geographic Best Beach · DTI Accredited · Pay on the Day). Stats bar: .stats-bar class, Playfair numbers with pink &lt;em&gt; accents. Final CTA: "Ready to See the Pink Sand?" + WhatsApp button alongside Messenger.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Nav — nav__right wrapper, new button class, mobile menu pattern</div>
+            <div class="desc">Phone + Book button wrapped in .nav__right. nav__book-btn → nav__cta. Mobile menu: nav__mobile-menu → nav__mobile + .is-open class pattern (CSS-driven, no JS show/hide).</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">HowItWorks + TrustStrip — inline styles → CSS classes</div>
+            <div class="desc">Both components fully rewritten to use the new .how-grid/.how-step and .trust-strip/.trust-item class systems. Cleaner, smaller, consistent with the design system.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Tours listing — traveler filter + filter bar + mobile drawer</div>
+            <div class="desc">ToursFilter.tsx rewritten: added traveler type filter cards at top, filter bar with destination pills + results count + sort dropdown, mobile bottom sheet drawer (slides up from bottom with dark overlay). Breadcrumb header added to tours/page.tsx.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Tour detail — gallery, chips, urgency bar, booking sidebar</div>
+            <div class="desc">Hero banner replaced with 2-col desktop gallery (large left + 2 stacked right, mobile collapses to single image). Tour header: h1 + metadata chips row + urgency bar (when badgeLabel is set). Sidebar: inline styles → .booking-sidebar + .trust-micro + meeting point box. Bottom CTA: WhatsApp added. tour-detail-grid → tour-detail-layout.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Booking flow — step progress, stepper, field classes</div>
+            <div class="desc">Both booking steps now show a .step-progress indicator (3 steps: Tour Details → Your Info → Confirm). Guest count buttons replaced with .stepper component. All form-group → field. Summary sidebars → .booking-sidebar. Confirmation screen: WhatsApp button added. /book/paid: WhatsApp added to success + failure states.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Contact — 3 intent cards above TripBuilder</div>
+            <div class="desc">3 large cards added before the existing TripBuilder: "Book a Tour" (→ /tours), "Ask a Question" (Messenger + WhatsApp buttons), "Partner With Us" (email link). TripBuilder kept intact below.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">layout.tsx — stacked float buttons (WhatsApp + Messenger)</div>
+            <div class="desc">Single MessengerFloat component removed. Replaced with .float-btns div containing two .float-btn circles: WhatsApp green (top) + Messenger blue (bottom). Inline SVG icons, no external image dependency. On mobile, lifts to bottom:84px to clear sticky bar.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SPRINT 7 -->
+    <section class="doc-section" id="sprint7">
+      <p class="eyebrow">Roadmap</p>
+      <h2>Sprint 7 — SEO, Performance &amp; Growth Features <span style="font-size:.8rem;font-weight:500;color:var(--pink)">🔄 Next</span></h2>
+      <p>Based on the June 3 research session. Prioritized by ROI — quick wins first, then medium-term features. Full detail in <code>RESEARCH.md</code>.</p>
+
+      <h3>Quick Wins — Do First</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">GA4 funnel events — CRITICAL</div>
+            <div class="desc">Without tracking, there's no data to optimize with. Events to add: tour_view (on detail page load), booking_started, booking_step_1_complete, booking_submitted, deposit_initiated, deposit_completed, messenger_click (with source param), traveler_filter_selected, promo_code_applied. Then configure a Funnel Exploration in GA4 to see where users drop off.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">JSON-LD structured data — TouristTrip + LocalBusiness + FAQPage</div>
+            <div class="desc">TouristTrip schema on every tour detail page. LocalBusiness in layout.tsx (site-wide). FAQPage on tour pages (Google shows FAQ entries as expandable rich snippets in search results — free SERP real estate). BlogPosting on blog posts. None of this is currently implemented.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Canonical URLs in generateMetadata</div>
+            <div class="desc">Booking flow creates URLs with params (?date=&guests=). Without canonicals, Google indexes these as duplicate pages of the tour detail. Add <code>alternates: { canonical: url }</code> to all generateMetadata calls.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">useCdn: true on Sanity read client (30 minutes)</div>
+            <div class="desc">lib/sanity.ts currently has <code>useCdn: false</code>, meaning every page request bypasses Sanity's Fastly CDN and hits the origin directly. Switching to <code>useCdn: true</code> cuts 200–400ms off page load globally. The write client for /api/book already uses a separate writeClient, so this change only affects reads.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Guest booking confirmation email (Resend)</div>
+            <div class="desc">Currently guests receive nothing after booking — no email, no reference number sent to them. They must wait for Messenger/phone contact from James/Ivy. Adding a transactional email (Resend — 3,000/month free) with booking ref, tour, date, and contact info eliminates "did my booking go through?" messages.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Title tag + meta description rewrite for all tours</div>
+            <div class="desc">Current format: "Laagan Adventure — Tour Services in Zamboanga City" (generic). Target format: "[Tour Name] — ₱X/person | Laagan Adventure Zamboanga". Searchers want to see price and location in the title. This directly increases click-through rate from Google search results.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Medium-Term Features</h3>
+      <div class="changelog">
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Slot capacity / "X spots left" system</div>
+            <div class="desc">Santa Cruz Island has a real 400-visitor/day cap. Add a maxCapacity field to the tour Sanity schema and a bookedCount derived from bookings per (tourSlug + date). Show "X spots left" and grey out fully-booked dates in BookingOverview. This is the single highest-impact conversion feature not yet built — authentic urgency drives bookings.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--feature"></div>
+          <div class="info">
+            <div class="title">Destination guide pages — wire up /destinations/[slug]</div>
+            <div class="desc">The route exists and generates static params, but the pages are not linked from nav, sitemap, or tour cards. Each destination (Santa Cruz Island, Yakan Weaving Village, Fort Pilar, etc.) as a permanent content-rich pillar page targets long-tail SEO queries like "Santa Cruz Island Zamboanga complete guide". These rank indefinitely as evergreen reference content.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">On-demand ISR via Sanity webhook</div>
+            <div class="desc">Currently all ISR is time-based (revalidate=60). When James or Ivy publishes a tour update in Sanity Studio, it takes up to 60 seconds to appear live. A Sanity webhook hitting /api/revalidate can trigger revalidatePath('/tours') and revalidatePath('/tours/[slug]') immediately on publish — updates appear in seconds.</div>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div class="dot dot--fix"></div>
+          <div class="info">
+            <div class="title">Replace photo wall img tags with next/image</div>
+            <div class="desc">The homepage photo wall and tour UGC photo wall use raw &lt;img&gt; tags. next/image provides automatic WebP/AVIF conversion, lazy loading, and correct responsive sizes. With Sanity images, use urlFor() + next/image with the sizes prop. This is a direct LCP improvement.</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>6–12 Month Horizon</h3>
+      <table>
+        <thead><tr><th>Feature</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Klook listing</strong></td><td>Zero Zamboanga competition. Klook grew 51% in PH in 2025. Millions of users who don't know Zamboanga tours are bookable.</td></tr>
+          <tr><td><strong>Couples package</strong></td><td>42.1% of adventure travelers are couples. Pink sand beach is intrinsically romantic. No competitor has a couples-specific package.</td></tr>
+          <tr><td><strong>Halal tourism package</strong></td><td>Zamboanga's Muslim-Christian blend is authentic. Underserved Southeast Asian market (Malaysia, Indonesia, Middle East).</td></tr>
+          <tr><td><strong>TikTok/YouTube content</strong></td><td>No Zamboanga operator is creating consistent video content. First to do so owns the organic discovery channel.</td></tr>
+          <tr><td><strong>Referral/loyalty program</strong></td><td>Promo code infrastructure is already built. A referral link generator tied to past guest codes costs ~2 days of dev work.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>Security note:</strong> The dashboard at <code>/dashboard?pw=laagan2026</code> passes the password as a GET query param — it appears in server logs, browser history, and analytics. Replace with a POST form or session cookie before sharing the URL externally.
       </div>
     </section>
 
