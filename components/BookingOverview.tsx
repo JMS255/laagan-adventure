@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity'
@@ -13,22 +13,41 @@ interface Props {
   initialGuests: number
 }
 
+function genRef() {
+  return '#LA-' + Math.random().toString(36).slice(2, 8).toUpperCase()
+}
+
 function fmt(d: string) {
-  return new Date(d + 'T12:00:00').toLocaleDateString('en-PH', {
-    month: 'long', day: 'numeric', year: 'numeric',
-  })
+  if (!d) return '—'
+  return new Date(d + 'T12:00:00').toLocaleDateString('en-PH', { month: 'long', day: 'numeric', year: 'numeric' })
 }
 
 export default function BookingOverview({ tour, initialDate, initialGuests }: Props) {
+  const [step, setStep]             = useState(1)
   const [date, setDate]             = useState(initialDate)
-  const [guests, setGuests]         = useState(Math.max(1, initialGuests))
+  const [adults, setAdults]         = useState(Math.max(1, initialGuests))
+  const [children, setChildren]     = useState(0)
+  const [promoOpen, setPromoOpen]   = useState(false)
   const [promoInput, setPromoInput] = useState('')
   const [appliedPromo, setApplied]  = useState('')
   const [promoError, setPromoError] = useState('')
+  const [status, setStatus]         = useState<'idle' | 'sending' | 'sent'>('idle')
+  const [submitError, setSubmitError] = useState('')
+  const [bookingRef]                = useState(genRef)
+  const formRef                     = useRef<HTMLFormElement>(null)
 
-  const pricePerPerson = getPricePerPerson(tour.pricingTiers, tour.price ?? 0, guests)
-  const subtotal       = pricePerPerson * guests
+  const adultPrice = getPricePerPerson(tour.pricingTiers, tour.price ?? 0, adults)
+  const childPrice = Math.round(adultPrice * 0.5)
+  const subtotal   = adults * adultPrice + children * childPrice
   const { valid, label: promoLabel, discount, finalTotal } = applyPromo(subtotal, appliedPromo)
+  const total = finalTotal
+
+  const today = new Date().toISOString().split('T')[0]
+
+  function goTo(n: number) {
+    setStep(n)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   function handleApply() {
     if (!promoInput.trim()) return
@@ -42,246 +61,320 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
     }
   }
 
-  const canContinue = !!date && pricePerPerson > 0
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setStatus('sending')
+    setSubmitError('')
+    if (!formRef.current) return
+    const fd = new FormData(formRef.current)
+    const payload = {
+      bookingRef,
+      tourTitle: tour.title,
+      tourSlug: tour.slug.current,
+      date, adults, children,
+      promo: appliedPromo,
+      pricePerPerson: adultPrice,
+      totalPrice: total,
+      discount,
+      name:  fd.get('name') as string,
+      phone: fd.get('phone') as string,
+      email: fd.get('email') as string,
+      notes: fd.get('special_requirements') as string,
+    }
+    try {
+      const res = await fetch('/api/book', { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } })
+      if (res.ok) { setStatus('sent'); goTo(3) }
+      else {
+        const json = await res.json().catch(() => ({}))
+        setSubmitError(json?.error || 'Error submitting. Please message us on Messenger.')
+        setStatus('idle')
+      }
+    } catch {
+      setSubmitError('Network error. Please check your connection.')
+      setStatus('idle')
+    }
+  }
 
-  const continueHref = (() => {
-    const p = new URLSearchParams()
-    if (date)         p.set('date', date)
-    p.set('guests', String(guests))
-    p.set('price', String(pricePerPerson))
-    if (appliedPromo && valid) p.set('promo', appliedPromo)
-    return `/book/${tour.slug.current}/details?${p.toString()}`
-  })()
-
-  const today = new Date().toISOString().split('T')[0]
+  const imgUrl = tour.mainImage ? urlFor(tour.mainImage).width(160).height(120).url() : null
 
   return (
-    <div className="container" style={{ padding: '48px 32px 80px', minHeight: '80vh' }}>
+    <div className="booking-page">
+      {/* Minimal booking header */}
+      <header className="booking-header">
+        <Link href="/" className="nav__logo" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <img src="/logo.jpg" alt="Laagan Adventures" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} />
+          <span className="nav__logo-text">Laagan Adventures</span>
+        </Link>
+        <a href="tel:09052435196" className="nav__phone">📞 0905-243-5196</a>
+      </header>
 
-      {/* Breadcrumb */}
-      <nav className="breadcrumb">
-        <Link href="/tours">Tours</Link>
-        <span className="breadcrumb__sep">›</span>
-        <Link href={`/tours/${tour.slug.current}`}>{tour.title}</Link>
-        <span className="breadcrumb__sep">›</span>
-        <span>Book</span>
-      </nav>
+      <div className="booking-container">
 
-      {/* Step progress */}
-      <div className="step-progress" style={{ marginBottom: '40px' }}>
-        <div className="step-progress__item is-active">
-          <span className="step-progress__num">1</span>
-          <span>Tour Details</span>
-        </div>
-        <div className="step-progress__line" />
-        <div className="step-progress__item">
-          <span className="step-progress__num">2</span>
-          <span>Your Info</span>
-        </div>
-        <div className="step-progress__line" />
-        <div className="step-progress__item">
-          <span className="step-progress__num">3</span>
-          <span>Confirm</span>
-        </div>
-      </div>
-
-      <div className="booking-grid">
-
-        {/* ── LEFT ── */}
-        <div>
-          <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--pink)', marginBottom: '8px' }}>
-            Step 1 of 2
-          </p>
-          <h1 style={{ fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.02em', marginBottom: '32px' }}>
-            Trip Overview
-          </h1>
-
-          {/* Tour summary card */}
-          <div style={{ display: 'flex', gap: '16px', background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px', marginBottom: '36px' }}>
-            <div style={{ width: 80, height: 80, borderRadius: '8px', overflow: 'hidden', flexShrink: 0, background: 'var(--navy-2)', position: 'relative' }}>
-              {tour.mainImage && (
-                <Image src={urlFor(tour.mainImage).width(160).height(160).url()} fill alt={tour.title} style={{ objectFit: 'cover' }} sizes="80px" />
-              )}
-            </div>
-            <div>
-              {tour.destination && (
-                <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--pink)', marginBottom: '4px' }}>
-                  {tour.destination}
-                </p>
-              )}
-              <p style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '4px' }}>{tour.title}</p>
-              {tour.duration && <p style={{ fontSize: '.8rem', color: 'var(--text-muted)' }}>🕐 {tour.duration}</p>}
-            </div>
+        {/* Step Progress */}
+        <div className="step-progress">
+          <div className={`step-progress__item${step === 1 ? ' is-active' : step > 1 ? ' is-done' : ''}`}>
+            <div className="step-progress__num">1</div>
+            <span>Tour Details</span>
           </div>
-
-          {/* Date & Guests */}
-          <div style={{ marginBottom: '32px' }}>
-            <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '16px' }}>
-              Select your date & group size
-            </h2>
-            <div className="form-row">
-              <div className="field">
-                <label>Preferred Date *</label>
-                {tour.availableDates && tour.availableDates.length > 0 ? (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
-                    {tour.availableDates.filter(d => d >= today).map(d => {
-                      const formatted = new Date(d + 'T12:00:00').toLocaleDateString('en-PH', { month: 'short', day: 'numeric', weekday: 'short' })
-                      const active = date === d
-                      return (
-                        <button key={d} type="button" onClick={() => setDate(d)} style={{
-                          padding: '8px 16px', borderRadius: '999px', fontFamily: 'inherit',
-                          fontSize: '.82rem', fontWeight: 600, cursor: 'pointer', transition: 'all .15s',
-                          border: `2px solid ${active ? 'var(--pink)' : 'var(--border)'}`,
-                          background: active ? 'var(--pink)' : '#fff',
-                          color: active ? '#fff' : 'var(--navy)',
-                        }}>
-                          {formatted}
-                        </button>
-                      )
-                    })}
-                  </div>
-                ) : (
-                  <input type="date" value={date} min={today}
-                    onChange={e => setDate(e.target.value)} style={{ width: '100%' }} />
-                )}
-              </div>
-              <div className="field">
-                <label>Number of Guests *</label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--bg-2)', border: '1.5px solid var(--border)', borderRadius: 'var(--r)', padding: '10px 16px' }}>
-                  <div className="stepper">
-                    <button type="button" className="stepper__btn" onClick={() => setGuests(g => Math.max(1, g - 1))} disabled={guests <= 1}>−</button>
-                    <span className="stepper__val">{guests} {guests === 1 ? 'guest' : 'guests'}</span>
-                    <button type="button" className="stepper__btn" onClick={() => setGuests(g => g + 1)}>+</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="step-progress__line" />
+          <div className={`step-progress__item${step === 2 ? ' is-active' : step > 2 ? ' is-done' : ''}`}>
+            <div className="step-progress__num">2</div>
+            <span>Your Info</span>
           </div>
+          <div className="step-progress__line" />
+          <div className={`step-progress__item${step === 3 ? ' is-active' : ''}`}>
+            <div className="step-progress__num">3</div>
+            <span>Confirm</span>
+          </div>
+        </div>
 
-          {/* Promo code */}
+        {/* ── STEP 1: Tour Details ── */}
+        {step === 1 && (
           <div>
-            <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '6px' }}>
-              Promo or referral code
-              <span style={{ fontWeight: 400, fontSize: '.8rem', color: 'var(--text-muted)', marginLeft: '8px' }}>Optional</span>
-            </h2>
-            <p style={{ fontSize: '.78rem', color: 'var(--text-muted)', marginBottom: '12px' }}>
-              Have a discount code? Enter it here.
-            </p>
+            <div className="booking-card">
+              <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: '1.4rem', fontWeight: 800, color: 'var(--navy)', marginBottom: '20px' }}>Tour Details</h2>
 
-            {appliedPromo && valid ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 16px', background: 'rgba(22,163,74,.08)', border: '1.5px solid rgba(22,163,74,.25)', borderRadius: 'var(--r)' }}>
-                <span style={{ color: '#16a34a', fontSize: '1.1rem' }}>✓</span>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: '.88rem', fontWeight: 700, color: '#16a34a' }}>
-                    Code &ldquo;{appliedPromo}&rdquo; applied
-                  </p>
-                  <p style={{ fontSize: '.78rem', color: 'var(--text-muted)' }}>{promoLabel}</p>
+              {/* Tour summary */}
+              <div className="tour-summary">
+                <div className="tour-summary__img">
+                  {imgUrl
+                    ? <Image src={imgUrl} fill alt={tour.title} style={{ objectFit: 'cover' }} sizes="80px" />
+                    : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg,#0ea5e9,#0284c7,#0c4a6e)' }} />
+                  }
                 </div>
-                <button
-                  onClick={() => { setApplied(''); setPromoInput('') }}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', fontSize: '.8rem', fontFamily: 'inherit', fontWeight: 600 }}
-                >
-                  Remove
-                </button>
+                <div>
+                  <div className="tour-summary__name">{tour.title}</div>
+                  <div className="tour-summary__detail">
+                    {tour.destination && `${tour.destination} · `}{tour.duration && `${tour.duration}`}
+                  </div>
+                </div>
+                <Link href="/tours" className="tour-summary__change">Change</Link>
               </div>
-            ) : (
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <input
-                  type="text"
-                  value={promoInput}
-                  onChange={e => { setPromoInput(e.target.value.toUpperCase()); setPromoError('') }}
-                  onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleApply() } }}
-                  placeholder="e.g. LAAGAN500"
-                  style={{
-                    flex: 1, background: 'var(--bg-2)',
-                    border: `1.5px solid ${promoError ? '#dc2626' : 'var(--border)'}`,
-                    borderRadius: 'var(--r)', padding: '12px 16px',
-                    fontFamily: 'inherit', fontSize: '.9rem', color: 'var(--text)',
-                    outline: 'none', letterSpacing: '.04em',
-                  }}
-                />
-                <button onClick={handleApply} className="btn btn--outline"
-                  style={{ borderRadius: 'var(--r)', padding: '12px 24px', flexShrink: 0 }}>
-                  Apply
-                </button>
+
+              {/* Date */}
+              <div className="field">
+                <label>Preferred Date</label>
+                <input type="date" value={date} min={today} onChange={e => setDate(e.target.value)} style={{ fontSize: '.9rem' }} />
               </div>
-            )}
-            {promoError && (
-              <p style={{ fontSize: '.78rem', color: '#dc2626', marginTop: '6px' }}>{promoError}</p>
-            )}
-          </div>
-        </div>
 
-        {/* ── RIGHT: Summary ── */}
-        <div>
-          <div className="booking-sidebar">
-            <h2 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '20px' }}>
-              Trip Summary
-            </h2>
-
-            {/* Details */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', paddingBottom: '18px', borderBottom: '1px solid var(--border)', marginBottom: '18px' }}>
-              <Row label="Tour" value={tour.title} />
-              <Row label="Date" value={date ? fmt(date) : 'Not selected yet'} dim={!date} />
-              <Row label="Guests" value={`${guests} adult${guests !== 1 ? 's' : ''}`} />
-            </div>
-
-            {/* Price breakdown */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', paddingBottom: '18px', borderBottom: '1px solid var(--border)', marginBottom: '18px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '.85rem', color: 'var(--text-muted)' }}>
-                <span>₱{pricePerPerson.toLocaleString()} × {guests} guest{guests !== 1 ? 's' : ''}</span>
-                <span style={{ color: 'var(--navy)' }}>₱{subtotal.toLocaleString()}</span>
+              {/* Guests */}
+              <div style={{ marginBottom: '18px' }}>
+                <div style={{ fontSize: '.78rem', fontWeight: 600, color: 'var(--navy)', marginBottom: '12px', letterSpacing: '.02em' }}>Group Size</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0', borderBottom: '1px solid var(--border)' }}>
+                    <div>
+                      <div style={{ fontSize: '.88rem', fontWeight: 600, color: 'var(--navy)' }}>Adults</div>
+                      <div style={{ fontSize: '.72rem', color: 'var(--muted)' }}>Ages 13+ · ₱{adultPrice.toLocaleString()}/person</div>
+                    </div>
+                    <div className="stepper">
+                      <button className="stepper__btn" onClick={() => setAdults(a => Math.max(1, a - 1))} disabled={adults <= 1}>−</button>
+                      <span className="stepper__val">{adults}</span>
+                      <button className="stepper__btn" onClick={() => setAdults(a => a + 1)}>+</button>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0' }}>
+                    <div>
+                      <div style={{ fontSize: '.88rem', fontWeight: 600, color: 'var(--navy)' }}>Children</div>
+                      <div style={{ fontSize: '.72rem', color: 'var(--muted)' }}>Ages 4–12 · ₱{childPrice.toLocaleString()}/child</div>
+                    </div>
+                    <div className="stepper">
+                      <button className="stepper__btn" onClick={() => setChildren(c => Math.max(0, c - 1))} disabled={children <= 0}>−</button>
+                      <span className="stepper__val">{children}</span>
+                      <button className="stepper__btn" onClick={() => setChildren(c => c + 1)}>+</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              {discount > 0 && (
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '.85rem', color: '#16a34a' }}>
-                  <span>Promo discount</span>
-                  <span style={{ fontWeight: 600 }}>−₱{discount.toLocaleString()}</span>
+
+              {/* Promo code */}
+              <button className="promo-toggle" onClick={() => setPromoOpen(v => !v)}>
+                {promoOpen ? '− Hide promo code' : '+ Have a promo code?'}
+              </button>
+              {promoOpen && (
+                <div className="promo-field is-open">
+                  {appliedPromo && valid ? (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px', background: 'rgba(22,163,74,.08)', border: '1.5px solid rgba(22,163,74,.25)', borderRadius: 'var(--r)', flex: 1 }}>
+                      <span style={{ color: '#16a34a' }}>✓</span>
+                      <span style={{ fontSize: '.85rem', fontWeight: 700, color: '#16a34a' }}>{appliedPromo}</span>
+                      <span style={{ fontSize: '.78rem', color: 'var(--muted)' }}>{promoLabel}</span>
+                      <button onClick={() => { setApplied(''); setPromoInput('') }} style={{ marginLeft: 'auto', fontSize: '.78rem', fontWeight: 600, color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer' }}>Remove</button>
+                    </div>
+                  ) : (
+                    <>
+                      <input
+                        type="text"
+                        placeholder="Enter code"
+                        value={promoInput}
+                        onChange={e => { setPromoInput(e.target.value.toUpperCase()); setPromoError('') }}
+                        onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleApply() } }}
+                      />
+                      <button className="promo-apply" onClick={handleApply}>Apply</button>
+                    </>
+                  )}
                 </div>
               )}
-            </div>
+              {promoError && <p style={{ fontSize: '.78rem', color: '#dc2626', marginTop: '6px' }}>{promoError}</p>}
 
-            {/* Total */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
-              <span style={{ fontWeight: 700, color: 'var(--navy)' }}>Total</span>
-              <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--navy)', letterSpacing: '-.02em', lineHeight: 1 }}>
-                  ₱{finalTotal.toLocaleString()}
-                </p>
-                <p style={{ fontSize: '.7rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-                  ₱{pricePerPerson.toLocaleString()}/person
-                </p>
+              {/* Price breakdown */}
+              <div className="price-box">
+                <div className="price-row">
+                  <span>₱{adultPrice.toLocaleString()} × {adults} adult{adults !== 1 ? 's' : ''}</span>
+                  <span>₱{(adults * adultPrice).toLocaleString()}</span>
+                </div>
+                {children > 0 && (
+                  <div className="price-row">
+                    <span>₱{childPrice.toLocaleString()} × {children} child{children !== 1 ? 'ren' : ''}</span>
+                    <span>₱{(children * childPrice).toLocaleString()}</span>
+                  </div>
+                )}
+                {discount > 0 && (
+                  <div className="price-row" style={{ color: '#16a34a' }}>
+                    <span>Promo discount</span>
+                    <span>−₱{discount.toLocaleString()}</span>
+                  </div>
+                )}
+                <div className="price-total-row">
+                  <span>Total estimate</span>
+                  <span>₱{total.toLocaleString()}</span>
+                </div>
               </div>
             </div>
 
-            {canContinue ? (
-              <Link href={continueHref} className="btn btn--primary"
-                style={{ width: '100%', justifyContent: 'center', borderRadius: '10px', fontFamily: 'inherit', fontSize: '.88rem' }}>
-                Continue to Details →
-              </Link>
-            ) : (
-              <div style={{ width: '100%', padding: '14px', borderRadius: '10px', background: 'var(--bg-2)', color: 'var(--text-muted)', textAlign: 'center', fontSize: '.88rem', fontWeight: 700, border: '1px solid var(--border)' }}>
-                {!date ? '← Select a date first' : 'Continue to Details →'}
-              </div>
-            )}
-
-            <div className="trust-micro">
-              <span>🔒 No payment yet</span>
+            <button className="btn btn--primary btn--full" onClick={() => goTo(2)}>Continue to Your Info →</button>
+            <div className="trust-micro" style={{ justifyContent: 'center', marginTop: '14px' }}>
+              <span>🔒 No payment required yet</span>
               <span>✅ Free cancellation</span>
               <span>💬 24hr reply</span>
             </div>
           </div>
-        </div>
+        )}
+
+        {/* ── STEP 2: Your Info ── */}
+        {step === 2 && (
+          <div>
+            <div className="booking-card">
+              <button onClick={() => goTo(1)} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '.82rem', fontWeight: 600, color: 'var(--muted)', marginBottom: '20px', background: 'none', border: 'none', cursor: 'pointer' }}>← Back</button>
+              <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: '1.4rem', fontWeight: 800, color: 'var(--navy)', marginBottom: '20px' }}>Your Information</h2>
+
+              {/* Summary */}
+              <div className="tour-summary" style={{ marginBottom: '24px' }}>
+                <div className="tour-summary__img">
+                  {imgUrl
+                    ? <Image src={imgUrl} fill alt={tour.title} style={{ objectFit: 'cover' }} sizes="80px" />
+                    : <div style={{ width: '100%', height: '100%', background: 'linear-gradient(160deg,#0ea5e9,#0284c7,#0c4a6e)' }} />
+                  }
+                </div>
+                <div>
+                  <div className="tour-summary__name">{tour.title}</div>
+                  <div className="tour-summary__detail">{fmt(date)} · {adults} Adult{adults !== 1 ? 's' : ''}{children ? ` + ${children} Child` : ''}</div>
+                </div>
+                <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                  <div style={{ fontSize: '.82rem', fontWeight: 800, color: 'var(--pink)' }}>₱{total.toLocaleString()}</div>
+                  <div style={{ fontSize: '.68rem', color: 'var(--muted)' }}>total</div>
+                </div>
+              </div>
+
+              <form ref={formRef} onSubmit={handleSubmit}>
+                <div className="field"><label>Full Name *</label><input type="text" name="name" required placeholder="Your complete name" autoComplete="name" /></div>
+                <div className="field-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div className="field"><label>Phone Number *</label><input type="tel" name="phone" required placeholder="09XXXXXXXXX" autoComplete="tel" /></div>
+                  <div className="field"><label>Email Address</label><input type="email" name="email" placeholder="you@email.com" autoComplete="email" /></div>
+                </div>
+                <div className="field">
+                  <label>Special Requests <span style={{ fontWeight: 400, color: 'var(--muted)' }}>(optional)</span></label>
+                  <textarea name="special_requirements" rows={3} placeholder="Dietary needs, accessibility, celebration, or anything we should know..." />
+                </div>
+
+                <div style={{ background: '#fff4f7', border: '1px solid rgba(217,107,138,.2)', borderRadius: 'var(--r)', padding: '14px 16px', margin: '4px 0 20px', fontSize: '.82rem', color: 'var(--muted)', lineHeight: 1.6 }}>
+                  By confirming, you agree to our booking terms. We&apos;ll reach out via Messenger or phone within 24 hours to confirm your slot. No payment is collected at this stage.
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn btn--primary btn--full"
+                  disabled={status === 'sending'}
+                  style={{ opacity: status === 'sending' ? .7 : 1, cursor: status === 'sending' ? 'not-allowed' : 'pointer' }}
+                >
+                  {status === 'sending' ? 'Submitting…' : 'Confirm Booking →'}
+                </button>
+
+                {submitError && <p style={{ fontSize: '.82rem', color: '#dc2626', textAlign: 'center', marginTop: '10px' }}>{submitError}</p>}
+              </form>
+
+              <div className="trust-micro" style={{ justifyContent: 'center', marginTop: '14px' }}>
+                <span>🔒 Secure & private</span>
+                <span>✅ Free cancellation</span>
+                <span>💬 We reply within 24hrs</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── STEP 3: Confirmation ── */}
+        {step === 3 && (
+          <div>
+            <div className="booking-card" style={{ textAlign: 'center', padding: '40px 28px' }}>
+              <div className="confirm-check">✓</div>
+              <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: '1.8rem', fontWeight: 800, color: 'var(--navy)', marginBottom: '10px' }}>Booking Received!</h2>
+              <p style={{ fontSize: '.9rem', color: 'var(--muted)', maxWidth: '400px', margin: '0 auto 20px', lineHeight: 1.7 }}>
+                Your adventure is almost confirmed. We&apos;ll reach out via Messenger or phone within 24 hours to lock in your slot.
+              </p>
+              <div className="booking-ref">{bookingRef}</div>
+              <div className="confirm-summary" style={{ textAlign: 'left' }}>
+                <div className="confirm-row"><span>Tour</span><span>{tour.title}</span></div>
+                <div className="confirm-row"><span>Date</span><span>{fmt(date)}</span></div>
+                <div className="confirm-row"><span>Guests</span><span>{adults} Adult{adults !== 1 ? 's' : ''}{children ? ` + ${children} Child` : ''}</span></div>
+                <div className="confirm-row"><span>Est. Total</span><span style={{ color: 'var(--pink)' }}>₱{total.toLocaleString()}</span></div>
+              </div>
+            </div>
+
+            {/* Messenger + WhatsApp */}
+            <div className="booking-card" style={{ padding: '24px' }}>
+              <div style={{ fontSize: '.85rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '4px' }}>Next step: Contact us to confirm</div>
+              <p style={{ fontSize: '.8rem', color: 'var(--muted)', marginBottom: '16px' }}>
+                Send your booking reference <strong>{bookingRef}</strong> so we can confirm your slot.
+              </p>
+              <a
+                href={`https://m.me/61562040673545?text=Hi!%20My%20booking%20ref%20is%20${encodeURIComponent(bookingRef)}%20for%20${encodeURIComponent(tour.title)}%20on%20${encodeURIComponent(fmt(date))}.`}
+                target="_blank" rel="noopener noreferrer"
+                className="ms-btn"
+              >
+                <span style={{ fontSize: '1.2rem' }}>💬</span> Open Messenger
+              </a>
+              <a
+                href={`https://wa.me/639052435196?text=Hi!%20My%20booking%20ref%20is%20${encodeURIComponent(bookingRef)}%20for%20${encodeURIComponent(tour.title)}%20on%20${encodeURIComponent(fmt(date))}.`}
+                target="_blank" rel="noopener noreferrer"
+                className="wa-btn"
+              >
+                <span style={{ fontSize: '1.1rem' }}>📱</span> Send via WhatsApp
+              </a>
+            </div>
+
+            {/* GCash deposit */}
+            <div className="gcash-box">
+              <div className="gcash-box__title">💚 Optional: Reserve with ₱300 GCash Deposit</div>
+              <div className="gcash-box__sub">Lock in your slot now. Deposit is deducted from your total on the day.</div>
+              <div className="gcash-grid">
+                <img src="/gcash-qr.jpg" alt="GCash QR Code" className="gcash-qr" />
+                <div>
+                  <div className="gcash-step"><div className="gcash-step-num">1</div><span>Open GCash app and tap <strong>Scan QR Code</strong></span></div>
+                  <div className="gcash-step"><div className="gcash-step-num">2</div><span>Scan this QR and send <strong>₱300 deposit</strong></span></div>
+                  <div className="gcash-step"><div className="gcash-step-num">3</div><span>Screenshot your receipt and send to us on Messenger</span></div>
+                  <div className="gcash-step"><div className="gcash-step-num">4</div><span>We&apos;ll confirm your booking within the hour ✅</span></div>
+                </div>
+              </div>
+              <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--full" style={{ marginTop: '20px', borderRadius: '10px' }}>
+                I&apos;ve Paid — Notify Laagan Adventures
+              </a>
+            </div>
+
+            <div style={{ textAlign: 'center', marginTop: '28px' }}>
+              <Link href="/tours" style={{ fontSize: '.82rem', color: 'var(--muted)', fontWeight: 600 }}>← Browse more tours</Link>
+            </div>
+          </div>
+        )}
 
       </div>
-    </div>
-  )
-}
-
-function Row({ label, value, dim }: { label: string; value: string; dim?: boolean }) {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', fontSize: '.85rem' }}>
-      <span style={{ color: 'var(--text-muted)', flexShrink: 0 }}>{label}</span>
-      <span style={{ fontWeight: 600, color: dim ? 'var(--text-muted)' : 'var(--navy)', textAlign: 'right' }}>{value}</span>
     </div>
   )
 }
