@@ -7,7 +7,7 @@
 
 export interface TourInclusion { text: string; included: boolean }
 export interface ItineraryItem { time: string; activity: string; detail?: string }
-export interface DayItem { day: number; title: string; location: string; highlights: string[]; description: string }
+export interface TourDay { day: number; title: string; location: string; highlights: string[]; description: string }
 
 export interface TourData {
   slug: string

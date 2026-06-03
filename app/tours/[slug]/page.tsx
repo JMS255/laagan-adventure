@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import DayItinerary from '@/components/DayItinerary'
+import TourDayItinerary from '@/components/TourDayItinerary'
 import StickyBookBar from '@/components/StickyBookBar'
 import TourDetailSidebar from '@/components/TourDetailSidebar'
 import TourItinerary from '@/components/TourItinerary'
@@ -135,7 +135,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
               {/* Day Itinerary (multi-day tours) */}
               {tour.dayItinerary && tour.dayItinerary.length > 0 && (
                 <div className="detail-section">
-                  <DayItinerary days={tour.dayItinerary} />
+                  <TourDayItinerary days={tour.dayItinerary} />
                 </div>
               )}
 
