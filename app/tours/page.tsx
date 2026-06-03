@@ -43,8 +43,10 @@ export default async function ToursPage() {
         <div style={{ background: 'var(--bg-2)', borderTop: '1px solid var(--border)', padding: '48px 0', textAlign: 'center' }}>
           <div className="container">
             <p style={{ fontSize: '.9rem', color: 'var(--muted)', marginBottom: '16px' }}>Can&apos;t find what you&apos;re looking for?</p>
-            <Link href="/contact" className="btn btn--outline" style={{ marginRight: '12px' }}>Plan a Custom Trip</Link>
-            <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--primary">💬 Ask on Messenger</a>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Link href="/contact" className="btn btn--outline">Plan a Custom Trip</Link>
+              <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--primary">💬 Ask on Messenger</a>
+            </div>
           </div>
         </div>
 

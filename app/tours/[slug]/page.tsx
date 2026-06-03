@@ -10,6 +10,7 @@ import DayItinerary from '@/components/DayItinerary'
 import StickyBookBar from '@/components/StickyBookBar'
 import TourDetailSidebar from '@/components/TourDetailSidebar'
 import TourItinerary from '@/components/TourItinerary'
+import TourGallery from '@/components/TourGallery'
 import { client, urlFor, TOUR_QUERY, SIMILAR_TOURS_QUERY, TESTIMONIALS_QUERY } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
@@ -58,33 +59,18 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
           </div>
 
           {/* Gallery */}
-          <div className="gallery">
-            <div className="gallery__main">
-              {tour.mainImage
-                ? <Image src={urlFor(tour.mainImage).width(900).height(600).url()} fill alt={tour.title} className="gallery__main-img" style={{ objectFit: 'cover' }} sizes="(max-width:900px) 100vw, 70vw" priority />
-                : <div className="gallery__main-img" style={{ background: 'linear-gradient(160deg,#0ea5e9 0%,#0284c7 50%,#0c4a6e 100%)', width: '100%', height: '100%' }} />
-              }
-              {photos.length > 0 && (
-                <div className="gallery__view-all">📷 {photos.length + 1} photos</div>
-              )}
+          {tour.mainImage ? (
+            <TourGallery
+              mainImageUrl={urlFor(tour.mainImage).width(900).height(600).url()}
+              mainAlt={tour.title}
+              thumbUrls={photos.slice(0, 2).map((p, i) => ({ url: urlFor(p).width(400).height(300).url(), alt: `${tour.title} photo ${i + 2}` }))}
+              totalCount={photos.length + 1}
+            />
+          ) : (
+            <div className="gallery" style={{ height: '480px' }}>
+              <div className="gallery__main" style={{ background: 'linear-gradient(160deg,#0ea5e9 0%,#0284c7 50%,#0c4a6e 100%)' }} />
             </div>
-            {(thumb1 || thumb2) && (
-              <div className="gallery__thumbs">
-                <div className="gallery__thumb">
-                  {thumb1
-                    ? <Image src={urlFor(thumb1).width(400).height(300).url()} fill alt={`${tour.title} photo 2`} className="gallery__thumb-img" style={{ objectFit: 'cover' }} sizes="20vw" />
-                    : <div className="gallery__thumb-img" style={{ background: 'linear-gradient(160deg,#d96b8a,#bf5070)', width: '100%', height: '100%' }} />
-                  }
-                </div>
-                <div className="gallery__thumb">
-                  {thumb2
-                    ? <Image src={urlFor(thumb2).width(400).height(300).url()} fill alt={`${tour.title} photo 3`} className="gallery__thumb-img" style={{ objectFit: 'cover' }} sizes="20vw" />
-                    : <div className="gallery__thumb-img" style={{ background: 'linear-gradient(160deg,#10b981,#059669)', width: '100%', height: '100%' }} />
-                  }
-                </div>
-              </div>
-            )}
-          </div>
+          )}
 
           {/* Tour Header */}
           <div className="tour-header">
@@ -157,26 +143,6 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 </div>
               )}
 
-              {/* Meeting Point */}
-              <div className="detail-section">
-                <h2 className="detail-section__title">Meeting Point</h2>
-                <div className="info-box" style={{ marginBottom: '16px' }}>
-                  <strong>📍 Paseo del Mar Jetty, Zamboanga City</strong><br />
-                  Near the main Paseo del Mar waterfront. Look for the Laagan Adventures vinta with the colorful sail.
-                  <br /><br />
-                  <a href="https://maps.google.com/?q=Paseo+del+Mar+Zamboanga+City" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--pink)', fontWeight: 600 }}>Open in Google Maps →</a>
-                </div>
-                <div style={{ borderRadius: 'var(--r)', overflow: 'hidden', border: '1px solid var(--border)', height: '260px' }}>
-                  <iframe
-                    src="https://maps.google.com/maps?q=Zamboanga+City,+Philippines&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0, display: 'block' }}
-                    loading="lazy"
-                    title="Zamboanga City, Philippines"
-                  />
-                </div>
-              </div>
 
               {/* Cancellation Policy */}
               <div className="detail-section">
