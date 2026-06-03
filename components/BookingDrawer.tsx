@@ -8,6 +8,7 @@ import { useBooking } from '@/lib/booking-context'
 const TOURS = [
   {
     name: 'Santa Cruz Island Tour',
+    slug: 'santa-cruz-island-tour',
     tag: 'Most Popular',
     desc: 'Pink sand beach, crystal-clear water. One of the Philippines\' most stunning natural attractions — fully guided return trip.',
     from: '₱1,500',
@@ -15,6 +16,7 @@ const TOURS = [
   },
   {
     name: 'City Heritage Tour',
+    slug: null,
     tag: 'Culture',
     desc: 'Forts, mosques, colonial streets. Explore the cultural soul of Zamboanga City with a local who actually knows the stories.',
     from: '₱800',
@@ -22,6 +24,7 @@ const TOURS = [
   },
   {
     name: 'Island Hopping Package',
+    slug: null,
     tag: 'Adventure',
     desc: 'Multiple islands in one full day. Hidden coves, turquoise water, fresh seafood stops — the full experience.',
     from: '₱1,800',
@@ -29,6 +32,7 @@ const TOURS = [
   },
   {
     name: 'ZambaSulta + ZamPen Tour',
+    slug: 'zambasulta-complete-tour',
     tag: 'Full Day',
     desc: 'Two provinces, one epic journey. The most complete Zamboanga experience you can do in a day.',
     from: '₱2,500',
@@ -36,6 +40,7 @@ const TOURS = [
   },
   {
     name: 'Custom / Group Tour',
+    slug: null,
     tag: 'Groups',
     desc: 'Schools, corporate teams, large groups. Tell us what you need and we\'ll build a custom itinerary around your schedule.',
     from: 'Custom rate',
@@ -142,15 +147,18 @@ export default function BookingDrawer() {
         <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '14px', flex: 1 }}>
           {TOURS.map(t => {
             const params = new URLSearchParams()
-            params.set('tour', t.name)
             if (date) params.set('date', date)
             params.set('guests', String(guests))
             const isSelected = selectedTour === t.name
 
+            const href = t.slug
+              ? `/book/${t.slug}?${params.toString()}`
+              : `/contact?tour=${encodeURIComponent(t.name)}`
+
             return (
               <Link
                 key={t.name}
-                href={`/contact?${params.toString()}`}
+                href={href}
                 onClick={closeDrawer}
                 style={{
                   textDecoration: 'none', color: 'inherit',
