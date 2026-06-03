@@ -144,7 +144,6 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
               {/* Day Itinerary (multi-day) */}
               {tour.dayItinerary?.length > 0 && (
                 <div className="detail-section">
-                  <h2 className="detail-section__title">Day-by-Day Itinerary</h2>
                   <DayItinerary days={tour.dayItinerary} />
                 </div>
               )}
