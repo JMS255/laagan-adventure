@@ -11,7 +11,7 @@ const links = [
   { href: '/gallery', label: 'Gallery' },
   { href: '/blog',    label: 'Blog' },
   { href: '/about',   label: 'About' },
-  { href: '/contact', label: 'Plan My Trip' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 export default function Nav({ transparent = false }: { transparent?: boolean }) {

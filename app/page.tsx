@@ -28,7 +28,14 @@ export default async function HomePage() {
 
         {/* ── B. HERO ── */}
         <section className="hero">
-          <div className="hero__bg" style={{ backgroundImage: "url('/hero-bg.png')" }} />
+          <div className="hero__bg" style={{ backgroundImage: "url('/images/hero-bg.png')" }} />
+          <video
+            autoPlay muted loop playsInline
+            poster="/images/hero-bg.png"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
           <div className="hero__overlay" />
           <div className="hero__inner">
             <div className="container">
