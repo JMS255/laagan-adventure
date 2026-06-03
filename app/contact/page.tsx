@@ -6,7 +6,7 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
 const FAQS = [
-  { q: 'Do I need to pay upfront?', a: 'No. You book, we confirm, you pay on the day in cash or GCash. We only ask for a ₱300 deposit via GCash to reserve slots for large groups.' },
+  { q: 'Do I need a big deposit?', a: 'Just a small downpayment to confirm your slot. The balance is paid in cash or GCash when you arrive on the day of your tour.' },
   { q: 'What if the weather is bad?', a: 'Your safety is our priority. We reschedule at no charge due to weather. You will never lose your money because of something outside your control.' },
   { q: 'How far in advance should I book?', a: 'Santa Cruz Island only allows 400 visitors/day. For weekends and holidays, book 1–2 weeks ahead. Weekday tours often have same-day availability.' },
 ]
@@ -121,14 +121,16 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Map placeholder */}
-            <div className="map-placeholder">
-              <div style={{ fontSize: '2rem', marginBottom: '12px' }}>🗺</div>
-              <div style={{ fontWeight: 700, fontSize: '.95rem', marginBottom: '6px' }}>Paseo del Mar Jetty, Zamboanga City</div>
-              <div style={{ fontSize: '.82rem', opacity: .8, marginBottom: '16px' }}>Meeting point for all island tours</div>
-              <a href="https://maps.google.com/?q=Paseo+del+Mar+Zamboanga+City" target="_blank" rel="noopener noreferrer" className="btn btn--outline btn--sm" style={{ borderColor: '#0369a1', color: '#0369a1' }}>
-                Open in Google Maps →
-              </a>
+            {/* Map — Zamboanga City */}
+            <div style={{ borderRadius: 'var(--rl)', overflow: 'hidden', border: '1px solid var(--border)', height: '280px', marginTop: '40px' }}>
+              <iframe
+                src="https://maps.google.com/maps?q=Zamboanga+City,+Philippines&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0, display: 'block' }}
+                loading="lazy"
+                title="Zamboanga City, Philippines"
+              />
             </div>
 
           </div>
@@ -139,7 +141,7 @@ export default function ContactPage() {
           <div className="container" style={{ textAlign: 'center' }}>
             <span className="section__label section__label--center">Common Questions</span>
             <h2 className="section__title section__title--center" style={{ fontSize: '1.8rem' }}>Before you reach out</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '20px', marginTop: '32px', textAlign: 'left' }}>
+            <div className="faq-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '20px', marginTop: '32px', textAlign: 'left' }}>
               {FAQS.map(faq => (
                 <div key={faq.q} style={{ background: '#fff', borderRadius: 'var(--r)', padding: '20px', border: '1px solid var(--border)' }}>
                   <div style={{ fontSize: '.85rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '8px' }}>{faq.q}</div>

@@ -9,6 +9,7 @@ import FAQAccordion from '@/components/FAQAccordion'
 import DayItinerary from '@/components/DayItinerary'
 import StickyBookBar from '@/components/StickyBookBar'
 import TourDetailSidebar from '@/components/TourDetailSidebar'
+import TourItinerary from '@/components/TourItinerary'
 import { client, urlFor, TOUR_QUERY, SIMILAR_TOURS_QUERY, TESTIMONIALS_QUERY } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
@@ -64,7 +65,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 : <div className="gallery__main-img" style={{ background: 'linear-gradient(160deg,#0ea5e9 0%,#0284c7 50%,#0c4a6e 100%)', width: '100%', height: '100%' }} />
               }
               {photos.length > 0 && (
-                <button className="gallery__view-all">📷 View all {photos.length + 1} photos</button>
+                <div className="gallery__view-all">📷 {photos.length + 1} photos</div>
               )}
             </div>
             {(thumb1 || thumb2) && (
@@ -148,30 +149,32 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 </div>
               )}
 
-              {/* Simple itinerary */}
+              {/* Simple itinerary — interactive accordion */}
               {tour.itinerary?.length > 0 && (
                 <div className="detail-section">
                   <h2 className="detail-section__title">Full Day Itinerary</h2>
-                  {tour.itinerary.map((item: { time: string; activity: string }, i: number) => (
-                    <div key={i} className={`accordion-item${i === 0 ? ' is-open' : ''}`}>
-                      <button className="accordion-trigger">
-                        <span>{item.time && `${item.time} — `}{item.activity}</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m6 9 6 6 6-6"/></svg>
-                      </button>
-                      <div className="accordion-body">{item.activity}</div>
-                    </div>
-                  ))}
+                  <TourItinerary items={tour.itinerary} />
                 </div>
               )}
 
               {/* Meeting Point */}
               <div className="detail-section">
                 <h2 className="detail-section__title">Meeting Point</h2>
-                <div className="info-box" style={{ marginBottom: '12px' }}>
+                <div className="info-box" style={{ marginBottom: '16px' }}>
                   <strong>📍 Paseo del Mar Jetty, Zamboanga City</strong><br />
                   Near the main Paseo del Mar waterfront. Look for the Laagan Adventures vinta with the colorful sail.
                   <br /><br />
-                  <a href={`https://maps.google.com/?q=${encodeURIComponent(tour.mapQuery || 'Paseo del Mar Zamboanga City')}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--pink)', fontWeight: 600 }}>Open in Google Maps →</a>
+                  <a href="https://maps.google.com/?q=Paseo+del+Mar+Zamboanga+City" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--pink)', fontWeight: 600 }}>Open in Google Maps →</a>
+                </div>
+                <div style={{ borderRadius: 'var(--r)', overflow: 'hidden', border: '1px solid var(--border)', height: '260px' }}>
+                  <iframe
+                    src="https://maps.google.com/maps?q=Zamboanga+City,+Philippines&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, display: 'block' }}
+                    loading="lazy"
+                    title="Zamboanga City, Philippines"
+                  />
                 </div>
               </div>
 

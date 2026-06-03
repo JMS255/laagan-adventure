@@ -219,7 +219,7 @@ export default function BookingDrawer() {
           textAlign: 'center', fontSize: '.72rem', color: '#bbb',
           padding: '16px 24px 32px',
         }}>
-          No upfront payment. We confirm via Messenger.
+          Small deposit holds your slot. Balance on arrival.
         </p>
       </div>
     </>,

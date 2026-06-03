@@ -33,7 +33,7 @@ export default function StickyBookBar({ tourPrice, tourSlug, label, href, eyebro
         </div>
       ) : (
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: '.88rem', fontWeight: 700, color: 'var(--navy)', lineHeight: 1.3 }}>Fully guided · No upfront payment</p>
+          <p style={{ fontSize: '.88rem', fontWeight: 700, color: 'var(--navy)', lineHeight: 1.3 }}>Fully guided · Small deposit to confirm</p>
         </div>
       )}
       <Link href={bookHref} className="btn btn--primary" style={{ padding: '12px 20px', fontSize: '.82rem', borderRadius: '8px', whiteSpace: 'nowrap' }}>

@@ -1,7 +1,7 @@
 const STEPS = [
   { num: '1', time: '2 minutes', title: 'Choose Your Tour', desc: 'Browse our packages and pick what excites you. No account needed.' },
   { num: '2', time: 'Within 24 hours', title: 'We Confirm via Messenger', desc: 'Send us a message and we reply within 24 hours to lock in your date.' },
-  { num: '3', time: 'On the day', title: 'Pay on the Day', desc: 'Cash or GCash when you arrive. No upfront payment, no booking fees.' },
+  { num: '3', time: 'On the day', title: 'Small Deposit, Rest on Arrival', desc: 'Cash or GCash when you arrive. No upfront payment, no booking fees.' },
 ]
 
 export default function HowItWorks() {

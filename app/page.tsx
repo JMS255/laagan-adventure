@@ -45,7 +45,7 @@ export default async function HomePage() {
                 <span className="hero__trust-sep">·</span>
                 <span>DTI Accredited</span>
                 <span className="hero__trust-sep">·</span>
-                <span>Pay on the Day</span>
+                <span>Money-Back Guarantee</span>
               </div>
             </div>
           </div>
@@ -142,8 +142,8 @@ export default async function HomePage() {
             <div className="how-step">
               <div className="how-step__num">3</div>
               <div className="how-step__time">On the day</div>
-              <div className="how-step__title">Pay on the Day</div>
-              <div className="how-step__desc">No upfront payment required. Pay by cash or GCash on arrival. No scam risk, no surprises. Just show up and enjoy.</div>
+              <div className="how-step__title">Small Downpayment, Rest on Arrival</div>
+              <div className="how-step__desc">A small deposit confirms your slot. The balance is paid in cash or GCash when you arrive. No scam risk, no surprises.</div>
             </div>
           </div>
         </section>
@@ -158,7 +158,7 @@ export default async function HomePage() {
               </div>
               <div className="trust-item">
                 <div className="trust-item__icon">💸</div>
-                <div className="trust-item__text">Pay on the Day</div>
+                <div className="trust-item__text">Money-Back Guarantee</div>
               </div>
               <div className="trust-item">
                 <div className="trust-item__icon">🌦</div>
@@ -181,7 +181,7 @@ export default async function HomePage() {
           <div className="container">
             <span className="section__label section__label--center">What Travelers Say</span>
             <h2 className="section__title section__title--center">Real Stories from Real Guests</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '24px', marginTop: '48px' }}>
+            <div className="tcard-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '24px', marginTop: '48px' }}>
               {testimonials.length > 0
                 ? (testimonials as { _id: string; name: string; tour: string; review: string; rating: number; location?: string }[]).slice(0, 3).map(t => (
                   <div key={t._id} className="tcard">
@@ -269,7 +269,7 @@ export default async function HomePage() {
               Ready to See the Pink Sand?
             </h2>
             <p className="section__sub section__sub--light" style={{ margin: '0 auto 40px' }}>
-              Book your adventure today. We&apos;ll confirm within 24 hours.<br />No payment required — pay on the day.
+              Book your adventure today. We&apos;ll confirm within 24 hours.<br />Small deposit to hold your slot — balance paid on arrival.
             </p>
             <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/tours" className="btn btn--primary btn--lg">See Our Tours →</Link>

@@ -7,7 +7,7 @@ import type { FAQItem as FAQ } from '@/lib/types'
 const DEFAULT_FAQS: FAQ[] = [
   {
     question: 'Do I need to pay in advance?',
-    answer: 'No upfront payment required. We confirm your booking via Messenger or phone call, and payment is collected on the day of the tour.',
+    answer: 'A small deposit confirms your booking. The balance is paid in cash or GCash on the day of your tour.',
   },
   {
     question: 'What is the minimum group size?',

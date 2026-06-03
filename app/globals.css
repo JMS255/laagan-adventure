@@ -262,6 +262,15 @@ input,select,textarea{font-family:inherit}
   .float-btns{bottom:84px}
   .nav{padding:0 16px}
   .field-row{grid-template-columns:1fr}
+  /* Testimonials — single column on mobile */
+  .tcard-grid{grid-template-columns:1fr !important}
+  /* Tours grid — single column on mobile */
+  .tours-grid{grid-template-columns:1fr !important}
+  .tours-grid-full{grid-template-columns:1fr !important;gap:16px !important}
+  /* Traveler filter — 2 col on mobile */
+  .traveler-grid{grid-template-columns:1fr 1fr !important}
+  /* Contact FAQ grid — single column */
+  .faq-grid-3{grid-template-columns:1fr !important}
 }
 
 /* ─── ANIMATIONS ─── */

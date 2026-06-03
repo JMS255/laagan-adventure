@@ -103,7 +103,7 @@ export default function TourDetailSidebar({ tourSlug, basePrice, pricingTiers }:
         Check Availability →
       </Link>
       <div className="trust-micro">
-        <span>🔒 No payment yet</span>
+        <span>💰 Small deposit only</span>
         <span>✅ Free cancellation</span>
         <span>💬 24hr reply</span>
       </div>
