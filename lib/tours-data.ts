@@ -24,7 +24,7 @@ export interface TourData {
   photos: string[]
   inclusions: TourInclusion[]
   itinerary?: ItineraryItem[]
-  dayItinerary?: DayItem[]
+  dayItinerary?: TourDay[]
   highlights: string[]
   whatToBring: string[]
   importantNotes: string[]
