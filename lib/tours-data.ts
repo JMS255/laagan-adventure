@@ -35,21 +35,31 @@ export interface TourData {
 // Replace with your own photography when ready — just swap the URLs below.
 
 const P = {
-  santaCruz:    'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Santa_Cruz_Island%2C_Zamboanga_City.jpg/1280px-Santa_Cruz_Island%2C_Zamboanga_City.jpg',
+  // Santa Cruz Island — actual pink sands (Wikimedia Commons CC-BY-SA 4.0)
+  santaCruz:    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Pink_Sands_and_Sandbars_of_Santa_Cruz_Islands%2C_Zamboanga_City_Philippines.jpg/1280px-Pink_Sands_and_Sandbars_of_Santa_Cruz_Islands%2C_Zamboanga_City_Philippines.jpg',
   pinkSand:     'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Pink_sand_of_Santa_Cruz_Island.jpg/1280px-Pink_sand_of_Santa_Cruz_Island.jpg',
   vinta:        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Vintas_at_Zamboanga.jpg/1280px-Vintas_at_Zamboanga.jpg',
-  fortPilar:    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Fort_Pilar_Zamboanga_City.jpg/1280px-Fort_Pilar_Zamboanga_City.jpg',
-  paseoDel:     'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Paseo_Del_Mar_Zamboanga.jpg/1280px-Paseo_Del_Mar_Zamboanga.jpg',
-  zamboangaCity:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Zamboanga_City_Hall.jpg/1280px-Zamboanga_City_Hall.jpg',
+  // Fort Pilar — actual Fort Pilar Zamboanga City (Wikimedia Commons CC-BY-SA 3.0)
+  fortPilar:    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Fort_Pilar_%282008%29.jpg/1280px-Fort_Pilar_%282008%29.jpg',
+  // Paseo del Mar — actual Zamboanga waterfront (Wikimedia Commons CC-BY 3.0)
+  paseoDel:     'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Paseo_del_Mar-_Zamboanga_City.JPG/1280px-Paseo_del_Mar-_Zamboanga_City.JPG',
+  // Zamboanga City skyline — sunrise sea view 2023 (Wikimedia Commons CC-BY-SA 4.0)
+  zamboangaCity:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Zamboanga_City_skyline_sea_view_sunrise_%28Zamboanga_City%3B_10-11-2023%29.jpg/1280px-Zamboanga_City_skyline_sea_view_sunrise_%28Zamboanga_City%3B_10-11-2023%29.jpg',
+  // Once Islas — no dedicated Wikimedia photo; placeholder until James shoots his own
   onceIslas:    'https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=1280&q=80',
-  merloquet:    'https://images.unsplash.com/photo-1564419320408-38bb00c9c5cf?w=1280&q=80',
-  basilan:      'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=1280&q=80',
-  tawi:         'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1280&q=80',
-  mindanao:     'https://images.unsplash.com/photo-1573408301185-9519f94bf3b7?w=1280&q=80',
-  sunset:       'https://images.unsplash.com/photo-1414609245224-aea2271f43ff?w=1280&q=80',
+  // Merloquet Falls — actual Merloquet Falls Zamboanga (Wikimedia Commons CC-BY-SA 4.0)
+  merloquet:    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Marloquet_Falls.jpg/854px-Marloquet_Falls.jpg',
+  // Basilan — Malamawi Beach (Wikimedia Commons public domain)
+  basilan:      'https://upload.wikimedia.org/wikipedia/commons/6/61/Malamawi_Beach.JPG',
+  // Panampangan Island sandbar, Tawi-Tawi (Wikimedia Commons CC-BY-SA 4.0)
+  tawi:         'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Panampangan_Island.jpg/1280px-Panampangan_Island.jpg',
+  mindanao:     'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Panampangan_Island.jpg/1280px-Panampangan_Island.jpg',
+  // Zamboanga City sunset (Wikimedia Commons CC-BY-SA 2.0)
+  sunset:       'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Zamboanga_City%27s_Sunset.jpg/1280px-Zamboanga_City%27s_Sunset.jpg',
   snorkeling:   'https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?w=1280&q=80',
   heritage:     'https://images.unsplash.com/photo-1597149053579-ad93dd6a5400?w=1280&q=80',
-  waterfall:    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=1280&q=80',
+  // Merloquet Falls — same as merloquet key above
+  waterfall:    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Marloquet_Falls.jpg/854px-Marloquet_Falls.jpg',
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
