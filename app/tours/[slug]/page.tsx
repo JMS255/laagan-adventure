@@ -44,11 +44,11 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
   return (
     <>
       <Nav />
-      <main className="page-top">
-        <div className="container">
+      <main>
+        <div className="container" style={{ paddingTop: 'calc(var(--nav-h) + 32px)' }}>
 
           {/* Breadcrumb */}
-          <div className="breadcrumb" style={{ paddingTop: '32px' }}>
+          <div className="breadcrumb">
             <Link href="/">Home</Link>
             <span className="breadcrumb__sep">›</span>
             <Link href="/tours">Tours</Link>

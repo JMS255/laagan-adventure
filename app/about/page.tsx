@@ -27,10 +27,10 @@ export default function AboutPage() {
   return (
     <>
       <Nav />
-      <main style={{ paddingTop: 'var(--nav-h)' }}>
+      <main>
 
         {/* Header */}
-        <div style={{ background: 'var(--navy)', padding: '64px 0 56px' }}>
+        <div style={{ background: 'var(--navy)', paddingTop: 'calc(var(--nav-h) + 64px)', paddingBottom: '56px' }}>
           <div className="container">
             <p className="section__label">About Us</p>
             <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#fff', letterSpacing: '-.03em', marginBottom: '12px' }}>

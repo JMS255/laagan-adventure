@@ -17,10 +17,10 @@ export default function ContactPage() {
   return (
     <>
       <Nav />
-      <main className="page-top">
+      <main>
 
         {/* Page Header */}
-        <div style={{ background: 'var(--bg-2)', padding: '48px 0 40px', borderBottom: '1px solid var(--border)' }}>
+        <div style={{ background: 'var(--bg-2)', paddingTop: 'calc(var(--nav-h) + 48px)', paddingBottom: '40px', borderBottom: '1px solid var(--border)' }}>
           <div className="container">
             <div className="breadcrumb">
               <Link href="/">Home</Link>

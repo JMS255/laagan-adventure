@@ -18,10 +18,10 @@ export default async function ToursPage() {
   return (
     <>
       <Nav />
-      <main className="page-top">
+      <main>
 
         {/* Page Hero */}
-        <div className="page-hero">
+        <div className="page-hero" style={{ paddingTop: 'calc(var(--nav-h) + 40px)' }}>
           <div className="container">
             <div className="breadcrumb">
               <Link href="/">Home</Link>
