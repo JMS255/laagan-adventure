@@ -312,7 +312,7 @@
       <span>🔗 <strong>Live:</strong> laagan-adventure.vercel.app</span>
       <span>📦 <strong>Repo:</strong> JMS255/laagan-adventure</span>
       <span>🛠 <strong>Framework:</strong> Next.js 15 App Router</span>
-      <span>📅 <strong>Last updated:</strong> June 3 2026 · Full UI/UX design sprint shipped — Sprint 7 next</span>
+      <span>📅 <strong>Last updated:</strong> June 3 2026 · Design sprint + bug fixes shipped — Sprint 7 next</span>
     </div>
   </div>
 
@@ -777,6 +777,40 @@ BLOG_POST_QUERY      — single blog post by slug</pre>
       <h2>Changelog</h2>
 
       <div class="changelog">
+
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Post-design-sprint bug fixes (June 3 2026)</div>
+            <div class="desc">
+              <strong>Duplicate heading:</strong> DayItinerary component has its own "Day by day itinerary" h2 — wrapper h2 removed from tour detail page.<br><br>
+              <strong>Gallery height collapse:</strong> <code>.gallery</code> used <code>max-height:480px</code> but <code>next/image fill</code> needs an explicit height. Changed to <code>height:480px</code> + <code>height:100%</code> on <code>.gallery__main</code>.<br><br>
+              <strong>Hero white gap:</strong> Homepage <code>&lt;main&gt;</code> had <code>page-top</code> class adding 110px margin. Hero section handles its own top padding via <code>.hero__inner</code> padding. Removed <code>page-top</code> from homepage only.<br><br>
+              <strong>Hero video:</strong> Removed video element entirely. Now uses static <code>/images/hero-bg.png</code> as background image.<br><br>
+              <strong>Nav label:</strong> "Plan My Trip" → "Contact" in Nav.tsx links array.<br><br>
+              <strong>BookingDrawer wrong destination:</strong> "Book this tour" links were going to <code>/contact</code>. Fixed to <code>/book/[slug]</code> for tours that have Sanity slugs (<code>santa-cruz-island-tour</code>, <code>zambasulta-complete-tour</code>). Custom/group tours still go to <code>/contact</code>.<br><br>
+              <strong>Homepage social feed using gallery photos:</strong> Sanity gallery photos belong on <code>/gallery</code> page only (tourist-submitted photos). Homepage <code>@laaganadventure</code> section reverted to placeholder colored blocks — wire up a real Instagram embed (Elfsight/Curator.io) when ready.
+            </div>
+          </div>
+          <div class="commit">e696dbd→5cfc69b</div>
+        </div>
+
+        <div class="changelog-item">
+          <div class="dot dot--design"></div>
+          <div class="info">
+            <div class="title">Full UI/UX design sprint — HTML prototype implementation (June 3 2026)</div>
+            <div class="desc">Complete rebuild using "transcription mode" — HTML to JSX class-for-class with no improvisation. <code>shared.css</code> from <code>design_handoff_laagan/</code> became the CSS source of truth.<br><br>
+              <strong>globals.css:</strong> Replaced with shared.css verbatim + all page-specific &lt;style&gt; tags from every HTML prototype file.<br><br>
+              <strong>All 5 pages rebuilt:</strong> Homepage (index.html), Tours listing (tours.html), Tour detail (tour-detail.html), Booking (booking.html), Contact (contact.html).<br><br>
+              <strong>New component:</strong> TourDetailSidebar.tsx — client component with Joiners/Private toggle, steppers, price calculator, date input.<br><br>
+              <strong>Booking flow:</strong> Converted to single-page 3-step flow (all steps on one page, no URL navigation). Steps: Tour Details → Your Info → Confirm with Messenger/WhatsApp/GCash deposit.<br><br>
+              <strong>Footer:</strong> 4-column layout with footer__col-title and footer__social-link.<br><br>
+              <strong>Float buttons:</strong> Emoji-based 📱💬 matching HTML prototype exactly.
+            </div>
+          </div>
+          <div class="commit">6fe782a</div>
+        </div>
+
         <div class="changelog-item">
           <div class="dot dot--fix"></div>
           <div class="info">
@@ -1955,7 +1989,24 @@ const CODES = {
       <p>A Claude Design handoff produced high-fidelity HTML prototypes for all 5 pages. The prototypes were implemented into the existing Next.js codebase. All files: <code>design_handoff_laagan/</code> in repo root.</p>
 
       <div class="callout green">
-        <strong>Commit:</strong> <code>f2c0aec</code> — "feat: design handoff implementation — full UI/UX overhaul" — 32 files changed, 4827 insertions.
+        <strong>Commits:</strong> <code>6fe782a</code> (design sprint) → <code>e696dbd–5cfc69b</code> (bug fixes applied after). The final faithful implementation replaces the original codebase's design completely.
+      </div>
+
+      <h3>Critical Rules Learned</h3>
+      <table>
+        <thead><tr><th>Rule</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Do NOT add <code>page-top</code> to homepage <code>&lt;main&gt;</code></td><td>Hero pads its own top via <code>.hero__inner</code> — adding page-top creates a white gap</td></tr>
+          <tr><td>Do NOT wrap <code>&lt;DayItinerary&gt;</code> in an extra <code>&lt;h2&gt;</code></td><td>Component renders its own heading — causes duplicate</td></tr>
+          <tr><td><code>next/image fill</code> needs explicit <code>height</code>, not <code>max-height</code></td><td>Gallery was collapsing to a thin strip without it</td></tr>
+          <tr><td>Sanity gallery collection → <code>/gallery</code> page only</td><td>These are tourist-submitted photos — not for homepage social feed</td></tr>
+          <tr><td>BookingDrawer must link to <code>/book/[slug]</code></td><td>Was incorrectly sending users to <code>/contact</code></td></tr>
+          <tr><td>Hero uses static <code>/images/hero-bg.png</code></td><td>Video removed — static image is cleaner</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <strong>CSS rule:</strong> All styles are in <code>app/globals.css</code>. Before writing any inline style, check if a class already exists. Use <code>.field</code> for form inputs (not <code>.form-group</code>). Use <code>.page-top</code> on all pages except homepage.
       </div>
 
       <h3>New Component System (added to globals.css)</h3>
