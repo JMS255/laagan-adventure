@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import TravelerFilter from '@/components/TravelerFilter'
-import { client, urlFor, TOURS_QUERY, TESTIMONIALS_QUERY, GALLERY_QUERY } from '@/lib/sanity'
+import { client, urlFor, TOURS_QUERY, TESTIMONIALS_QUERY } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -14,10 +14,9 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const [allTours, testimonials, galleryPhotos] = await Promise.all([
+  const [allTours, testimonials] = await Promise.all([
     client.fetch(TOURS_QUERY).catch(() => []),
     client.fetch(TESTIMONIALS_QUERY).catch(() => []),
-    client.fetch(GALLERY_QUERY).catch(() => []),
   ])
 
   return (
@@ -252,23 +251,12 @@ export default async function HomePage() {
               <p style={{ fontSize: '.85rem', color: 'var(--muted)', marginTop: '8px' }}>Tag us in your photos and get featured here</p>
             </div>
             <div className="feed-grid">
-              {galleryPhotos.length > 0
-                ? (galleryPhotos as { _id: string; image: object }[]).slice(0, 6).map(photo => (
-                  <div key={photo._id} className="feed-item">
-                    <img src={urlFor(photo.image).width(400).height(400).url()} alt="Laagan Adventure guest photo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
-                  </div>
-                ))
-                : (
-                  <>
-                    <div className="feed-item" style={{ background: 'linear-gradient(135deg,#0ea5e9,#0369a1)' }} />
-                    <div className="feed-item" style={{ background: 'linear-gradient(135deg,#d96b8a,#bf5070)' }} />
-                    <div className="feed-item" style={{ background: 'linear-gradient(135deg,#10b981,#059669)' }} />
-                    <div className="feed-item" style={{ background: 'linear-gradient(135deg,#f59e0b,#d97706)' }} />
-                    <div className="feed-item" style={{ background: 'linear-gradient(135deg,#8b5cf6,#7c3aed)' }} />
-                    <div className="feed-item" style={{ background: 'linear-gradient(135deg,#0284c7,#0ea5e9)' }} />
-                  </>
-                )
-              }
+              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#0ea5e9,#0369a1)' }} />
+              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#d96b8a,#bf5070)' }} />
+              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#10b981,#059669)' }} />
+              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#f59e0b,#d97706)' }} />
+              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#8b5cf6,#7c3aed)' }} />
+              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#0284c7,#0ea5e9)' }} />
             </div>
           </div>
         </section>
