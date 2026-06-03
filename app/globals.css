@@ -260,6 +260,7 @@ input,select,textarea{font-family:inherit}
   .stat-divider{display:none}
   .sticky-bar{display:flex}
   .float-btns{bottom:84px}
+  .footer{padding-bottom:88px}
   .nav{padding:0 16px}
   .field-row{grid-template-columns:1fr}
   /* Testimonials — single column on mobile */
