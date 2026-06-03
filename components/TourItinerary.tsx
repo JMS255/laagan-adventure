@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-interface Item { time: string; activity: string }
+interface Item { time: string; activity: string; detail?: string }
 
 export default function TourItinerary({ items }: { items: Item[] }) {
   const [openIndex, setOpenIndex] = useState(0)
