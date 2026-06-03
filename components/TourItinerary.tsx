@@ -20,7 +20,7 @@ export default function TourItinerary({ items }: { items: Item[] }) {
               <path d="m6 9 6 6 6-6" />
             </svg>
           </button>
-          <div className="accordion-body">{item.activity}</div>
+          <div className="accordion-body">{item.detail || item.activity}</div>
         </div>
       ))}
     </div>
