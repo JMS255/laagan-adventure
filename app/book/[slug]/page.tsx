@@ -1,12 +1,15 @@
 import { notFound } from 'next/navigation'
 import BookingOverview from '@/components/BookingOverview'
 import { client, TOUR_QUERY } from '@/lib/sanity'
+import { getTourBySlug } from '@/lib/tours-data'
 import type { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const tour = await client.fetch(TOUR_QUERY, { slug }).catch(() => null)
-  return { title: tour ? `Book — ${tour.title}` : 'Book a Tour' }
+  const sanity = await client.fetch(TOUR_QUERY, { slug }).catch(() => null)
+  const hardcoded = getTourBySlug(slug)
+  const title = sanity?.title ?? hardcoded?.title
+  return { title: title ? `Book — ${title}` : 'Book a Tour' }
 }
 
 export default async function BookPage({
@@ -18,8 +21,21 @@ export default async function BookPage({
 }) {
   const { slug }         = await params
   const { date, guests } = await searchParams
-  const tour             = await client.fetch(TOUR_QUERY, { slug }).catch(() => null)
-  if (!tour) notFound()
+
+  const sanityTour  = await client.fetch(TOUR_QUERY, { slug }).catch(() => null)
+  const hardcoded   = getTourBySlug(slug)
+
+  if (!sanityTour && !hardcoded) notFound()
+
+  const tour = sanityTour ?? {
+    _id: slug,
+    title: hardcoded!.title,
+    slug: { current: slug },
+    destination: hardcoded!.destination,
+    duration: hardcoded!.duration,
+    price: undefined,
+    priceNote: 'per person',
+  }
 
   return (
     <BookingOverview
