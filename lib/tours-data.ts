@@ -31,43 +31,49 @@ export interface TourData {
 }
 
 // ─── PHOTOS ──────────────────────────────────────────────────────────────────
-// Wikimedia Commons public domain images as placeholders.
-// Replace with your own photography when ready — just swap the URLs below.
+// Real photos from actual Laagan Adventure tours.
+// Wikimedia Commons used only where real photos are not yet available.
 
 const P = {
-  // Santa Cruz Island — actual pink sands (Wikimedia Commons CC-BY-SA 4.0)
-  santaCruz:    'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Pink_Sands_and_Sandbars_of_Santa_Cruz_Islands%2C_Zamboanga_City_Philippines.jpg/1280px-Pink_Sands_and_Sandbars_of_Santa_Cruz_Islands%2C_Zamboanga_City_Philippines.jpg',
-  pinkSand:     'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Pink_sand_of_Santa_Cruz_Island.jpg/1280px-Pink_sand_of_Santa_Cruz_Island.jpg',
-  vinta:        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Vintas_at_Zamboanga.jpg/1280px-Vintas_at_Zamboanga.jpg',
-  // Fort Pilar — actual Fort Pilar Zamboanga City (Wikimedia Commons CC-BY-SA 3.0)
-  fortPilar:    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Fort_Pilar_%282008%29.jpg/1280px-Fort_Pilar_%282008%29.jpg',
-  // Paseo del Mar — actual Zamboanga waterfront (Wikimedia Commons CC-BY 3.0)
-  paseoDel:     'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Paseo_del_Mar-_Zamboanga_City.JPG/1280px-Paseo_del_Mar-_Zamboanga_City.JPG',
-  // Zamboanga City skyline — sunrise sea view 2023 (Wikimedia Commons CC-BY-SA 4.0)
-  zamboangaCity:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Zamboanga_City_skyline_sea_view_sunrise_%28Zamboanga_City%3B_10-11-2023%29.jpg/1280px-Zamboanga_City_skyline_sea_view_sunrise_%28Zamboanga_City%3B_10-11-2023%29.jpg',
-  // Once Islas — actual aerial of Eleven Islands, Zamboanga City (Wikimedia Commons CC-BY-SA 4.0)
-  onceIslas:       'https://upload.wikimedia.org/wikipedia/commons/4/41/Eleven_Islands%2C_Zamboanga_City.jpg',
-  onceIslasSiromon:'https://upload.wikimedia.org/wikipedia/commons/3/31/Once_Islas%2CSiromon_Beach_resort_ZC.jpg',
-  // Merloquet Falls — actual Merloquet Falls Zamboanga (Wikimedia Commons CC-BY-SA 4.0)
-  waterfall:       'https://upload.wikimedia.org/wikipedia/commons/d/d9/Marloquet_Falls.jpg',
-  merloquet:       'https://upload.wikimedia.org/wikipedia/commons/c/cc/Merloquet_Falls.jpg',
-  merloquetFalls1: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/MERLOQUET_1.jpg',
-  merloquetFalls2: 'https://upload.wikimedia.org/wikipedia/commons/1/13/MERLOQUET_2.jpg',
-  // Basilan — Malamawi Beach + Bajao stilt houses (Wikimedia Commons)
-  basilan:         'https://upload.wikimedia.org/wikipedia/commons/6/61/Malamawi_Beach.JPG',
-  badjaosBasilan:  'https://upload.wikimedia.org/wikipedia/commons/c/ca/Badjao_Stilt_Houses%2C_Isabela%2C_Basilan%2C_Mar_2026.jpg',
-  malamawiBasilan: 'https://upload.wikimedia.org/wikipedia/commons/1/19/Malamawi_Island_from_Basilan_Strait%2C_Isabela%2C_Basilan%2C_Mar_2026_%283%29.jpg',
-  // Panampangan Island sandbar, Tawi-Tawi — visited on ZambaSulta Day 5 (Wikimedia Commons CC-BY-SA 4.0)
-  tawi:            'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Panampangan_Island.jpg/1280px-Panampangan_Island.jpg',
-  // Simunul Mosque, Tawi-Tawi — oldest mosque in the Philippines, built 1380 (Wikimedia Commons)
-  simunulMosque:   'https://upload.wikimedia.org/wikipedia/commons/7/7e/Sheikh_Karimul_Makhdum_Mosque_BIO_file_photo.jpg',
-  // Taluksangay Mosque, Zamboanga City — Heritage Tour stop (Wikimedia Commons CC-BY-SA 4.0)
+  // Santa Cruz Island — real tour photos
+  santaCruz:        '/images/guests-santa-cruz-vinta.jpg',
+  santaCruzSign:    '/images/santa-cruz-sign.jpg',
+  guestsZamboanga:  '/images/guests-zamboanga-sign.jpg',
+  // Wikimedia fallbacks for Santa Cruz (pink sand close-up, vinta, aerial)
+  pinkSand:         'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Pink_sand_of_Santa_Cruz_Island.jpg/1280px-Pink_sand_of_Santa_Cruz_Island.jpg',
+  vinta:            'https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Vintas_at_Zamboanga.jpg/1280px-Vintas_at_Zamboanga.jpg',
+  santaCruzView:    'https://upload.wikimedia.org/wikipedia/commons/8/88/Grande_Santa_Cruz_Island_and_Zamboanga_City_from_Basilan_Strait%2C_Mar_2026_%281%29.jpg',
+  // Heritage / Zamboanga City — real photos
+  fortPilar:        '/images/fort-pilar.jpg',
+  // Wikimedia fallbacks for heritage
+  paseoDel:         'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Paseo_del_Mar-_Zamboanga_City.JPG/1280px-Paseo_del_Mar-_Zamboanga_City.JPG',
+  zamboangaCity:    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Zamboanga_City_skyline_sea_view_sunrise_%28Zamboanga_City%3B_10-11-2023%29.jpg/1280px-Zamboanga_City_skyline_sea_view_sunrise_%28Zamboanga_City%3B_10-11-2023%29.jpg',
   taluksangayMosque:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Taluksangay_Mosque_%28Zamboanga_City%3B_10-12-2023%29.jpg/1280px-Taluksangay_Mosque_%28Zamboanga_City%3B_10-12-2023%29.jpg',
-  taluksangayFront: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Taluksangay_Mosque_front_%28Zamboanga_City%3B_10-12-2023%29.jpg/1280px-Taluksangay_Mosque_front_%28Zamboanga_City%3B_10-12-2023%29.jpg',
-  // Santa Cruz Island aerial from Basilan Strait (Wikimedia Commons CC-BY-SA 4.0)
-  santaCruzView:   'https://upload.wikimedia.org/wikipedia/commons/8/88/Grande_Santa_Cruz_Island_and_Zamboanga_City_from_Basilan_Strait%2C_Mar_2026_%281%29.jpg',
-  // Zamboanga City sunset (Wikimedia Commons CC-BY-SA 2.0)
-  sunset:          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Zamboanga_City%27s_Sunset.jpg/1280px-Zamboanga_City%27s_Sunset.jpg',
+  // Once Islas — Wikimedia (no real photo yet)
+  onceIslas:        'https://upload.wikimedia.org/wikipedia/commons/4/41/Eleven_Islands%2C_Zamboanga_City.jpg',
+  onceIslasSiromon: 'https://upload.wikimedia.org/wikipedia/commons/3/31/Once_Islas%2CSiromon_Beach_resort_ZC.jpg',
+  sunset:           'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Zamboanga_City%27s_Sunset.jpg/1280px-Zamboanga_City%27s_Sunset.jpg',
+  // Merloquet Falls — real photo
+  merloquet:        '/images/merloquet-falls-real.jpg',
+  merloquetFalls1:  'https://upload.wikimedia.org/wikipedia/commons/4/4c/MERLOQUET_1.jpg',
+  merloquetFalls2:  'https://upload.wikimedia.org/wikipedia/commons/1/13/MERLOQUET_2.jpg',
+  // Basilan — real photos
+  basilanAerial:    '/images/malamawi-aerial.jpg',
+  basilanChurch:    '/images/basilan-church.jpg',
+  basilanChurchInt: '/images/basilan-church-interior.jpg',
+  basilanSign:      '/images/basilan-sign.jpg',
+  basilanMountain:  '/images/basilan-mountain.jpg',
+  lamitanPark:      '/images/lamitan-park.jpg',
+  // Basilan Wikimedia fallbacks
+  badjaosBasilan:   'https://upload.wikimedia.org/wikipedia/commons/c/ca/Badjao_Stilt_Houses%2C_Isabela%2C_Basilan%2C_Mar_2026.jpg',
+  // ZambaSulTa — real photos
+  zambasultaMosque: '/images/zambasulta-mosque.jpg',
+  panampangan:      '/images/panampangan-cottages.jpg',
+  panampanganPier:  '/images/panampangan-pier.jpg',
+  suluMonument:     '/images/sulu-monument.jpg',
+  // ZambaSulTa Wikimedia fallbacks
+  simunulMosque:    'https://upload.wikimedia.org/wikipedia/commons/7/7e/Sheikh_Karimul_Makhdum_Mosque_BIO_file_photo.jpg',
+  tawi:             'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Panampangan_Island.jpg/1280px-Panampangan_Island.jpg',
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -86,7 +92,7 @@ export const TOURS_DATA: TourData[] = [
     groupSize: '2–20 guests',
     departure: 'Paseo del Mar Jetty, 6:30–7:30 AM',
     mainImage: P.santaCruz,
-    photos: [P.pinkSand, P.vinta, P.santaCruzView],
+    photos: [P.guestsZamboanga, P.santaCruzSign, P.pinkSand, P.vinta],
     highlights: [
       'Walk on the only pink sand beach in Asia',
       'Swim with stingless jellyfish in the protected lagoon',
@@ -207,7 +213,7 @@ export const TOURS_DATA: TourData[] = [
     groupSize: '2–15 guests',
     departure: 'Hotel pickup or Paseo del Mar, 8:00 AM or 1:00 PM',
     mainImage: P.fortPilar,
-    photos: [P.zamboangaCity, P.paseoDel, P.taluksangayMosque],
+    photos: [P.basilanChurchInt, P.paseoDel, P.taluksangayMosque],
     highlights: [
       'Fort Pilar — 17th-century Spanish fort, now a national shrine',
       'Yakan Weaving Village — watch master weavers at work',
@@ -261,7 +267,7 @@ export const TOURS_DATA: TourData[] = [
     category: 'Adventure',
     groupSize: '2–15 guests',
     departure: 'Hotel pickup, 7:00 AM',
-    mainImage: P.waterfall,
+    mainImage: P.merloquet,
     photos: [P.merloquetFalls1, P.merloquetFalls2],
     highlights: [
       '10-meter curtain waterfall with natural swimming basin',
@@ -370,8 +376,8 @@ export const TOURS_DATA: TourData[] = [
     category: 'Multi-day',
     groupSize: '2–12 guests',
     departure: 'Zamboanga City Airport or Paseo del Mar',
-    mainImage: P.tawi,
-    photos: [P.simunulMosque, P.basilan, P.vinta, P.santaCruz],
+    mainImage: P.zambasultaMosque,
+    photos: [P.panampangan, P.panampanganPier, P.suluMonument, P.simunulMosque],
     highlights: [
       'Panampangan Island — one of the longest sandbars in the Philippines',
       'Simunul Mosque — the oldest mosque in the Philippines (built 1380)',
@@ -478,8 +484,8 @@ export const TOURS_DATA: TourData[] = [
     category: 'Adventure',
     groupSize: '4–15 guests',
     departure: 'Zamboanga City Ferry Terminal, 6:30 AM',
-    mainImage: P.basilan,
-    photos: [P.badjaosBasilan, P.malamawiBasilan],
+    mainImage: P.basilanAerial,
+    photos: [P.basilanChurch, P.basilanChurchInt, P.basilanSign, P.basilanMountain],
     highlights: [
       'Malamawi Island — quiet white sand beach, almost no tourists',
       'Working rubber plantation — see how latex is harvested',
