@@ -181,25 +181,11 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 </div>
               )}
 
-              {/* Reviews */}
-              <div className="detail-section">
-                <h2 className="detail-section__title">Guest Reviews</h2>
-                <div className="rating-summary">
-                  <div>
-                    <div className="rating-big">5.0</div>
-                    <div className="rating-stars">★★★★★</div>
-                    <div style={{ fontSize: '.72rem', color: 'var(--muted)', marginTop: '4px' }}>100+ reviews</div>
-                  </div>
-                  <div style={{ flex: 1, paddingLeft: '24px' }}>
-                    <div style={{ fontSize: '.85rem', fontWeight: 600, color: 'var(--navy)', marginBottom: '6px' }}>What guests love most:</div>
-                    <div style={{ fontSize: '.82rem', color: 'var(--muted)', lineHeight: 1.7 }}>
-                      &ldquo;James and Ivy are the best guides.&rdquo; · &ldquo;Worth every peso.&rdquo; · &ldquo;Absolutely life-changing.&rdquo;
-                    </div>
-                  </div>
-                </div>
-
-                {(testimonials as { _id: string; name: string; tour: string; review: string; location?: string }[]).length > 0
-                  ? (testimonials as { _id: string; name: string; tour: string; review: string; location?: string }[]).slice(0, 3).map(t => (
+              {/* Reviews — only shown when real reviews exist in Sanity */}
+              {(testimonials as { _id: string }[]).length > 0 && (
+                <div className="detail-section">
+                  <h2 className="detail-section__title">Guest Reviews</h2>
+                  {(testimonials as { _id: string; name: string; tour: string; review: string; location?: string }[]).slice(0, 3).map(t => (
                     <div key={t._id} className="review-card">
                       <div className="review-meta">
                         <div className="review-avatar">{t.name?.[0]}</div>
@@ -211,32 +197,14 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                       </div>
                       <p className="review-text">&ldquo;{t.review}&rdquo;</p>
                     </div>
-                  ))
-                  : [
-                    { init: 'M', name: 'Maria G.', loc: 'Davao City · May 2026', tour: 'Santa Cruz Island', review: "James and Ivy are incredible. The pink sand beach is everything they promised and more. Worth every peso — I'll be back with my whole family." },
-                    { init: 'R', name: 'Robert C.', loc: 'Manila · April 2026', tour: 'Santa Cruz Island', review: "The vinta ride alone was worth coming to Zamboanga for. Confirmed same day, smooth from start to finish. Best day trip in the Philippines." },
-                    { init: 'J', name: 'Jessica L.', loc: 'Singapore · March 2026', tour: 'City Heritage Tour', review: "Ivy's knowledge of local history made every stop come alive. The jellyfish lagoon was surreal. Highly, highly recommend." },
-                  ].map(r => (
-                    <div key={r.name} className="review-card">
-                      <div className="review-meta">
-                        <div className="review-avatar">{r.init}</div>
-                        <div>
-                          <div className="review-name">{r.name} <span style={{ color: '#f5a623', fontSize: '.85rem' }}>★★★★★</span></div>
-                          <div className="review-date">{r.loc}</div>
-                        </div>
-                        <div className="review-tour" style={{ marginLeft: 'auto' }}>{r.tour}</div>
-                      </div>
-                      <p className="review-text">&ldquo;{r.review}&rdquo;</p>
-                    </div>
-                  ))
-                }
-
-                <div style={{ marginTop: '20px' }}>
-                  <a href="https://www.facebook.com/profile.php?id=61562040673545" target="_blank" rel="noopener noreferrer" style={{ fontSize: '.82rem', fontWeight: 600, color: 'var(--pink)' }}>
-                    See all reviews on Facebook →
-                  </a>
+                  ))}
+                  <div style={{ marginTop: '20px' }}>
+                    <a href="https://www.facebook.com/profile.php?id=61562040673545" target="_blank" rel="noopener noreferrer" style={{ fontSize: '.82rem', fontWeight: 600, color: 'var(--pink)' }}>
+                      See all reviews on Facebook →
+                    </a>
+                  </div>
                 </div>
-              </div>
+              )}
 
             </div>{/* end left column */}
 
