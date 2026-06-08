@@ -46,8 +46,51 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
 
   const thumbUrls = tour.photos.slice(0, 2).map((url, i) => ({ url, alt: `${tour.title} photo ${i + 2}` }))
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TouristTrip',
+    name: tour.title,
+    description: tour.description,
+    url: `https://laaganadventure.com/tours/${tour.slug}`,
+    image: tour.mainImage,
+    touristType: ['Solo traveler', 'Couples', 'Groups', 'Family'],
+    itinerary: {
+      '@type': 'ItemList',
+      itemListElement: (tour.itinerary ?? []).map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: item.activity,
+      })),
+    },
+    provider: {
+      '@type': 'TouristInformationCenter',
+      name: 'Laagan Adventure',
+      url: 'https://laaganadventure.com',
+      telephone: '+639XXXXXXXXX',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Zamboanga City',
+        addressRegion: 'Zamboanga Peninsula',
+        addressCountry: 'PH',
+      },
+    },
+    ...(price && price > 0 ? {
+      offers: {
+        '@type': 'Offer',
+        price: price,
+        priceCurrency: 'PHP',
+        availability: 'https://schema.org/InStock',
+        validFrom: new Date().toISOString().split('T')[0],
+      },
+    } : {}),
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Nav />
       <main>
         <div className="container" style={{ paddingTop: 'calc(var(--nav-h) + 32px)' }}>

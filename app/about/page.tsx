@@ -60,14 +60,12 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              {/* Photo placeholder — replace src with a real team/location photo */}
-              <div style={{ borderRadius: 'var(--rl)', aspectRatio: '4/5', overflow: 'hidden', background: 'var(--bg-2)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ borderRadius: 'var(--rl)', aspectRatio: '4/5', overflow: 'hidden', background: 'var(--navy)' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/team.jpg"
-                  alt="Laagan Adventure team"
+                  src="https://upload.wikimedia.org/wikipedia/commons/8/88/Grande_Santa_Cruz_Island_and_Zamboanga_City_from_Basilan_Strait%2C_Mar_2026_%281%29.jpg"
+                  alt="Santa Cruz Island and Zamboanga City"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                  onError={undefined}
                 />
               </div>
             </div>
@@ -82,14 +80,10 @@ export default function AboutPage() {
             <div className="founders-grid" style={{ marginTop: '40px' }}>
               {founders.map(f => (
                 <div key={f.name} style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--rl)', overflow: 'hidden' }}>
-                  {/* Photo */}
-                  <div style={{ aspectRatio: '4/3', background: 'var(--navy)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={f.photo}
-                      alt={f.name}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
+                  <div style={{ aspectRatio: '4/3', background: 'linear-gradient(135deg,var(--navy),#0ea5e9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '3.5rem', fontWeight: 800, color: 'rgba(255,255,255,.25)', letterSpacing: '-.04em' }}>
+                      {f.name.split(' ').slice(0, 2).map((n: string) => n[0]).join('')}
+                    </span>
                   </div>
                   <div style={{ padding: '24px' }}>
                     <p style={{ fontSize: '.7rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--pink)', marginBottom: '4px' }}>

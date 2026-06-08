@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity'
@@ -11,6 +11,11 @@ interface Props {
   tour: TourCard & { pricingTiers?: import('@/lib/types').PricingTier[] }
   initialDate: string
   initialGuests: number
+}
+
+declare global { interface Window { gtag?: (...args: unknown[]) => void } }
+function track(event: string, params?: Record<string, unknown>) {
+  window.gtag?.('event', event, params)
 }
 
 function genRef() {
@@ -43,6 +48,11 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
   const total = finalTotal
 
   const today = new Date().toISOString().split('T')[0]
+
+  useEffect(() => {
+    track('begin_checkout', { tour_name: tour.title, tour_slug: tour.slug.current })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   function goTo(n: number) {
     setStep(n)
@@ -83,7 +93,16 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
     }
     try {
       const res = await fetch('/api/book', { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'application/json' } })
-      if (res.ok) { setStatus('sent'); goTo(3) }
+      if (res.ok) {
+        setStatus('sent')
+        track('purchase', {
+          transaction_id: bookingRef,
+          value: total,
+          currency: 'PHP',
+          items: [{ item_id: tour.slug.current, item_name: tour.title, quantity: adults + children, price: adultPrice }],
+        })
+        goTo(3)
+      }
       else {
         const json = await res.json().catch(() => ({}))
         setSubmitError(json?.error || 'Error submitting. Please message us on Messenger.')
@@ -251,7 +270,11 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
 
             <button
               className="btn btn--primary btn--full"
-              onClick={() => { if (!date) { alert('Please select a preferred date to continue.'); return; } goTo(2) }}
+              onClick={() => {
+              if (!date) { alert('Please select a preferred date to continue.'); return; }
+              track('add_contact_info', { tour_name: tour.title, adults, children, date })
+              goTo(2)
+            }}
             >Continue to Your Info →</button>
             <div className="trust-micro" style={{ justifyContent: 'center', marginTop: '14px' }}>
               <span>💚 ₱300 deposit to confirm</span>
