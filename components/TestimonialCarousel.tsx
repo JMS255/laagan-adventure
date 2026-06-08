@@ -9,32 +9,6 @@ function avatarColor(name: string) {
   return AVATAR_COLORS[name.charCodeAt(0) % AVATAR_COLORS.length]
 }
 
-const FALLBACK: Testimonial[] = [
-  {
-    _id: '1',
-    name: 'Maria Santos',
-    tour: 'Santa Cruz Island Tour',
-    review: "We almost didn't go because we thought it'd be too complicated. But James met us at the port at 6am with the biggest smile, and two hours later we were standing on pink sand with no one else around. My daughter still talks about it.",
-    rating: 5,
-    date: '2025-03-15',
-  },
-  {
-    _id: '2',
-    name: 'John dela Cruz',
-    tour: 'ZAMBASULTA Complete Journey',
-    review: "I've been to Boracay and Siargao. ZAMBASULTA hit different. The places are real — untouched, honest. The guide knew every corner, every history. Worth every peso and more.",
-    rating: 5,
-    date: '2025-01-28',
-  },
-  {
-    _id: '3',
-    name: 'Ana Reyes',
-    tour: 'Santa Cruz Island Tour',
-    review: "Laagan handled everything — the boat, the permits, the timing. All I had to do was show up. Best organized tour I've ever been on in the Philippines, and I've been on a lot.",
-    rating: 5,
-    date: '2025-02-10',
-  },
-]
 
 function TestimonialCard({ t }: { t: Testimonial }) {
   const photoUrl = t.photo ? urlFor(t.photo).width(120).height(120).fit('crop').url() : null
@@ -139,7 +113,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
 }
 
 export default function TestimonialCarousel({ testimonials }: { testimonials: Testimonial[] }) {
-  const items = testimonials.length > 0 ? testimonials : FALLBACK
+  if (testimonials.length === 0) return null
 
   return (
     <div style={{
@@ -151,7 +125,7 @@ export default function TestimonialCarousel({ testimonials }: { testimonials: Te
     }}
       className="testimonials-grid"
     >
-      {items.map(t => <TestimonialCard key={t._id} t={t} />)}
+      {testimonials.map(t => <TestimonialCard key={t._id} t={t} />)}
     </div>
   )
 }

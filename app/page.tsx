@@ -176,14 +176,14 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* ── I. TESTIMONIALS ── */}
-        <section className="section section--alt">
-          <div className="container">
-            <span className="section__label section__label--center">What Travelers Say</span>
-            <h2 className="section__title section__title--center">Real Stories from Real Guests</h2>
-            <div className="tcard-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '24px', marginTop: '48px' }}>
-              {testimonials.length > 0
-                ? (testimonials as { _id: string; name: string; tour: string; review: string; rating: number; location?: string }[]).slice(0, 3).map(t => (
+        {/* ── I. TESTIMONIALS — only shown when real reviews exist in Sanity ── */}
+        {(testimonials as { _id: string }[]).length > 0 && (
+          <section className="section section--alt">
+            <div className="container">
+              <span className="section__label section__label--center">What Travelers Say</span>
+              <h2 className="section__title section__title--center">Real Stories from Real Guests</h2>
+              <div className="tcard-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '24px', marginTop: '48px' }}>
+                {(testimonials as { _id: string; name: string; tour: string; review: string; rating: number; location?: string }[]).slice(0, 3).map(t => (
                   <div key={t._id} className="tcard">
                     <div className="tcard__stars">{'★'.repeat(t.rating ?? 5)}</div>
                     <p className="tcard__quote">&ldquo;{t.review}&rdquo;</p>
@@ -196,51 +196,11 @@ export default async function HomePage() {
                       </div>
                     </div>
                   </div>
-                ))
-                : (
-                  <>
-                    <div className="tcard">
-                      <div className="tcard__stars">★★★★★</div>
-                      <p className="tcard__quote">&ldquo;James and Ivy are incredible hosts. The pink sand beach is everything they promised and more. Worth every peso — I&apos;ll be back with my whole family.&rdquo;</p>
-                      <div className="tcard__author">
-                        <div className="tcard__avatar">M</div>
-                        <div>
-                          <div className="tcard__name">Maria G.</div>
-                          <div className="tcard__meta">Davao City</div>
-                          <div className="tcard__tour-tag">Santa Cruz Island Tour</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="tcard">
-                      <div className="tcard__stars">★★★★★</div>
-                      <p className="tcard__quote">&ldquo;Booked 2 days before, confirmed same day, paid on arrival. No stress at all. Best day trip I&apos;ve had in the Philippines. The vinta ride alone was worth it.&rdquo;</p>
-                      <div className="tcard__author">
-                        <div className="tcard__avatar">R</div>
-                        <div>
-                          <div className="tcard__name">Robert C.</div>
-                          <div className="tcard__meta">Manila</div>
-                          <div className="tcard__tour-tag">Island Hopping Tour</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="tcard">
-                      <div className="tcard__stars">★★★★★</div>
-                      <p className="tcard__quote">&ldquo;The heritage tour showed us a side of Zamboanga most tourists never see. Ivy&apos;s knowledge of local history is genuinely impressive. Highly recommend.&rdquo;</p>
-                      <div className="tcard__author">
-                        <div className="tcard__avatar">J</div>
-                        <div>
-                          <div className="tcard__name">Jessica L.</div>
-                          <div className="tcard__meta">Singapore</div>
-                          <div className="tcard__tour-tag">City Heritage Tour</div>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                )
-              }
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* ── J. SOCIAL PROOF STRIP ── */}
         <section className="section--sm" style={{ background: '#fff' }}>

@@ -454,10 +454,16 @@ body.nav-open .sticky-book-bar{transform:translateY(100%)!important}
 .gcash-qr{width:140px;height:140px;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
 .gcash-step{display:flex;align-items:flex-start;gap:10px;font-size:.82rem;color:var(--muted);margin-bottom:10px;line-height:1.4}
 .gcash-step-num{width:22px;height:22px;border-radius:50%;background:var(--pink);color:#fff;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+@media(max-width:900px){
+  .booking-header{padding:0 16px}
+  .testimonials-grid{grid-template-columns:1fr 1fr !important}
+}
 @media(max-width:600px){
   .booking-container{padding:24px 16px 64px}
+  .booking-header{padding:0 12px}
   .gcash-grid{grid-template-columns:1fr;text-align:center}
-  .gcash-qr{margin:0 auto}
+  .gcash-grid > div:first-child{max-width:180px;margin:0 auto}
+  .testimonials-grid{grid-template-columns:1fr !important}
 }
 
 /* ── contact.html ── INTENT GRID + CONTACT INFO + PARTNER FORM */
