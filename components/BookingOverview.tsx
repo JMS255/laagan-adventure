@@ -95,7 +95,9 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
     }
   }
 
-  const imgUrl = tour.mainImage ? urlFor(tour.mainImage).width(160).height(120).url() : null
+  const imgUrl = tour.mainImage
+    ? (typeof tour.mainImage === 'string' ? tour.mainImage : urlFor(tour.mainImage).width(160).height(120).url())
+    : null
 
   return (
     <div className="booking-page">
@@ -215,29 +217,36 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
               )}
               {promoError && <p style={{ fontSize: '.78rem', color: '#dc2626', marginTop: '6px' }}>{promoError}</p>}
 
-              {/* Price breakdown */}
-              <div className="price-box">
-                <div className="price-row">
-                  <span>₱{adultPrice.toLocaleString()} × {adults} adult{adults !== 1 ? 's' : ''}</span>
-                  <span>₱{(adults * adultPrice).toLocaleString()}</span>
-                </div>
-                {children > 0 && (
+              {/* Price breakdown — only shown when price is set */}
+              {adultPrice > 0 && (
+                <div className="price-box">
                   <div className="price-row">
-                    <span>₱{childPrice.toLocaleString()} × {children} child{children !== 1 ? 'ren' : ''}</span>
-                    <span>₱{(children * childPrice).toLocaleString()}</span>
+                    <span>₱{adultPrice.toLocaleString()} × {adults} adult{adults !== 1 ? 's' : ''}</span>
+                    <span>₱{(adults * adultPrice).toLocaleString()}</span>
                   </div>
-                )}
-                {discount > 0 && (
-                  <div className="price-row" style={{ color: '#16a34a' }}>
-                    <span>Promo discount</span>
-                    <span>−₱{discount.toLocaleString()}</span>
+                  {children > 0 && (
+                    <div className="price-row">
+                      <span>₱{childPrice.toLocaleString()} × {children} child{children !== 1 ? 'ren' : ''}</span>
+                      <span>₱{(children * childPrice).toLocaleString()}</span>
+                    </div>
+                  )}
+                  {discount > 0 && (
+                    <div className="price-row" style={{ color: '#16a34a' }}>
+                      <span>Promo discount</span>
+                      <span>−₱{discount.toLocaleString()}</span>
+                    </div>
+                  )}
+                  <div className="price-total-row">
+                    <span>Total estimate</span>
+                    <span>₱{total.toLocaleString()}</span>
                   </div>
-                )}
-                <div className="price-total-row">
-                  <span>Total estimate</span>
-                  <span>₱{total.toLocaleString()}</span>
                 </div>
-              </div>
+              )}
+              {adultPrice === 0 && (
+                <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 'var(--r)', padding: '14px 16px', fontSize: '.82rem', color: 'var(--muted)', lineHeight: 1.6 }}>
+                  Pricing for this tour is confirmed on booking. We&apos;ll send you the exact price when we reach out via Messenger.
+                </div>
+              )}
             </div>
 
             <button
@@ -245,7 +254,7 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
               onClick={() => { if (!date) { alert('Please select a preferred date to continue.'); return; } goTo(2) }}
             >Continue to Your Info →</button>
             <div className="trust-micro" style={{ justifyContent: 'center', marginTop: '14px' }}>
-              <span>🔒 No payment required yet</span>
+              <span>💚 ₱300 deposit to confirm</span>
               <span>✅ Free cancellation</span>
               <span>💬 24hr reply</span>
             </div>
@@ -271,10 +280,12 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
                   <div className="tour-summary__name">{tour.title}</div>
                   <div className="tour-summary__detail">{fmt(date)} · {adults} Adult{adults !== 1 ? 's' : ''}{children ? ` + ${children} Child` : ''}</div>
                 </div>
-                <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                  <div style={{ fontSize: '.82rem', fontWeight: 800, color: 'var(--pink)' }}>₱{total.toLocaleString()}</div>
-                  <div style={{ fontSize: '.68rem', color: 'var(--muted)' }}>total</div>
-                </div>
+                {total > 0 && (
+                  <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                    <div style={{ fontSize: '.82rem', fontWeight: 800, color: 'var(--pink)' }}>₱{total.toLocaleString()}</div>
+                    <div style={{ fontSize: '.68rem', color: 'var(--muted)' }}>total</div>
+                  </div>
+                )}
               </div>
 
               <form ref={formRef} onSubmit={handleSubmit}>
@@ -289,7 +300,7 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
                 </div>
 
                 <div style={{ background: '#fff4f7', border: '1px solid rgba(217,107,138,.2)', borderRadius: 'var(--r)', padding: '14px 16px', margin: '4px 0 20px', fontSize: '.82rem', color: 'var(--muted)', lineHeight: 1.6 }}>
-                  By confirming, you agree to our booking terms. We&apos;ll reach out via Messenger or phone within 24 hours to confirm your slot. No payment is collected at this stage.
+                  By confirming, you agree to our booking terms. A ₱300 GCash deposit is required to secure your slot — details will appear on the next screen.
                 </div>
 
                 <button
@@ -327,15 +338,33 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
                 <div className="confirm-row"><span>Tour</span><span>{tour.title}</span></div>
                 <div className="confirm-row"><span>Date</span><span>{fmt(date)}</span></div>
                 <div className="confirm-row"><span>Guests</span><span>{adults} Adult{adults !== 1 ? 's' : ''}{children ? ` + ${children} Child` : ''}</span></div>
-                <div className="confirm-row"><span>Est. Total</span><span style={{ color: 'var(--pink)' }}>₱{total.toLocaleString()}</span></div>
+                {total > 0 && <div className="confirm-row"><span>Est. Total</span><span style={{ color: 'var(--pink)' }}>₱{total.toLocaleString()}</span></div>}
               </div>
             </div>
 
-            {/* Messenger + WhatsApp */}
+            {/* GCash deposit — first since it's required to confirm */}
+            <div className="gcash-box">
+              <div className="gcash-box__title">💚 Step 1: Send ₱300 GCash Deposit to Confirm Your Slot</div>
+              <div className="gcash-box__sub">This deposit locks in your booking and will be deducted from your total on the day.</div>
+              <div className="gcash-grid">
+                <img src="/gcash-qr.jpg" alt="GCash QR Code" className="gcash-qr" />
+                <div>
+                  <div className="gcash-step"><div className="gcash-step-num">1</div><span>Open GCash app and tap <strong>Scan QR Code</strong></span></div>
+                  <div className="gcash-step"><div className="gcash-step-num">2</div><span>Scan this QR and send <strong>₱300 deposit</strong></span></div>
+                  <div className="gcash-step"><div className="gcash-step-num">3</div><span>Screenshot your receipt</span></div>
+                  <div className="gcash-step"><div className="gcash-step-num">4</div><span>Send receipt + booking ref <strong>{bookingRef}</strong> to us on Messenger</span></div>
+                </div>
+              </div>
+              <a href={`https://m.me/61562040673545?text=Hi!%20I%27ve%20paid%20the%20deposit.%20Booking%20ref%3A%20${encodeURIComponent(bookingRef)}%20for%20${encodeURIComponent(tour.title)}%20on%20${encodeURIComponent(fmt(date))}.`} target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--full" style={{ marginTop: '20px', borderRadius: '10px' }}>
+                I&apos;ve Paid — Send Receipt on Messenger
+              </a>
+            </div>
+
+            {/* Messenger + WhatsApp — secondary, for questions */}
             <div className="booking-card" style={{ padding: '24px' }}>
-              <div style={{ fontSize: '.85rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '4px' }}>Next step: Contact us to confirm</div>
+              <div style={{ fontSize: '.85rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '4px' }}>Step 2: Questions? Message us directly</div>
               <p style={{ fontSize: '.8rem', color: 'var(--muted)', marginBottom: '16px' }}>
-                Send your booking reference <strong>{bookingRef}</strong> so we can confirm your slot.
+                Your booking ref is <strong>{bookingRef}</strong>. We confirm within the hour once deposit is received.
               </p>
               <a
                 href={`https://m.me/61562040673545?text=Hi!%20My%20booking%20ref%20is%20${encodeURIComponent(bookingRef)}%20for%20${encodeURIComponent(tour.title)}%20on%20${encodeURIComponent(fmt(date))}.`}
@@ -350,24 +379,6 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
                 className="wa-btn"
               >
                 <span style={{ fontSize: '1.1rem' }}>📱</span> Send via WhatsApp
-              </a>
-            </div>
-
-            {/* GCash deposit */}
-            <div className="gcash-box">
-              <div className="gcash-box__title">💚 Required: Secure Your Slot with a ₱300 GCash Deposit</div>
-              <div className="gcash-box__sub">A ₱300 deposit is required to confirm your booking. It will be deducted from your total on the day.</div>
-              <div className="gcash-grid">
-                <img src="/gcash-qr.jpg" alt="GCash QR Code" className="gcash-qr" />
-                <div>
-                  <div className="gcash-step"><div className="gcash-step-num">1</div><span>Open GCash app and tap <strong>Scan QR Code</strong></span></div>
-                  <div className="gcash-step"><div className="gcash-step-num">2</div><span>Scan this QR and send <strong>₱300 deposit</strong></span></div>
-                  <div className="gcash-step"><div className="gcash-step-num">3</div><span>Screenshot your receipt and send to us on Messenger</span></div>
-                  <div className="gcash-step"><div className="gcash-step-num">4</div><span>We&apos;ll confirm your booking within the hour ✅</span></div>
-                </div>
-              </div>
-              <a href="https://m.me/61562040673545" target="_blank" rel="noopener noreferrer" className="btn btn--primary btn--full" style={{ marginTop: '20px', borderRadius: '10px' }}>
-                I&apos;ve Paid — Notify Laagan Adventures
               </a>
             </div>
 
