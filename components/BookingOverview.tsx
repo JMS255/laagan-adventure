@@ -347,7 +347,9 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
               <div className="gcash-box__title">💚 Step 1: Send ₱300 GCash Deposit to Confirm Your Slot</div>
               <div className="gcash-box__sub">This deposit locks in your booking and will be deducted from your total on the day.</div>
               <div className="gcash-grid">
-                <img src="/gcash-qr.jpg" alt="GCash QR Code" className="gcash-qr" />
+                <div style={{ overflow: 'hidden', borderRadius: '10px', aspectRatio: '1/1' }}>
+                  <img src="/gcash-qr.jpg" alt="GCash QR Code" className="gcash-qr" style={{ width: '100%', objectFit: 'cover', objectPosition: 'top', height: '133%' }} />
+                </div>
                 <div>
                   <div className="gcash-step"><div className="gcash-step-num">1</div><span>Open GCash app and tap <strong>Scan QR Code</strong></span></div>
                   <div className="gcash-step"><div className="gcash-step-num">2</div><span>Scan this QR and send <strong>₱300 deposit</strong></span></div>
