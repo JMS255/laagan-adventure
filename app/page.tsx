@@ -211,12 +211,18 @@ export default async function HomePage() {
               <p style={{ fontSize: '.85rem', color: 'var(--muted)', marginTop: '8px' }}>Tag us in your photos and get featured here</p>
             </div>
             <div className="feed-grid">
-              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#0ea5e9,#0369a1)' }} />
-              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#d96b8a,#bf5070)' }} />
-              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#10b981,#059669)' }} />
-              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#f59e0b,#d97706)' }} />
-              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#8b5cf6,#7c3aed)' }} />
-              <div className="feed-item" style={{ background: 'linear-gradient(135deg,#0284c7,#0ea5e9)' }} />
+              {[
+                { src: '/images/guests-santa-cruz-vinta.jpg', alt: 'Guests on a vinta near Santa Cruz Island' },
+                { src: '/images/guests-zamboanga-sign.jpg',   alt: 'Guests at Zamboanga City sign' },
+                { src: '/images/panampangan-pier.jpg',        alt: 'Panampangan Island pier' },
+                { src: '/images/merloquet-falls-real.jpg',    alt: 'Merloquet Falls' },
+                { src: '/images/zambasulta-mosque.jpg',       alt: 'ZambaSulTa mosque' },
+                { src: '/images/malamawi-aerial.jpg',         alt: 'Malamawi Island aerial view' },
+              ].map(p => (
+                <a key={p.src} href="https://www.facebook.com/profile.php?id=61562040673545" target="_blank" rel="noopener noreferrer" className="feed-item" aria-label={p.alt} style={{ position: 'relative', display: 'block' }}>
+                  <Image src={p.src} alt={p.alt} fill style={{ objectFit: 'cover' }} unoptimized />
+                </a>
+              ))}
             </div>
           </div>
         </section>

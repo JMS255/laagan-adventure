@@ -1,10 +1,11 @@
 const TRUST_POINTS = [
-  { icon: '✅', text: 'Free Cancellation' },
+  { icon: '✅', text: 'Free Reschedule' },
   { icon: '💸', text: 'Pay on the Day' },
   { icon: '💰', text: 'Money-Back Guarantee' },
   { icon: '🌦', text: 'Weather Guarantee' },
   { icon: '🏛', text: 'DTI Registered' },
   { icon: '💬', text: 'Reply Within 24hrs' },
+  { icon: '🧭', text: 'Professional Local Guide' },
 ]
 
 export default function TrustStrip() {
