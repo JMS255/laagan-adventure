@@ -1,0 +1,51 @@
+<svg width="1600" height="440" viewBox="0 0 400 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="ch"><circle cx="55" cy="55" r="48"/></clipPath>
+    <linearGradient id="skyh" x1="55" y1="7" x2="55" y2="55" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1a3d52"/>
+      <stop offset="100%" stop-color="#004e64"/>
+    </linearGradient>
+    <linearGradient id="seah" x1="55" y1="55" x2="55" y2="103" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#004e64"/>
+      <stop offset="100%" stop-color="#001e2c"/>
+    </linearGradient>
+    <linearGradient id="sunh" x1="55" y1="26" x2="55" y2="55" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ea8ba0"/>
+      <stop offset="100%" stop-color="#c95878"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky + Ocean -->
+  <path d="M7 55 A48 48 0 0 1 103 55 Z" fill="url(#skyh)" clip-path="url(#ch)"/>
+  <path d="M7 55 L7 103 A48 48 0 0 0 103 103 L103 55 Z" fill="url(#seah)" clip-path="url(#ch)"/>
+  <!-- Sun -->
+  <path d="M21 55 A34 34 0 0 1 89 55 Z" fill="url(#sunh)" clip-path="url(#ch)"/>
+  <path d="M15 55 A40 40 0 0 1 95 55 Z" fill="none" stroke="#d96b8a" stroke-width="1" opacity=".22" clip-path="url(#ch)"/>
+  <!-- Wave -->
+  <path d="M7 63 Q27 57 47 63 Q67 69 87 63 Q95 61 103 63" stroke="white" stroke-width=".8" fill="none" opacity=".18" clip-path="url(#ch)"/>
+
+  <!-- VINTA — Hull -->
+  <path d="M33,55 Q37,59 55,58 Q73,59 77,55 Q73,52 55,53 Q37,52 33,55 Z"
+        fill="white" stroke="rgba(0,20,35,0.4)" stroke-width=".8" clip-path="url(#ch)"/>
+  <!-- Mast -->
+  <line x1="51" y1="54" x2="49" y2="27" stroke="white" stroke-width="1.8" stroke-linecap="round" clip-path="url(#ch)"/>
+  <!-- Main sail -->
+  <path d="M49,28 L51,54 L74,42 Z" fill="white" stroke="rgba(0,20,35,0.2)" stroke-width="0.5" clip-path="url(#ch)"/>
+  <!-- Front sail -->
+  <path d="M49,42 L51,54 L60,49 Z" fill="rgba(255,255,255,0.5)" clip-path="url(#ch)"/>
+  <!-- Outrigger arm -->
+  <line x1="44" y1="55" x2="34" y2="59" stroke="white" stroke-width="1.2" stroke-linecap="round" clip-path="url(#ch)"/>
+  <!-- Float -->
+  <path d="M31,58 Q34,61 37,58 Q34,57 31,58 Z" fill="white" clip-path="url(#ch)"/>
+
+  <!-- Circle border -->
+  <circle cx="55" cy="55" r="48" stroke="#e8d5da" stroke-width="1.5" fill="none"/>
+
+  <!-- LAAGAN PH wordmark -->
+  <text x="122" y="46" font-family="'Playfair Display',Georgia,serif" font-size="34" font-weight="900" fill="#004e64" letter-spacing="-0.5">LAAGAN</text>
+  <text x="270" y="46" font-family="'Playfair Display',Georgia,serif" font-size="34" font-weight="900" fill="#d96b8a" letter-spacing="-0.5"> PH</text>
+  <!-- Rule -->
+  <line x1="122" y1="57" x2="388" y2="57" stroke="#d96b8a" stroke-width=".8" opacity=".3"/>
+  <!-- Since -->
+  <text x="123" y="72" font-family="'Plus Jakarta Sans',Arial,sans-serif" font-size="8.5" font-weight="700" fill="#4e6e80" letter-spacing="3.5">SINCE 2024</text>
+</svg>

@@ -39,8 +39,8 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
       {/* Main nav */}
       <header className="nav">
         <Link href="/" className="nav__logo">
-          <Image src="/logo.jpg" alt="Laagan Adventure" width={32} height={32} style={{ borderRadius: '50%' }} />
-          <span className="nav__logo-text">Laagan Adventure</span>
+          <Image src="/logo-circle.svg" alt="Laagan PH" width={36} height={36} unoptimized style={{ borderRadius: '50%' }} />
+          <Image src="/logo-horizontal.svg" alt="Laagan PH" width={148} height={40} unoptimized className="nav__logo-wordmark" />
         </Link>
 
         <nav className="nav__links">

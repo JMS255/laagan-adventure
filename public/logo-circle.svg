@@ -1,0 +1,59 @@
+<svg width="800" height="980" viewBox="0 0 180 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="c"><circle cx="90" cy="88" r="78"/></clipPath>
+    <linearGradient id="sky" x1="90" y1="10" x2="90" y2="88" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1a3d52"/>
+      <stop offset="100%" stop-color="#004e64"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="90" y1="88" x2="90" y2="166" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#004e64"/>
+      <stop offset="100%" stop-color="#001e2c"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="90" y1="42" x2="90" y2="88" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ea8ba0"/>
+      <stop offset="100%" stop-color="#c95878"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <path d="M12 88 A78 78 0 0 1 168 88 Z" fill="url(#sky)" clip-path="url(#c)"/>
+  <!-- Ocean -->
+  <path d="M12 88 L12 166 A78 78 0 0 0 168 166 L168 88 Z" fill="url(#sea)" clip-path="url(#c)"/>
+  <!-- Pink sun dome -->
+  <path d="M34 88 A56 56 0 0 1 146 88 Z" fill="url(#sun)" clip-path="url(#c)"/>
+  <!-- Sun glow rings -->
+  <path d="M26 88 A64 64 0 0 1 154 88 Z" fill="none" stroke="#d96b8a" stroke-width="1.5" opacity=".3" clip-path="url(#c)"/>
+  <path d="M18 88 A72 72 0 0 1 162 88 Z" fill="none" stroke="#d96b8a" stroke-width="1" opacity=".1" clip-path="url(#c)"/>
+  <!-- Ocean waves -->
+  <path d="M12 100 Q34 93 56 100 Q78 107 100 100 Q122 93 144 100 Q156 103 168 100" stroke="white" stroke-width="1.2" fill="none" opacity=".18" clip-path="url(#c)"/>
+  <path d="M12 116 Q34 109 56 116 Q78 123 100 116 Q122 109 144 116" stroke="white" stroke-width=".8" fill="none" opacity=".1" clip-path="url(#c)"/>
+
+  <!-- VINTA — Hull -->
+  <path d="M56,88 Q62,96 90,93 Q118,96 124,88 Q118,84 90,86 Q62,84 56,88 Z"
+        fill="white" stroke="rgba(0,20,35,0.4)" stroke-width="1" clip-path="url(#c)"/>
+  <!-- Mast -->
+  <line x1="84" y1="87" x2="80" y2="42" stroke="white" stroke-width="2.5" stroke-linecap="round" clip-path="url(#c)"/>
+  <!-- Main sail -->
+  <path d="M80,43 L84,87 L120,68 Z" fill="white" stroke="rgba(0,20,35,0.25)" stroke-width="0.8" clip-path="url(#c)"/>
+  <!-- Front sail -->
+  <path d="M80,62 L84,87 L96,80 Z" fill="rgba(255,255,255,0.55)" stroke="rgba(0,20,35,0.2)" stroke-width="0.5" clip-path="url(#c)"/>
+  <!-- Outrigger arm -->
+  <line x1="72" y1="88" x2="56" y2="96" stroke="white" stroke-width="1.8" stroke-linecap="round" clip-path="url(#c)"/>
+  <!-- Float -->
+  <path d="M52,95 Q56,100 60,95 Q56,93 52,95 Z" fill="white" clip-path="url(#c)"/>
+
+  <!-- Circle border -->
+  <circle cx="90" cy="88" r="78" stroke="#e8d5da" stroke-width="1.8" fill="none"/>
+  <circle cx="90" cy="88" r="73" stroke="rgba(232,213,218,0.14)" stroke-width="1" fill="none"/>
+
+  <!-- LAAGAN PH -->
+  <text x="90" y="183" font-family="'Playfair Display',Georgia,serif"
+        font-size="19" font-weight="900" fill="#004e64" text-anchor="middle" letter-spacing="1.5">LAAGAN</text>
+  <text x="136" y="183" font-family="'Playfair Display',Georgia,serif"
+        font-size="19" font-weight="900" fill="#d96b8a" letter-spacing="1.5"> PH</text>
+  <!-- Rule -->
+  <line x1="40" y1="188" x2="140" y2="188" stroke="#d96b8a" stroke-width=".8" opacity=".4"/>
+  <!-- Since -->
+  <text x="90" y="202" font-family="'Plus Jakarta Sans',Arial,sans-serif"
+        font-size="7" font-weight="700" fill="#4e6e80" text-anchor="middle" letter-spacing="3">SINCE 2024</text>
+</svg>
