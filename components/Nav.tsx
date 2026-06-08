@@ -38,7 +38,7 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
       {/* Main nav */}
       <header className="nav">
         <Link href="/" className="nav__logo" aria-label="Laagan PH">
-          <svg height={46} viewBox="7 8 338 78" fill="none" style={{ width: 'auto' }}>
+          <svg height={36} viewBox="7 8 338 78" fill="none" style={{ width: 'auto' }}>
             <defs>
               <clipPath id="nav-c"><circle cx="55" cy="55" r="48"/></clipPath>
               <linearGradient id="nav-sky" x1="55" y1="7" x2="55" y2="55" gradientUnits="userSpaceOnUse">
