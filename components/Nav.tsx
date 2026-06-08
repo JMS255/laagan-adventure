@@ -25,6 +25,12 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
     return () => window.removeEventListener('resize', fn)
   }, [])
 
+  // Hide sticky bar while nav is open
+  useEffect(() => {
+    document.body.classList.toggle('nav-open', open)
+    return () => document.body.classList.remove('nav-open')
+  }, [open])
+
   return (
     <div className="site-header">
 

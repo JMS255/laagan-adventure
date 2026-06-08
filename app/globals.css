@@ -181,6 +181,9 @@ input,select,textarea{font-family:inherit}
 .sticky-bar__price{flex:1}
 .sticky-bar__amount{font-size:1.1rem;font-weight:800;color:var(--text)}
 .sticky-bar__note{font-size:.68rem;color:var(--muted)}
+.sticky-book-bar{position:fixed;bottom:0;left:0;right:0;z-index:200;background:#fff;border-top:1px solid var(--border);padding:12px 16px max(12px,env(safe-area-inset-bottom));display:none;align-items:center;gap:12px;box-shadow:0 -4px 20px rgba(0,40,70,.1)}
+.sticky-book-bar--hidden{display:none!important}
+body.nav-open .sticky-book-bar{display:none!important}
 
 /* ─── FORMS ─── */
 .field{margin-bottom:18px}
@@ -262,6 +265,8 @@ input,select,textarea{font-family:inherit}
   .stat-item{padding:16px 20px}
   .stat-divider{display:none}
   .sticky-bar{display:flex}
+  .sticky-book-bar{display:flex}
+  .urgency-bar__note{display:none}
   .float-btns{bottom:84px}
   .footer{padding-bottom:88px}
   .nav{padding:0 16px}
@@ -418,7 +423,7 @@ input,select,textarea{font-family:inherit}
 .booking-container{max-width:640px;margin:0 auto;padding:40px 20px 80px}
 .booking-card{background:#fff;border-radius:var(--rl);border:1px solid var(--border);padding:28px;margin-bottom:20px}
 .tour-summary{display:flex;gap:16px;align-items:center;padding:16px;background:var(--bg-2);border-radius:var(--r);margin-bottom:24px;border:1px solid var(--border)}
-.tour-summary__img{width:80px;height:60px;border-radius:8px;flex-shrink:0;overflow:hidden}
+.tour-summary__img{width:80px;height:60px;border-radius:8px;flex-shrink:0;overflow:hidden;position:relative}
 .tour-summary__name{font-weight:800;color:var(--navy);font-size:.95rem;margin-bottom:4px}
 .tour-summary__detail{font-size:.78rem;color:var(--muted)}
 .tour-summary__change{font-size:.75rem;font-weight:700;color:var(--pink);margin-left:auto;flex-shrink:0}
