@@ -66,7 +66,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
       '@type': 'TouristInformationCenter',
       name: 'Laagan Adventure',
       url: 'https://laaganadventure.com',
-      telephone: '+639XXXXXXXXX',
+      telephone: '+639052435196',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Zamboanga City',
