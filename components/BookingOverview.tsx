@@ -240,7 +240,10 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
               </div>
             </div>
 
-            <button className="btn btn--primary btn--full" onClick={() => goTo(2)}>Continue to Your Info →</button>
+            <button
+              className="btn btn--primary btn--full"
+              onClick={() => { if (!date) { alert('Please select a preferred date to continue.'); return; } goTo(2) }}
+            >Continue to Your Info →</button>
             <div className="trust-micro" style={{ justifyContent: 'center', marginTop: '14px' }}>
               <span>🔒 No payment required yet</span>
               <span>✅ Free cancellation</span>
