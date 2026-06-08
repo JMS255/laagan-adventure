@@ -355,8 +355,8 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
 
             {/* GCash deposit */}
             <div className="gcash-box">
-              <div className="gcash-box__title">💚 Optional: Reserve with ₱300 GCash Deposit</div>
-              <div className="gcash-box__sub">Lock in your slot now. Deposit is deducted from your total on the day.</div>
+              <div className="gcash-box__title">💚 Required: Secure Your Slot with a ₱300 GCash Deposit</div>
+              <div className="gcash-box__sub">A ₱300 deposit is required to confirm your booking. It will be deducted from your total on the day.</div>
               <div className="gcash-grid">
                 <img src="/gcash-qr.jpg" alt="GCash QR Code" className="gcash-qr" />
                 <div>
