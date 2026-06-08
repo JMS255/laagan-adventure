@@ -74,7 +74,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer__bottom">
-          <span>© 2024 Laagan PH · DTI Registered · BIR Compliant</span>
+          <span>© {new Date().getFullYear()} Laagan PH · DTI Registered · BIR Compliant</span>
           <span style={{ color: 'rgba(255,255,255,.4)' }}>Zamboanga City, Philippines</span>
         </div>
       </div>
