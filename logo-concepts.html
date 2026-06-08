@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Laagan PH — Logo Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#004e64; --navy-2:#003347; --pink:#d96b8a; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--navy-2); font-family:'Plus Jakarta Sans',sans-serif; color:#fff; padding:48px 40px; }
+  h1 { font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.3); margin-bottom:6px; }
+  .sub { font-size:.82rem; color:rgba(255,255,255,.38); margin-bottom:48px; line-height:1.8; }
+  .row { display:flex; gap:32px; flex-wrap:wrap; margin-bottom:48px; }
+  .card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:18px; padding:28px 24px; display:flex; flex-direction:column; align-items:center; gap:16px; }
+  .card:hover { border-color:rgba(217,107,138,.4); }
+  .tag { font-size:.64rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--pink); }
+  .hint { font-size:.79rem; color:rgba(255,255,255,.36); text-align:center; line-height:1.65; max-width:300px; }
+  .swatches { display:flex; gap:12px; }
+  .dark-bg  { background:#002535; padding:22px; border-radius:12px; }
+  .white-bg { background:#fff; padding:22px; border-radius:12px; }
+  hr { border:none; border-top:1px solid rgba(255,255,255,.07); margin:0 0 44px; }
+  .note { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius:12px; padding:18px 22px; font-size:.79rem; color:rgba(255,255,255,.32); line-height:1.8; max-width:700px; }
+  .note strong { color:rgba(255,255,255,.6); }
+</style>
+</head>
+<body>
+
+<h1>Laagan PH · Logo Concepts</h1>
+<p class="sub">
+  ⛵ Vinta = Zamboanga cultural identity (large + clearly visible) &nbsp;·&nbsp;
+  🌅 Pink sun = Santa Cruz Pink Island &nbsp;·&nbsp;
+  🌊 Navy = Zamboanga waters
+</p>
+
+<!-- ══════════════════════════════════════════════════
+     CIRCLE BADGE
+     ══════════════════════════════════════════════════ -->
+<div class="row">
+<div class="card">
+  <div class="tag">Circle Badge — Profile Photo / Sticker</div>
+  <div class="swatches">
+
+    <!-- DARK BACKGROUND -->
+    <div class="dark-bg">
+      <svg width="180" height="220" viewBox="0 0 180 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="c-dark"><circle cx="90" cy="88" r="78"/></clipPath>
+          <linearGradient id="sky-d" x1="90" y1="10" x2="90" y2="88" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#1a3d52"/>
+            <stop offset="100%" stop-color="#004e64"/>
+          </linearGradient>
+          <linearGradient id="sea-d" x1="90" y1="88" x2="90" y2="166" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#004e64"/>
+            <stop offset="100%" stop-color="#001e2c"/>
+          </linearGradient>
+          <linearGradient id="sun-d" x1="90" y1="42" x2="90" y2="88" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#ea8ba0"/>
+            <stop offset="100%" stop-color="#c95878"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Sky -->
+        <path d="M12 88 A78 78 0 0 1 168 88 Z" fill="url(#sky-d)" clip-path="url(#c-dark)"/>
+        <!-- Ocean -->
+        <path d="M12 88 L12 166 A78 78 0 0 0 168 166 L168 88 Z" fill="url(#sea-d)" clip-path="url(#c-dark)"/>
+
+        <!-- Pink sun — bold semicircle -->
+        <path d="M34 88 A56 56 0 0 1 146 88 Z" fill="url(#sun-d)" clip-path="url(#c-dark)"/>
+        <!-- Sun glow -->
+        <path d="M26 88 A64 64 0 0 1 154 88 Z" fill="none" stroke="#d96b8a" stroke-width="1.5" opacity=".3" clip-path="url(#c-dark)"/>
+        <path d="M18 88 A72 72 0 0 1 162 88 Z" fill="none" stroke="#d96b8a" stroke-width="1" opacity=".1" clip-path="url(#c-dark)"/>
+
+        <!-- Ocean waves -->
+        <path d="M12 100 Q34 93 56 100 Q78 107 100 100 Q122 93 144 100 Q156 103 168 100" stroke="white" stroke-width="1.2" fill="none" opacity=".18" clip-path="url(#c-dark)"/>
+        <path d="M12 116 Q34 109 56 116 Q78 123 100 116 Q122 109 144 116" stroke="white" stroke-width=".8" fill="none" opacity=".1" clip-path="url(#c-dark)"/>
+
+        <!-- ⛵ VINTA — LARGE, centered, spanning the horizon line -->
+        <!-- Hull: wide boat shape at the waterline (y=88) -->
+        <path d="M56,88 Q62,96 90,93 Q118,96 124,88 Q118,84 90,86 Q62,84 56,88 Z"
+              fill="white" stroke="rgba(0,20,35,0.4)" stroke-width="1" clip-path="url(#c-dark)"/>
+        <!-- Mast: tall, going from hull up through the sun -->
+        <line x1="84" y1="87" x2="80" y2="42" stroke="white" stroke-width="2.5" stroke-linecap="round" clip-path="url(#c-dark)"/>
+        <!-- Main sail: BIG triangle leaning with the wind -->
+        <path d="M80,43 L84,87 L120,68 Z"
+              fill="white" stroke="rgba(0,20,35,0.25)" stroke-width="0.8" clip-path="url(#c-dark)"/>
+        <!-- Small front sail -->
+        <path d="M80,62 L84,87 L96,80 Z"
+              fill="rgba(255,255,255,0.55)" stroke="rgba(0,20,35,0.2)" stroke-width="0.5" clip-path="url(#c-dark)"/>
+        <!-- Outrigger arms (left side) -->
+        <line x1="72" y1="88" x2="56" y2="96" stroke="white" stroke-width="1.8" stroke-linecap="round" clip-path="url(#c-dark)"/>
+        <!-- Outrigger float -->
+        <path d="M52,95 Q56,100 60,95 Q56,93 52,95 Z" fill="white" clip-path="url(#c-dark)"/>
+
+        <!-- Circle border -->
+        <circle cx="90" cy="88" r="78" stroke="#e8d5da" stroke-width="2" fill="none"/>
+        <circle cx="90" cy="88" r="73" stroke="rgba(232,213,218,0.12)" stroke-width="1" fill="none"/>
+
+        <!-- LAAGAN PH -->
+        <text x="90" y="183" font-family="'Playfair Display',Georgia,serif"
+              font-size="19" font-weight="900" fill="white" text-anchor="middle" letter-spacing="1.5">
+          LAAGAN <tspan fill="#d96b8a">PH</tspan>
+        </text>
+        <line x1="40" y1="188" x2="140" y2="188" stroke="#d96b8a" stroke-width=".8" opacity=".4"/>
+        <text x="90" y="202" font-family="'Plus Jakarta Sans',sans-serif"
+              font-size="7" font-weight="700" fill="rgba(255,255,255,.38)" text-anchor="middle" letter-spacing="3">
+          TRAVEL &amp; TOURS · SINCE 2024
+        </text>
+      </svg>
+    </div>
+
+    <!-- WHITE BACKGROUND -->
+    <div class="white-bg">
+      <svg width="180" height="220" viewBox="0 0 180 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="c-white"><circle cx="90" cy="88" r="78"/></clipPath>
+          <linearGradient id="sky-w" x1="90" y1="10" x2="90" y2="88" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#1a3d52"/>
+            <stop offset="100%" stop-color="#004e64"/>
+          </linearGradient>
+          <linearGradient id="sea-w" x1="90" y1="88" x2="90" y2="166" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#004e64"/>
+            <stop offset="100%" stop-color="#001e2c"/>
+          </linearGradient>
+          <linearGradient id="sun-w" x1="90" y1="42" x2="90" y2="88" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#ea8ba0"/>
+            <stop offset="100%" stop-color="#c95878"/>
+          </linearGradient>
+        </defs>
+        <path d="M12 88 A78 78 0 0 1 168 88 Z" fill="url(#sky-w)" clip-path="url(#c-white)"/>
+        <path d="M12 88 L12 166 A78 78 0 0 0 168 166 L168 88 Z" fill="url(#sea-w)" clip-path="url(#c-white)"/>
+        <path d="M34 88 A56 56 0 0 1 146 88 Z" fill="url(#sun-w)" clip-path="url(#c-white)"/>
+        <path d="M26 88 A64 64 0 0 1 154 88 Z" fill="none" stroke="#d96b8a" stroke-width="1.5" opacity=".25" clip-path="url(#c-white)"/>
+        <path d="M12 100 Q34 93 56 100 Q78 107 100 100 Q122 93 144 100 Q156 103 168 100" stroke="white" stroke-width="1.2" fill="none" opacity=".18" clip-path="url(#c-white)"/>
+        <path d="M12 116 Q34 109 56 116 Q78 123 100 116 Q122 109 144 116" stroke="white" stroke-width=".8" fill="none" opacity=".1" clip-path="url(#c-white)"/>
+        <!-- VINTA -->
+        <path d="M56,88 Q62,96 90,93 Q118,96 124,88 Q118,84 90,86 Q62,84 56,88 Z"
+              fill="white" stroke="rgba(0,20,35,0.4)" stroke-width="1" clip-path="url(#c-white)"/>
+        <line x1="84" y1="87" x2="80" y2="42" stroke="white" stroke-width="2.5" stroke-linecap="round" clip-path="url(#c-white)"/>
+        <path d="M80,43 L84,87 L120,68 Z"
+              fill="white" stroke="rgba(0,20,35,0.25)" stroke-width="0.8" clip-path="url(#c-white)"/>
+        <path d="M80,62 L84,87 L96,80 Z"
+              fill="rgba(255,255,255,0.55)" stroke="rgba(0,20,35,0.2)" stroke-width="0.5" clip-path="url(#c-white)"/>
+        <line x1="72" y1="88" x2="56" y2="96" stroke="white" stroke-width="1.8" stroke-linecap="round" clip-path="url(#c-white)"/>
+        <path d="M52,95 Q56,100 60,95 Q56,93 52,95 Z" fill="white" clip-path="url(#c-white)"/>
+        <circle cx="90" cy="88" r="78" stroke="#d96b8a" stroke-width="2" fill="none"/>
+        <circle cx="90" cy="88" r="73" stroke="rgba(217,107,138,0.12)" stroke-width="1" fill="none"/>
+        <text x="90" y="183" font-family="'Playfair Display',Georgia,serif"
+              font-size="19" font-weight="900" fill="#004e64" text-anchor="middle" letter-spacing="1.5">
+          LAAGAN <tspan fill="#d96b8a">PH</tspan>
+        </text>
+        <line x1="40" y1="188" x2="140" y2="188" stroke="#d96b8a" stroke-width=".8" opacity=".35"/>
+        <text x="90" y="202" font-family="'Plus Jakarta Sans',sans-serif"
+              font-size="7" font-weight="700" fill="#4e6e80" text-anchor="middle" letter-spacing="3">
+          TRAVEL &amp; TOURS · SINCE 2024
+        </text>
+      </svg>
+    </div>
+
+  </div>
+  <div class="hint">
+    Vinta = large white hull + tall sail + outrigger<br>
+    Straddling the horizon: pink sunset sky above, dark ocean below
+  </div>
+</div>
+</div>
+
+<hr/>
+
+<!-- ══════════════════════════════════════════════════
+     HORIZONTAL — nav bar / Facebook cover
+     ══════════════════════════════════════════════════ -->
+<div class="row">
+<div class="card" style="min-width:500px">
+  <div class="tag">Horizontal — Website Nav / Facebook Cover</div>
+
+  <!-- DARK BG -->
+  <div class="dark-bg" style="width:100%">
+    <svg width="100%" viewBox="0 0 400 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="ch-d"><circle cx="55" cy="55" r="48"/></clipPath>
+        <linearGradient id="skyh-d" x1="55" y1="7" x2="55" y2="55" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#1a3d52"/>
+          <stop offset="100%" stop-color="#004e64"/>
+        </linearGradient>
+        <linearGradient id="seah-d" x1="55" y1="55" x2="55" y2="103" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#004e64"/>
+          <stop offset="100%" stop-color="#001e2c"/>
+        </linearGradient>
+        <linearGradient id="sunh-d" x1="55" y1="26" x2="55" y2="55" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#ea8ba0"/>
+          <stop offset="100%" stop-color="#c95878"/>
+        </linearGradient>
+      </defs>
+      <!-- Sky + Ocean -->
+      <path d="M7 55 A48 48 0 0 1 103 55 Z" fill="url(#skyh-d)" clip-path="url(#ch-d)"/>
+      <path d="M7 55 L7 103 A48 48 0 0 0 103 103 L103 55 Z" fill="url(#seah-d)" clip-path="url(#ch-d)"/>
+      <!-- Sun -->
+      <path d="M21 55 A34 34 0 0 1 89 55 Z" fill="url(#sunh-d)" clip-path="url(#ch-d)"/>
+      <path d="M15 55 A40 40 0 0 1 95 55 Z" fill="none" stroke="#d96b8a" stroke-width="1" opacity=".25" clip-path="url(#ch-d)"/>
+      <!-- Wave -->
+      <path d="M7 63 Q27 57 47 63 Q67 69 87 63 Q95 61 103 63" stroke="white" stroke-width=".8" fill="none" opacity=".18" clip-path="url(#ch-d)"/>
+      <!-- VINTA — scaled for smaller circle -->
+      <path d="M33,55 Q37,59 55,58 Q73,59 77,55 Q73,52 55,53 Q37,52 33,55 Z"
+            fill="white" stroke="rgba(0,20,35,0.4)" stroke-width=".8" clip-path="url(#ch-d)"/>
+      <line x1="51" y1="54" x2="49" y2="27" stroke="white" stroke-width="1.8" stroke-linecap="round" clip-path="url(#ch-d)"/>
+      <path d="M49,28 L51,54 L74,42 Z"
+            fill="white" stroke="rgba(0,20,35,0.2)" stroke-width="0.5" clip-path="url(#ch-d)"/>
+      <path d="M49,42 L51,54 L60,49 Z"
+            fill="rgba(255,255,255,0.5)" clip-path="url(#ch-d)"/>
+      <line x1="44" y1="55" x2="34" y2="59" stroke="white" stroke-width="1.2" stroke-linecap="round" clip-path="url(#ch-d)"/>
+      <path d="M31,58 Q34,61 37,58 Q34,57 31,58 Z" fill="white" clip-path="url(#ch-d)"/>
+      <!-- Circle border -->
+      <circle cx="55" cy="55" r="48" stroke="#e8d5da" stroke-width="1.5" fill="none"/>
+      <!-- Wordmark -->
+      <text x="122" y="46" font-family="'Playfair Display',Georgia,serif" font-size="34" font-weight="900" fill="white" letter-spacing="-0.5">LAAGAN <tspan fill="#d96b8a">PH</tspan></text>
+      <line x1="122" y1="57" x2="388" y2="57" stroke="#d96b8a" stroke-width=".8" opacity=".3"/>
+      <text x="123" y="72" font-family="'Plus Jakarta Sans',sans-serif" font-size="8.5" font-weight="700" fill="rgba(255,255,255,0.4)" letter-spacing="3.5">TRAVEL &amp; TOURS · SINCE 2024</text>
+    </svg>
+  </div>
+
+  <!-- WHITE BG -->
+  <div class="white-bg" style="width:100%">
+    <svg width="100%" viewBox="0 0 400 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="ch-w"><circle cx="55" cy="55" r="48"/></clipPath>
+        <linearGradient id="skyh-w" x1="55" y1="7" x2="55" y2="55" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#1a3d52"/>
+          <stop offset="100%" stop-color="#004e64"/>
+        </linearGradient>
+        <linearGradient id="seah-w" x1="55" y1="55" x2="55" y2="103" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#004e64"/>
+          <stop offset="100%" stop-color="#001e2c"/>
+        </linearGradient>
+        <linearGradient id="sunh-w" x1="55" y1="26" x2="55" y2="55" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#ea8ba0"/>
+          <stop offset="100%" stop-color="#c95878"/>
+        </linearGradient>
+      </defs>
+      <path d="M7 55 A48 48 0 0 1 103 55 Z" fill="url(#skyh-w)" clip-path="url(#ch-w)"/>
+      <path d="M7 55 L7 103 A48 48 0 0 0 103 103 L103 55 Z" fill="url(#seah-w)" clip-path="url(#ch-w)"/>
+      <path d="M21 55 A34 34 0 0 1 89 55 Z" fill="url(#sunh-w)" clip-path="url(#ch-w)"/>
+      <path d="M15 55 A40 40 0 0 1 95 55 Z" fill="none" stroke="#d96b8a" stroke-width="1" opacity=".2" clip-path="url(#ch-w)"/>
+      <path d="M7 63 Q27 57 47 63 Q67 69 87 63 Q95 61 103 63" stroke="white" stroke-width=".8" fill="none" opacity=".18" clip-path="url(#ch-w)"/>
+      <!-- VINTA -->
+      <path d="M33,55 Q37,59 55,58 Q73,59 77,55 Q73,52 55,53 Q37,52 33,55 Z"
+            fill="white" stroke="rgba(0,20,35,0.4)" stroke-width=".8" clip-path="url(#ch-w)"/>
+      <line x1="51" y1="54" x2="49" y2="27" stroke="white" stroke-width="1.8" stroke-linecap="round" clip-path="url(#ch-w)"/>
+      <path d="M49,28 L51,54 L74,42 Z" fill="white" stroke="rgba(0,20,35,0.2)" stroke-width="0.5" clip-path="url(#ch-w)"/>
+      <path d="M49,42 L51,54 L60,49 Z" fill="rgba(255,255,255,0.5)" clip-path="url(#ch-w)"/>
+      <line x1="44" y1="55" x2="34" y2="59" stroke="white" stroke-width="1.2" stroke-linecap="round" clip-path="url(#ch-w)"/>
+      <path d="M31,58 Q34,61 37,58 Q34,57 31,58 Z" fill="white" clip-path="url(#ch-w)"/>
+      <circle cx="55" cy="55" r="48" stroke="#d96b8a" stroke-width="1.5" fill="none"/>
+      <!-- Wordmark -->
+      <text x="122" y="46" font-family="'Playfair Display',Georgia,serif" font-size="34" font-weight="900" fill="#004e64" letter-spacing="-0.5">LAAGAN <tspan fill="#d96b8a">PH</tspan></text>
+      <line x1="122" y1="57" x2="388" y2="57" stroke="#d96b8a" stroke-width=".8" opacity=".25"/>
+      <text x="123" y="72" font-family="'Plus Jakarta Sans',sans-serif" font-size="8.5" font-weight="700" fill="#4e6e80" letter-spacing="3.5">TRAVEL &amp; TOURS · SINCE 2024</text>
+    </svg>
+  </div>
+
+  <div class="hint">
+    Vinta clearly visible in the circle · Wordmark beside it<br>
+    Scales cleanly from Facebook cover down to nav bar
+  </div>
+</div>
+</div>
+
+<div class="note">
+  <strong>What you're looking at:</strong>
+  Vinta with a wide hull, a tall triangular sail, and an outrigger arm on the left — sailing at the horizon where the pink sunset meets the Zamboanga waters.<br><br>
+  <strong>Happy with it?</strong> Say the word and I'll export clean <code>.svg</code> files — one circle badge, one horizontal — ready for Facebook, the website, Canva, and print.
+</div>
+
+</body>
+</html>
