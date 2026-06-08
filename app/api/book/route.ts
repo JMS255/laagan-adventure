@@ -13,10 +13,12 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
   if (!body) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
 
-  const { name, phone, tourSlug, date, guests } = body
-  if (!name || !phone || !tourSlug || !date || !guests) {
+  const { name, phone, tourSlug, date, adults } = body
+  if (!name || !phone || !tourSlug || !date || !adults) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
+
+  const guests = Number(body.adults) + Number(body.children ?? 0)
 
   // Write to Sanity
   try {
@@ -27,7 +29,7 @@ export async function POST(req: NextRequest) {
       tourTitle: body.tourTitle,
       tourSlug: body.tourSlug,
       date: body.date,
-      guests: Number(body.guests),
+      guests,
       name: body.name,
       phone: body.phone,
       email: body.email ?? '',
@@ -49,7 +51,7 @@ export async function POST(req: NextRequest) {
     form.set('booking_reference', body.bookingRef)
     form.set('tour', body.tourTitle)
     form.set('tour_date', body.date)
-    form.set('guests', String(body.guests))
+    form.set('guests', String(guests))
     form.set('name', body.name)
     form.set('phone', body.phone)
     if (body.email) form.set('email', body.email)
