@@ -47,6 +47,9 @@ input,select,textarea{font-family:inherit}
 .promo-strip strong{color:#fff}
 .nav{height:68px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(232,213,218,.5);display:flex;align-items:center;padding:0 32px;gap:24px}
 .nav__logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav__wordmark{display:flex;flex-direction:column;gap:1px;line-height:1}
+.nav__wordmark-name{font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:900;color:var(--navy);letter-spacing:-.01em}
+.nav__wordmark-sub{font-size:.58rem;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
 .nav__links{display:flex;align-items:center;gap:24px;flex:1;justify-content:center}
 .nav__links a{font-size:.8rem;font-weight:500;color:var(--muted);transition:color .2s}
 .nav__links a:hover,

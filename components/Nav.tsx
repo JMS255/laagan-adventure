@@ -38,7 +38,8 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
       {/* Main nav */}
       <header className="nav">
         <Link href="/" className="nav__logo" aria-label="Laagan PH">
-          <svg height={36} viewBox="7 8 338 78" fill="none" style={{ width: 'auto' }}>
+          {/* Circle icon — sized independently */}
+          <svg width={34} height={34} viewBox="7 7 96 96" fill="none" style={{ flexShrink: 0 }}>
             <defs>
               <clipPath id="nav-c"><circle cx="55" cy="55" r="48"/></clipPath>
               <linearGradient id="nav-sky" x1="55" y1="7" x2="55" y2="55" gradientUnits="userSpaceOnUse">
@@ -66,14 +67,12 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
             <line x1="44" y1="55" x2="34" y2="59" stroke="white" strokeWidth="1.2" strokeLinecap="round" clipPath="url(#nav-c)"/>
             <path d="M31,58 Q34,61 37,58 Q34,57 31,58 Z" fill="white" clipPath="url(#nav-c)"/>
             <circle cx="55" cy="55" r="48" stroke="#e8d5da" strokeWidth="1.5" fill="none"/>
-            <text x="122" y="46" fontFamily="'Playfair Display',Georgia,serif" fontSize="34" fontWeight="900" fill="#004e64" letterSpacing="-0.5">
-              LAAGAN <tspan fill="#d96b8a">PH</tspan>
-            </text>
-            <line x1="122" y1="57" x2="345" y2="57" stroke="#d96b8a" strokeWidth=".8" opacity=".3"/>
-            <text x="123" y="72" fontFamily="'Plus Jakarta Sans',Arial,sans-serif" fontSize="8.5" fontWeight="700" fill="#4e6e80" letterSpacing="3.5">
-              TRAVEL &amp; TOURS · SINCE 2024
-            </text>
           </svg>
+          {/* Wordmark — plain HTML, sized independently */}
+          <div className="nav__wordmark">
+            <span className="nav__wordmark-name">LAAGAN <span style={{ color: '#d96b8a' }}>PH</span></span>
+            <span className="nav__wordmark-sub">Travel &amp; Tours · Since 2024</span>
+          </div>
         </Link>
 
         <nav className="nav__links">
