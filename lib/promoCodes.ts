@@ -25,6 +25,22 @@ export function getPricePerPerson(
   return basePrice ?? 0
 }
 
+const CHILD_PRICE_RATIO = 0.5
+
+/** Single source of truth for a booking's price — the server uses this, never the browser's number. */
+export function calculateTotal(
+  tiers: PricingTier[] | undefined | null,
+  basePrice: number,
+  adults: number,
+  children: number,
+  promoCode: string,
+): { pricePerPerson: number; total: number } {
+  const pricePerPerson = getPricePerPerson(tiers, basePrice, adults)
+  const childPrice = Math.round(pricePerPerson * CHILD_PRICE_RATIO)
+  const { finalTotal } = applyPromo(adults * pricePerPerson + children * childPrice, promoCode)
+  return { pricePerPerson, total: finalTotal }
+}
+
 export function applyPromo(total: number, code: string): PromoResult {
   const promo = CODES[code.trim().toUpperCase()]
   if (!promo) return { valid: false, label: '', discount: 0, finalTotal: total }

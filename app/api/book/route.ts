@@ -1,20 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { saveBooking } from '@/lib/db'
+import { saveBooking, getTourPricing } from '@/lib/db'
+import { getTourBySlug } from '@/lib/tours-data'
+import { calculateTotal } from '@/lib/promoCodes'
+
+const MAX_GUESTS = 50
+const BOOKING_REF = /^#LA-[A-Z0-9]{6}$/
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+const escapeHtml = (s: string): string =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
 export async function POST(req: NextRequest) {
-  const body = await req.json().catch(() => null)
-  if (!body) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
+  const raw = await req.json().catch(() => null)
+  if (!raw) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
 
-  const { name, phone, tourSlug, date, adults } = body
-  if (!name || !phone || !tourSlug || !date || !adults) {
+  const { name, phone, tourSlug, date, adults: rawAdults } = raw
+  if (!name || !phone || !tourSlug || !date || !rawAdults) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
-  const guests = Number(body.adults) + Number(body.children ?? 0)
+  const adults   = Math.floor(Number(rawAdults))
+  const children = Math.floor(Number(raw.children ?? 0))
+  const tour     = getTourBySlug(String(tourSlug))
+  const isValid  = BOOKING_REF.test(String(raw.bookingRef)) && ISO_DATE.test(String(date)) &&
+    adults >= 1 && adults <= MAX_GUESTS && children >= 0 && children <= MAX_GUESTS
+  if (!tour || !isValid) return NextResponse.json({ error: 'Invalid booking details' }, { status: 400 })
+
+  // Never trust the price sent by the browser — work it out here from the saved prices
+  const pricing = await getTourPricing(tour.slug).catch(() => null)
+  const { pricePerPerson, total } = calculateTotal(pricing?.pricingTiers, pricing?.price ?? 0, adults, children, String(raw.promo ?? ''))
+  const body = {
+    ...raw,
+    name: String(name).slice(0, 100),
+    phone: String(phone).slice(0, 40),
+    email: EMAIL.test(String(raw.email ?? '')) ? String(raw.email) : '',
+    notes: String(raw.notes ?? '').slice(0, 1000),
+    tourTitle: tour.title,
+    totalPrice: total,
+    pricePerPerson,
+  }
+
+  const guests = adults + children
 
   // Save to the database
+  let created = true
   try {
-    await saveBooking({
+    created = await saveBooking({
       bookingRef: body.bookingRef,
       tourTitle: body.tourTitle,
       tourSlug: body.tourSlug,
@@ -32,6 +64,9 @@ export async function POST(req: NextRequest) {
     console.error('Booking save error:', err)
     // Don't fail the booking — fall through to Formspree backup
   }
+
+  // Same booking submitted twice (e.g. double tap): already saved, don't email again
+  if (!created) return NextResponse.json({ ok: true, bookingRef: body.bookingRef })
 
   // Formspree backup email
   try {
@@ -65,7 +100,7 @@ export async function POST(req: NextRequest) {
     const html = `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto;color:#1e293b">
         <h2 style="color:#d96b8a">Booking Received — ${body.bookingRef}</h2>
-        <p>Hi ${body.name},</p>
+        <p>Hi ${escapeHtml(body.name)},</p>
         <p>We've received your booking request for <strong>${body.tourTitle}</strong>. We'll confirm your slot via Messenger or phone within 24 hours.</p>
         <table style="width:100%;border-collapse:collapse;margin:20px 0">
           <tr><td style="padding:8px 0;border-bottom:1px solid #e2e8f0;color:#64748b">Tour</td><td style="padding:8px 0;border-bottom:1px solid #e2e8f0;font-weight:600">${body.tourTitle}</td></tr>
@@ -100,7 +135,7 @@ export async function POST(req: NextRequest) {
         from: 'Laagan Bookings <bookings@laaganadventure.com>',
         to: ['jamesignacio255@gmail.com'],
         subject: `New Booking [${body.bookingRef}] — ${body.tourTitle} on ${body.date}`,
-        html: `<pre style="font-family:monospace">${JSON.stringify({ ref: body.bookingRef, tour: body.tourTitle, date: body.date, guests, name: body.name, phone: body.phone, email: body.email ?? '—', total: `₱${Number(body.totalPrice).toLocaleString()}`, notes: body.notes ?? '—' }, null, 2)}</pre>`,
+        html: `<pre style="font-family:monospace">${escapeHtml(JSON.stringify({ ref: body.bookingRef, tour: body.tourTitle, date: body.date, guests, name: body.name, phone: body.phone, email: body.email ?? '—', total: `₱${Number(body.totalPrice).toLocaleString()}`, notes: body.notes ?? '—' }, null, 2))}</pre>`,
       }),
     }).catch(err => console.error('Resend admin email error:', err))
   }

@@ -44,9 +44,9 @@ export default async function DashboardPage({
   searchParams: Promise<{ pw?: string }>
 }) {
   const { pw } = await searchParams
-  const expected = process.env.DASHBOARD_PASSWORD ?? 'laagan2026'
+  const expected = process.env.DASHBOARD_PASSWORD
 
-  if (pw !== expected) return <PasswordForm />
+  if (!expected || pw !== expected) return <PasswordForm />
 
   const bookings: Booking[] = await listBookings().catch(() => [])
 

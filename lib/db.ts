@@ -69,12 +69,21 @@ export async function listBookings(): Promise<Booking[]> {
   return snap.docs.map(d => ({ _id: d.id, ...(d.data() as Omit<Booking, '_id'>) }))
 }
 
-export async function saveBooking(booking: NewBooking): Promise<void> {
-  await getDb().collection('bookings').doc(refToId(booking.bookingRef)).set({
-    ...booking,
-    status: 'pending',
-    submittedAt: new Date().toISOString(),
-  })
+const ALREADY_EXISTS = 6
+
+/** Returns false (and saves nothing) if this booking reference was already submitted. */
+export async function saveBooking(booking: NewBooking): Promise<boolean> {
+  try {
+    await getDb().collection('bookings').doc(refToId(booking.bookingRef)).create({
+      ...booking,
+      status: 'pending',
+      submittedAt: new Date().toISOString(),
+    })
+    return true
+  } catch (err) {
+    if ((err as { code?: number }).code === ALREADY_EXISTS) return false
+    throw err
+  }
 }
 
 /** Called by the payment webhook once a deposit is paid. */
