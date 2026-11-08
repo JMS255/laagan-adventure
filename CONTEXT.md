@@ -5,6 +5,26 @@
 
 ---
 
+## CURRENT WORK (Nov 8, 2026) — Moving from Sanity to Firebase
+
+**Why:** Sanity dataset is public (guest names/phones readable by anyone); James wants one admin app, no Studio.
+**Firebase project:** `laagan-ph` (Firestore, Singapore; Auth = Email/Password + Google). Free Spark plan — do NOT upgrade.
+**Key file:** service-account JSON in `Desktop\Laagan Website (Don't Delete)\` (OneDrive-synced — consider moving). Local env: `FIREBASE_SERVICE_ACCOUNT_FILE` in `.env.local`. **Vercel needs `FIREBASE_SERVICE_ACCOUNT` = full JSON before deploy.**
+
+| Step | Status |
+|---|---|
+| Tidy repo | ✅ done (on master, not pushed) |
+| Copy Sanity data to Firestore (15 bookings, 2 tour prices, deposit, 6 gallery photos) | ✅ done + verified |
+| Site code reads/writes Firebase (`lib/db.ts`) | ✅ on branch `firebase-switch` — built & tested locally, NOT pushed |
+| Admin app + logins (Today screen, checklists, assignee) | ⏳ next |
+| Telegram alerts, guest emails, price editing | ⏳ later |
+| Old `/dashboard` (password in URL, fallback `laagan2026`) | ⚠️ still live on master — replace |
+| Make Sanity private / remove it | ⏳ after switch is live |
+
+**Known issues to fix:** booking price is computed in the browser and trusted by the server (also `?price=` in details URL); ₱300 (email) vs ₱500 (settings) deposit; Sanity still used for testimonials/blog (both empty); `app/studio`.
+
+---
+
 ## Folder Map
 
 | Folder | What's in it |
