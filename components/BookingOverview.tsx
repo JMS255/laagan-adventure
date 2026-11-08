@@ -9,6 +9,7 @@ import type { TourCard } from '@/lib/types'
 
 interface Props {
   tour: TourCard & { pricingTiers?: import('@/lib/types').PricingTier[] }
+  thumbUrl?: string
   initialDate: string
   initialGuests: number
 }
@@ -27,7 +28,7 @@ function fmt(d: string) {
   return new Date(d + 'T12:00:00').toLocaleDateString('en-PH', { month: 'long', day: 'numeric', year: 'numeric' })
 }
 
-export default function BookingOverview({ tour, initialDate, initialGuests }: Props) {
+export default function BookingOverview({ tour, thumbUrl, initialDate, initialGuests }: Props) {
   const [step, setStep]             = useState(1)
   const [date, setDate]             = useState(initialDate)
   const [adults, setAdults]         = useState(Math.max(1, initialGuests))
@@ -114,9 +115,7 @@ export default function BookingOverview({ tour, initialDate, initialGuests }: Pr
     }
   }
 
-  const imgUrl = tour.mainImage
-    ? (typeof tour.mainImage === 'string' ? tour.mainImage : urlFor(tour.mainImage).width(160).height(120).url())
-    : null
+  const imgUrl = thumbUrl ?? (tour.mainImage ? urlFor(tour.mainImage).width(160).height(120).url() : null)
 
   return (
     <div className="booking-page">

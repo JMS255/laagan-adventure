@@ -9,6 +9,7 @@ import TourDetailSidebar from '@/components/TourDetailSidebar'
 import TourItinerary from '@/components/TourItinerary'
 import TourGallery from '@/components/TourGallery'
 import { client, TESTIMONIALS_QUERY } from '@/lib/sanity'
+import { getTourPricing } from '@/lib/db'
 import { getTourBySlug, getSimilarTours, TOURS_DATA } from '@/lib/tours-data'
 import type { Metadata } from 'next'
 
@@ -36,7 +37,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
   const similarTours = getSimilarTours(slug, 3)
 
   const [sanityTour, testimonials] = await Promise.all([
-    client.fetch(`*[_type == "tour" && slug.current == $slug][0]{ price, priceNote, badgeLabel, urgencyNote }`, { slug }).catch(() => null),
+    getTourPricing(slug).catch(() => null),
     client.fetch(TESTIMONIALS_QUERY).catch(() => []),
   ])
 

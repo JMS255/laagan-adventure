@@ -5,7 +5,8 @@ import Image from 'next/image'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import TravelerFilter from '@/components/TravelerFilter'
-import { client, urlFor, TOURS_QUERY, TESTIMONIALS_QUERY } from '@/lib/sanity'
+import { client, urlFor, TESTIMONIALS_QUERY } from '@/lib/sanity'
+import { getAllTourPricing } from '@/lib/db'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const [allTours, testimonials] = await Promise.all([
-    client.fetch(TOURS_QUERY).catch(() => []),
+    getAllTourPricing().catch(() => []),
     client.fetch(TESTIMONIALS_QUERY).catch(() => []),
   ])
 

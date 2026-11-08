@@ -1,4 +1,4 @@
-import { client, BOOKINGS_QUERY } from '@/lib/sanity'
+import { listBookings } from '@/lib/db'
 import type { Booking } from '@/lib/types'
 import type { Metadata } from 'next'
 
@@ -48,7 +48,7 @@ export default async function DashboardPage({
 
   if (pw !== expected) return <PasswordForm />
 
-  const bookings: Booking[] = await client.fetch(BOOKINGS_QUERY).catch(() => [])
+  const bookings: Booking[] = await listBookings().catch(() => [])
 
   const counts = {
     pending:   bookings.filter(b => b.status === 'pending').length,

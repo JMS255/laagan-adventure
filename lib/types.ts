@@ -118,6 +118,15 @@ export interface GalleryPhoto {
   destination: string
 }
 
+/** Gallery photo stored in the database; `src` is a file under /public */
+export interface GalleryItem {
+  id: string
+  src: string
+  caption?: string
+  destination?: string
+  order: number
+}
+
 // ── Blog post ─────────────────────────────────────────────────────
 export interface BlogPost {
   _id: string

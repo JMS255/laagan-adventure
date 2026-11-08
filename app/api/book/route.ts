@@ -1,13 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from 'next-sanity'
-
-const writeClient = createClient({
-  projectId: 'o5mustem',
-  dataset: 'production',
-  apiVersion: '2024-01-01',
-  useCdn: false,
-  token: process.env.SANITY_WRITE_TOKEN,
-})
+import { saveBooking } from '@/lib/db'
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
@@ -20,12 +12,10 @@ export async function POST(req: NextRequest) {
 
   const guests = Number(body.adults) + Number(body.children ?? 0)
 
-  // Write to Sanity
+  // Save to the database
   try {
-    await writeClient.create({
-      _type: 'booking',
+    await saveBooking({
       bookingRef: body.bookingRef,
-      status: 'pending',
       tourTitle: body.tourTitle,
       tourSlug: body.tourSlug,
       date: body.date,
@@ -37,10 +27,9 @@ export async function POST(req: NextRequest) {
       depositSent: body.depositSent ?? false,
       promo: body.promo ?? '',
       notes: body.notes ?? '',
-      submittedAt: new Date().toISOString(),
     })
   } catch (err) {
-    console.error('Sanity write error:', err)
+    console.error('Booking save error:', err)
     // Don't fail the booking — fall through to Formspree backup
   }
 

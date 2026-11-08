@@ -1,13 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from 'next-sanity'
-
-const writeClient = createClient({
-  projectId: 'o5mustem',
-  dataset: 'production',
-  apiVersion: '2024-01-01',
-  useCdn: false,
-  token: process.env.SANITY_WRITE_TOKEN,
-})
+import { markBookingPaid } from '@/lib/db'
 
 export async function POST(req: NextRequest) {
   // Verify Xendit webhook token
@@ -28,21 +20,11 @@ export async function POST(req: NextRequest) {
   const bookingRef = body.external_id
   if (!bookingRef) return NextResponse.json({ received: true })
 
-  // Find the Sanity booking by bookingRef and update it
+  // Mark the booking as paid and confirmed
   try {
-    const result = await writeClient.fetch<{ _id: string } | null>(
-      `*[_type == "booking" && bookingRef == $ref][0]{ _id }`,
-      { ref: bookingRef }
-    )
-
-    if (result?._id) {
-      await writeClient
-        .patch(result._id)
-        .set({ depositSent: true, status: 'confirmed' })
-        .commit()
-    }
+    await markBookingPaid(bookingRef)
   } catch (err) {
-    console.error('Sanity update error:', err)
+    console.error('Booking update error:', err)
   }
 
   return NextResponse.json({ received: true })
