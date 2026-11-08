@@ -25,6 +25,16 @@ export interface NewBooking {
   notes: string
 }
 
+/** Runs a database call; if it fails, writes a clear line to the server log before passing the error on. */
+async function logged<T>(label: string, run: () => Promise<T>): Promise<T> {
+  try {
+    return await run()
+  } catch (err) {
+    console.error(`Database call failed (${label}):`, err instanceof Error ? err.message.slice(0, 300) : err)
+    throw err
+  }
+}
+
 const DEFAULT_DEPOSIT = 500
 
 export const refToId = (ref: string): string => ref.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -46,27 +56,27 @@ function toTourPricing(data: FirebaseFirestore.DocumentData): TourPricing {
 }
 
 export async function getTourPricing(slug: string): Promise<TourPricing | null> {
-  const snap = await getDb().collection('tours').doc(slug).get()
+  const snap = await logged('tour price', () => getDb().collection('tours').doc(slug).get())
   return snap.exists ? toTourPricing(snap.data() ?? {}) : null
 }
 
 export async function getAllTourPricing(): Promise<TourPricing[]> {
-  const snap = await getDb().collection('tours').get()
+  const snap = await logged('all tour prices', () => getDb().collection('tours').get())
   return snap.docs.map(d => toTourPricing(d.data()))
 }
 
 export async function getSiteSettings(): Promise<SiteSettings> {
-  const snap = await getDb().collection('settings').doc('site').get()
+  const snap = await logged('site settings', () => getDb().collection('settings').doc('site').get())
   return { depositAmount: snap.data()?.depositAmount ?? DEFAULT_DEPOSIT }
 }
 
 export async function getGallery(): Promise<GalleryItem[]> {
-  const snap = await getDb().collection('gallery').orderBy('order').get()
+  const snap = await logged('gallery', () => getDb().collection('gallery').orderBy('order').get())
   return snap.docs.map(d => ({ id: d.id, ...(d.data() as Omit<GalleryItem, 'id'>) }))
 }
 
 export async function listBookings(): Promise<Booking[]> {
-  const snap = await getDb().collection('bookings').orderBy('submittedAt', 'desc').get()
+  const snap = await logged('list bookings', () => getDb().collection('bookings').orderBy('submittedAt', 'desc').get())
   return snap.docs.map(d => ({ _id: d.id, ...(d.data() as Omit<Booking, '_id'>) }))
 }
 
