@@ -5,6 +5,22 @@
 
 ---
 
+## Folder Map
+
+| Folder | What's in it |
+|---|---|
+| `app/` | Pages and API routes (`/dashboard` is the old bookings table, `/studio` is Sanity) |
+| `components/` | UI pieces |
+| `lib/` | Tour data, Sanity client, types, promo codes |
+| `sanity/` | Studio schemas |
+| `public/` | Deployed images, fonts, logos |
+| `design/` | Logo and concept HTML tools (not deployed) |
+| `docs/` | Dev docs, `RESEARCH.md`, `DESIGN-BRIEF.md` |
+| `design_handoff_laagan/` | Original Claude Design prototypes |
+| `pics/`, `venv/` | Local only, git-ignored (raw Facebook photo exports / unused Python env) |
+
+---
+
 ## Who I Am
 
 James Ignacio — owner of Laagan PH (formerly Laagan Adventure), a local travel & tours business in Zamboanga City, Philippines. Running this alongside Craftifyle (photobooth + event photography CRM). Self-taught developer using Claude Code. Also a photographer and sometimes drives tours himself. Co-runs with Ivy Sanchez Eisma.
@@ -62,8 +78,9 @@ Custom SVG logo with:
 |---|---|
 | `public/logo-circle.svg` | Circle badge (standalone SVG, 800×980 viewBox) |
 | `public/logo-horizontal.svg` | Horizontal wordmark (standalone SVG, 1600×440 viewBox) |
-| `logo-concepts.html` | Design preview file (not deployed) |
-| `logo-export.html` | PNG download tool — circle 720×880 + horizontal 1600×440 |
+| `design/logo-concepts.html` | Design preview file (not deployed) |
+| `design/logo-export.html` | PNG download tool — circle 720×880 + horizontal 1600×440 |
+| `design/concept-preview.html` | Concept preview (not deployed) |
 
 ### Nav Logo Implementation
 Inline SVG in `components/Nav.tsx` — split into:

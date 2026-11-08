@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Laagan Adventure — Brand Concept Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0a0f1e; color: #fff; }
+
+  /* ── CONCEPT SWITCHER ── */
+  .switcher {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+    z-index: 999; display: flex; gap: 8px; background: rgba(0,0,0,.7);
+    backdrop-filter: blur(12px); border-radius: 999px; padding: 8px 16px;
+    border: 1px solid rgba(255,255,255,.15);
+  }
+  .switcher button {
+    background: none; border: none; color: rgba(255,255,255,.5);
+    font-size: .78rem; font-weight: 700; cursor: pointer; padding: 4px 12px;
+    border-radius: 999px; transition: all .2s;
+  }
+  .switcher button.active { background: #fff; color: #0a0f1e; }
+
+  /* ── CONCEPT A: CINEMATIC DARK (current direction, elevated) ── */
+  .concept { display: none; }
+  .concept.active { display: block; }
+
+  /* HERO */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  .hero__bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: opacity .5s;
+  }
+  .hero__overlay {
+    position: absolute; inset: 0;
+  }
+  .hero__inner {
+    position: relative; z-index: 2;
+    max-width: 1200px; margin: 0 auto; padding: 0 40px;
+    width: 100%;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; margin-bottom: 24px;
+    padding: 6px 16px; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.25);
+    color: rgba(255,255,255,.8);
+  }
+
+  /* ── CONCEPT A: DARK CINEMATIC ── */
+  #concept-a .hero__bg {
+    background-image: url('/images/panampangan-pier.jpg');
+  }
+  #concept-a .hero__overlay {
+    background: linear-gradient(105deg, rgba(10,15,30,.92) 0%, rgba(10,15,30,.6) 50%, rgba(10,15,30,.2) 100%);
+  }
+  #concept-a .hero__title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -.03em;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  #concept-a .hero__title em {
+    font-style: italic; color: #f59e0b;
+  }
+  #concept-a .hero__sub {
+    font-size: 1.1rem; color: rgba(255,255,255,.7);
+    max-width: 480px; line-height: 1.7; margin-bottom: 40px;
+  }
+  #concept-a .btn-primary {
+    background: #f59e0b; color: #0a0f1e;
+    padding: 14px 32px; border-radius: 999px;
+    font-weight: 800; font-size: .95rem;
+    text-decoration: none; display: inline-block;
+    letter-spacing: .01em;
+    transition: transform .2s, box-shadow .2s;
+  }
+  #concept-a .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(245,158,11,.4); }
+  #concept-a .btn-secondary {
+    background: rgba(255,255,255,.1); color: #fff;
+    padding: 14px 32px; border-radius: 999px;
+    font-weight: 700; font-size: .95rem;
+    text-decoration: none; display: inline-block;
+    border: 1.5px solid rgba(255,255,255,.3);
+    margin-left: 12px;
+  }
+  #concept-a .hero__trust {
+    display: flex; gap: 24px; margin-top: 48px;
+    flex-wrap: wrap;
+  }
+  #concept-a .trust-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: .8rem; color: rgba(255,255,255,.6); font-weight: 600;
+  }
+  #concept-a .trust-item span.dot { color: #f59e0b; }
+
+  /* ── CONCEPT B: VIBRANT PINK ── */
+  #concept-b .hero__bg {
+    background-image: url('/images/zambasulta-mosque.jpg');
+    filter: saturate(1.2);
+  }
+  #concept-b .hero__overlay {
+    background: linear-gradient(135deg, rgba(15,23,42,.92) 0%, rgba(15,23,42,.75) 55%, rgba(15,23,42,.2) 100%);
+  }
+  #concept-b .hero__title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -.03em; color: #fff;
+    margin-bottom: 20px;
+  }
+  #concept-b .hero__title em {
+    font-style: italic;
+    background: linear-gradient(90deg, #f9a8d4, #ec4899, #be185d);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  #concept-b .hero__sub {
+    font-size: 1.1rem; color: rgba(255,255,255,.75);
+    max-width: 480px; line-height: 1.7; margin-bottom: 40px;
+  }
+  #concept-b .btn-primary {
+    background: linear-gradient(135deg, #ec4899, #be185d);
+    color: #fff; padding: 16px 36px; border-radius: 999px;
+    font-weight: 800; font-size: .95rem;
+    text-decoration: none; display: inline-block;
+    box-shadow: 0 4px 32px rgba(236,72,153,.5);
+    letter-spacing: .01em;
+    transition: transform .2s, box-shadow .2s;
+  }
+  #concept-b .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(236,72,153,.6); }
+  #concept-b .btn-secondary {
+    background: rgba(255,255,255,.08); color: #fff;
+    padding: 16px 36px; border-radius: 999px;
+    font-weight: 700; font-size: .95rem;
+    text-decoration: none; display: inline-block;
+    border: 1.5px solid rgba(255,255,255,.25);
+    margin-left: 12px;
+    transition: background .2s;
+  }
+  #concept-b .btn-secondary:hover { background: rgba(255,255,255,.15); }
+  #concept-b .hero__trust {
+    display: flex; gap: 28px; margin-top: 52px; flex-wrap: wrap;
+    padding-top: 32px; border-top: 1px solid rgba(255,255,255,.1);
+  }
+  #concept-b .trust-item {
+    font-size: .78rem; color: rgba(255,255,255,.65); font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  #concept-b .trust-item span.dot { color: #f9a8d4; font-size: 1rem; }
+
+  /* ── CONCEPT B: STATS BAR ── */
+  #concept-b .stats-bar {
+    background: rgba(255,255,255,.04);
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding: 32px 40px;
+    display: flex; gap: 0; max-width: 100%;
+  }
+  #concept-b .stat {
+    flex: 1; text-align: center; padding: 0 24px;
+    border-right: 1px solid rgba(255,255,255,.08);
+  }
+  #concept-b .stat:last-child { border-right: none; }
+  #concept-b .stat__num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 900;
+    background: linear-gradient(135deg, #f9a8d4, #ec4899);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  #concept-b .stat__label {
+    font-size: .72rem; color: rgba(255,255,255,.4);
+    font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ── CONCEPT C: BOLD EDITORIAL ── */
+  #concept-c .hero {
+    display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh;
+    background: #0a0f1e;
+  }
+  #concept-c .hero__left {
+    display: flex; align-items: center;
+    padding: 80px 60px; position: relative; z-index: 2;
+  }
+  #concept-c .hero__right {
+    position: relative; overflow: hidden;
+  }
+  #concept-c .hero__right-bg {
+    position: absolute; inset: 0;
+    background-image: url('/images/guests-zamboanga-sign.jpg');
+    background-size: cover; background-position: center;
+  }
+  #concept-c .hero__right-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(270deg, transparent 60%, #0a0f1e 100%);
+  }
+  #concept-c .accent-line {
+    width: 48px; height: 4px; background: #e11d48;
+    border-radius: 2px; margin-bottom: 32px;
+  }
+  #concept-c .hero__title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900; line-height: 1.1;
+    letter-spacing: -.03em; color: #fff;
+    margin-bottom: 20px;
+  }
+  #concept-c .hero__title em { font-style: italic; color: #fb7185; }
+  #concept-c .hero__sub {
+    font-size: 1rem; color: rgba(255,255,255,.65);
+    line-height: 1.75; margin-bottom: 40px; max-width: 420px;
+  }
+  #concept-c .btn-primary {
+    background: #e11d48; color: #fff;
+    padding: 14px 32px; border-radius: 8px;
+    font-weight: 800; font-size: .95rem;
+    text-decoration: none; display: inline-block;
+    letter-spacing: .01em;
+  }
+  #concept-c .btn-secondary {
+    background: transparent; color: rgba(255,255,255,.7);
+    padding: 14px 32px; border-radius: 8px;
+    font-weight: 700; font-size: .95rem;
+    text-decoration: none; display: inline-block;
+    border: 1.5px solid rgba(255,255,255,.2);
+    margin-left: 12px;
+  }
+  #concept-c .stats {
+    display: flex; gap: 40px; margin-top: 48px;
+    padding-top: 32px; border-top: 1px solid rgba(255,255,255,.1);
+  }
+  #concept-c .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 900; color: #fb7185;
+  }
+  #concept-c .stat-label {
+    font-size: .72rem; color: rgba(255,255,255,.5);
+    font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  }
+
+  /* ── SHARED SECTION PREVIEW ── */
+  .section-preview {
+    padding: 80px 40px; max-width: 1200px; margin: 0 auto;
+  }
+  .palette-row {
+    display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;
+  }
+  .swatch {
+    width: 80px; height: 80px; border-radius: 12px;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: flex-end; padding-bottom: 8px;
+    font-size: .65rem; font-weight: 700; color: rgba(255,255,255,.8);
+  }
+  .label {
+    font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: rgba(255,255,255,.4);
+    margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="switcher">
+  <button class="active" onclick="switchConcept('a')">A · Dark Cinematic</button>
+  <button onclick="switchConcept('b')">B · Cinematic Pink ✦</button>
+  <button onclick="switchConcept('c')">C · Bold Editorial</button>
+</div>
+
+<!-- ══ CONCEPT A: DARK CINEMATIC ══ -->
+<div class="concept active" id="concept-a">
+  <div class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__inner">
+      <div class="eyebrow">📍 Zamboanga City, Philippines</div>
+      <h1 class="hero__title">
+        Where the Sand<br/>Turns <em>Pink.</em>
+      </h1>
+      <p class="hero__sub">Guided island adventures deep in Southern Philippines. Santa Cruz Island, Basilan, Sulu, Tawi-Tawi — real places, real guides.</p>
+      <div>
+        <a href="#" class="btn-primary">See Our Tours →</a>
+        <a href="#" class="btn-secondary">💬 Ask on Messenger</a>
+      </div>
+      <div class="hero__trust">
+        <div class="trust-item"><span class="dot">✦</span> National Geographic Top Beach</div>
+        <div class="trust-item"><span class="dot">✦</span> DTI Registered</div>
+        <div class="trust-item"><span class="dot">✦</span> 500+ Tours Completed</div>
+        <div class="trust-item"><span class="dot">✦</span> ₱300 Deposit Only</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-preview">
+    <div class="label">Color Palette — A</div>
+    <div class="palette-row">
+      <div class="swatch" style="background:#0a0f1e">#0a0f1e<br/>Deep Navy</div>
+      <div class="swatch" style="background:#f59e0b">#f59e0b<br/>Amber Gold</div>
+      <div class="swatch" style="background:#d96b8a">#d96b8a<br/>Coral Pink</div>
+      <div class="swatch" style="background:#1e3a5f">#1e3a5f<br/>Ocean</div>
+      <div class="swatch" style="background:#f8fafc;color:#0a0f1e">#f8fafc<br/>Off White</div>
+    </div>
+    <p style="color:rgba(255,255,255,.4);font-size:.85rem;margin-top:20px;line-height:1.7">
+      Feel: Premium, cinematic, mysterious. Like a National Geographic spread.<br/>
+      Best for: Attracting high-spend travelers from Manila and abroad.
+    </p>
+  </div>
+</div>
+
+<!-- ══ CONCEPT B: VIBRANT PINK ══ -->
+<div class="concept" id="concept-b">
+  <div class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__inner">
+      <div class="eyebrow">📍 Zamboanga City, Philippines</div>
+      <h1 class="hero__title">
+        Asia&rsquo;s Only<br/><em>Pink Sand</em> Beach.
+      </h1>
+      <p class="hero__sub">Guided island adventures in the most unexplored corner of the Philippines. Santa Cruz Island, Basilan, Sulu, Tawi-Tawi — with guides who actually live here.</p>
+      <div>
+        <a href="#" class="btn-primary">See Our Tours →</a>
+        <a href="#" class="btn-secondary">💬 Ask on Messenger</a>
+      </div>
+      <div class="hero__trust">
+        <div class="trust-item"><span class="dot">✦</span> National Geographic Top Beach</div>
+        <div class="trust-item"><span class="dot">✦</span> DTI Registered</div>
+        <div class="trust-item"><span class="dot">✦</span> ₱300 Deposit Only</div>
+        <div class="trust-item"><span class="dot">✦</span> Free Cancellation</div>
+      </div>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div class="stat"><div class="stat__num">500+</div><div class="stat__label">Tours Completed</div></div>
+    <div class="stat"><div class="stat__num">5.0 ★</div><div class="stat__label">Average Rating</div></div>
+    <div class="stat"><div class="stat__num">Since '22</div><div class="stat__label">Proudly Local</div></div>
+    <div class="stat"><div class="stat__num">7+</div><div class="stat__label">Destinations</div></div>
+  </div>
+  <div class="section-preview">
+    <div class="label">Color Palette — B Pink</div>
+    <div class="palette-row">
+      <div class="swatch" style="background:#0f172a">#0f172a<br/>Midnight</div>
+      <div class="swatch" style="background:#ec4899">#ec4899<br/>Hot Pink</div>
+      <div class="swatch" style="background:#be185d">#be185d<br/>Deep Rose</div>
+      <div class="swatch" style="background:#f9a8d4;color:#0f172a">#f9a8d4<br/>Blush</div>
+      <div class="swatch" style="background:#f8fafc;color:#0f172a">#f8fafc<br/>White</div>
+    </div>
+    <p style="color:rgba(255,255,255,.4);font-size:.85rem;margin-top:20px;line-height:1.7">
+      Feel: Cinematic + on-brand. Your current pink elevated — more dramatic, more confident.<br/>
+      Best of both worlds: keeps your identity, adds the cinematic punch.
+    </p>
+  </div>
+</div>
+
+<!-- ══ CONCEPT C: BOLD EDITORIAL ══ -->
+<div class="concept" id="concept-c">
+  <div class="hero">
+    <div class="hero__left">
+      <div>
+        <div class="accent-line"></div>
+        <div style="font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:16px">Zamboanga City · Philippines</div>
+        <h1 class="hero__title">
+          The Most<br/>Underrated<br/><em>Paradise</em><br/>in Asia.
+        </h1>
+        <p class="hero__sub">You&rsquo;ve never heard of it. That&rsquo;s exactly why you need to go. Pink sand beaches, stingless jellyfish, ancient mosques — we guide you to all of it.</p>
+        <div>
+          <a href="#" class="btn-primary">Book a Tour</a>
+          <a href="#" class="btn-secondary">Watch the Story</a>
+        </div>
+        <div class="stats">
+          <div><div class="stat-num">500+</div><div class="stat-label">Tours Done</div></div>
+          <div><div class="stat-num">5.0★</div><div class="stat-label">Rating</div></div>
+          <div><div class="stat-num">Since '22</div><div class="stat-label">Local & Proud</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero__right">
+      <div class="hero__right-bg"></div>
+      <div class="hero__right-overlay"></div>
+    </div>
+  </div>
+  <div class="section-preview">
+    <div class="label">Color Palette — C</div>
+    <div class="palette-row">
+      <div class="swatch" style="background:#0a0f1e">#0a0f1e<br/>Midnight</div>
+      <div class="swatch" style="background:#e11d48">#e11d48<br/>Bold Red</div>
+      <div class="swatch" style="background:#fb7185">#fb7185<br/>Rose</div>
+      <div class="swatch" style="background:#1e293b">#1e293b<br/>Slate</div>
+      <div class="swatch" style="background:#f8fafc;color:#0a0f1e">#f8fafc<br/>White</div>
+    </div>
+    <p style="color:rgba(255,255,255,.4);font-size:.85rem;margin-top:20px;line-height:1.7">
+      Feel: Bold, editorial, confident. Like a luxury travel brand.<br/>
+      Best for: Standing out, premium positioning, high-value bookings.
+    </p>
+  </div>
+</div>
+
+<script>
+  function switchConcept(id) {
+    document.querySelectorAll('.concept').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.switcher button').forEach(b => b.classList.remove('active'));
+    document.getElementById('concept-' + id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>
