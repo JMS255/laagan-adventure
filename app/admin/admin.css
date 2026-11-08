@@ -1,0 +1,50 @@
+.adm-header { background: var(--navy); padding: 18px 0; }
+.adm-header__inner { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.adm-brand { color: #fff; font-weight: 800; font-size: 1.05rem; }
+.adm-who { color: rgba(255,255,255,.65); font-size: .75rem; }
+.adm-nav { display: flex; gap: 6px; }
+.adm-nav a { color: rgba(255,255,255,.75); padding: 8px 14px; border-radius: 999px; font-size: .85rem; font-weight: 600; }
+.adm-nav a.is-active { background: rgba(255,255,255,.16); color: #fff; }
+.adm-main { background: var(--bg-2); min-height: 100vh; padding: 28px 0 80px; }
+.adm-title { font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+.adm-sub { color: var(--muted); font-size: .85rem; margin-bottom: 24px; }
+.adm-section { margin-bottom: 32px; }
+.adm-section h2 { font-size: 1rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.adm-count { background: var(--navy); color: #fff; font-size: .7rem; border-radius: 999px; padding: 2px 9px; }
+.adm-count--alert { background: #b91c1c; }
+.adm-hint { font-size: .78rem; color: var(--muted); margin-bottom: 12px; }
+.adm-empty { background: #fff; border: 1px dashed var(--border); border-radius: 12px; padding: 18px; color: var(--muted); font-size: .85rem; }
+.adm-list { display: grid; gap: 10px; }
+.adm-row { display: block; background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; color: var(--text); }
+.adm-row:hover { border-color: var(--navy); }
+.adm-row__top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.adm-row__name { font-weight: 700; color: var(--navy); }
+.adm-row__ref { font-family: monospace; font-size: .75rem; color: var(--pink); }
+.adm-row__meta { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+.adm-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.adm-badge { font-size: .68rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: #eef2f5; color: #334155; }
+.adm-badge--red { background: #fee2e2; color: #991b1b; }
+.adm-badge--amber { background: #fef9c3; color: #92400e; }
+.adm-badge--green { background: #dcfce7; color: #166534; }
+.adm-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.adm-chip { padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--border); background: #fff; font-size: .8rem; font-weight: 600; color: var(--muted); }
+.adm-chip.is-active { background: var(--navy); border-color: var(--navy); color: #fff; }
+.adm-search { display: flex; gap: 8px; margin-bottom: 14px; }
+.adm-search input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 10px; font: inherit; }
+.adm-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+.adm-card h2 { font-size: .95rem; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
+.adm-facts { display: grid; grid-template-columns: 110px 1fr; gap: 8px 12px; font-size: .88rem; }
+.adm-facts dt { color: var(--muted); }
+.adm-facts dd { color: var(--text); font-weight: 600; word-break: break-word; }
+.adm-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.adm-btn { padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: .85rem; border: 1.5px solid var(--navy); color: var(--navy); background: #fff; cursor: pointer; font-family: inherit; }
+.adm-btn--primary { background: var(--navy); color: #fff; }
+.adm-field { display: grid; gap: 6px; margin-bottom: 16px; font-size: .85rem; font-weight: 600; color: var(--navy); }
+.adm-field select, .adm-field textarea { padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 10px; font: inherit; font-weight: 400; }
+.adm-check { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: .92rem; }
+.adm-check:last-of-type { border-bottom: 0; }
+.adm-check input { width: 22px; height: 22px; accent-color: var(--navy); }
+.adm-flash { border-radius: 10px; padding: 12px 16px; font-size: .85rem; margin-bottom: 16px; font-weight: 600; }
+.adm-flash--ok { background: #dcfce7; color: #166534; }
+.adm-flash--err { background: #fee2e2; color: #991b1b; }
+.adm-back { display: inline-block; margin-bottom: 14px; font-size: .85rem; color: var(--muted); font-weight: 600; }

@@ -1,6 +1,7 @@
 import 'server-only'
 import { getDb } from '@/lib/firebase-admin'
 import type { Booking, GalleryItem, PricingTier, TourCard } from '@/lib/types'
+import type { BookingPatch } from '@/lib/booking-logic'
 
 /** Price/availability info for a tour, shaped like the old Sanity tour cards so pages need few changes. */
 export type TourPricing = TourCard & { pricingTiers: PricingTier[]; availabilityNote?: string }
@@ -92,4 +93,30 @@ export async function markBookingPaid(bookingRef: string): Promise<void> {
     { depositSent: true, status: 'confirmed' },
     { merge: true },
   )
+}
+
+export async function getBooking(id: string): Promise<Booking | null> {
+  const snap = await getDb().collection('bookings').doc(id).get()
+  return snap.exists ? { _id: snap.id, ...(snap.data() as Omit<Booking, '_id'>) } : null
+}
+
+export interface StaffMember {
+  email: string
+  name: string
+  role: 'owner' | 'staff'
+}
+
+export async function listStaff(): Promise<StaffMember[]> {
+  const snap = await getDb().collection('staff').get()
+  return snap.docs.map(d => ({ email: d.id, name: d.data().name || d.id, role: d.data().role }))
+}
+
+/** Team edits to a booking. Fails if the booking does not exist. */
+export async function updateBooking(id: string, patch: BookingPatch, updatedBy: string): Promise<void> {
+  await getDb().collection('bookings').doc(id).update({
+    ...patch,
+    depositSent: patch.checklist.depositReceived,
+    updatedAt: new Date().toISOString(),
+    updatedBy,
+  })
 }

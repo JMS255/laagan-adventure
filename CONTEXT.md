@@ -17,9 +17,10 @@
 | Copy Sanity data to Firestore (15 bookings, 2 tour prices, deposit, 6 gallery photos) | ✅ done + verified |
 | Site code reads/writes Firebase (`lib/db.ts`) | ✅ on branch `firebase-switch` — built & tested locally, NOT pushed |
 | Admin login (`/admin/login`, approved-emails list in Firestore `staff`, owner = craftifylephotobooth@gmail.com) | ✅ on branch, tested (Google popup not yet tried by hand) |
-| Admin screens (Today, bookings list, checklists, assignee) | ⏳ next |
+| Admin screens: Today, bookings list + search, booking page (status, assignee, checklist, notes, call/Viber buttons) | ✅ on branch, tested |
 | Add a person: `node scripts/seed-staff.mjs "<key>" email staff "Name"` | tool ready |
-| Telegram alerts, guest emails, price editing | ⏳ later |
+| Telegram alerts (new booking, overdue reply, morning summary) | ⏳ next |
+| Guest emails, price editing screen | ⏳ later |
 | Old `/dashboard` (password in URL, fallback `laagan2026`) | ⚠️ still live on master — replace |
 | Make Sanity private / remove it | ⏳ after switch is live |
 

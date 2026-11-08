@@ -84,10 +84,31 @@ export interface TourCard {
 }
 
 // ── Booking ───────────────────────────────────────────────────────
+export type BookingStatus = 'pending' | 'confirmed' | 'completed' | 'cancelled'
+
+/** Steps the team ticks off for each booking */
+export interface BookingChecklist {
+  replied: boolean
+  depositReceived: boolean
+  dateSecured: boolean
+  boatBooked: boolean
+  guideAssigned: boolean
+  reminderSent: boolean
+  tourDone: boolean
+}
+
 export interface Booking {
   _id: string
   bookingRef: string
-  status: 'pending' | 'confirmed' | 'cancelled'
+  status: BookingStatus
+  tourSlug?: string
+  notes?: string
+  promo?: string
+  assignedTo?: string
+  checklist?: Partial<BookingChecklist>
+  internalNotes?: string
+  updatedAt?: string
+  updatedBy?: string
   tourTitle: string
   date: string
   guests: number

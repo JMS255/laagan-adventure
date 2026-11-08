@@ -1,36 +1,62 @@
-import SignOutButton from '@/components/admin/SignOutButton'
+import AdminShell from '@/components/admin/AdminShell'
+import BookingRow from '@/components/admin/BookingRow'
 import { requireAdmin } from '@/lib/admin-auth'
-import { listBookings } from '@/lib/db'
+import { buildToday, flagsFor } from '@/lib/booking-logic'
+import { listBookings, listStaff } from '@/lib/db'
+import type { Booking } from '@/lib/types'
 
-export default async function AdminHomePage() {
+interface SectionProps {
+  title: string
+  hint: string
+  empty: string
+  bookings: Booking[]
+  names: Map<string, string>
+  now: Date
+  isAlert?: boolean
+}
+
+function Section({ title, hint, empty, bookings, names, now, isAlert }: SectionProps) {
+  return (
+    <section className="adm-section">
+      <h2>
+        {title}
+        <span className={`adm-count${isAlert && bookings.length > 0 ? ' adm-count--alert' : ''}`}>{bookings.length}</span>
+      </h2>
+      <p className="adm-hint">{hint}</p>
+      {bookings.length === 0 ? (
+        <p className="adm-empty">{empty}</p>
+      ) : (
+        <div className="adm-list">
+          {bookings.map(b => (
+            <BookingRow key={b._id} booking={b} now={now} assigneeName={b.assignedTo ? names.get(b.assignedTo) : undefined} />
+          ))}
+        </div>
+      )}
+    </section>
+  )
+}
+
+export default async function AdminTodayPage() {
   const admin = await requireAdmin()
-  const bookings = await listBookings().catch(() => [])
-  const pending = bookings.filter(b => b.status === 'pending').length
+  const [bookings, staff] = await Promise.all([listBookings().catch(() => []), listStaff().catch(() => [])])
+  const now = new Date()
+  const names = new Map(staff.map(s => [s.email, s.name]))
+  const today = buildToday(bookings, now)
+  const overdue = today.needReply.filter(b => flagsFor(b, now).replyOverdue).length
+  const dateLabel = now.toLocaleDateString('en-PH', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'Asia/Manila' })
 
   return (
-    <main style={{ minHeight: '100vh', background: 'var(--bg-2)' }}>
-      <div style={{ background: 'var(--navy)', padding: '28px 0' }}>
-        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-          <div>
-            <p style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)', marginBottom: '4px' }}>
-              Laagan PH · Admin
-            </p>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fff' }}>Hello{admin.name ? `, ${admin.name}` : ''}</h1>
-            <p style={{ fontSize: '.8rem', color: 'rgba(255,255,255,.65)' }}>{admin.email} · {admin.role}</p>
-          </div>
-          <SignOutButton />
-        </div>
-      </div>
+    <AdminShell admin={admin} active="today">
+      <h1 className="adm-title">Today</h1>
+      <p className="adm-sub">
+        {dateLabel}
+        {overdue > 0 ? ` · ${overdue} reply overdue` : ''}
+      </p>
 
-      <div className="container" style={{ paddingTop: '32px', paddingBottom: '64px' }}>
-        <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px' }}>
-          <p style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--navy)' }}>{pending}</p>
-          <p style={{ color: 'var(--muted)', fontSize: '.9rem' }}>bookings waiting for a reply ({bookings.length} in total)</p>
-          <p style={{ marginTop: '20px', fontSize: '.8rem', color: 'var(--muted)' }}>
-            The login works. The Today screen, booking list and checklists are the next step.
-          </p>
-        </div>
-      </div>
-    </main>
+      <Section title="Needs a reply" hint="New bookings nobody has answered yet. We promise guests a reply within 24 hours." empty="All caught up." bookings={today.needReply} names={names} now={now} isAlert />
+      <Section title="Deposit not received" hint="You've replied, but the deposit hasn't arrived." empty="No deposits are waiting." bookings={today.depositWaiting} names={names} now={now} />
+      <Section title="Coming up in the next 7 days" hint="Make sure the boat, guide and reminder are sorted." empty="No tours in the next 7 days." bookings={today.upcoming} names={names} now={now} />
+      <Section title="Needs fixing" hint="No price set, or the tour date has already passed but the booking is still open. Mark it completed or cancelled." empty="Nothing to fix." bookings={today.problems} names={names} now={now} isAlert />
+    </AdminShell>
   )
 }
