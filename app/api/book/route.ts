@@ -45,6 +45,7 @@ export async function POST(req: NextRequest) {
 
   // Save to the database
   let created = true
+  let saveFailed = false
   try {
     created = await saveBooking({
       bookingRef: body.bookingRef,
@@ -61,8 +62,8 @@ export async function POST(req: NextRequest) {
       notes: body.notes ?? '',
     })
   } catch (err) {
-    console.error('Booking save error:', err)
-    // Don't fail the booking — fall through to Formspree backup
+    console.error('Booking save error:', err instanceof Error ? err.message.slice(0, 300) : err)
+    saveFailed = true // still send the backup email below, then tell the guest honestly
   }
 
   // Same booking submitted twice (e.g. double tap): already saved, don't email again
@@ -78,7 +79,7 @@ export async function POST(req: NextRequest) {
   // Formspree backup email
   try {
     const form = new FormData()
-    form.set('_subject', `New Booking [${body.bookingRef}] — ${body.tourTitle}`)
+    form.set('_subject', `${saveFailed ? 'NOT SAVED IN ADMIN — ' : ''}New Booking [${body.bookingRef}] — ${body.tourTitle}`)
     form.set('booking_reference', body.bookingRef)
     form.set('tour', body.tourTitle)
     form.set('tour_date', body.date)
@@ -99,6 +100,13 @@ export async function POST(req: NextRequest) {
     })
   } catch (err) {
     console.error('Formspree backup error:', err)
+  }
+
+  if (saveFailed) {
+    return NextResponse.json(
+      { error: 'We could not record your booking automatically, but we emailed your details to our team. Please also message us on Messenger so we can confirm.' },
+      { status: 500 },
+    )
   }
 
   // Resend confirmation email — fires only when API key is configured
