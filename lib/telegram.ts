@@ -17,7 +17,10 @@ function getToken(): string | null {
 export async function sendTelegram(chatId: string, html: string): Promise<boolean> {
   try {
     const token = getToken()
-    if (!token) return false
+    if (!token) {
+      console.error('Telegram alert NOT sent: TELEGRAM_BOT_TOKEN is not set in this environment')
+      return false
+    }
     const res = await fetch(`${API}/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -35,5 +38,6 @@ export async function sendTelegram(chatId: string, html: string): Promise<boolea
 export async function notifyTeam(html: string, onlyEmails?: string[]): Promise<void> {
   const staff = await listStaff().catch(() => [])
   const targets = staff.filter(s => s.telegramChatId && (!onlyEmails || onlyEmails.includes(s.email)))
+  if (targets.length === 0) console.error('Telegram alert NOT sent: no team member has a linked Telegram chat')
   await Promise.all(targets.map(s => sendTelegram(s.telegramChatId as string, html)))
 }
