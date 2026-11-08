@@ -5,26 +5,34 @@
 
 ---
 
-## CURRENT WORK (Nov 8, 2026) — Moving from Sanity to Firebase
+## CURRENT WORK (updated Nov 8, 2026, night) — Sanity → Firebase + admin app
 
-**Why:** Sanity dataset is public (guest names/phones readable by anyone); James wants one admin app, no Studio.
-**Firebase project:** `laagan-ph` (Firestore, Singapore; Auth = Email/Password + Google). Free Spark plan — do NOT upgrade.
-**Key file:** service-account JSON in `Desktop\Laagan Website (Don't Delete)\` (OneDrive-synced — consider moving). Local env: `FIREBASE_SERVICE_ACCOUNT_FILE` in `.env.local`. **Vercel needs `FIREBASE_SERVICE_ACCOUNT` = full JSON before deploy.**
+**Live site (laaganadventure.com) is still the OLD code on Sanity. Nothing new is live yet. Branch `firebase-switch` holds all new work (pushed to GitHub, preview deploys only).**
+
+**Firebase:** project `laagan-ph` (Firestore Singapore; Auth = Email/Password + Google; free Spark plan — do NOT upgrade).
+**Secrets live in** the folder "Laagan Website (Don't Delete)" on the Desktop (OneDrive-synced): Firebase key .json, telegram-token.txt, cron-secret.txt. Never paste them in chat. Local env names in `.env.local`.
+**Team (Firestore `staff`):** craftifylephotobooth@gmail.com = owner (James), ivyeisma255@gmail.com = staff (Ivy). Both have Telegram linked. Add people: `scripts/seed-staff.mjs`, link Telegram: `scripts/link-telegram.mjs`. Bot: @LaaganPH_bot.
 
 | Step | Status |
 |---|---|
-| Tidy repo | ✅ done (on master, not pushed) |
-| Copy Sanity data to Firestore (15 bookings, 2 tour prices, deposit, 6 gallery photos) | ✅ done + verified |
-| Site code reads/writes Firebase (`lib/db.ts`) | ✅ on branch `firebase-switch` — built & tested locally, NOT pushed |
-| Admin login (`/admin/login`, approved-emails list in Firestore `staff`, owner = craftifylephotobooth@gmail.com) | ✅ on branch, tested (Google popup not yet tried by hand) |
-| Admin screens: Today, bookings list + search, booking page (status, assignee, checklist, notes, call/Viber buttons) | ✅ on branch, tested |
-| Add a person: `node scripts/seed-staff.mjs "<key>" email staff "Name"` | tool ready |
-| Telegram alerts (new booking, overdue reply, morning summary) | ⏳ next |
-| Guest emails, price editing screen | ⏳ later |
-| Old `/dashboard` (password in URL, fallback `laagan2026`) | ⚠️ still live on master — replace |
-| Make Sanity private / remove it | ⏳ after switch is live |
+| Repo tidy | ✅ |
+| Data copied Sanity → Firestore (7 real bookings, 2 tour prices, deposit, 6 gallery photos) | ✅ verified; 8 test bookings removed from both |
+| Site reads/writes Firebase; server calculates price itself; input validated; honest error if save fails | ✅ tested on preview |
+| Admin login + Today / Bookings / Booking page (checklist, assignee, notes, call buttons) | ✅ tested locally; **NOT yet tried on the preview** |
+| Telegram: instant new-booking alert | ✅ tested on preview (arrived) |
+| Telegram: assignment alert, 8am morning summary | built; summary tested by hand locally; assignment + cron not yet tested live |
+| Vercel env vars | FIREBASE_SERVICE_ACCOUNT + TELEGRAM_BOT_TOKEN set for **Preview (branch firebase-switch)**; **Production not yet set**; CRON_SECRET to verify |
 
-**Known issues to fix:** booking price is computed in the browser and trusted by the server (also `?price=` in details URL); ₱300 (email) vs ₱500 (settings) deposit; Sanity still used for testimonials/blog (both empty); `app/studio`.
+**TO DO TOMORROW (in order):**
+1. Test admin on the preview: add `laagan-adventure-git-firebase-switch-james-ignacio-s-projects.vercel.app` to Firebase → Authentication → Settings → Authorized domains; sign in with Google; open test booking `la-j9a6l7` (name James Sanchez Ignacio, Nov 14); assign to Ivy (she should get a Telegram message). Then delete that test booking.
+2. Decide deposit: confirmation page + email say ₱300, settings say ₱500. Fix so one number is used everywhere. Remove/replace stale "June only ₱500 off" banner.
+3. Vercel → Environment Variables: add **Production** for FIREBASE_SERVICE_ACCOUNT, TELEGRAM_BOT_TOKEN, CRON_SECRET. Add authorized domains laaganadventure.com + laagan-adventure.vercel.app in Firebase.
+4. GO LIVE: merge firebase-switch → master (James must approve), watch deploy, make one real test booking, check Telegram. Vercel "Instant Rollback" is the undo.
+5. After live: make Sanity dataset private/remove it, delete SANITY_WRITE_TOKEN + DASHBOARD_PASSWORD, delete old /dashboard + /studio, decide on Xendit vars.
+6. **Rotate the Firebase private key** (it was shown in chat twice): Firebase → Project settings → Service accounts → generate new key, update Vercel + folder, delete old key.
+7. Later: guest emails (Resend key + domain verify, wording "received" not "confirmed"), real prices for the other 5 tours (James doesn't have them yet — until then they show "Contact us"), calendar view, price-editing screen, dedupe Shyrel's 3 identical bookings.
+
+**Real bookings now (7):** Kristoffer Decio, Olivier Castaignede, Martin Jude Baylen, Sigrid Pekas, Shyrel Ann Dawi x3. Several dates have passed — mark completed/cancelled in the admin.
 
 ---
 
