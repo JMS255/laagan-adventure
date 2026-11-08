@@ -27,7 +27,7 @@ export interface NewBooking {
 
 const DEFAULT_DEPOSIT = 500
 
-const refToId = (ref: string): string => ref.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+export const refToId = (ref: string): string => ref.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
 function toTourPricing(data: FirebaseFirestore.DocumentData): TourPricing {
   return {
@@ -104,11 +104,12 @@ export interface StaffMember {
   email: string
   name: string
   role: 'owner' | 'staff'
+  telegramChatId?: string
 }
 
 export async function listStaff(): Promise<StaffMember[]> {
   const snap = await getDb().collection('staff').get()
-  return snap.docs.map(d => ({ email: d.id, name: d.data().name || d.id, role: d.data().role }))
+  return snap.docs.map(d => ({ email: d.id, name: d.data().name || d.id, role: d.data().role, telegramChatId: d.data().telegramChatId }))
 }
 
 /** Team edits to a booking. Fails if the booking does not exist. */

@@ -1,5 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { saveBooking, getTourPricing } from '@/lib/db'
+import { after, NextRequest, NextResponse } from 'next/server'
+import { saveBooking, getTourPricing, refToId } from '@/lib/db'
+import { buildNewBookingAlert } from '@/lib/digest'
+import { escapeHtml } from '@/lib/escape-html'
+import { notifyTeam, SITE_URL } from '@/lib/telegram'
 import { getTourBySlug } from '@/lib/tours-data'
 import { calculateTotal } from '@/lib/promoCodes'
 
@@ -7,9 +10,6 @@ const MAX_GUESTS = 50
 const BOOKING_REF = /^#LA-[A-Z0-9]{6}$/
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-const escapeHtml = (s: string): string =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
 export async function POST(req: NextRequest) {
   const raw = await req.json().catch(() => null)
@@ -67,6 +67,13 @@ export async function POST(req: NextRequest) {
 
   // Same booking submitted twice (e.g. double tap): already saved, don't email again
   if (!created) return NextResponse.json({ ok: true, bookingRef: body.bookingRef })
+
+  // Tell the team on Telegram (runs after the guest has their response)
+  const alert = buildNewBookingAlert(
+    { _id: refToId(body.bookingRef), bookingRef: body.bookingRef, status: 'pending', tourTitle: body.tourTitle, date: body.date, guests, name: body.name, phone: body.phone, totalPrice: total, depositSent: false, submittedAt: new Date().toISOString() },
+    `${SITE_URL}/admin/bookings/${refToId(body.bookingRef)}`,
+  )
+  after(() => notifyTeam(alert))
 
   // Formspree backup email
   try {
