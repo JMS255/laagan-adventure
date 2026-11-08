@@ -1,6 +1,6 @@
 import 'server-only'
 import { readFileSync } from 'node:fs'
-import { cert, getApps, initializeApp, type ServiceAccount } from 'firebase-admin/app'
+import { cert, getApps, initializeApp, type App, type ServiceAccount } from 'firebase-admin/app'
 import { getFirestore, type Firestore } from 'firebase-admin/firestore'
 
 /**
@@ -16,7 +16,10 @@ function loadServiceAccount(): ServiceAccount {
   throw new Error('Firebase is not configured: set FIREBASE_SERVICE_ACCOUNT (or FIREBASE_SERVICE_ACCOUNT_FILE locally)')
 }
 
+export function getAdminApp(): App {
+  return getApps()[0] ?? initializeApp({ credential: cert(loadServiceAccount()) })
+}
+
 export function getDb(): Firestore {
-  const app = getApps()[0] ?? initializeApp({ credential: cert(loadServiceAccount()) })
-  return getFirestore(app)
+  return getFirestore(getAdminApp())
 }
