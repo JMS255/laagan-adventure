@@ -10,6 +10,30 @@ const INPUT_STYLE = {
   fontFamily: 'inherit', fontSize: '.9rem', marginBottom: '12px', boxSizing: 'border-box',
 } as const
 
+/** Turns a Firebase sign-in error into a sentence that says what to do. */
+function describeAuthError(err: unknown): string {
+  const code = typeof err === 'object' && err !== null && 'code' in err ? String((err as { code: unknown }).code) : ''
+  switch (code) {
+    case 'auth/unauthorized-domain':
+      return 'This website address is not approved for sign-in yet. Add it in Firebase: Authentication, Settings, Authorized domains.'
+    case 'auth/popup-blocked':
+      return 'Your browser blocked the sign-in window. Allow pop-ups for this site and try again.'
+    case 'auth/popup-closed-by-user':
+    case 'auth/cancelled-popup-request':
+      return 'The sign-in window was closed before it finished. Please try again.'
+    case 'auth/operation-not-allowed':
+      return 'This sign-in method is not switched on in Firebase (Authentication, Sign-in method).'
+    case 'auth/invalid-credential':
+    case 'auth/wrong-password':
+    case 'auth/user-not-found':
+      return 'The email or password is not correct.'
+    case 'auth/network-request-failed':
+      return 'Could not reach the internet. Check your connection and try again.'
+    default:
+      return `Sign-in did not complete${code ? ` (${code})` : ''}. Please try again.`
+  }
+}
+
 export default function LoginForm() {
   const router = useRouter()
   const [error, setError] = useState('')
@@ -37,8 +61,8 @@ export default function LoginForm() {
     setError('')
     try {
       await finishSignIn(await signIn())
-    } catch {
-      setError('Sign-in did not complete. Check your details and try again.')
+    } catch (err) {
+      setError(describeAuthError(err))
     } finally {
       setIsBusy(false)
     }
