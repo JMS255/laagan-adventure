@@ -208,8 +208,8 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
               <div className="detail-section">
                 <h2 className="detail-section__title">Cancellation Policy</h2>
                 <div className="info-box">
-                  <strong>✅ Free cancellation up to 24 hours before your tour.</strong><br />
-                  Cancel within 24 hours and you&apos;ll receive a full refund or free reschedule. Tours cancelled due to bad weather are rescheduled at no charge — your safety always comes first.
+                  <strong>Need to change or cancel?</strong><br />
+                  Message us on Messenger as early as you can and we&apos;ll work out the best option with you. Tours cancelled due to bad weather are rescheduled at no charge — your safety always comes first.
                 </div>
               </div>
 

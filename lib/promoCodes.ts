@@ -3,9 +3,6 @@ export type { PricingTier, PromoResult } from '@/lib/types'
 
 // Add / remove promo codes here
 const CODES: Record<string, { discount: number; type: 'fixed' | 'percent'; label: string }> = {
-  'LAAGAN500':  { discount: 500, type: 'fixed',   label: '₱500 off your booking' },
-  'SUMMER10':   { discount: 10,  type: 'percent',  label: '10% summer discount' },
-  'GROUP20':    { discount: 20,  type: 'percent',  label: '20% group discount' },
   'WELCOME200': { discount: 200, type: 'fixed',   label: '₱200 off — first-time visitor' },
 }
 

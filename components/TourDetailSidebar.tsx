@@ -104,7 +104,6 @@ export default function TourDetailSidebar({ tourSlug, basePrice, pricingTiers }:
       </Link>
       <div className="trust-micro">
         <span>💰 Small deposit only</span>
-        <span>✅ Free cancellation</span>
         <span>💬 24hr reply</span>
       </div>
       <div style={{ textAlign: 'center', marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border)' }}>

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useBooking } from '@/lib/booking-context'
-import PromoStrip from './PromoStrip'
 
 const links = [
   { href: '/tours',   label: 'Tours' },
@@ -32,8 +31,6 @@ export default function Nav({ transparent = false }: { transparent?: boolean }) 
 
   return (
     <div className="site-header">
-
-      <PromoStrip />
 
       {/* Main nav */}
       <header className="nav">

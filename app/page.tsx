@@ -154,8 +154,8 @@ export default async function HomePage() {
           <div className="container">
             <div className="trust-strip">
               <div className="trust-item">
-                <div className="trust-item__icon">✅</div>
-                <div className="trust-item__text">Free Cancellation</div>
+                <div className="trust-item__icon">🧭</div>
+                <div className="trust-item__text">Professional Local Guide</div>
               </div>
               <div className="trust-item">
                 <div className="trust-item__icon">💸</div>

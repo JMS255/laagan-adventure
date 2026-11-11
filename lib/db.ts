@@ -35,7 +35,7 @@ async function logged<T>(label: string, run: () => Promise<T>): Promise<T> {
   }
 }
 
-const DEFAULT_DEPOSIT = 500
+export const DEFAULT_DEPOSIT = 500
 
 export const refToId = (ref: string): string => ref.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 

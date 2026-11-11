@@ -22,7 +22,7 @@ input,select,textarea{font-family:inherit}
   --bg:#fff; --bg-2:#fdf5f7;
   --text:#0d2637; --muted:#4e6e80;
   --border:#e8d5da;
-  --strip-h:42px;
+  --strip-h:0px;
   --nav-h:calc(68px + var(--strip-h));
   --r:12px; --rl:18px;
 }

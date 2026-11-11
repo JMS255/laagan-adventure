@@ -1,5 +1,5 @@
 import { after, NextRequest, NextResponse } from 'next/server'
-import { saveBooking, getTourPricing, refToId } from '@/lib/db'
+import { DEFAULT_DEPOSIT, getSiteSettings, saveBooking, getTourPricing, refToId } from '@/lib/db'
 import { buildNewBookingAlert } from '@/lib/digest'
 import { escapeHtml } from '@/lib/escape-html'
 import { notifyTeam, SITE_URL } from '@/lib/telegram'
@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
 
   // Never trust the price sent by the browser — work it out here from the saved prices
   const pricing = await getTourPricing(tour.slug).catch(() => null)
+  const { depositAmount } = await getSiteSettings().catch(() => ({ depositAmount: DEFAULT_DEPOSIT }))
   const { pricePerPerson, total } = calculateTotal(pricing?.pricingTiers, pricing?.price ?? 0, adults, children, String(raw.promo ?? ''))
   const body = {
     ...raw,
@@ -124,7 +125,7 @@ export async function POST(req: NextRequest) {
           <tr><td style="padding:8px 0;color:#64748b">Booking Ref</td><td style="padding:8px 0;font-weight:600">${body.bookingRef}</td></tr>
         </table>
         <div style="background:#fff4f7;border:1px solid #f9a8d4;border-radius:8px;padding:16px;margin:20px 0">
-          <strong>Next step:</strong> Send a ₱300 GCash deposit to lock in your slot, then message us your receipt on <a href="https://m.me/61562040673545" style="color:#d96b8a">Messenger</a>.
+          <strong>Next step:</strong> Send a ₱${depositAmount.toLocaleString()} GCash deposit to lock in your slot, then message us your receipt on <a href="https://m.me/61562040673545" style="color:#d96b8a">Messenger</a>.
         </div>
         <p style="color:#64748b;font-size:.85rem">— Laagan Adventure Team · Zamboanga City</p>
       </div>
