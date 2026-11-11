@@ -8,7 +8,6 @@ import StickyBookBar from '@/components/StickyBookBar'
 import TourDetailSidebar from '@/components/TourDetailSidebar'
 import TourItinerary from '@/components/TourItinerary'
 import TourGallery from '@/components/TourGallery'
-import { client, TESTIMONIALS_QUERY } from '@/lib/sanity'
 import { getTourPricing } from '@/lib/db'
 import { getTourBySlug, getSimilarTours, TOURS_DATA } from '@/lib/tours-data'
 import type { Metadata } from 'next'
@@ -36,14 +35,11 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
 
   const similarTours = getSimilarTours(slug, 3)
 
-  const [sanityTour, testimonials] = await Promise.all([
-    getTourPricing(slug).catch(() => null),
-    client.fetch(TESTIMONIALS_QUERY).catch(() => []),
-  ])
+  const pricing = await getTourPricing(slug).catch(() => null)
 
-  const price     = sanityTour?.price ?? null
-  const priceNote = sanityTour?.priceNote ?? 'per person'
-  const badge     = sanityTour?.badgeLabel ?? null
+  const price     = pricing?.price ?? null
+  const priceNote = pricing?.priceNote ?? 'per person'
+  const badge     = pricing?.badgeLabel ?? null
 
   const thumbUrls = tour.photos.slice(0, 2).map((url, i) => ({ url, alt: `${tour.title} photo ${i + 2}` }))
 
@@ -125,7 +121,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
             {badge && (
               <div className="urgency-bar">
                 <span className="urgency-bar__badge">{badge}</span>
-                <span className="urgency-bar__text">{sanityTour?.urgencyNote || 'Limited spots available'}</span>
+                <span className="urgency-bar__text">{pricing?.urgencyNote || 'Limited spots available'}</span>
                 <span className="urgency-bar__note">Book ahead</span>
               </div>
             )}
@@ -221,31 +217,6 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                     {tour.importantNotes.map(note => (
                       <div key={note} className="info-box" style={{ marginBottom: 0 }}>⚠️ {note}</div>
                     ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Reviews — only shown when real reviews exist in Sanity */}
-              {(testimonials as { _id: string }[]).length > 0 && (
-                <div className="detail-section">
-                  <h2 className="detail-section__title">Guest Reviews</h2>
-                  {(testimonials as { _id: string; name: string; tour: string; review: string; location?: string }[]).slice(0, 3).map(t => (
-                    <div key={t._id} className="review-card">
-                      <div className="review-meta">
-                        <div className="review-avatar">{t.name?.[0]}</div>
-                        <div>
-                          <div className="review-name">{t.name} <span style={{ color: '#f5a623', fontSize: '.85rem' }}>★★★★★</span></div>
-                          {t.location && <div className="review-date">{t.location}</div>}
-                        </div>
-                        {t.tour && <div className="review-tour" style={{ marginLeft: 'auto' }}>{t.tour}</div>}
-                      </div>
-                      <p className="review-text">&ldquo;{t.review}&rdquo;</p>
-                    </div>
-                  ))}
-                  <div style={{ marginTop: '20px' }}>
-                    <a href="https://www.facebook.com/profile.php?id=61562040673545" target="_blank" rel="noopener noreferrer" style={{ fontSize: '.82rem', fontWeight: 600, color: 'var(--pink)' }}>
-                      See all reviews on Facebook →
-                    </a>
                   </div>
                 </div>
               )}

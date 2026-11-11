@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/studio/', '/book/'],
+      disallow: ['/admin/', '/book/', '/api/'],
     },
-    sitemap: 'https://laagan-adventure.vercel.app/sitemap.xml',
+    sitemap: 'https://laaganadventure.com/sitemap.xml',
   }
 }

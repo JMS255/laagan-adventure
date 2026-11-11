@@ -17,7 +17,7 @@ export const ZAMBOANGA_SPOTS: Spot[] = [
   { id: 'paseo-del-mar',    name: 'Paseo Del Mar',                       icon: '🌊', desc: "Zamboanga's beautiful waterfront promenade.",            defaultOn: true  },
 ]
 
-// Fallback pricing — override via Sanity Studio (siteConfig document)
+// Fallback pricing (the live deposit and prices are in the database)
 export const PRICING_FALLBACK = {
   small: { label: '2–5 pax', price: 3500 },
   large: { label: '6+ pax',  price: 4500 },

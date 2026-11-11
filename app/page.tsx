@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import TravelerFilter from '@/components/TravelerFilter'
-import { client, urlFor, TESTIMONIALS_QUERY } from '@/lib/sanity'
 import { getAllTourPricing } from '@/lib/db'
 import type { Metadata } from 'next'
 
@@ -15,10 +14,7 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const [allTours, testimonials] = await Promise.all([
-    getAllTourPricing().catch(() => []),
-    client.fetch(TESTIMONIALS_QUERY).catch(() => []),
-  ])
+  const allTours = await getAllTourPricing().catch(() => [])
 
   return (
     <>
@@ -176,32 +172,6 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-
-        {/* ── I. TESTIMONIALS — only shown when real reviews exist in Sanity ── */}
-        {(testimonials as { _id: string }[]).length > 0 && (
-          <section className="section section--alt">
-            <div className="container">
-              <span className="section__label section__label--center">What Travelers Say</span>
-              <h2 className="section__title section__title--center">Real Stories from Real Guests</h2>
-              <div className="tcard-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '24px', marginTop: '48px' }}>
-                {(testimonials as { _id: string; name: string; tour: string; review: string; rating: number; location?: string }[]).slice(0, 3).map(t => (
-                  <div key={t._id} className="tcard">
-                    <div className="tcard__stars">{'★'.repeat(t.rating ?? 5)}</div>
-                    <p className="tcard__quote">&ldquo;{t.review}&rdquo;</p>
-                    <div className="tcard__author">
-                      <div className="tcard__avatar">{t.name?.[0]}</div>
-                      <div>
-                        <div className="tcard__name">{t.name}</div>
-                        {t.location && <div className="tcard__meta">{t.location}</div>}
-                        {t.tour && <div className="tcard__tour-tag">{t.tour}</div>}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
 
         {/* ── J. SOCIAL PROOF STRIP ── */}
         <section className="section--sm" style={{ background: '#fff' }}>

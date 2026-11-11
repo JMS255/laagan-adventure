@@ -58,7 +58,6 @@ export default function Footer() {
             <div className="footer__col-title">Company</div>
             <div className="footer__links">
               <Link href="/about">About</Link>
-              <Link href="/blog">Blog</Link>
               <Link href="/contact">Contact</Link>
               <Link href="/gallery">Gallery</Link>
             </div>

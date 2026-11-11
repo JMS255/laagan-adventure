@@ -4,7 +4,7 @@ import type { Booking, GalleryItem, PricingTier, TourCard } from '@/lib/types'
 import type { BookingPatch } from '@/lib/booking-logic'
 import { DEFAULT_DEPOSIT_RULE, type DepositRule } from '@/lib/deposit'
 
-/** Price/availability info for a tour, shaped like the old Sanity tour cards so pages need few changes. */
+/** Price/availability info for a tour, shaped like a tour card so pages need few changes. */
 export type TourPricing = TourCard & { pricingTiers: PricingTier[]; availabilityNote?: string }
 
 export interface SiteSettings {

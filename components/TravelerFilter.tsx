@@ -15,12 +15,12 @@ const FILTERS = [
 
 type FilterId = typeof FILTERS[number]['id'] | 'all'
 
-export default function TravelerFilter({ tours: sanityTours }: { tours: TourCard[] }) {
+export default function TravelerFilter({ tours: pricedTours }: { tours: TourCard[] }) {
   const [active, setActive] = useState<FilterId>('all')
 
   const merged = TOURS_DATA.map(t => {
-    const sanity = sanityTours.find(s => s.slug?.current === t.slug)
-    return { ...t, price: sanity?.price ?? null, priceNote: sanity?.priceNote ?? 'per person', badgeLabel: sanity?.badgeLabel ?? null }
+    const priced = pricedTours.find(s => s.slug?.current === t.slug)
+    return { ...t, price: priced?.price ?? null, priceNote: priced?.priceNote ?? 'per person', badgeLabel: priced?.badgeLabel ?? null }
   })
 
   const filtered = active === 'all' ? merged : merged.filter(t => t.audience.includes(active))

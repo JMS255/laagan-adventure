@@ -21,15 +21,15 @@ const SORT_OPTIONS = [
   { value: 'duration',  label: 'Duration: Shortest' },
 ]
 
-export default function ToursFilter({ tours: sanityTours }: { tours: TourCard[] }) {
+export default function ToursFilter({ tours: pricedTours }: { tours: TourCard[] }) {
   const [traveler, setTraveler]       = useState<TravelerId>('all')
   const [sort, setSort]               = useState('popular')
   const [drawerOpen, setDrawerOpen]   = useState(false)
   const [activeFilters, setActiveFilters] = useState<string[]>([])
 
   const merged = TOURS_DATA.map(t => {
-    const sanity = sanityTours.find(s => s.slug?.current === t.slug)
-    return { ...t, price: sanity?.price ?? null, priceNote: sanity?.priceNote ?? 'per person', badgeLabel: sanity?.badgeLabel ?? null }
+    const priced = pricedTours.find(s => s.slug?.current === t.slug)
+    return { ...t, price: priced?.price ?? null, priceNote: priced?.priceNote ?? 'per person', badgeLabel: priced?.badgeLabel ?? null }
   })
 
   const filtered = useMemo(() => {

@@ -23,13 +23,15 @@
 | Telegram: assignment alert, 8am morning summary | built; summary tested by hand locally; assignment + cron not yet tested live |
 | Vercel env vars | FIREBASE_SERVICE_ACCOUNT + TELEGRAM_BOT_TOKEN set for **Preview (branch firebase-switch)**; **Production not yet set**; CRON_SECRET to verify |
 
+**Cleanup done Nov 11 (branch cleanup-sanity):** Sanity project DELETED (backup JSON in the secrets folder); removed /studio, old /dashboard, /blog (hidden until there is a way to write posts), Xendit payment code, testimonials code, Sanity packages. Destination pages now list tours from `lib/destinations.ts` (`tourSlugs`) + prices from Firestore; sitemap lists all 7 tours + 4 destinations under laaganadventure.com. Firebase key was replaced by James; the OLD key must still be deleted in Google Cloud > IAM > Service accounts > Keys (id starts 6782c93957) once Vercel is confirmed on the new key.
+
 **STILL TO DO:**
-1. Make the Sanity dataset private / shut it down: its public data still contains the 7 real guests (+3 old test bookings). Then delete SANITY_WRITE_TOKEN, DASHBOARD_PASSWORD and the NEXT_PUBLIC_SANITY_* variables in Vercel; remove app/studio, app/dashboard, sanity/ and the Sanity packages; decide on Xendit variables.
-2. Rotate the Firebase private key (it was shown in chat via the editor): Firebase > Project settings > Service accounts > generate new key, update FIREBASE_SERVICE_ACCOUNT in Vercel (Production + Preview) and the secrets folder, delete the old key.
+1. In Vercel, delete now-unused env vars: SANITY_WRITE_TOKEN, DASHBOARD_PASSWORD, NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET, XENDIT_SECRET_KEY, XENDIT_WEBHOOK_TOKEN. Also stale lines in local .env.local.
+2. Delete the OLD Firebase key (see above) and put the NEW key file in the secrets folder; update FIREBASE_SERVICE_ACCOUNT_FILE in .env.local.
 3. Guest emails (Resend): add RESEND_API_KEY + verify domain; wording "received" not "confirmed".
-4. Real prices for the other 5 tours (James does not have them yet; they show Contact us). Business decisions made Nov 11: deposit = 10% of total (min 300, rounded to 50) in Firestore settings/site; only promo WELCOME200; no free-cancellation promise on booking pages; June banner removed.
-5. Admin: mark old bookings completed/cancelled; dedupe Shyrel's 3 identical bookings; calendar view and price-editing screen later.
-6. Delete leftover test bookings in Firebase (la-j9a6l7, la-zzlive).
+4. Real prices for the other 5 tours (James does not have them yet; they show Contact us). Decisions Nov 11: deposit 10% (min 300, round 50) in Firestore settings/site; only promo WELCOME200; no free-cancellation promise on booking pages.
+5. Admin housekeeping: Shyrel's 3 identical bookings (kept for now); calendar view and price-editing screen later; a blog could return as an admin feature.
+6. Trust strip still says Free Reschedule (James chose it earlier) — confirm it is real policy.
 
 **Real bookings now (7):** Kristoffer Decio, Olivier Castaignede, Martin Jude Baylen, Sigrid Pekas, Shyrel Ann Dawi x3. Several dates have passed — mark completed/cancelled in the admin.
 
@@ -85,10 +87,10 @@ A travel and tours website for a local tour operator in Zamboanga City, Philippi
 | Layer | Tool |
 |---|---|
 | Framework | Next.js 15 App Router + TypeScript |
-| CMS | Sanity.io (project ID: o5mustem, dataset: production) |
+| Database | Firebase Firestore (project `laagan-ph`); no CMS — content is in code, prices/bookings/settings in the database, managed in /admin |
 | Styling | CSS custom properties — shared.css system, NO Tailwind |
 | Fonts | Playfair Display (headings) + Plus Jakarta Sans (body) |
-| Payments | Xendit (GCash deposits) |
+| Payments | Manual GCash QR (deposit = 10% of total, min ₱300). Xendit code removed Nov 11 |
 | Email | Resend REST API (raw fetch, no npm package) — `RESEND_API_KEY` env var |
 | Analytics | GA4 — measurement ID in `app/layout.tsx` |
 | Hosting | Vercel |

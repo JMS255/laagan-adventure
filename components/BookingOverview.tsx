@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { urlFor } from '@/lib/sanity'
 import { getPricePerPerson, applyPromo } from '@/lib/promoCodes'
 import { calculateDeposit, type DepositRule } from '@/lib/deposit'
 import type { TourCard } from '@/lib/types'
@@ -118,7 +117,7 @@ export default function BookingOverview({ tour, thumbUrl, depositRule, initialDa
     }
   }
 
-  const imgUrl = thumbUrl ?? (tour.mainImage ? urlFor(tour.mainImage).width(160).height(120).url() : null)
+  const imgUrl = thumbUrl ?? null
 
   return (
     <div className="booking-page">

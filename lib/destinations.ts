@@ -1,5 +1,5 @@
-// Static destination config — shaped to match a future Sanity 'destination' schema.
-// To migrate: replace DESTINATIONS import with a Sanity GROQ query returning the same shape.
+// Static destination config. The tours shown on each destination page are listed in `tourSlugs`
+// (the slugs of tours in lib/tours-data.ts); prices come from the database.
 
 export interface ThingToDo {
   icon: string
@@ -17,14 +17,14 @@ export interface Destination {
   weatherNote: string
   thingsToDo: ThingToDo[]
   highlights: string[]
-  destinationTag: string // must match the `destination` string field on Sanity tours
+  tourSlugs: string[] // which tours (slugs from lib/tours-data.ts) appear on this destination's page
 }
 
 export const DESTINATIONS: Destination[] = [
   {
     slug: 'santa-cruz-island',
     name: 'Santa Cruz Island',
-    destinationTag: 'Santa Cruz Island',
+    tourSlugs: ['santa-cruz-island-tour', 'once-islas-island-hopping'],
     tagline: 'Walk the only pink sand beach in the Philippines.',
     heroGradient: 'linear-gradient(160deg, #0ea5e9 0%, #0369a1 45%, #1a2744 100%)',
     description: 'Santa Cruz Island sits in the middle of Zamboanga Bay, a short boat ride from the city. Its beach is one of only a handful of pink-sand beaches on earth — the colour comes from millions of tiny crushed coral shells mixed with white sand. The lagoon behind the island stays glassy calm even when the open sea is rough, making it perfect for swimming at any time of year.',
@@ -47,7 +47,7 @@ export const DESTINATIONS: Destination[] = [
   {
     slug: 'zamboanga-city',
     name: 'Zamboanga City',
-    destinationTag: 'Zamboanga City',
+    tourSlugs: ['zamboanga-city-heritage-tour', 'merloquet-falls-eco-tour', 'paseo-del-mar-sunset-cruise'],
     tagline: 'Forts, mosques, and the stories behind every corner.',
     heroGradient: 'linear-gradient(160deg, #d97706 0%, #b45309 45%, #1a2744 100%)',
     description: 'Zamboanga City is one of the most culturally layered cities in the Philippines. Spanish forts, ancestral mosques, Yakan weaving villages, and the famously colourful vintas sail side by side. The city\'s Chavacano language — a Spanish-based creole — is spoken nowhere else on earth. This is the Philippines most people haven\'t discovered yet.',
@@ -70,7 +70,7 @@ export const DESTINATIONS: Destination[] = [
   {
     slug: 'basilan-province',
     name: 'Basilan Province',
-    destinationTag: 'Basilan',
+    tourSlugs: ['basilan-day-trip'],
     tagline: 'White beaches and jungle waterfalls, one island away.',
     heroGradient: 'linear-gradient(160deg, #059669 0%, #047857 45%, #1a2744 100%)',
     description: 'Basilan is the island province directly south of Zamboanga City — less than an hour away by fast craft. Most visitors never make it here, which means Malamawi\'s white sand beach and Bulingan Falls are yours almost entirely. Basilan rewards those willing to go a little further.',
@@ -93,7 +93,7 @@ export const DESTINATIONS: Destination[] = [
   {
     slug: 'zambasulta',
     name: 'ZAMBASULTA Journey',
-    destinationTag: 'ZAMBASULTA',
+    tourSlugs: ['zambasulta-complete-tour'],
     tagline: 'The complete southern arc — Zamboanga to Tawi-Tawi.',
     heroGradient: 'linear-gradient(160deg, #7c3aed 0%, #6d28d9 45%, #1a2744 100%)',
     description: 'ZAMBASULTA is the name for the route that covers the full southern arc of the Philippines: Zamboanga, Basilan, Sulu, and Tawi-Tawi. Over 7 days you move through ancient mosque towns, the floating villages of Tawi-Tawi, the sacred peak of Bud Bongao, and the historic streets of Jolo. Most of these places require local connections to visit safely — that\'s exactly what we provide.',

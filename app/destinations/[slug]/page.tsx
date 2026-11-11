@@ -5,11 +5,11 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
-import { client, urlFor, TOURS_BY_DESTINATION_QUERY, TESTIMONIALS_QUERY } from '@/lib/sanity'
+import { getAllTourPricing } from '@/lib/db'
+import { getTourBySlug } from '@/lib/tours-data'
 import { DESTINATIONS, getDestination } from '@/lib/destinations'
 import StickyBookBar from '@/components/StickyBookBar'
 import type { Metadata } from 'next'
-import type { TourCard, Testimonial } from '@/lib/types'
 
 export async function generateStaticParams() {
   return DESTINATIONS.map(d => ({ slug: d.slug }))
@@ -27,10 +27,12 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
   const dest = getDestination(slug)
   if (!dest) notFound()
 
-  const [tours, testimonials] = await Promise.all([
-    client.fetch(TOURS_BY_DESTINATION_QUERY, { destination: dest.destinationTag }).catch(() => []),
-    client.fetch(TESTIMONIALS_QUERY).catch(() => []),
-  ])
+  const prices = await getAllTourPricing().catch(() => [])
+  const priceOf = (tourSlug: string) => prices.find(p => p.slug.current === tourSlug)
+  const tours = dest.tourSlugs.flatMap(tourSlug => {
+    const tour = getTourBySlug(tourSlug)
+    return tour ? [tour] : []
+  })
 
   return (
     <>
@@ -65,16 +67,16 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
             <p className="section__label">Book your adventure</p>
             <h2 className="section__title" style={{ marginBottom: '8px' }}>Tours to {dest.name}</h2>
             <p style={{ fontSize: '.9rem', color: 'var(--text-muted)', marginBottom: '48px', maxWidth: '520px', lineHeight: 1.7 }}>
-              Every tour is fully guided, includes all permits, and requires no upfront payment.
+              Every tour is fully guided and includes all permits. A small deposit secures your slot.
             </p>
 
-            {(tours as TourCard[]).length > 0 ? (
+            {tours.length > 0 ? (
               <div className="tours-grid">
-                {(tours as TourCard[]).map(t => (
-                  <Link href={`/tours/${t.slug.current}`} className="tour-card" key={t._id}>
+                {tours.map(t => (
+                  <Link href={`/tours/${t.slug}`} className="tour-card" key={t.slug}>
                     <div className="tour-card__img" style={{ position: 'relative' }}>
                       {t.mainImage
-                        ? <Image src={urlFor(t.mainImage).width(600).height(450).url()} fill alt={t.title} style={{ objectFit: 'cover' }} sizes="(max-width:600px) 100vw,(max-width:900px) 50vw,33vw" />
+                        ? <Image src={t.mainImage} fill alt={t.title} style={{ objectFit: 'cover' }} sizes="(max-width:600px) 100vw,(max-width:900px) 50vw,33vw" />
                         : <div style={{ width: '100%', height: '100%', background: dest.heroGradient }} />
                       }
                     </div>
@@ -84,8 +86,8 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
                       <p className="tour-card__desc">{t.tagline}</p>
                       <div className="tour-card__footer">
                         <div>
-                          <p className="tour-card__price">₱{t.price?.toLocaleString()}</p>
-                          <p className="tour-card__price-note">{t.priceNote}</p>
+                          <p className="tour-card__price">{priceOf(t.slug)?.price ? `₱${priceOf(t.slug)?.price?.toLocaleString()}` : 'Contact us'}</p>
+                          <p className="tour-card__price-note">{priceOf(t.slug)?.priceNote ?? 'per person'}</p>
                         </div>
                         <span className="tour-card__cta">View Tour →</span>
                       </div>
@@ -166,7 +168,7 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
                 <p style={{ fontSize: '2rem', marginBottom: '14px' }}>🧳</p>
                 <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>Ready to go?</h3>
                 <p style={{ fontSize: '.85rem', color: 'rgba(255,255,255,.65)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  No upfront payment. No booking fees. Just message us and we&apos;ll plan everything.
+                  No booking fees. Just message us and we&apos;ll plan everything.
                 </p>
                 <Link href={`/contact?tour=${encodeURIComponent(dest.name)}`} className="btn btn--primary" style={{ fontSize: '.82rem' }}>
                   Start Planning →
@@ -175,31 +177,6 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
             </div>
           </div>
         </section>
-
-        {/* ── REVIEWS ── */}
-        {(testimonials as Testimonial[]).length > 0 && (
-          <section style={{ padding: '80px 0', background: '#fff' }}>
-            <div className="container">
-              <p className="section__label">What travelers say</p>
-              <h2 className="section__title" style={{ marginBottom: '40px' }}>Real words from real travelers</h2>
-              <div className="reviews-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-                {(testimonials as Testimonial[]).slice(0, 3).map(t => (
-                  <div key={t._id} className="tcard">
-                    <div className="tcard__stars">{'★'.repeat(t.rating ?? 5)}</div>
-                    <p className="tcard__quote">&ldquo;{t.review}&rdquo;</p>
-                    <div className="tcard__author">
-                      <div className="tcard__avatar">{t.name?.[0]}</div>
-                      <div>
-                        <p className="tcard__name">{t.name}</p>
-                        {t.tour && <p className="tcard__role">{t.tour}</p>}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
 
         {/* ── BOTTOM CTA ── */}
         <section style={{ background: 'var(--navy)', padding: '96px 0' }}>
@@ -211,7 +188,7 @@ export default async function DestinationPage({ params }: { params: Promise<{ sl
               Your {dest.name} adventure starts with one message.
             </h2>
             <p style={{ color: 'rgba(255,255,255,.65)', marginBottom: '40px', maxWidth: '420px', margin: '0 auto 40px', lineHeight: 1.7 }}>
-              No booking fees. No upfront payment. Tell us what you&apos;re looking for and we&apos;ll plan the perfect trip.
+              No booking fees. Tell us what you&apos;re looking for and we&apos;ll plan the perfect trip.
             </p>
             <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href={`/contact?tour=${encodeURIComponent(dest.name)}`} className="btn btn--primary" style={{ fontSize: '.9rem', padding: '16px 36px' }}>

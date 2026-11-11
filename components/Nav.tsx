@@ -7,7 +7,6 @@ import { useBooking } from '@/lib/booking-context'
 const links = [
   { href: '/tours',   label: 'Tours' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/blog',    label: 'Blog' },
   { href: '/about',   label: 'About' },
   { href: '/contact', label: 'Contact' },
 ]

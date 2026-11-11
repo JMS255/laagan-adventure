@@ -1,17 +1,26 @@
 import { ImageResponse } from 'next/og'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { client, urlFor } from '@/lib/sanity'
+import { getTourBySlug } from '@/lib/tours-data'
 
 export const alt = 'Laagan Adventure Tour'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
+/** A tour photo as something the share-image renderer can embed: local files become data addresses. */
+async function imageSource(path: string | undefined): Promise<string | null> {
+  if (!path) return null
+  if (!path.startsWith('/')) return path
+  const file = await readFile(join(process.cwd(), 'public', path)).catch(() => null)
+  if (!file) return null
+  return `data:${path.endsWith('.png') ? 'image/png' : 'image/jpeg'};base64,${file.toString('base64')}`
+}
+
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
 
   const [tour, fontRegular, fontBold, logoData] = await Promise.all([
-    client.fetch(`*[_type == "tour" && slug.current == $slug][0]{ title, tagline, destination, mainImage }`, { slug }).catch(() => null),
+    Promise.resolve(getTourBySlug(slug) ?? null),
     readFile(join(process.cwd(), 'public/fonts/Inter-Regular.ttf')).catch(() => null),
     readFile(join(process.cwd(), 'public/fonts/Inter-Bold.ttf')).catch(() => null),
     readFile(join(process.cwd(), 'public/logo.jpg')).then(b => `data:image/jpeg;base64,${b.toString('base64')}`).catch(() => null),
@@ -25,7 +34,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const tourTitle   = tour?.title       ?? 'Laagan Adventure Tour'
   const tourTagline = tour?.tagline     ?? 'Your trusted local guide in Zamboanga City.'
   const destination = tour?.destination ?? 'Zamboanga City'
-  const tourImgUrl  = tour?.mainImage   ? urlFor(tour.mainImage).width(500).height(630).fit('crop').url() : null
+  const tourImgUrl  = await imageSource(tour?.mainImage)
 
   return new ImageResponse(
     (
@@ -74,7 +83,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ display: 'flex', width: '40px', height: '3px', background: '#d96b8a', borderRadius: '2px' }} />
             <span style={{ fontSize: '15px', fontWeight: 400, color: 'rgba(255,255,255,0.5)' }}>
-              laagan-adventure.vercel.app
+              laaganadventure.com
             </span>
           </div>
         </div>

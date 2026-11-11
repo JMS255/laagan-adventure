@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // LAAGAN ADVENTURE — Hardcoded Tour Content
-// Prices, availability, badges, urgencyNote → managed in Sanity Studio
+// Prices, availability, badges, urgencyNote → stored in the database (Firestore `tours` collection)
 // Everything else → managed here in code (James edits this file)
-// To add a new tour: add an entry below AND add a Sanity doc with the same slug
+// To add a new tour: add an entry below AND add a Firestore `tours` document with the same slug
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface TourInclusion { text: string; included: boolean }

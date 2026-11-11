@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
   description: 'Explore Zamboanga City with a trusted local guide. Santa Cruz Island, city tours, island hopping, and more. Book your adventure today.',
   keywords: ['tour Zamboanga City', 'Santa Cruz Island tour', 'Zamboanga tour package', 'island hopping Zamboanga', 'Laagan Adventure'],
-  metadataBase: new URL('https://laagan-adventure.vercel.app'),
+  metadataBase: new URL('https://laaganadventure.com'),
   openGraph: {
     type: 'website',
     siteName: 'Laagan Adventure',
