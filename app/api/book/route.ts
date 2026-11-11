@@ -1,5 +1,6 @@
 import { after, NextRequest, NextResponse } from 'next/server'
-import { DEFAULT_DEPOSIT, getSiteSettings, saveBooking, getTourPricing, refToId } from '@/lib/db'
+import { getSiteSettings, saveBooking, getTourPricing, refToId } from '@/lib/db'
+import { calculateDeposit, DEFAULT_DEPOSIT_RULE } from '@/lib/deposit'
 import { buildNewBookingAlert } from '@/lib/digest'
 import { escapeHtml } from '@/lib/escape-html'
 import { notifyTeam, SITE_URL } from '@/lib/telegram'
@@ -29,7 +30,7 @@ export async function POST(req: NextRequest) {
 
   // Never trust the price sent by the browser — work it out here from the saved prices
   const pricing = await getTourPricing(tour.slug).catch(() => null)
-  const { depositAmount } = await getSiteSettings().catch(() => ({ depositAmount: DEFAULT_DEPOSIT }))
+  const { depositRule } = await getSiteSettings().catch(() => ({ depositRule: DEFAULT_DEPOSIT_RULE }))
   const { pricePerPerson, total } = calculateTotal(pricing?.pricingTiers, pricing?.price ?? 0, adults, children, String(raw.promo ?? ''))
   const body = {
     ...raw,
@@ -43,6 +44,7 @@ export async function POST(req: NextRequest) {
   }
 
   const guests = adults + children
+  const depositDue = calculateDeposit(total, depositRule)
 
   // Save to the database
   let created = true
@@ -58,6 +60,7 @@ export async function POST(req: NextRequest) {
       phone: body.phone,
       email: body.email ?? '',
       totalPrice: Number(body.totalPrice),
+      depositDue,
       depositSent: body.depositSent ?? false,
       promo: body.promo ?? '',
       notes: body.notes ?? '',
@@ -72,7 +75,7 @@ export async function POST(req: NextRequest) {
 
   // Tell the team on Telegram (runs after the guest has their response)
   const alert = buildNewBookingAlert(
-    { _id: refToId(body.bookingRef), bookingRef: body.bookingRef, status: 'pending', tourTitle: body.tourTitle, date: body.date, guests, name: body.name, phone: body.phone, totalPrice: total, depositSent: false, submittedAt: new Date().toISOString() },
+    { _id: refToId(body.bookingRef), bookingRef: body.bookingRef, status: 'pending', tourTitle: body.tourTitle, date: body.date, guests, name: body.name, phone: body.phone, totalPrice: total, depositDue, depositSent: false, submittedAt: new Date().toISOString() },
     `${SITE_URL}/admin/bookings/${refToId(body.bookingRef)}`,
   )
   after(() => notifyTeam(alert))
@@ -90,6 +93,7 @@ export async function POST(req: NextRequest) {
     if (body.email) form.set('email', body.email)
     form.set('price_per_person', `₱${Number(body.pricePerPerson).toLocaleString()}`)
     form.set('total_price', `₱${Number(body.totalPrice).toLocaleString()}`)
+    form.set('deposit_due', depositDue > 0 ? `₱${depositDue.toLocaleString()}` : 'to be confirmed')
     if (body.promo) form.set('promo_code', body.promo)
     if (body.notes) form.set('special_requirements', body.notes)
     form.set('deposit_sent', body.depositSent ? 'Yes' : 'No')
@@ -125,7 +129,7 @@ export async function POST(req: NextRequest) {
           <tr><td style="padding:8px 0;color:#64748b">Booking Ref</td><td style="padding:8px 0;font-weight:600">${body.bookingRef}</td></tr>
         </table>
         <div style="background:#fff4f7;border:1px solid #f9a8d4;border-radius:8px;padding:16px;margin:20px 0">
-          <strong>Next step:</strong> Send a ₱${depositAmount.toLocaleString()} GCash deposit to lock in your slot, then message us your receipt on <a href="https://m.me/61562040673545" style="color:#d96b8a">Messenger</a>.
+          <strong>Next step:</strong> ${depositDue > 0 ? `Send a ₱${depositDue.toLocaleString()} GCash deposit to lock in your slot` : 'We will confirm your exact price and deposit amount when we reply. Please wait for our message before sending any payment'}, then message us your receipt on <a href="https://m.me/61562040673545" style="color:#d96b8a">Messenger</a>.
         </div>
         <p style="color:#64748b;font-size:.85rem">— Laagan Adventure Team · Zamboanga City</p>
       </div>

@@ -116,6 +116,7 @@ export interface Booking {
   phone: string
   email?: string
   totalPrice: number
+  depositDue?: number
   depositSent: boolean
   submittedAt: string
 }

@@ -39,6 +39,7 @@ export default async function AdminBookingPage({
           <dt>Date</dt><dd>{formatTourDate(booking.date)}</dd>
           <dt>Guests</dt><dd>{booking.guests}</dd>
           <dt>Total</dt><dd>{formatPeso(booking.totalPrice)}{booking.promo ? ` (promo ${booking.promo})` : ''}</dd>
+          <dt>Deposit due</dt><dd>{booking.depositDue ? formatPeso(booking.depositDue) : 'To be confirmed'}</dd>
           {booking.notes && (<><dt>Guest notes</dt><dd>{booking.notes}</dd></>)}
         </dl>
       </div>

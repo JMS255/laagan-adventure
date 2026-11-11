@@ -5,6 +5,7 @@ import PassengerDetailsForm from '@/components/PassengerDetailsForm'
 import { getTourPricing, getSiteSettings } from '@/lib/db'
 import { getTourBySlug } from '@/lib/tours-data'
 import { getPricePerPerson, applyPromo } from '@/lib/promoCodes'
+import { calculateDeposit, DEFAULT_DEPOSIT_RULE } from '@/lib/deposit'
 import type { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -34,7 +35,7 @@ export default async function BookDetailsPage({
   const pricePerPerson = price ? Number(price) : getPricePerPerson(pricing?.pricingTiers, pricing?.price ?? 0, guests)
   const subtotal       = pricePerPerson * guests
   const { discount, finalTotal } = applyPromo(subtotal, promo ?? '')
-  const depositAmount  = config?.depositAmount ?? 500
+  const depositAmount  = calculateDeposit(finalTotal, config?.depositRule ?? DEFAULT_DEPOSIT_RULE)
 
   return (
     <>

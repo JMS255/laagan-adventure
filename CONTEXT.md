@@ -25,7 +25,7 @@
 
 **TO DO TOMORROW (in order):**
 1. Test admin on the preview: add `laagan-adventure-git-firebase-switch-james-ignacio-s-projects.vercel.app` to Firebase → Authentication → Settings → Authorized domains; sign in with Google; open test booking `la-j9a6l7` (name James Sanchez Ignacio, Nov 14); assign to Ivy (she should get a Telegram message). Then delete that test booking.
-2. Decide deposit: confirmation page + email say ₱300, settings say ₱500. Fix so one number is used everywhere. Remove/replace stale "June only ₱500 off" banner.
+2. ✅ DONE (Nov 11) business decisions: deposit = 10% of the booking total, minimum ₱300, rounded to nearest ₱50 (rule in `lib/deposit.ts`, values in Firestore `settings/site` as depositPercent / depositMinimum; tours with no price show "deposit confirmed when we reply"). June banner removed. Only promo code WELCOME200 is active. "Free cancellation" promise removed from booking/tour pages (trust strip still says Free Reschedule — James chose that earlier; ask if he wants it removed too). Admin and Telegram now show "Deposit due".
 3. Vercel → Environment Variables: add **Production** for FIREBASE_SERVICE_ACCOUNT, TELEGRAM_BOT_TOKEN, CRON_SECRET. Add authorized domains laaganadventure.com + laagan-adventure.vercel.app in Firebase.
 4. GO LIVE: merge firebase-switch → master (James must approve), watch deploy, make one real test booking, check Telegram. Vercel "Instant Rollback" is the undo.
 5. After live: make Sanity dataset private/remove it, delete SANITY_WRITE_TOKEN + DASHBOARD_PASSWORD, delete old /dashboard + /studio, decide on Xendit vars.

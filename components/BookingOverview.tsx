@@ -5,12 +5,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { urlFor } from '@/lib/sanity'
 import { getPricePerPerson, applyPromo } from '@/lib/promoCodes'
+import { calculateDeposit, type DepositRule } from '@/lib/deposit'
 import type { TourCard } from '@/lib/types'
 
 interface Props {
   tour: TourCard & { pricingTiers?: import('@/lib/types').PricingTier[] }
   thumbUrl?: string
-  depositAmount: number
+  depositRule: DepositRule
   initialDate: string
   initialGuests: number
 }
@@ -29,7 +30,7 @@ function fmt(d: string) {
   return new Date(d + 'T12:00:00').toLocaleDateString('en-PH', { month: 'long', day: 'numeric', year: 'numeric' })
 }
 
-export default function BookingOverview({ tour, thumbUrl, depositAmount, initialDate, initialGuests }: Props) {
+export default function BookingOverview({ tour, thumbUrl, depositRule, initialDate, initialGuests }: Props) {
   const [step, setStep]             = useState(1)
   const [date, setDate]             = useState(initialDate)
   const [adults, setAdults]         = useState(Math.max(1, initialGuests))
@@ -48,6 +49,7 @@ export default function BookingOverview({ tour, thumbUrl, depositAmount, initial
   const subtotal   = adults * adultPrice + children * childPrice
   const { valid, label: promoLabel, discount, finalTotal } = applyPromo(subtotal, appliedPromo)
   const total = finalTotal
+  const deposit = calculateDeposit(total, depositRule)
 
   const today = new Date().toISOString().split('T')[0]
 
@@ -277,7 +279,7 @@ export default function BookingOverview({ tour, thumbUrl, depositAmount, initial
             }}
             >Continue to Your Info →</button>
             <div className="trust-micro" style={{ justifyContent: 'center', marginTop: '14px' }}>
-              <span>💚 ₱{depositAmount.toLocaleString()} deposit to confirm</span>
+              <span>💚 {deposit > 0 ? `₱${deposit.toLocaleString()} deposit to confirm` : 'Deposit confirmed when we reply'}</span>
               <span>💬 24hr reply</span>
             </div>
           </div>
@@ -322,7 +324,7 @@ export default function BookingOverview({ tour, thumbUrl, depositAmount, initial
                 </div>
 
                 <div style={{ background: '#fff4f7', border: '1px solid rgba(217,107,138,.2)', borderRadius: 'var(--r)', padding: '14px 16px', margin: '4px 0 20px', fontSize: '.82rem', color: 'var(--muted)', lineHeight: 1.6 }}>
-                  By confirming, you agree to our booking terms. A ₱{depositAmount.toLocaleString()} GCash deposit is required to secure your slot — details will appear on the next screen.
+                  By confirming, you agree to our booking terms. {deposit > 0 ? `A ₱${deposit.toLocaleString()} GCash deposit is required to secure your slot — details will appear on the next screen.` : 'A deposit is required to secure your slot. We will confirm the amount when we reply.'}
                 </div>
 
                 <button
@@ -364,8 +366,14 @@ export default function BookingOverview({ tour, thumbUrl, depositAmount, initial
             </div>
 
             {/* GCash deposit — first since it's required to confirm */}
+            {deposit === 0 ? (
+              <div className="gcash-box">
+                <div className="gcash-box__title">💚 We will confirm your price and deposit</div>
+                <div className="gcash-box__sub">The price for this tour is confirmed after booking. We will message you the exact deposit amount. Please wait for our message before sending any payment.</div>
+              </div>
+            ) : (
             <div className="gcash-box">
-              <div className="gcash-box__title">💚 Step 1: Send ₱{depositAmount.toLocaleString()} GCash Deposit to Confirm Your Slot</div>
+              <div className="gcash-box__title">💚 Step 1: Send ₱{deposit.toLocaleString()} GCash Deposit to Confirm Your Slot</div>
               <div className="gcash-box__sub">This deposit locks in your booking and will be deducted from your total on the day.</div>
               <div className="gcash-grid">
                 <div style={{ overflow: 'hidden', borderRadius: '10px', aspectRatio: '1/1' }}>
@@ -373,7 +381,7 @@ export default function BookingOverview({ tour, thumbUrl, depositAmount, initial
                 </div>
                 <div>
                   <div className="gcash-step"><div className="gcash-step-num">1</div><span>Open GCash app and tap <strong>Scan QR Code</strong></span></div>
-                  <div className="gcash-step"><div className="gcash-step-num">2</div><span>Scan this QR and send <strong>₱{depositAmount.toLocaleString()} deposit</strong></span></div>
+                  <div className="gcash-step"><div className="gcash-step-num">2</div><span>Scan this QR and send <strong>₱{deposit.toLocaleString()} deposit</strong></span></div>
                   <div className="gcash-step"><div className="gcash-step-num">3</div><span>Screenshot your receipt</span></div>
                   <div className="gcash-step"><div className="gcash-step-num">4</div><span>Send receipt + booking ref <strong>{bookingRef}</strong> to us on Messenger</span></div>
                 </div>
@@ -382,6 +390,7 @@ export default function BookingOverview({ tour, thumbUrl, depositAmount, initial
                 I&apos;ve Paid — Send Receipt on Messenger
               </a>
             </div>
+            )}
 
             {/* Messenger + WhatsApp — secondary, for questions */}
             <div className="booking-card" style={{ padding: '24px' }}>

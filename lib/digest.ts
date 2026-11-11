@@ -46,6 +46,7 @@ export function buildNewBookingAlert(b: Booking, bookingUrl: string): string {
     `${escapeHtml(b.name)} · ${b.guests} guest${b.guests === 1 ? '' : 's'}`,
     escapeHtml(b.tourTitle),
     `${formatTourDate(b.date)} · ${formatPeso(b.totalPrice)}`,
+    b.depositDue ? `Deposit due: ${formatPeso(b.depositDue)}` : 'Deposit: to be confirmed',
     `Phone: ${escapeHtml(b.phone)}`,
     `Please reply within 24 hours.`,
     bookingUrl,

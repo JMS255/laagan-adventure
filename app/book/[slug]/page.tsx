@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import BookingOverview from '@/components/BookingOverview'
-import { DEFAULT_DEPOSIT, getSiteSettings, getTourPricing } from '@/lib/db'
+import { getSiteSettings, getTourPricing } from '@/lib/db'
+import { DEFAULT_DEPOSIT_RULE } from '@/lib/deposit'
 import { getTourBySlug } from '@/lib/tours-data'
 import type { Metadata } from 'next'
 
@@ -23,7 +24,7 @@ export default async function BookPage({
   const hardcoded = getTourBySlug(slug)
   if (!hardcoded) notFound()
   const pricing = await getTourPricing(slug).catch(() => null)
-  const { depositAmount } = await getSiteSettings().catch(() => ({ depositAmount: DEFAULT_DEPOSIT }))
+  const { depositRule } = await getSiteSettings().catch(() => ({ depositRule: DEFAULT_DEPOSIT_RULE }))
 
   const tour = {
     _id: slug,
@@ -40,7 +41,7 @@ export default async function BookPage({
     <BookingOverview
       tour={tour}
       thumbUrl={hardcoded.mainImage}
-      depositAmount={depositAmount}
+      depositRule={depositRule}
       initialDate={date ?? ''}
       initialGuests={Number(guests) || 2}
     />

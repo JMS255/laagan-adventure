@@ -2,12 +2,13 @@ import 'server-only'
 import { getDb } from '@/lib/firebase-admin'
 import type { Booking, GalleryItem, PricingTier, TourCard } from '@/lib/types'
 import type { BookingPatch } from '@/lib/booking-logic'
+import { DEFAULT_DEPOSIT_RULE, type DepositRule } from '@/lib/deposit'
 
 /** Price/availability info for a tour, shaped like the old Sanity tour cards so pages need few changes. */
 export type TourPricing = TourCard & { pricingTiers: PricingTier[]; availabilityNote?: string }
 
 export interface SiteSettings {
-  depositAmount: number
+  depositRule: DepositRule
 }
 
 export interface NewBooking {
@@ -20,6 +21,7 @@ export interface NewBooking {
   phone: string
   email: string
   totalPrice: number
+  depositDue: number
   depositSent: boolean
   promo: string
   notes: string
@@ -34,8 +36,6 @@ async function logged<T>(label: string, run: () => Promise<T>): Promise<T> {
     throw err
   }
 }
-
-export const DEFAULT_DEPOSIT = 500
 
 export const refToId = (ref: string): string => ref.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
@@ -67,7 +67,8 @@ export async function getAllTourPricing(): Promise<TourPricing[]> {
 
 export async function getSiteSettings(): Promise<SiteSettings> {
   const snap = await logged('site settings', () => getDb().collection('settings').doc('site').get())
-  return { depositAmount: snap.data()?.depositAmount ?? DEFAULT_DEPOSIT }
+  const data = snap.data()
+  return { depositRule: { percent: data?.depositPercent ?? DEFAULT_DEPOSIT_RULE.percent, minimum: data?.depositMinimum ?? DEFAULT_DEPOSIT_RULE.minimum } }
 }
 
 export async function getGallery(): Promise<GalleryItem[]> {
