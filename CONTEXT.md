@@ -5,9 +5,9 @@
 
 ---
 
-## CURRENT WORK (updated Nov 8, 2026, night) — Sanity → Firebase + admin app
+## CURRENT WORK (updated Nov 11, 2026) — NEW VERSION IS LIVE on laaganadventure.com
 
-**Live site (laaganadventure.com) is still the OLD code on Sanity. Nothing new is live yet. Branch `firebase-switch` holds all new work (pushed to GitHub, preview deploys only).**
+**Went live Nov 11 ~12:16 (master = 7c53e05).** The site now reads/writes Firebase; Sanity is no longer used for bookings, prices or gallery. Admin at /admin (Google sign-in, approved emails only). Telegram alerts + 8am morning summary (Vercel cron) are on. Undo = Vercel Instant Rollback to the previous production deployment.
 
 **Firebase:** project `laagan-ph` (Firestore Singapore; Auth = Email/Password + Google; free Spark plan — do NOT upgrade).
 **Secrets live in** the folder "Laagan Website (Don't Delete)" on the Desktop (OneDrive-synced): Firebase key .json, telegram-token.txt, cron-secret.txt. Never paste them in chat. Local env names in `.env.local`.
@@ -23,14 +23,13 @@
 | Telegram: assignment alert, 8am morning summary | built; summary tested by hand locally; assignment + cron not yet tested live |
 | Vercel env vars | FIREBASE_SERVICE_ACCOUNT + TELEGRAM_BOT_TOKEN set for **Preview (branch firebase-switch)**; **Production not yet set**; CRON_SECRET to verify |
 
-**TO DO TOMORROW (in order):**
-1. Test admin on the preview: add `laagan-adventure-git-firebase-switch-james-ignacio-s-projects.vercel.app` to Firebase → Authentication → Settings → Authorized domains; sign in with Google; open test booking `la-j9a6l7` (name James Sanchez Ignacio, Nov 14); assign to Ivy (she should get a Telegram message). Then delete that test booking.
-2. ✅ DONE (Nov 11) business decisions: deposit = 10% of the booking total, minimum ₱300, rounded to nearest ₱50 (rule in `lib/deposit.ts`, values in Firestore `settings/site` as depositPercent / depositMinimum; tours with no price show "deposit confirmed when we reply"). June banner removed. Only promo code WELCOME200 is active. "Free cancellation" promise removed from booking/tour pages (trust strip still says Free Reschedule — James chose that earlier; ask if he wants it removed too). Admin and Telegram now show "Deposit due".
-3. Vercel → Environment Variables: add **Production** for FIREBASE_SERVICE_ACCOUNT, TELEGRAM_BOT_TOKEN, CRON_SECRET. Add authorized domains laaganadventure.com + laagan-adventure.vercel.app in Firebase.
-4. GO LIVE: merge firebase-switch → master (James must approve), watch deploy, make one real test booking, check Telegram. Vercel "Instant Rollback" is the undo.
-5. After live: make Sanity dataset private/remove it, delete SANITY_WRITE_TOKEN + DASHBOARD_PASSWORD, delete old /dashboard + /studio, decide on Xendit vars.
-6. **Rotate the Firebase private key** (it was shown in chat twice): Firebase → Project settings → Service accounts → generate new key, update Vercel + folder, delete old key.
-7. Later: guest emails (Resend key + domain verify, wording "received" not "confirmed"), real prices for the other 5 tours (James doesn't have them yet — until then they show "Contact us"), calendar view, price-editing screen, dedupe Shyrel's 3 identical bookings.
+**STILL TO DO:**
+1. Make the Sanity dataset private / shut it down: its public data still contains the 7 real guests (+3 old test bookings). Then delete SANITY_WRITE_TOKEN, DASHBOARD_PASSWORD and the NEXT_PUBLIC_SANITY_* variables in Vercel; remove app/studio, app/dashboard, sanity/ and the Sanity packages; decide on Xendit variables.
+2. Rotate the Firebase private key (it was shown in chat via the editor): Firebase > Project settings > Service accounts > generate new key, update FIREBASE_SERVICE_ACCOUNT in Vercel (Production + Preview) and the secrets folder, delete the old key.
+3. Guest emails (Resend): add RESEND_API_KEY + verify domain; wording "received" not "confirmed".
+4. Real prices for the other 5 tours (James does not have them yet; they show Contact us). Business decisions made Nov 11: deposit = 10% of total (min 300, rounded to 50) in Firestore settings/site; only promo WELCOME200; no free-cancellation promise on booking pages; June banner removed.
+5. Admin: mark old bookings completed/cancelled; dedupe Shyrel's 3 identical bookings; calendar view and price-editing screen later.
+6. Delete leftover test bookings in Firebase (la-j9a6l7, la-zzlive).
 
 **Real bookings now (7):** Kristoffer Decio, Olivier Castaignede, Martin Jude Baylen, Sigrid Pekas, Shyrel Ann Dawi x3. Several dates have passed — mark completed/cancelled in the admin.
 
