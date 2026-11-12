@@ -138,7 +138,7 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'Laagan Adventure <bookings@laaganadventure.com>',
+        from: 'Laagan Adventure <bookings@mail.laaganadventure.com>',
         to: [body.email],
         subject: `Booking Received — ${body.bookingRef} | ${body.tourTitle}`,
         html,
@@ -152,7 +152,7 @@ export async function POST(req: NextRequest) {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: 'Laagan Bookings <bookings@laaganadventure.com>',
+        from: 'Laagan Bookings <bookings@mail.laaganadventure.com>',
         to: ['jamesignacio255@gmail.com'],
         subject: `New Booking [${body.bookingRef}] — ${body.tourTitle} on ${body.date}`,
         html: `<pre style="font-family:monospace">${escapeHtml(JSON.stringify({ ref: body.bookingRef, tour: body.tourTitle, date: body.date, guests, name: body.name, phone: body.phone, email: body.email ?? '—', total: `₱${Number(body.totalPrice).toLocaleString()}`, notes: body.notes ?? '—' }, null, 2))}</pre>`,
