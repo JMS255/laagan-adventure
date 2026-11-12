@@ -23,7 +23,7 @@ const DEFAULT_FAQS: FAQ[] = [
   },
   {
     question: 'Can I cancel or reschedule?',
-    answer: 'Yes. Please notify us at least 24 hours in advance. We understand that things happen — we\'ll always work with you to find an alternative date.',
+    answer: 'Yes. You can reschedule for free if you tell us at least 7 days ahead, and your deposit carries over to the new date. If you cancel, the deposit is not refunded, but anything you paid beyond it is. If we cancel because of weather, we reschedule you for free, or refund you if no new date works.',
   },
   {
     question: 'Is transportation included?',

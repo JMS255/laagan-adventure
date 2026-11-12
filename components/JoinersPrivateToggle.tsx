@@ -112,7 +112,7 @@ export default function JoinersPrivateToggle({
           )}
 
           <div style={{ marginTop: '16px', padding: '14px 18px', background: 'rgba(217,107,138,.06)', border: '1px solid rgba(217,107,138,.15)', borderRadius: '10px', fontSize: '.8rem', color: 'var(--text-muted)', lineHeight: 1.7 }}>
-            💡 <strong style={{ color: 'var(--navy)' }}>No upfront payment.</strong> Book your preferred date and we'll confirm within 24 hours.
+            💡 <strong style={{ color: 'var(--navy)' }}>Small deposit to confirm.</strong> Book your preferred date and we'll confirm within 24 hours.
           </div>
         </div>
       )}

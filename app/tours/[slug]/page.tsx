@@ -205,7 +205,7 @@ export default async function TourDetailPage({ params }: { params: Promise<{ slu
                 <h2 className="detail-section__title">Cancellation Policy</h2>
                 <div className="info-box">
                   <strong>Need to change or cancel?</strong><br />
-                  Message us on Messenger as early as you can and we&apos;ll work out the best option with you. Tours cancelled due to bad weather are rescheduled at no charge — your safety always comes first.
+                  Reschedule for free with at least 7 days notice and your deposit carries over. If you cancel, the deposit is not refunded. If we cancel because of weather, we reschedule you for free or refund you. Message us on Messenger to change a booking.
                 </div>
               </div>
 

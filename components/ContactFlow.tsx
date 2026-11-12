@@ -21,8 +21,8 @@ const FAQS = [
   { q: 'Is Zamboanga City safe for tourists?', a: 'Yes. Tourist areas like the waterfront, Fort Pilar, and Santa Cruz Island are safe and regularly patrolled. We\'ve been operating since 2023 without incident, and our guides know the city deeply.' },
   { q: 'Do I need permits to visit Santa Cruz Island?', a: 'Yes, a permit is required — but we handle it for you. All permits are included in your tour package. You just show up.' },
   { q: 'What should I bring?', a: 'Reef-safe sunscreen (required on the island), a waterproof bag, extra clothes, cash, and plenty of water. We recommend snorkel gear if you have it.' },
-  { q: 'How does payment work?', a: 'No upfront payment. We collect on the day of the tour via cash or GCash. We\'ll confirm the booking with you first before anything is paid.' },
-  { q: 'Can I cancel or reschedule?', a: 'Yes — free of charge with at least 24 hours notice. We\'re flexible and understand that plans change.' },
+  { q: 'How does payment work?', a: 'A small deposit (about 10% of the total) confirms your slot. The balance is paid in cash or GCash on the day of the tour. We confirm the booking with you first.' },
+  { q: 'Can I cancel or reschedule?', a: 'Yes. You can reschedule for free if you tell us at least 7 days ahead, and your deposit carries over to the new date. If you cancel, the deposit is not refunded, but anything you paid beyond it is. If we cancel because of weather, we reschedule you for free, or refund you if no new date works.' },
 ]
 
 type Intent = 'joiners' | 'private' | 'faq' | null

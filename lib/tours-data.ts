@@ -134,7 +134,7 @@ export const TOURS_DATA: TourData[] = [
     ],
     importantNotes: [
       'Only 400 visitors are allowed on Santa Cruz Island per day. Weekends and holidays sell out fast — book at least 3–5 days ahead.',
-      'Tour may be rescheduled due to bad weather. Full refund or free reschedule guaranteed.',
+      'If we cancel because of bad weather, we reschedule for free, or refund you if no new date works.',
       'Reef-safe sunscreen is required — regular sunscreen is prohibited on the island as it harms the coral ecosystem.',
       'Children under 4 are welcome but must wear life jackets on the water at all times.',
       'Permit is required from the City Tourism Office — we handle this for you.',
@@ -358,7 +358,7 @@ export const TOURS_DATA: TourData[] = [
       'Your own drinks if you want alcohol on board',
     ],
     importantNotes: [
-      'Tour is weather-dependent. If cancelled due to bad weather, full refund or reschedule guaranteed.',
+      'Tour is weather-dependent. If we cancel because of bad weather, we reschedule for free, or refund you if no new date works.',
       'For proposals and anniversaries — let us know in advance and we\'ll arrange something special.',
       'Minimum 2 guests. Private bookings welcome.',
     ],

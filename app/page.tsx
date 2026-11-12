@@ -41,8 +41,6 @@ export default async function HomePage() {
                 <span>National Geographic Best Beach</span>
                 <span className="hero__trust-sep">·</span>
                 <span>DTI Accredited</span>
-                <span className="hero__trust-sep">·</span>
-                <span>Money-Back Guarantee</span>
               </div>
             </div>
           </div>
@@ -152,10 +150,6 @@ export default async function HomePage() {
               <div className="trust-item">
                 <div className="trust-item__icon">🧭</div>
                 <div className="trust-item__text">Professional Local Guide</div>
-              </div>
-              <div className="trust-item">
-                <div className="trust-item__icon">💸</div>
-                <div className="trust-item__text">Money-Back Guarantee</div>
               </div>
               <div className="trust-item">
                 <div className="trust-item__icon">🌦</div>

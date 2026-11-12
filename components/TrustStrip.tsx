@@ -1,7 +1,6 @@
 const TRUST_POINTS = [
-  { icon: '✅', text: 'Free Reschedule' },
-  { icon: '💸', text: 'Pay on the Day' },
-  { icon: '💰', text: 'Money-Back Guarantee' },
+  { icon: '✅', text: 'Weather-Safe Rescheduling' },
+  { icon: '💸', text: 'Balance Paid on the Day' },
   { icon: '🌦', text: 'Weather Guarantee' },
   { icon: '🏛', text: 'DTI Registered' },
   { icon: '💬', text: 'Reply Within 24hrs' },

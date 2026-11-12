@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 
 const FAQS = [
   { q: 'Do I need a big deposit?', a: 'Just a small downpayment to confirm your slot. The balance is paid in cash or GCash when you arrive on the day of your tour.' },
-  { q: 'What if the weather is bad?', a: 'Your safety is our priority. We reschedule at no charge due to weather. You will never lose your money because of something outside your control.' },
+  { q: 'What if the weather is bad?', a: 'Your safety is our priority. If we cancel your tour because of weather, we reschedule it at no charge, or refund you if no new date works.' },
   { q: 'How far in advance should I book?', a: 'Santa Cruz Island only allows 400 visitors/day. For weekends and holidays, book 1–2 weeks ahead. Weekday tours often have same-day availability.' },
 ]
 
@@ -49,7 +49,7 @@ export default function ContactPage() {
               <div className="intent-card">
                 <div className="intent-card__icon">📅</div>
                 <div className="intent-card__title">I Want to Book a Tour</div>
-                <p className="intent-card__desc">Browse our tours and reserve your slot. We confirm within 24 hours. No upfront payment required.</p>
+                <p className="intent-card__desc">Browse our tours and reserve your slot. We confirm within 24 hours. A small deposit secures your slot.</p>
                 <Link href="/tours" className="btn btn--primary btn--full" style={{ borderRadius: '10px' }}>Browse Tours →</Link>
                 <a href="https://m.me/61562040673545?text=Hi!%20I%27d%20like%20to%20book%20a%20tour." target="_blank" rel="noopener noreferrer" style={{ fontSize: '.78rem', color: 'var(--pink)', fontWeight: 600, marginTop: '4px' }}>
                   or message us directly →
